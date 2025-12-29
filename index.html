@@ -1,0 +1,3245 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency Brain - AI 기반 프로젝트 지식 관리 플랫폼</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none">
+                        <circle cx="20" cy="20" r="18" stroke="url(#gradient1)" stroke-width="2"/>
+                        <path d="M12 20C12 15.5817 15.5817 12 20 12C24.4183 12 28 15.5817 28 20" stroke="url(#gradient1)" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="20" cy="20" r="4" fill="url(#gradient1)"/>
+                        <defs>
+                            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#00D9FF"/>
+                                <stop offset="100%" stop-color="#7B61FF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="logo-text">Agency Brain</span>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <span class="nav-label">메인</span>
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                    <span>대시보드</span>
+                </a>
+                <a href="#" class="nav-item" data-page="search">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                    <span>통합 검색</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <span class="nav-label">데이터 관리</span>
+                <a href="#" class="nav-item" data-page="upload">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <span>프로젝트 등록</span>
+                </a>
+                <a href="#" class="nav-item" data-page="documents">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span>문서 관리</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <span class="nav-label">영업</span>
+                <a href="#" class="nav-item" data-page="proposal">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    <span>제안서 생성</span>
+                </a>
+                <a href="#" class="nav-item" data-page="estimate">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                    <span>견적 산출</span>
+                </a>
+                <a href="#" class="nav-item" data-page="winloss">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    <span>Win/Loss 분석</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <span class="nav-label">기획</span>
+                <a href="#" class="nav-item" data-page="ia">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                        <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                    <span>IA 생성</span>
+                </a>
+                <a href="#" class="nav-item" data-page="functional">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                    </svg>
+                    <span>기능정의서</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <span class="nav-label">디자인</span>
+                <a href="#" class="nav-item" data-page="visual">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span>비주얼 검색</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <span class="nav-label">개발</span>
+                <a href="#" class="nav-item" data-page="techstack">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6"/>
+                        <polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                    <span>기술 스택</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <span class="nav-label">PM</span>
+                <a href="#" class="nav-item" data-page="wbs">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    <span>WBS 생성</span>
+                </a>
+            </div>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="avatar">JY</div>
+                <div class="user-info">
+                    <span class="user-name">김정연</span>
+                    <span class="user-role">PM</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </button>
+                <div class="search-bar">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                    <input type="text" placeholder="프로젝트, 기능, 문서 검색..." class="search-input">
+                    <div class="search-shortcut">⌘K</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="header-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                    <span class="notification-badge">3</span>
+                </button>
+                <button class="header-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Page -->
+        <section class="page active" id="page-dashboard">
+            <div class="page-header">
+                <h1 class="page-title">대시보드</h1>
+                <p class="page-subtitle">프로젝트 지식 자산 현황</p>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">142</span>
+                        <span class="stat-label">총 프로젝트</span>
+                    </div>
+                    <div class="stat-trend up">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                            <polyline points="17 6 23 6 23 12"/>
+                        </svg>
+                        <span>+12%</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">1,847</span>
+                        <span class="stat-label">등록 문서</span>
+                    </div>
+                    <div class="stat-trend up">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                            <polyline points="17 6 23 6 23 12"/>
+                        </svg>
+                        <span>+23%</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">38%</span>
+                        <span class="stat-label">수주율</span>
+                    </div>
+                    <div class="stat-trend up">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                            <polyline points="17 6 23 6 23 12"/>
+                        </svg>
+                        <span>+8%p</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">96%</span>
+                        <span class="stat-label">시간 절약</span>
+                    </div>
+                    <div class="stat-trend up">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                            <polyline points="17 6 23 6 23 12"/>
+                        </svg>
+                        <span>견적 산출</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Dashboard Content -->
+            <div class="dashboard-grid">
+                <!-- Quick Actions -->
+                <div class="card quick-actions-card">
+                    <div class="card-header">
+                        <h3 class="card-title">빠른 실행</h3>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" data-action="proposal">
+                            <div class="action-icon gradient-1">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                    <line x1="12" y1="18" x2="12" y2="12"/>
+                                    <line x1="9" y1="15" x2="15" y2="15"/>
+                                </svg>
+                            </div>
+                            <span>제안서 생성</span>
+                        </button>
+                        <button class="quick-action-btn" data-action="estimate">
+                            <div class="action-icon gradient-2">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="1" x2="12" y2="23"/>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                </svg>
+                            </div>
+                            <span>견적 산출</span>
+                        </button>
+                        <button class="quick-action-btn" data-action="ia">
+                            <div class="action-icon gradient-3">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                                    <polyline points="2 17 12 22 22 17"/>
+                                    <polyline points="2 12 12 17 22 12"/>
+                                </svg>
+                            </div>
+                            <span>IA 생성</span>
+                        </button>
+                        <button class="quick-action-btn" data-action="wbs">
+                            <div class="action-icon gradient-4">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                    <line x1="16" y1="2" x2="16" y2="6"/>
+                                    <line x1="8" y1="2" x2="8" y2="6"/>
+                                    <line x1="3" y1="10" x2="21" y2="10"/>
+                                </svg>
+                            </div>
+                            <span>WBS 생성</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Recent Projects -->
+                <div class="card recent-projects-card">
+                    <div class="card-header">
+                        <h3 class="card-title">최근 프로젝트</h3>
+                        <a href="#" class="card-link">전체 보기</a>
+                    </div>
+                    <div class="project-list">
+                        <div class="project-item">
+                            <div class="project-icon beauty">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                </svg>
+                            </div>
+                            <div class="project-info">
+                                <h4>B사 뷰티 브랜드</h4>
+                                <div class="project-meta">
+                                    <span class="tag">뷰티</span>
+                                    <span class="tag">Shopify</span>
+                                    <span class="project-date">2024.12</span>
+                                </div>
+                            </div>
+                            <div class="project-status won">수주</div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-icon food">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                                    <line x1="6" y1="1" x2="6" y2="4"/>
+                                    <line x1="10" y1="1" x2="10" y2="4"/>
+                                    <line x1="14" y1="1" x2="14" y2="4"/>
+                                </svg>
+                            </div>
+                            <div class="project-info">
+                                <h4>C사 F&B 커머스</h4>
+                                <div class="project-meta">
+                                    <span class="tag">F&B</span>
+                                    <span class="tag">Cafe24</span>
+                                    <span class="project-date">2024.11</span>
+                                </div>
+                            </div>
+                            <div class="project-status won">수주</div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-icon fashion">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>
+                                </svg>
+                            </div>
+                            <div class="project-info">
+                                <h4>D사 패션몰 리뉴얼</h4>
+                                <div class="project-meta">
+                                    <span class="tag">패션</span>
+                                    <span class="tag">자체구축</span>
+                                    <span class="project-date">2024.10</span>
+                                </div>
+                            </div>
+                            <div class="project-status lost">미수주</div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-icon public">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                    <polyline points="9 22 9 12 15 12 15 22"/>
+                                </svg>
+                            </div>
+                            <div class="project-info">
+                                <h4>E기관 공공 포털</h4>
+                                <div class="project-meta">
+                                    <span class="tag">공공</span>
+                                    <span class="tag">React</span>
+                                    <span class="project-date">2024.09</span>
+                                </div>
+                            </div>
+                            <div class="project-status won">수주</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Win/Loss Chart -->
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title">수주 현황</h3>
+                        <select class="chart-select">
+                            <option>2024년</option>
+                            <option>2023년</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <div class="donut-chart">
+                            <svg viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="#2a2a3e" stroke-width="12"/>
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="url(#chartGradient)" stroke-width="12"
+                                    stroke-dasharray="119.4 195.2" stroke-dashoffset="0" stroke-linecap="round"
+                                    transform="rotate(-90 60 60)"/>
+                                <defs>
+                                    <linearGradient id="chartGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#00D9FF"/>
+                                        <stop offset="100%" stop-color="#7B61FF"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="chart-center">
+                                <span class="chart-value">38%</span>
+                                <span class="chart-label">수주율</span>
+                            </div>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="legend-color won"></span>
+                                <span class="legend-label">수주</span>
+                                <span class="legend-value">54건</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color lost"></span>
+                                <span class="legend-label">미수주</span>
+                                <span class="legend-value">88건</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Insights -->
+                <div class="card insights-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <span class="ai-badge">AI</span>
+                            인사이트
+                        </h3>
+                    </div>
+                    <div class="insights-list">
+                        <div class="insight-item">
+                            <div class="insight-icon tip">💡</div>
+                            <div class="insight-content">
+                                <p><strong>뷰티 업종</strong>에서 "AI 기능" 강조 시 승률 <span class="highlight">+18%</span></p>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon warning">⚠️</div>
+                            <div class="insight-content">
+                                <p><strong>스타트업</strong> 유지보수 별도 제안 시 승률 <span class="highlight negative">-20%</span></p>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon tip">💡</div>
+                            <div class="insight-content">
+                                <p><strong>공공 프로젝트</strong> "보안 인증서" 포함 시 승률 <span class="highlight">+35%</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Industry Distribution -->
+                <div class="card industry-card">
+                    <div class="card-header">
+                        <h3 class="card-title">업종별 분포</h3>
+                    </div>
+                    <div class="industry-bars">
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>패션</span>
+                                <span>32건</span>
+                            </div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="--width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>뷰티</span>
+                                <span>28건</span>
+                            </div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="--width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>F&B</span>
+                                <span>24건</span>
+                            </div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="--width: 65%"></div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>공공</span>
+                                <span>18건</span>
+                            </div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="--width: 50%"></div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">
+                                <span>기타</span>
+                                <span>40건</span>
+                            </div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="--width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Proposal Page -->
+        <section class="page" id="page-proposal">
+            <div class="page-header">
+                <h1 class="page-title">스마트 제안서 생성</h1>
+                <p class="page-subtitle">AI가 과거 성공 프로젝트를 분석하여 맞춤형 제안서를 생성합니다</p>
+            </div>
+            
+            <div class="proposal-container">
+                <!-- Input Form -->
+                <div class="card proposal-form-card">
+                    <div class="card-header">
+                        <h3 class="card-title">프로젝트 정보 입력</h3>
+                    </div>
+                    <form class="proposal-form" id="proposalForm">
+                        <div class="form-group">
+                            <label class="form-label">업종</label>
+                            <div class="select-wrapper">
+                                <select class="form-select" id="industry">
+                                    <option value="">업종을 선택하세요</option>
+                                    <option value="beauty">뷰티</option>
+                                    <option value="fashion">패션</option>
+                                    <option value="fnb">F&B</option>
+                                    <option value="public">공공</option>
+                                    <option value="healthcare">헬스케어</option>
+                                    <option value="finance">금융</option>
+                                    <option value="education">교육</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">타겟 고객</label>
+                            <input type="text" class="form-input" placeholder="예: 20대 여성, MZ세대" id="target">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">플랫폼</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="shopify">
+                                    <span class="checkmark"></span>
+                                    <span>Shopify</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="cafe24">
+                                    <span class="checkmark"></span>
+                                    <span>Cafe24</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="custom">
+                                    <span class="checkmark"></span>
+                                    <span>자체구축</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="wordpress">
+                                    <span class="checkmark"></span>
+                                    <span>WordPress</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">예산 범위</label>
+                            <div class="range-slider">
+                                <div class="range-inputs">
+                                    <input type="number" class="form-input small" placeholder="최소" id="budgetMin" value="3000">
+                                    <span class="range-separator">~</span>
+                                    <input type="number" class="form-input small" placeholder="최대" id="budgetMax" value="5000">
+                                    <span class="range-unit">만원</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">주요 기능 (필수)</label>
+                            <div class="tag-input-container">
+                                <div class="tag-input-wrapper">
+                                    <div class="selected-tags" id="selectedTags"></div>
+                                    <input type="text" class="tag-input" placeholder="기능 입력 후 Enter" id="featureInput">
+                                </div>
+                                <div class="suggested-tags">
+                                    <span class="suggested-tag" data-tag="회원가입">회원가입</span>
+                                    <span class="suggested-tag" data-tag="결제">결제</span>
+                                    <span class="suggested-tag" data-tag="배송">배송</span>
+                                    <span class="suggested-tag" data-tag="라이브커머스">라이브커머스</span>
+                                    <span class="suggested-tag" data-tag="AI 챗봇">AI 챗봇</span>
+                                    <span class="suggested-tag" data-tag="정기구독">정기구독</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-large">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                            제안서 생성하기
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- AI Result -->
+                <div class="card proposal-result-card" id="proposalResult">
+                    <div class="result-placeholder">
+                        <div class="placeholder-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0-6v6"/>
+                            </svg>
+                        </div>
+                        <h3>AI 제안서 생성 대기</h3>
+                        <p>프로젝트 정보를 입력하고 생성 버튼을 클릭하세요.<br>AI가 유사 프로젝트를 분석하여 최적의 제안서 초안을 생성합니다.</p>
+                    </div>
+                    
+                    <div class="result-content" style="display: none;">
+                        <div class="result-header">
+                            <h3>
+                                <span class="ai-badge">AI</span>
+                                제안서 분석 결과
+                            </h3>
+                            <div class="result-actions">
+                                <button class="btn-icon" title="다운로드">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="7 10 12 15 17 10"/>
+                                        <line x1="12" y1="15" x2="12" y2="3"/>
+                                    </svg>
+                                </button>
+                                <button class="btn-icon" title="복사">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="result-section">
+                            <h4>📁 유사 프로젝트 레퍼런스</h4>
+                            <div class="reference-list">
+                                <div class="reference-item">
+                                    <div class="reference-header">
+                                        <span class="reference-title">B사 뷰티 브랜드</span>
+                                        <span class="reference-status won">수주 성공</span>
+                                    </div>
+                                    <div class="reference-meta">
+                                        <span>2024.03</span>
+                                        <span>Shopify</span>
+                                        <span>3,200만원</span>
+                                    </div>
+                                    <div class="reference-features">
+                                        <span class="feature-tag">라이브커머스</span>
+                                        <span class="feature-tag">회원등급제</span>
+                                        <span class="feature-tag">AI 상품추천</span>
+                                    </div>
+                                    <p class="reference-note">💡 차별점: "AI 상품추천" 기능이 결정적 역할</p>
+                                </div>
+                                <div class="reference-item">
+                                    <div class="reference-header">
+                                        <span class="reference-title">C사 화장품 몰</span>
+                                        <span class="reference-status lost">수주 실패</span>
+                                    </div>
+                                    <div class="reference-meta">
+                                        <span>2023.11</span>
+                                        <span>Shopify</span>
+                                        <span>3,800만원</span>
+                                    </div>
+                                    <div class="reference-features">
+                                        <span class="feature-tag">정기구독</span>
+                                        <span class="feature-tag">포인트 적립</span>
+                                        <span class="feature-tag">리뷰 이벤트</span>
+                                    </div>
+                                    <p class="reference-note warning">⚠️ 실패 사유: 견적 과다</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-section">
+                            <h4>⭐ 추천 기능</h4>
+                            <div class="recommended-features">
+                                <div class="rec-feature">
+                                    <div class="rec-icon">🎥</div>
+                                    <div class="rec-content">
+                                        <span class="rec-name">라이브커머스</span>
+                                        <span class="rec-desc">3개 프로젝트에서 효과 검증</span>
+                                    </div>
+                                </div>
+                                <div class="rec-feature">
+                                    <div class="rec-icon">🤖</div>
+                                    <div class="rec-content">
+                                        <span class="rec-name">AI 피부 진단</span>
+                                        <span class="rec-desc">최신 트렌드, 2024 검색량 +340%</span>
+                                    </div>
+                                </div>
+                                <div class="rec-feature">
+                                    <div class="rec-icon">🛒</div>
+                                    <div class="rec-content">
+                                        <span class="rec-name">플로팅 장바구니</span>
+                                        <span class="rec-desc">모바일 전환율 평균 +15%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-section estimate-section">
+                            <h4>💰 예상 견적</h4>
+                            <div class="estimate-box">
+                                <div class="estimate-main">
+                                    <span class="estimate-label">평균 견적</span>
+                                    <span class="estimate-value">3,400<small>만원</small></span>
+                                    <span class="estimate-range">±12%</span>
+                                </div>
+                                <div class="estimate-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">예상 공수</span>
+                                        <span class="detail-value">8주</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">투입 인력</span>
+                                        <span class="detail-value">PM 1, 디자이너 1, 개발자 2, 퍼블리셔 1</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estimate Page -->
+        <section class="page" id="page-estimate">
+            <div class="page-header">
+                <h1 class="page-title">자동 견적 산출</h1>
+                <p class="page-subtitle">과거 유사 프로젝트 데이터를 기반으로 정확한 견적을 산출합니다</p>
+            </div>
+            
+            <div class="estimate-container">
+                <div class="card estimate-input-card">
+                    <div class="card-header">
+                        <h3 class="card-title">견적 요청 정보</h3>
+                    </div>
+                    <form class="estimate-form" id="estimateForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">플랫폼</label>
+                                <div class="select-wrapper">
+                                    <select class="form-select">
+                                        <option value="shopify">Shopify</option>
+                                        <option value="cafe24">Cafe24</option>
+                                        <option value="custom">자체구축</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">상품 수</label>
+                                <input type="number" class="form-input" value="50" placeholder="상품 수">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">필수 기능</label>
+                            <div class="feature-grid">
+                                <label class="feature-checkbox">
+                                    <input type="checkbox" checked>
+                                    <span class="feature-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                            <circle cx="8.5" cy="7" r="4"/>
+                                            <line x1="20" y1="8" x2="20" y2="14"/>
+                                            <line x1="23" y1="11" x2="17" y2="11"/>
+                                        </svg>
+                                        회원가입
+                                    </span>
+                                </label>
+                                <label class="feature-checkbox">
+                                    <input type="checkbox" checked>
+                                    <span class="feature-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                            <line x1="1" y1="10" x2="23" y2="10"/>
+                                        </svg>
+                                        결제
+                                    </span>
+                                </label>
+                                <label class="feature-checkbox">
+                                    <input type="checkbox" checked>
+                                    <span class="feature-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="1" y="3" width="15" height="13"/>
+                                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                                            <circle cx="5.5" cy="18.5" r="2.5"/>
+                                            <circle cx="18.5" cy="18.5" r="2.5"/>
+                                        </svg>
+                                        배송
+                                    </span>
+                                </label>
+                                <label class="feature-checkbox">
+                                    <input type="checkbox" checked>
+                                    <span class="feature-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                                            <line x1="12" y1="18" x2="12.01" y2="18"/>
+                                        </svg>
+                                        반응형
+                                    </span>
+                                </label>
+                                <label class="feature-checkbox">
+                                    <input type="checkbox">
+                                    <span class="feature-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polygon points="23 7 16 12 23 17 23 7"/>
+                                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                                        </svg>
+                                        라이브커머스
+                                    </span>
+                                </label>
+                                <label class="feature-checkbox">
+                                    <input type="checkbox">
+                                    <span class="feature-box">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                        </svg>
+                                        AI 챗봇
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-large">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                            견적 산출하기
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="card estimate-result-card" id="estimateResult">
+                    <div class="estimate-result-content">
+                        <div class="estimate-header">
+                            <h3>
+                                <span class="ai-badge">AI</span>
+                                견적 분석 결과
+                            </h3>
+                        </div>
+                        
+                        <div class="estimate-main-result">
+                            <div class="main-estimate">
+                                <span class="label">예상 견적</span>
+                                <div class="value-wrapper">
+                                    <span class="currency">₩</span>
+                                    <span class="value">3,500</span>
+                                    <span class="unit">만원</span>
+                                </div>
+                                <span class="range">범위: 2,975 ~ 4,025 만원 (±15%)</span>
+                            </div>
+                            
+                            <div class="estimate-gauge">
+                                <div class="gauge-track">
+                                    <div class="gauge-fill" style="--percent: 65%"></div>
+                                    <div class="gauge-marker" style="--position: 65%"></div>
+                                </div>
+                                <div class="gauge-labels">
+                                    <span>2,000</span>
+                                    <span>3,500</span>
+                                    <span>5,000</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="estimate-breakdown">
+                            <h4>📊 산출 근거</h4>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">분석 프로젝트</span>
+                                <span class="breakdown-value">유사 프로젝트 8건 평균</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">평균 견적</span>
+                                <span class="breakdown-value">3,420만원</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">예상 공수</span>
+                                <span class="breakdown-value">8주 (범위: 7~9주)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="estimate-risk">
+                            <h4>⚠️ 리스크 요인</h4>
+                            <div class="risk-item">
+                                <span class="risk-icon">🔌</span>
+                                <div class="risk-content">
+                                    <span class="risk-title">Shopify API 연동</span>
+                                    <span class="risk-desc">1주 버퍼 권장</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Win/Loss Analysis Page -->
+        <section class="page" id="page-winloss">
+            <div class="page-header">
+                <h1 class="page-title">Win/Loss 분석</h1>
+                <p class="page-subtitle">수주 성공/실패 패턴을 분석하여 영업 전략을 수립합니다</p>
+            </div>
+            
+            <div class="winloss-container">
+                <div class="winloss-stats">
+                    <div class="stat-box">
+                        <div class="stat-circle won">
+                            <svg viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="#1e1e2e" stroke-width="8"/>
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="#00D9FF" stroke-width="8"
+                                    stroke-dasharray="170.1 282.7" stroke-dashoffset="0"
+                                    transform="rotate(-90 50 50)"/>
+                            </svg>
+                            <div class="stat-circle-content">
+                                <span class="stat-percent">54</span>
+                                <span class="stat-unit">건</span>
+                            </div>
+                        </div>
+                        <span class="stat-box-label">수주 성공</span>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-circle lost">
+                            <svg viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="#1e1e2e" stroke-width="8"/>
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="#FF6B9D" stroke-width="8"
+                                    stroke-dasharray="198.5 282.7" stroke-dashoffset="0"
+                                    transform="rotate(-90 50 50)"/>
+                            </svg>
+                            <div class="stat-circle-content">
+                                <span class="stat-percent">88</span>
+                                <span class="stat-unit">건</span>
+                            </div>
+                        </div>
+                        <span class="stat-box-label">수주 실패</span>
+                    </div>
+                    <div class="stat-box rate">
+                        <div class="rate-display">
+                            <span class="rate-value">38%</span>
+                            <span class="rate-trend up">+8%p</span>
+                        </div>
+                        <span class="stat-box-label">전체 수주율</span>
+                    </div>
+                </div>
+                
+                <div class="card patterns-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <span class="ai-badge">AI</span>
+                            학습된 패턴
+                        </h3>
+                    </div>
+                    <div class="patterns-list">
+                        <div class="pattern-item positive">
+                            <div class="pattern-icon">📈</div>
+                            <div class="pattern-content">
+                                <div class="pattern-header">
+                                    <span class="pattern-industry">공공 프로젝트</span>
+                                    <span class="pattern-effect positive">+35%</span>
+                                </div>
+                                <p class="pattern-desc">"보안 인증서" 포함 시 승률 상승</p>
+                                <div class="pattern-recommendation">
+                                    <strong>권장:</strong> SSL, 개인정보 암호화, 보안 감사 내용 강조
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pattern-item negative">
+                            <div class="pattern-icon">📉</div>
+                            <div class="pattern-content">
+                                <div class="pattern-header">
+                                    <span class="pattern-industry">스타트업</span>
+                                    <span class="pattern-effect negative">-20%</span>
+                                </div>
+                                <p class="pattern-desc">유지보수 별도 제안 시 승률 하락</p>
+                                <div class="pattern-recommendation">
+                                    <strong>권장:</strong> 유지보수 비용을 초기 견적에 포함
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pattern-item positive">
+                            <div class="pattern-icon">📈</div>
+                            <div class="pattern-content">
+                                <div class="pattern-header">
+                                    <span class="pattern-industry">뷰티 업종</span>
+                                    <span class="pattern-effect positive">+18%</span>
+                                </div>
+                                <p class="pattern-desc">"AI 기능" 강조 시 승률 상승</p>
+                                <div class="pattern-recommendation">
+                                    <strong>권장:</strong> AI 피부 진단, AI 상품 추천 기능 제안
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card reasons-card">
+                    <div class="card-header">
+                        <h3 class="card-title">실패 사유 분석</h3>
+                    </div>
+                    <div class="reasons-chart">
+                        <div class="reason-bar">
+                            <div class="reason-info">
+                                <span class="reason-name">견적 과다</span>
+                                <span class="reason-count">32건</span>
+                            </div>
+                            <div class="reason-track">
+                                <div class="reason-fill" style="--width: 100%"></div>
+                            </div>
+                            <span class="reason-percent">36%</span>
+                        </div>
+                        <div class="reason-bar">
+                            <div class="reason-info">
+                                <span class="reason-name">일정 문제</span>
+                                <span class="reason-count">24건</span>
+                            </div>
+                            <div class="reason-track">
+                                <div class="reason-fill" style="--width: 75%"></div>
+                            </div>
+                            <span class="reason-percent">27%</span>
+                        </div>
+                        <div class="reason-bar">
+                            <div class="reason-info">
+                                <span class="reason-name">기술력 부족</span>
+                                <span class="reason-count">18건</span>
+                            </div>
+                            <div class="reason-track">
+                                <div class="reason-fill" style="--width: 56%"></div>
+                            </div>
+                            <span class="reason-percent">20%</span>
+                        </div>
+                        <div class="reason-bar">
+                            <div class="reason-info">
+                                <span class="reason-name">기타</span>
+                                <span class="reason-count">14건</span>
+                            </div>
+                            <div class="reason-track">
+                                <div class="reason-fill" style="--width: 44%"></div>
+                            </div>
+                            <span class="reason-percent">16%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IA Generation Page -->
+        <section class="page" id="page-ia">
+            <div class="page-header">
+                <h1 class="page-title">IA/메뉴구조 자동 생성</h1>
+                <p class="page-subtitle">프로젝트 정보를 입력하면 AI가 최적의 정보구조를 제안합니다</p>
+            </div>
+            
+            <div class="ia-container">
+                <div class="card ia-input-card">
+                    <div class="card-header">
+                        <h3 class="card-title">프로젝트 정보</h3>
+                    </div>
+                    <form class="ia-form" id="iaForm">
+                        <div class="form-group">
+                            <label class="form-label">업종</label>
+                            <div class="select-wrapper">
+                                <select class="form-select" id="iaIndustry">
+                                    <option value="">업종을 선택하세요</option>
+                                    <optgroup label="커머스">
+                                        <option value="fashion">패션/의류</option>
+                                        <option value="beauty">뷰티/화장품</option>
+                                        <option value="fnb">F&B/식품</option>
+                                        <option value="electronics">가전/전자제품</option>
+                                        <option value="furniture">가구/인테리어</option>
+                                        <option value="sports">스포츠/아웃도어</option>
+                                        <option value="kids">유아동/키즈</option>
+                                        <option value="pets">반려동물</option>
+                                        <option value="luxury">럭셔리/명품</option>
+                                    </optgroup>
+                                    <optgroup label="서비스">
+                                        <option value="healthcare">헬스케어/병원</option>
+                                        <option value="education">교육/학원</option>
+                                        <option value="travel">여행/숙박</option>
+                                        <option value="realestate">부동산</option>
+                                        <option value="finance">금융/보험</option>
+                                        <option value="consulting">컨설팅/전문서비스</option>
+                                        <option value="recruitment">채용/HR</option>
+                                    </optgroup>
+                                    <optgroup label="미디어/콘텐츠">
+                                        <option value="media">미디어/뉴스</option>
+                                        <option value="entertainment">엔터테인먼트</option>
+                                        <option value="ott">OTT/스트리밍</option>
+                                        <option value="community">커뮤니티/SNS</option>
+                                    </optgroup>
+                                    <optgroup label="공공/기관">
+                                        <option value="public">공공기관</option>
+                                        <option value="nonprofit">비영리/NGO</option>
+                                        <option value="association">협회/단체</option>
+                                    </optgroup>
+                                    <optgroup label="B2B">
+                                        <option value="b2b_commerce">B2B 커머스</option>
+                                        <option value="saas">SaaS/솔루션</option>
+                                        <option value="manufacturing">제조업</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">사이트 유형</label>
+                            <div class="select-wrapper">
+                                <select class="form-select" id="iaSiteType">
+                                    <option value="shopping">쇼핑몰</option>
+                                    <option value="brand">브랜드 사이트</option>
+                                    <option value="corporate">기업 홈페이지</option>
+                                    <option value="service">서비스 플랫폼</option>
+                                    <option value="portal">포털/커뮤니티</option>
+                                    <option value="booking">예약 플랫폼</option>
+                                    <option value="membership">멤버십 사이트</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">상품/콘텐츠 수</label>
+                            <input type="number" class="form-input" id="iaProductCount" value="150" placeholder="예: 100">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">주요 기능</label>
+                            <div class="checkbox-group vertical" id="iaFeatures">
+                                <!-- 동적으로 변경됨 -->
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="ia_feature" value="회원가입" checked>
+                                    <span class="checkmark"></span>
+                                    <span>회원가입</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="ia_feature" value="로그인" checked>
+                                    <span class="checkmark"></span>
+                                    <span>로그인</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="ia_feature" value="상품검색" checked>
+                                    <span class="checkmark"></span>
+                                    <span>상품검색</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary btn-large">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                                <polyline points="2 17 12 22 22 17"/>
+                                <polyline points="2 12 12 17 22 12"/>
+                            </svg>
+                            IA 생성하기
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="card ia-result-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <span class="ai-badge">AI</span>
+                            추천 IA 구조
+                        </h3>
+                        <div class="card-actions">
+                            <button class="btn-icon" title="다운로드">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="ia-tree" id="iaTree">
+                        <!-- 동적으로 변경됨 -->
+                        <div class="tree-item depth-0">
+                            <span class="tree-icon">🏠</span>
+                            <span class="tree-label">홈</span>
+                        </div>
+                        <div class="tree-item depth-0">
+                            <span class="tree-icon">📋</span>
+                            <span class="tree-label">메뉴 소개</span>
+                            <span class="tree-badge">depth 2</span>
+                        </div>
+                        <div class="tree-item depth-1">
+                            <span class="tree-label">시그니처</span>
+                        </div>
+                        <div class="tree-item depth-1">
+                            <span class="tree-label">커피</span>
+                        </div>
+                        <div class="tree-item depth-1">
+                            <span class="tree-label">음료</span>
+                        </div>
+                        <div class="tree-item depth-1">
+                            <span class="tree-label">디저트</span>
+                        </div>
+                        <div class="tree-item depth-0">
+                            <span class="tree-icon">📅</span>
+                            <span class="tree-label">예약하기</span>
+                        </div>
+                        <div class="tree-item depth-0">
+                            <span class="tree-icon">🎉</span>
+                            <span class="tree-label">이벤트</span>
+                        </div>
+                        <div class="tree-item depth-0">
+                            <span class="tree-icon">👤</span>
+                            <span class="tree-label">마이페이지</span>
+                            <span class="tree-badge">depth 2</span>
+                        </div>
+                        <div class="tree-item depth-1">
+                            <span class="tree-label">주문내역</span>
+                        </div>
+                        <div class="tree-item depth-1">
+                            <span class="tree-label">포인트</span>
+                        </div>
+                        <div class="tree-item depth-1">
+                            <span class="tree-label">리뷰</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ia-analysis" id="iaAnalysis">
+                        <h4>📊 분석 근거</h4>
+                        <div class="analysis-items">
+                            <div class="analysis-item">
+                                <span class="analysis-label">분석 프로젝트</span>
+                                <span class="analysis-value" id="iaRefProjects">유사 F&B 프로젝트 5건</span>
+                            </div>
+                            <div class="analysis-item">
+                                <span class="analysis-label">평균 depth</span>
+                                <span class="analysis-value" id="iaAvgDepth">2.4</span>
+                            </div>
+                            <div class="analysis-item">
+                                <span class="analysis-label">권장 카테고리</span>
+                                <span class="analysis-value" id="iaRecommendCat">8~10개 (150개 상품 기준)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Page -->
+        <section class="page" id="page-search">
+            <div class="page-header">
+                <h1 class="page-title">통합 검색</h1>
+                <p class="page-subtitle">프로젝트, 문서, 기능을 시맨틱 검색으로 찾아보세요</p>
+            </div>
+            <div class="search-page-content">
+                <div class="search-main">
+                    <div class="search-input-large">
+                        <svg class="search-icon-large" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                        <input type="text" placeholder="결제 취소 프로세스, 다크모드 메인 비주얼..." class="search-input-lg" id="mainSearchInput">
+                        <button class="search-btn" id="mainSearchBtn">검색</button>
+                    </div>
+                    <div class="search-filters">
+                        <span class="filter-label">필터:</span>
+                        <button class="filter-btn active" data-filter="all">전체</button>
+                        <button class="filter-btn" data-filter="proposal">제안서</button>
+                        <button class="filter-btn" data-filter="plan">기획서</button>
+                        <button class="filter-btn" data-filter="design">디자인</button>
+                        <button class="filter-btn" data-filter="code">코드</button>
+                    </div>
+                </div>
+                
+                <!-- Search Results -->
+                <div class="search-results" id="searchResults">
+                    <div class="results-header">
+                        <span class="results-count">검색 결과 <strong>24</strong>건</span>
+                        <div class="sort-options">
+                            <select class="form-select small">
+                                <option>관련도순</option>
+                                <option>최신순</option>
+                                <option>프로젝트명순</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="results-list">
+                        <!-- Document Result -->
+                        <div class="result-item">
+                            <div class="result-type proposal">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                            </div>
+                            <div class="result-content">
+                                <div class="result-title">
+                                    <span class="highlight">결제</span> 프로세스 기능정의서
+                                    <span class="result-badge">98% 일치</span>
+                                </div>
+                                <p class="result-excerpt">...<span class="highlight">결제</span> <span class="highlight">취소</span> 시 환불 정책: 카드 결제의 경우 즉시 취소 처리되며, 무통장 입금의 경우 1-3 영업일 내 환불...</p>
+                                <div class="result-meta">
+                                    <span class="meta-item">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                                        </svg>
+                                        B사 뷰티 브랜드
+                                    </span>
+                                    <span class="meta-item">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                            <line x1="16" y1="2" x2="16" y2="6"/>
+                                            <line x1="8" y1="2" x2="8" y2="6"/>
+                                            <line x1="3" y1="10" x2="21" y2="10"/>
+                                        </svg>
+                                        2024.03
+                                    </span>
+                                    <span class="meta-item">기능정의서.docx</span>
+                                </div>
+                            </div>
+                            <button class="result-action">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Image Result -->
+                        <div class="result-item">
+                            <div class="result-type design">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                                    <polyline points="21 15 16 10 5 21"/>
+                                </svg>
+                            </div>
+                            <div class="result-content">
+                                <div class="result-title">
+                                    <span class="highlight">결제</span> 완료 페이지 디자인
+                                    <span class="result-badge">92% 일치</span>
+                                </div>
+                                <div class="result-thumbnails">
+                                    <div class="thumbnail" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                                    <div class="thumbnail" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                                    <div class="thumbnail" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                                </div>
+                                <div class="result-meta">
+                                    <span class="meta-item">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                                        </svg>
+                                        C사 F&B 커머스
+                                    </span>
+                                    <span class="meta-item">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                            <line x1="16" y1="2" x2="16" y2="6"/>
+                                            <line x1="8" y1="2" x2="8" y2="6"/>
+                                            <line x1="3" y1="10" x2="21" y2="10"/>
+                                        </svg>
+                                        2024.11
+                                    </span>
+                                    <span class="meta-item">디자인 시안 3개</span>
+                                </div>
+                            </div>
+                            <button class="result-action">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Code Result -->
+                        <div class="result-item">
+                            <div class="result-type code">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="16 18 22 12 16 6"/>
+                                    <polyline points="8 6 2 12 8 18"/>
+                                </svg>
+                            </div>
+                            <div class="result-content">
+                                <div class="result-title">
+                                    <span class="highlight">결제</span> <span class="highlight">취소</span> API 로직
+                                    <span class="result-badge">87% 일치</span>
+                                </div>
+                                <div class="code-preview">
+                                    <pre><code>async function cancelPayment(orderId) {
+  const order = await Order.findById(orderId);
+  if (order.status === 'paid') {
+    await refundProcess(order);
+  }
+}</code></pre>
+                                </div>
+                                <div class="result-meta">
+                                    <span class="meta-item">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                                        </svg>
+                                        D사 패션몰
+                                    </span>
+                                    <span class="meta-item">Node.js</span>
+                                    <span class="meta-item">payment.controller.js</span>
+                                </div>
+                            </div>
+                            <button class="result-action">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Proposal Result -->
+                        <div class="result-item">
+                            <div class="result-type proposal">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                            </div>
+                            <div class="result-content">
+                                <div class="result-title">
+                                    E사 제안서 - <span class="highlight">결제</span> 시스템 섹션
+                                    <span class="result-badge">85% 일치</span>
+                                </div>
+                                <p class="result-excerpt">...PG사 연동을 통한 안정적인 <span class="highlight">결제</span> 시스템 구축. KG이니시스, 토스페이먼츠 등 국내 주요 PG사와의 연동 경험을 바탕으로...</p>
+                                <div class="result-meta">
+                                    <span class="meta-item">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                                        </svg>
+                                        E기관 공공 포털
+                                    </span>
+                                    <span class="meta-item">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                            <line x1="16" y1="2" x2="16" y2="6"/>
+                                            <line x1="8" y1="2" x2="8" y2="6"/>
+                                            <line x1="3" y1="10" x2="21" y2="10"/>
+                                        </svg>
+                                        2024.09
+                                    </span>
+                                    <span class="meta-item">제안서.pptx</span>
+                                </div>
+                            </div>
+                            <button class="result-action">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Functional Specification Page -->
+        <section class="page" id="page-functional">
+            <div class="page-header">
+                <h1 class="page-title">기능정의서 자동 생성</h1>
+                <p class="page-subtitle">과거 프로젝트 분석으로 기능정의서 초안을 자동 생성합니다</p>
+            </div>
+            
+            <div class="functional-container">
+                <div class="card functional-input-card">
+                    <div class="card-header">
+                        <h3 class="card-title">기능 선택</h3>
+                    </div>
+                    <form class="functional-form" id="functionalForm">
+                        <div class="form-group">
+                            <label class="form-label">기능 유형</label>
+                            <div class="select-wrapper">
+                                <select class="form-select" id="funcType">
+                                    <option value="">기능 유형을 선택하세요</option>
+                                    <optgroup label="회원 관리">
+                                        <option value="signup">회원가입</option>
+                                        <option value="login">로그인</option>
+                                        <option value="mypage">마이페이지</option>
+                                        <option value="membership">회원등급/멤버십</option>
+                                        <option value="withdrawal">회원탈퇴</option>
+                                    </optgroup>
+                                    <optgroup label="쇼핑/거래">
+                                        <option value="product">상품 관리</option>
+                                        <option value="category">카테고리 관리</option>
+                                        <option value="search">상품 검색</option>
+                                        <option value="cart">장바구니</option>
+                                        <option value="wishlist">위시리스트</option>
+                                        <option value="order">주문/구매</option>
+                                        <option value="payment">결제</option>
+                                        <option value="delivery">배송</option>
+                                        <option value="return">반품/교환</option>
+                                        <option value="subscription">정기구독</option>
+                                    </optgroup>
+                                    <optgroup label="커뮤니케이션">
+                                        <option value="review">리뷰/후기</option>
+                                        <option value="qna">Q&A/문의</option>
+                                        <option value="board">게시판</option>
+                                        <option value="chat">실시간 채팅</option>
+                                        <option value="notification">알림/푸시</option>
+                                        <option value="message">쪽지/메시지</option>
+                                    </optgroup>
+                                    <optgroup label="마케팅/프로모션">
+                                        <option value="point">포인트</option>
+                                        <option value="coupon">쿠폰</option>
+                                        <option value="event">이벤트/프로모션</option>
+                                        <option value="referral">친구추천</option>
+                                        <option value="stamp">스탬프/적립</option>
+                                    </optgroup>
+                                    <optgroup label="예약/신청">
+                                        <option value="booking">예약</option>
+                                        <option value="schedule">일정관리</option>
+                                        <option value="application">신청서/접수</option>
+                                        <option value="consultation">상담신청</option>
+                                    </optgroup>
+                                    <optgroup label="콘텐츠">
+                                        <option value="content">콘텐츠 관리</option>
+                                        <option value="media">미디어/갤러리</option>
+                                        <option value="faq">FAQ</option>
+                                        <option value="blog">블로그/매거진</option>
+                                    </optgroup>
+                                    <optgroup label="관리자">
+                                        <option value="admin_dashboard">관리자 대시보드</option>
+                                        <option value="admin_user">회원 관리</option>
+                                        <option value="admin_order">주문 관리</option>
+                                        <option value="admin_stats">통계/리포트</option>
+                                        <option value="admin_cms">CMS</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">업종</label>
+                            <div class="select-wrapper">
+                                <select class="form-select" id="funcIndustry">
+                                    <option value="">업종을 선택하세요</option>
+                                    <optgroup label="커머스">
+                                        <option value="fashion">패션/의류</option>
+                                        <option value="beauty">뷰티/화장품</option>
+                                        <option value="fnb">F&B/식품</option>
+                                        <option value="electronics">가전/전자제품</option>
+                                        <option value="furniture">가구/인테리어</option>
+                                        <option value="sports">스포츠/아웃도어</option>
+                                        <option value="kids">유아동/키즈</option>
+                                        <option value="pets">반려동물</option>
+                                        <option value="luxury">럭셔리/명품</option>
+                                    </optgroup>
+                                    <optgroup label="서비스">
+                                        <option value="healthcare">헬스케어/병원</option>
+                                        <option value="education">교육/학원</option>
+                                        <option value="travel">여행/숙박</option>
+                                        <option value="realestate">부동산</option>
+                                        <option value="finance">금융/보험</option>
+                                        <option value="restaurant">레스토랑/카페</option>
+                                        <option value="fitness">피트니스/스포츠센터</option>
+                                        <option value="salon">미용실/뷰티샵</option>
+                                    </optgroup>
+                                    <optgroup label="공공/기관">
+                                        <option value="public">공공기관</option>
+                                        <option value="nonprofit">비영리/NGO</option>
+                                        <option value="association">협회/단체</option>
+                                        <option value="university">대학교/연구기관</option>
+                                    </optgroup>
+                                    <optgroup label="B2B">
+                                        <option value="b2b">B2B 커머스</option>
+                                        <option value="saas">SaaS/솔루션</option>
+                                        <option value="manufacturing">제조업</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">상세 옵션</label>
+                            <div class="checkbox-group vertical" id="funcOptions">
+                                <!-- 동적으로 변경됨 -->
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="func_option" value="social_login" checked>
+                                    <span class="checkmark"></span>
+                                    <span>소셜 로그인 포함</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="func_option" value="identity_verify" checked>
+                                    <span class="checkmark"></span>
+                                    <span>본인인증 포함</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="func_option" value="age_limit">
+                                    <span class="checkmark"></span>
+                                    <span>14세 미만 가입 제한</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-large">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 11l3 3L22 4"/>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                            </svg>
+                            기능정의서 생성
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="card functional-result-card">
+                    <div class="card-header">
+                        <h3 class="card-title" id="funcResultTitle">
+                            <span class="ai-badge">AI</span>
+                            회원가입 기능정의서 초안
+                        </h3>
+                        <div class="card-actions">
+                            <button class="btn-icon" title="Word로 내보내기">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon" title="복사">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="functional-content" id="funcResultContent">
+                        <!-- 동적으로 변경됨 - 회원가입 기본 예시 -->
+                        <div class="func-journey">
+                            <h4>📍 사용자 여정 (User Journey)</h4>
+                            <div class="journey-flow">
+                                <div class="journey-step">
+                                    <span class="step-num">1</span>
+                                    <span class="step-title">진입</span>
+                                    <p>회원가입 버튼 클릭</p>
+                                </div>
+                                <div class="journey-arrow">→</div>
+                                <div class="journey-step">
+                                    <span class="step-num">2</span>
+                                    <span class="step-title">약관동의</span>
+                                    <p>필수/선택 약관 확인</p>
+                                </div>
+                                <div class="journey-arrow">→</div>
+                                <div class="journey-step">
+                                    <span class="step-num">3</span>
+                                    <span class="step-title">정보입력</span>
+                                    <p>회원정보 입력</p>
+                                </div>
+                                <div class="journey-arrow">→</div>
+                                <div class="journey-step">
+                                    <span class="step-num">4</span>
+                                    <span class="step-title">인증</span>
+                                    <p>본인인증/이메일인증</p>
+                                </div>
+                                <div class="journey-arrow">→</div>
+                                <div class="journey-step completed">
+                                    <span class="step-num">5</span>
+                                    <span class="step-title">완료</span>
+                                    <p>가입 완료 및 혜택 안내</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="func-section">
+                            <h4>1. 진입 단계 - 회원가입 유형 선택</h4>
+                            <div class="func-table">
+                                <div class="func-row header">
+                                    <span>항목</span>
+                                    <span>상세 내용</span>
+                                    <span>필수여부</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>이메일 가입</span>
+                                    <span>이메일 주소를 아이디로 사용하여 직접 회원가입</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>소셜 로그인</span>
+                                    <span>카카오톡, 네이버, 구글, 애플 계정 연동 가입<br>• 간편 정보 동의 후 추가 정보 입력</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>비회원 주문</span>
+                                    <span>주문 시 휴대폰 번호 + 비밀번호로 주문 조회 가능</span>
+                                    <span class="optional">선택</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="func-section">
+                            <h4>2. 약관동의 단계</h4>
+                            <div class="func-table">
+                                <div class="func-row header">
+                                    <span>약관명</span>
+                                    <span>상세 내용</span>
+                                    <span>필수여부</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>전체 동의</span>
+                                    <span>모든 약관에 일괄 동의하는 체크박스</span>
+                                    <span class="optional">-</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>이용약관</span>
+                                    <span>서비스 이용에 관한 기본 약관<br>• 전문보기 팝업 제공</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>개인정보 수집 및 이용</span>
+                                    <span>개인정보 수집 항목, 이용 목적, 보유기간 명시<br>• 전문보기 팝업 제공</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>개인정보 제3자 제공</span>
+                                    <span>배송, 결제 등을 위한 제3자 정보 제공 동의</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>마케팅 수신 동의</span>
+                                    <span>이메일, SMS, 앱푸시 수신 여부 (개별 선택 가능)</span>
+                                    <span class="optional">선택</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="func-section">
+                            <h4>3. 정보입력 단계 - 필수/선택 입력 필드</h4>
+                            <div class="func-table">
+                                <div class="func-row header">
+                                    <span>필드명</span>
+                                    <span>유효성 검사 규칙</span>
+                                    <span>필수여부</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>이메일(아이디)</span>
+                                    <span>• 이메일 형식 검사 (정규식)<br>• 실시간 중복 확인 (Ajax)<br>• 인증 이메일 발송</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>비밀번호</span>
+                                    <span>• 8~20자<br>• 영문, 숫자, 특수문자 2종 이상 조합<br>• 보안 강도 표시 (약함/보통/강함)</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>비밀번호 확인</span>
+                                    <span>• 비밀번호와 일치 여부 실시간 확인</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>이름</span>
+                                    <span>• 2~20자<br>• 한글, 영문만 허용</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>휴대폰 번호</span>
+                                    <span>• 숫자만 입력 (하이픈 자동 제거)<br>• 010 시작, 10~11자리<br>• SMS 인증번호 발송</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>주소</span>
+                                    <span>• 카카오 주소 API 연동<br>• 우편번호, 기본주소, 상세주소</span>
+                                    <span class="optional">선택</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>생년월일</span>
+                                    <span>• YYYY-MM-DD 형식<br>• 14세 미만 가입 제한 체크</span>
+                                    <span class="optional">선택</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>성별</span>
+                                    <span>• 남성/여성/선택안함</span>
+                                    <span class="optional">선택</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="func-section">
+                            <h4>4. 인증 단계</h4>
+                            <div class="func-table">
+                                <div class="func-row header">
+                                    <span>인증 방식</span>
+                                    <span>상세 프로세스</span>
+                                    <span>필수여부</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>이메일 인증</span>
+                                    <span>1. 인증 메일 발송 (유효시간 24시간)<br>2. 이메일 내 인증 링크 클릭<br>3. 인증 완료 처리<br>• 재발송 버튼 제공 (1분 후 활성화)</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>SMS 인증</span>
+                                    <span>1. 인증번호 발송 (6자리, 유효시간 3분)<br>2. 인증번호 입력 및 확인<br>• 재발송 횟수 제한 (일 5회)</span>
+                                    <span class="required">필수</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>본인인증 (PASS)</span>
+                                    <span>1. 본인인증 팝업 호출 (KG이니시스/나이스)<br>2. 통신사 본인확인<br>3. 인증 결과 수신 (CI, DI 값)<br>• 중복 가입 방지에 활용</span>
+                                    <span class="optional">선택</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="func-section">
+                            <h4>5. 완료 단계</h4>
+                            <ul class="func-list">
+                                <li><strong>가입 완료 페이지:</strong> 환영 메시지 및 회원 혜택 안내</li>
+                                <li><strong>신규 가입 혜택:</strong> 웰컴 쿠폰 자동 발급 (10% 할인, 7일 유효)</li>
+                                <li><strong>적립금 지급:</strong> 신규 회원 1,000원 적립금 자동 지급</li>
+                                <li><strong>가입 완료 알림:</strong> 이메일 및 SMS로 가입 완료 알림 발송</li>
+                                <li><strong>바로가기 버튼:</strong> 쇼핑 계속하기, 마이페이지 바로가기</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="func-section">
+                            <h4>6. 비밀번호 정책</h4>
+                            <ul class="func-list">
+                                <li><strong>최소 길이:</strong> 8자 이상, 20자 이하</li>
+                                <li><strong>문자 조합:</strong> 영문 대/소문자, 숫자, 특수문자 중 2종류 이상</li>
+                                <li><strong>사용 불가:</strong> 아이디와 동일한 문자열 포함 불가</li>
+                                <li><strong>사용 불가:</strong> 연속된 문자/숫자 3자리 이상 (예: 123, abc)</li>
+                                <li><strong>재사용 제한:</strong> 최근 3개 비밀번호 재사용 불가</li>
+                                <li><strong>변경 권고:</strong> 90일 경과 시 비밀번호 변경 권고 팝업</li>
+                            </ul>
+                        </div>
+
+                        <div class="func-section">
+                            <h4>7. 에러 케이스 및 예외 처리</h4>
+                            <div class="func-table">
+                                <div class="func-row header">
+                                    <span>에러 상황</span>
+                                    <span>처리 방법</span>
+                                    <span>메시지</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>중복 이메일</span>
+                                    <span>실시간 검사 후 경고 표시</span>
+                                    <span>"이미 사용 중인 이메일입니다"</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>인증시간 초과</span>
+                                    <span>재발송 버튼 활성화</span>
+                                    <span>"인증 시간이 만료되었습니다. 다시 시도해주세요"</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>약한 비밀번호</span>
+                                    <span>강도 표시 + 가이드 제공</span>
+                                    <span>"더 안전한 비밀번호를 사용해주세요"</span>
+                                </div>
+                                <div class="func-row">
+                                    <span>14세 미만 시도</span>
+                                    <span>가입 진행 차단</span>
+                                    <span>"만 14세 이상만 가입 가능합니다"</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="func-analysis">
+                            <h4>📊 분석 근거</h4>
+                            <p><strong>분석 대상:</strong> 유사 커머스 프로젝트 8건의 회원가입 기능 분석 결과를 통합<br>
+                            <strong>법규 반영:</strong> 개인정보보호법, 정보통신망법 최신 기준 반영<br>
+                            <strong>UX 최적화:</strong> 평균 이탈률 15% 감소 사례 기반 플로우 설계</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Reference Search Page -->
+        <section class="page" id="page-visual">
+            <div class="page-header">
+                <h1 class="page-title">비주얼 레퍼런스 검색</h1>
+                <p class="page-subtitle">컨셉 기반으로 과거 디자인 시안을 검색합니다</p>
+            </div>
+            
+            <div class="visual-container">
+                <div class="card visual-search-card">
+                    <div class="card-header">
+                        <h3 class="card-title">컨셉 검색</h3>
+                    </div>
+                    <div class="visual-search-form">
+                        <div class="visual-input-wrapper">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="M21 21l-4.35-4.35"/>
+                            </svg>
+                            <input type="text" class="visual-search-input" placeholder="다크모드 + 고급스러운 메인 비주얼" id="visualSearchInput">
+                        </div>
+                        
+                        <div class="visual-tags">
+                            <span class="visual-tag" data-tag="다크모드">다크모드</span>
+                            <span class="visual-tag" data-tag="미니멀">미니멀</span>
+                            <span class="visual-tag" data-tag="고급스러운">고급스러운</span>
+                            <span class="visual-tag" data-tag="트렌디">트렌디</span>
+                            <span class="visual-tag" data-tag="심플">심플</span>
+                            <span class="visual-tag" data-tag="감성적인">감성적인</span>
+                            <span class="visual-tag" data-tag="역동적인">역동적인</span>
+                            <span class="visual-tag" data-tag="밝은">밝은</span>
+                        </div>
+                        
+                        <div class="visual-filters">
+                            <div class="form-group small">
+                                <label class="form-label">업종</label>
+                                <select class="form-select">
+                                    <option>전체</option>
+                                    <option>뷰티</option>
+                                    <option>패션</option>
+                                    <option>F&B</option>
+                                    <option>공공</option>
+                                </select>
+                            </div>
+                            <div class="form-group small">
+                                <label class="form-label">페이지 유형</label>
+                                <select class="form-select">
+                                    <option>전체</option>
+                                    <option>메인</option>
+                                    <option>상품 상세</option>
+                                    <option>목록</option>
+                                    <option>마이페이지</option>
+                                </select>
+                            </div>
+                            <button class="btn-primary" id="visualSearchBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"/>
+                                    <path d="M21 21l-4.35-4.35"/>
+                                </svg>
+                                검색
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="visual-results">
+                    <div class="results-header">
+                        <span class="results-count">검색 결과 <strong>12</strong>개 이미지</span>
+                    </div>
+                    
+                    <div class="visual-grid">
+                        <div class="visual-item">
+                            <div class="visual-preview" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+                                <div class="preview-overlay">
+                                    <span class="match-score">95%</span>
+                                </div>
+                            </div>
+                            <div class="visual-info">
+                                <span class="visual-title">D사 명품 브랜드 메인</span>
+                                <span class="visual-meta">2024.05 · 뷰티</span>
+                            </div>
+                        </div>
+                        <div class="visual-item">
+                            <div class="visual-preview" style="background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);">
+                                <div class="preview-overlay">
+                                    <span class="match-score">92%</span>
+                                </div>
+                            </div>
+                            <div class="visual-info">
+                                <span class="visual-title">E사 주얼리 메인</span>
+                                <span class="visual-meta">2023.12 · 패션</span>
+                            </div>
+                        </div>
+                        <div class="visual-item">
+                            <div class="visual-preview" style="background: linear-gradient(135deg, #2d3436 0%, #000000 100%);">
+                                <div class="preview-overlay">
+                                    <span class="match-score">89%</span>
+                                </div>
+                            </div>
+                            <div class="visual-info">
+                                <span class="visual-title">F사 화장품 브랜드</span>
+                                <span class="visual-meta">2024.01 · 뷰티</span>
+                            </div>
+                        </div>
+                        <div class="visual-item">
+                            <div class="visual-preview" style="background: linear-gradient(135deg, #232526 0%, #414345 100%);">
+                                <div class="preview-overlay">
+                                    <span class="match-score">87%</span>
+                                </div>
+                            </div>
+                            <div class="visual-info">
+                                <span class="visual-title">G사 시계 브랜드</span>
+                                <span class="visual-meta">2024.03 · 패션</span>
+                            </div>
+                        </div>
+                        <div class="visual-item">
+                            <div class="visual-preview" style="background: linear-gradient(135deg, #0c0c0c 0%, #1c1c1c 100%);">
+                                <div class="preview-overlay">
+                                    <span class="match-score">85%</span>
+                                </div>
+                            </div>
+                            <div class="visual-info">
+                                <span class="visual-title">H사 프리미엄 스토어</span>
+                                <span class="visual-meta">2024.02 · 패션</span>
+                            </div>
+                        </div>
+                        <div class="visual-item">
+                            <div class="visual-preview" style="background: linear-gradient(135deg, #141e30 0%, #243b55 100%);">
+                                <div class="preview-overlay">
+                                    <span class="match-score">82%</span>
+                                </div>
+                            </div>
+                            <div class="visual-info">
+                                <span class="visual-title">I사 향수 브랜드</span>
+                                <span class="visual-meta">2023.11 · 뷰티</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card color-recommend-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <span class="ai-badge">AI</span>
+                            추천 컬러 팔레트
+                        </h3>
+                    </div>
+                    <div class="color-content">
+                        <div class="color-palette">
+                            <div class="color-item primary" style="--color: #1a1a2e;">
+                                <span class="color-box"></span>
+                                <span class="color-info">
+                                    <span class="color-name">Primary</span>
+                                    <span class="color-hex">#1A1A2E</span>
+                                </span>
+                            </div>
+                            <div class="color-item" style="--color: #16213e;">
+                                <span class="color-box"></span>
+                                <span class="color-info">
+                                    <span class="color-name">Secondary</span>
+                                    <span class="color-hex">#16213E</span>
+                                </span>
+                            </div>
+                            <div class="color-item" style="--color: #c9b037;">
+                                <span class="color-box"></span>
+                                <span class="color-info">
+                                    <span class="color-name">Accent</span>
+                                    <span class="color-hex">#C9B037</span>
+                                </span>
+                            </div>
+                            <div class="color-item" style="--color: #ffffff;">
+                                <span class="color-box" style="border: 1px solid var(--border-color);"></span>
+                                <span class="color-info">
+                                    <span class="color-name">Text</span>
+                                    <span class="color-hex">#FFFFFF</span>
+                                </span>
+                            </div>
+                        </div>
+                        <p class="color-analysis">유사 프로젝트 3건 분석 결과, 다크 네이비 + 골드 포인트 조합이 가장 효과적입니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Page -->
+        <section class="page" id="page-techstack">
+            <div class="page-header">
+                <h1 class="page-title">기술 스택 호환성</h1>
+                <p class="page-subtitle">프로젝트에 맞는 최적의 기술 스택을 추천합니다</p>
+            </div>
+            
+            <div class="techstack-container">
+                <div class="card techstack-input-card">
+                    <div class="card-header">
+                        <h3 class="card-title">프로젝트 기술 정보</h3>
+                    </div>
+                    <form class="techstack-form" id="techstackForm">
+                        <div class="form-group">
+                            <label class="form-label">플랫폼</label>
+                            <div class="select-wrapper">
+                                <select class="form-select" id="techPlatform">
+                                    <option value="cafe24">Cafe24</option>
+                                    <option value="shopify">Shopify</option>
+                                    <option value="custom">자체구축</option>
+                                    <option value="wordpress">WordPress</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">프론트엔드</label>
+                            <div class="tech-options">
+                                <label class="tech-option">
+                                    <input type="radio" name="frontend" value="react" checked>
+                                    <span class="tech-box">
+                                        <span class="tech-icon">⚛️</span>
+                                        <span>React</span>
+                                    </span>
+                                </label>
+                                <label class="tech-option">
+                                    <input type="radio" name="frontend" value="vue">
+                                    <span class="tech-box">
+                                        <span class="tech-icon">💚</span>
+                                        <span>Vue.js</span>
+                                    </span>
+                                </label>
+                                <label class="tech-option">
+                                    <input type="radio" name="frontend" value="next">
+                                    <span class="tech-box">
+                                        <span class="tech-icon">▲</span>
+                                        <span>Next.js</span>
+                                    </span>
+                                </label>
+                                <label class="tech-option">
+                                    <input type="radio" name="frontend" value="vanilla">
+                                    <span class="tech-box">
+                                        <span class="tech-icon">📜</span>
+                                        <span>Vanilla JS</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">백엔드</label>
+                            <div class="tech-options">
+                                <label class="tech-option">
+                                    <input type="radio" name="backend" value="node" checked>
+                                    <span class="tech-box">
+                                        <span class="tech-icon">🟢</span>
+                                        <span>Node.js</span>
+                                    </span>
+                                </label>
+                                <label class="tech-option">
+                                    <input type="radio" name="backend" value="python">
+                                    <span class="tech-box">
+                                        <span class="tech-icon">🐍</span>
+                                        <span>Python</span>
+                                    </span>
+                                </label>
+                                <label class="tech-option">
+                                    <input type="radio" name="backend" value="php">
+                                    <span class="tech-box">
+                                        <span class="tech-icon">🐘</span>
+                                        <span>PHP</span>
+                                    </span>
+                                </label>
+                                <label class="tech-option">
+                                    <input type="radio" name="backend" value="java">
+                                    <span class="tech-box">
+                                        <span class="tech-icon">☕</span>
+                                        <span>Java</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-large">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"/>
+                                <polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                            호환성 분석
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="card techstack-result-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <span class="ai-badge">AI</span>
+                            호환성 분석 결과
+                        </h3>
+                    </div>
+                    
+                    <div class="techstack-content">
+                        <div class="compatibility-alert warning">
+                            <div class="alert-icon">⚠️</div>
+                            <div class="alert-content">
+                                <h4>호환성 경고</h4>
+                                <p>Cafe24는 PHP 기반 플랫폼입니다. React 직접 연동에 어려움이 있을 수 있습니다.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="solution-section">
+                            <h4>💡 권장 해결 방안</h4>
+                            <div class="solution-item">
+                                <span class="solution-number">1</span>
+                                <div class="solution-content">
+                                    <strong>Cafe24 REST API + React SPA</strong>
+                                    <p>Cafe24의 REST API를 활용하여 React SPA로 프론트엔드 구축</p>
+                                </div>
+                            </div>
+                            <div class="solution-item">
+                                <span class="solution-number">2</span>
+                                <div class="solution-content">
+                                    <strong>Nginx 리버스 프록시</strong>
+                                    <p>과거 F사 프로젝트(2024.02)에서 성공적으로 적용 (개발 공수 +2주)</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="recommend-section">
+                            <h4>✅ 권장 스택</h4>
+                            <div class="recommend-stacks">
+                                <div class="stack-item recommended">
+                                    <div class="stack-header">
+                                        <span class="stack-name">Cafe24 + Vue.js</span>
+                                        <span class="success-rate">성공률 90%</span>
+                                    </div>
+                                    <p>Vue.js는 Cafe24와 호환성이 좋으며, 과거 10건 중 9건 성공</p>
+                                </div>
+                                <div class="stack-item recommended">
+                                    <div class="stack-header">
+                                        <span class="stack-name">Shopify + React</span>
+                                        <span class="success-rate">완벽 호환</span>
+                                    </div>
+                                    <p>Shopify Hydrogen은 React 기반으로 완벽한 호환성 제공</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="reference-section">
+                            <h4>📁 과거 프로젝트 참조</h4>
+                            <div class="tech-reference-item">
+                                <div class="ref-header">
+                                    <span class="ref-name">F사 커머스 (2024.02)</span>
+                                    <span class="ref-status success">성공</span>
+                                </div>
+                                <div class="ref-stack">
+                                    <span class="stack-tag">Cafe24</span>
+                                    <span class="stack-tag">React</span>
+                                    <span class="stack-tag">Nginx</span>
+                                </div>
+                                <p class="ref-note">리버스 프록시로 해결, 추가 공수 2주 소요</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WBS Page -->
+        <section class="page" id="page-wbs">
+            <div class="page-header">
+                <h1 class="page-title">WBS 자동 생성</h1>
+                <p class="page-subtitle">프로젝트 일정을 과거 데이터 기반으로 자동 산출합니다</p>
+            </div>
+            
+            <div class="wbs-container">
+                <div class="card wbs-input-card">
+                    <div class="card-header">
+                        <h3 class="card-title">프로젝트 정보</h3>
+                    </div>
+                    <form class="wbs-form" id="wbsForm">
+                        <div class="form-group">
+                            <label class="form-label">프로젝트 유형</label>
+                            <div class="select-wrapper">
+                                <select class="form-select" id="wbsProjectType">
+                                    <option value="">프로젝트 유형을 선택하세요</option>
+                                    <optgroup label="웹사이트">
+                                        <option value="commerce">쇼핑몰/커머스</option>
+                                        <option value="brand">브랜드 사이트</option>
+                                        <option value="corporate">기업 홈페이지</option>
+                                        <option value="landing">랜딩 페이지</option>
+                                        <option value="portal">포털/커뮤니티</option>
+                                        <option value="media">미디어/매거진</option>
+                                        <option value="promotion">프로모션/이벤트</option>
+                                    </optgroup>
+                                    <optgroup label="플랫폼/서비스">
+                                        <option value="booking">예약 플랫폼</option>
+                                        <option value="membership">멤버십/구독 서비스</option>
+                                        <option value="saas">SaaS/웹서비스</option>
+                                        <option value="b2b">B2B 플랫폼</option>
+                                        <option value="marketplace">마켓플레이스</option>
+                                        <option value="ott">OTT/스트리밍</option>
+                                        <option value="lms">LMS/교육 플랫폼</option>
+                                    </optgroup>
+                                    <optgroup label="앱/모바일">
+                                        <option value="webapp">웹앱 (PWA)</option>
+                                        <option value="hybrid">하이브리드 앱</option>
+                                        <option value="native">네이티브 앱</option>
+                                    </optgroup>
+                                    <optgroup label="공공/특수">
+                                        <option value="public">공공기관 사이트</option>
+                                        <option value="intranet">인트라넷/그룹웨어</option>
+                                        <option value="erp">ERP/관리시스템</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">플랫폼/기술스택</label>
+                            <div class="select-wrapper">
+                                <select class="form-select" id="wbsPlatform">
+                                    <option value="">플랫폼을 선택하세요</option>
+                                    <optgroup label="커머스 솔루션">
+                                        <option value="shopify">Shopify</option>
+                                        <option value="cafe24">Cafe24</option>
+                                        <option value="makeshop">메이크샵</option>
+                                        <option value="godo">고도몰</option>
+                                        <option value="magento">Magento</option>
+                                        <option value="woocommerce">WooCommerce</option>
+                                    </optgroup>
+                                    <optgroup label="CMS">
+                                        <option value="wordpress">WordPress</option>
+                                        <option value="xetown">XE/그누보드</option>
+                                        <option value="drupal">Drupal</option>
+                                    </optgroup>
+                                    <optgroup label="프레임워크">
+                                        <option value="react">React</option>
+                                        <option value="vue">Vue.js</option>
+                                        <option value="nextjs">Next.js</option>
+                                        <option value="nuxt">Nuxt.js</option>
+                                        <option value="angular">Angular</option>
+                                    </optgroup>
+                                    <optgroup label="기타">
+                                        <option value="custom">자체구축 (풀스택)</option>
+                                        <option value="php">PHP/Laravel</option>
+                                        <option value="java">Java/Spring</option>
+                                        <option value="python">Python/Django</option>
+                                        <option value="nodejs">Node.js</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">프로젝트 규모</label>
+                            <div class="select-wrapper">
+                                <select class="form-select" id="wbsScale">
+                                    <option value="small">소규모 (1~3주)</option>
+                                    <option value="medium" selected>중규모 (4~8주)</option>
+                                    <option value="large">대규모 (9~16주)</option>
+                                    <option value="enterprise">엔터프라이즈 (17주+)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">주요 기능</label>
+                            <div class="checkbox-group vertical" id="wbsFeatures">
+                                <!-- 동적으로 변경됨 -->
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="wbs_feature" value="회원 기능" checked>
+                                    <span class="checkmark"></span>
+                                    <span>회원 기능</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="wbs_feature" value="결제 기능" checked>
+                                    <span class="checkmark"></span>
+                                    <span>결제 기능</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="wbs_feature" value="배송 기능" checked>
+                                    <span class="checkmark"></span>
+                                    <span>배송 기능</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="wbs_feature" value="반응형" checked>
+                                    <span class="checkmark"></span>
+                                    <span>반응형</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">시작 예정일</label>
+                            <input type="date" class="form-input" id="wbsStartDate" value="2025-01-06">
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-large">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            WBS 생성
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="card wbs-result-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <span class="ai-badge">AI</span>
+                            WBS - 총 8주
+                        </h3>
+                        <div class="card-actions">
+                            <button class="btn-icon" title="Excel로 내보내기">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="wbs-content">
+                        <div class="wbs-timeline">
+                            <div class="timeline-header">
+                                <span class="phase-label">Phase</span>
+                                <div class="week-labels">
+                                    <span>W1</span>
+                                    <span>W2</span>
+                                    <span>W3</span>
+                                    <span>W4</span>
+                                    <span>W5</span>
+                                    <span>W6</span>
+                                    <span>W7</span>
+                                    <span>W8</span>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-phase">
+                                <div class="phase-info">
+                                    <span class="phase-name">기획/디자인</span>
+                                    <span class="phase-duration">14일</span>
+                                </div>
+                                <div class="phase-bar-container">
+                                    <div class="phase-bar design" style="--start: 0; --width: 25%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-phase">
+                                <div class="phase-info">
+                                    <span class="phase-name">퍼블리싱</span>
+                                    <span class="phase-duration">15일</span>
+                                </div>
+                                <div class="phase-bar-container">
+                                    <div class="phase-bar publishing" style="--start: 25%; --width: 37.5%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-phase">
+                                <div class="phase-info">
+                                    <span class="phase-name">개발</span>
+                                    <span class="phase-duration">12일</span>
+                                </div>
+                                <div class="phase-bar-container">
+                                    <div class="phase-bar development" style="--start: 62.5%; --width: 25%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-phase">
+                                <div class="phase-info">
+                                    <span class="phase-name">테스트/오픈</span>
+                                    <span class="phase-duration">5일</span>
+                                </div>
+                                <div class="phase-bar-container">
+                                    <div class="phase-bar testing" style="--start: 87.5%; --width: 12.5%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="wbs-details">
+                            <div class="wbs-phase-detail">
+                                <div class="phase-header design">
+                                    <span class="phase-icon">🎨</span>
+                                    <span>Week 1-2: 기획/디자인</span>
+                                </div>
+                                <ul class="task-list">
+                                    <li>
+                                        <span class="task-name">요구사항 정리</span>
+                                        <span class="task-duration">3일</span>
+                                    </li>
+                                    <li>
+                                        <span class="task-name">IA/화면설계</span>
+                                        <span class="task-duration">4일</span>
+                                    </li>
+                                    <li>
+                                        <span class="task-name">디자인 시안</span>
+                                        <span class="task-duration">7일</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="wbs-phase-detail">
+                                <div class="phase-header publishing">
+                                    <span class="phase-icon">💻</span>
+                                    <span>Week 3-5: 퍼블리싱</span>
+                                </div>
+                                <ul class="task-list">
+                                    <li>
+                                        <span class="task-name">메인/서브 페이지</span>
+                                        <span class="task-duration">10일</span>
+                                    </li>
+                                    <li>
+                                        <span class="task-name">반응형 작업</span>
+                                        <span class="task-duration">5일</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="wbs-phase-detail">
+                                <div class="phase-header development">
+                                    <span class="phase-icon">⚙️</span>
+                                    <span>Week 6-7: 개발</span>
+                                </div>
+                                <ul class="task-list">
+                                    <li>
+                                        <span class="task-name">Shopify 연동</span>
+                                        <span class="task-duration">3일</span>
+                                    </li>
+                                    <li>
+                                        <span class="task-name">결제/배송</span>
+                                        <span class="task-duration">5일</span>
+                                    </li>
+                                    <li>
+                                        <span class="task-name">회원 기능</span>
+                                        <span class="task-duration">2일</span>
+                                    </li>
+                                    <li>
+                                        <span class="task-name">관리자</span>
+                                        <span class="task-duration">2일</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="wbs-phase-detail">
+                                <div class="phase-header testing">
+                                    <span class="phase-icon">✅</span>
+                                    <span>Week 8: 테스트/오픈</span>
+                                </div>
+                                <ul class="task-list">
+                                    <li>
+                                        <span class="task-name">기능 테스트</span>
+                                        <span class="task-duration">3일</span>
+                                    </li>
+                                    <li>
+                                        <span class="task-name">수정</span>
+                                        <span class="task-duration">1일</span>
+                                    </li>
+                                    <li>
+                                        <span class="task-name">오픈</span>
+                                        <span class="task-duration">1일</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="wbs-risk">
+                            <h4>⚠️ 예상 리스크</h4>
+                            <div class="risk-items">
+                                <div class="risk-item">
+                                    <div class="risk-header">
+                                        <span class="risk-name">Shopify API 연동</span>
+                                        <span class="risk-prob">확률 60%</span>
+                                    </div>
+                                    <p>과거 H프로젝트: API 응답 지연 이슈 (3일 지연)</p>
+                                    <span class="risk-recommend">권장: 버퍼 +1주</span>
+                                </div>
+                                <div class="risk-item">
+                                    <div class="risk-header">
+                                        <span class="risk-name">고객사 피드백 지연</span>
+                                        <span class="risk-prob">확률 50%</span>
+                                    </div>
+                                    <p>평균 피드백 지연: 3일</p>
+                                    <span class="risk-recommend">권장: 중간 검수 2회 이상</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="wbs-analysis">
+                            <h4>📊 분석 근거</h4>
+                            <p>유사 Shopify 프로젝트 6건의 평균 공수를 기반으로 산출되었습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Upload Page -->
+        <section class="page" id="page-upload">
+            <div class="page-header">
+                <h1 class="page-title">프로젝트 등록</h1>
+                <p class="page-subtitle">새로운 프로젝트와 문서를 등록하여 AI 학습 데이터를 구축합니다</p>
+            </div>
+            
+            <div class="upload-container">
+                <div class="card upload-form-card">
+                    <div class="card-header">
+                        <h3 class="card-title">프로젝트 정보</h3>
+                    </div>
+                    <form class="upload-form" id="uploadForm">
+                        <div class="form-group">
+                            <label class="form-label">프로젝트명 <span class="required-mark">*</span></label>
+                            <input type="text" class="form-input" placeholder="예: B사 뷰티 브랜드 리뉴얼" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">고객사 <span class="required-mark">*</span></label>
+                                <input type="text" class="form-input" placeholder="고객사명" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">업종 <span class="required-mark">*</span></label>
+                                <div class="select-wrapper">
+                                    <select class="form-select" required>
+                                        <option value="">선택하세요</option>
+                                        <option value="beauty">뷰티</option>
+                                        <option value="fashion">패션</option>
+                                        <option value="fnb">F&B</option>
+                                        <option value="public">공공</option>
+                                        <option value="healthcare">헬스케어</option>
+                                        <option value="finance">금융</option>
+                                        <option value="education">교육</option>
+                                        <option value="etc">기타</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">플랫폼 <span class="required-mark">*</span></label>
+                                <div class="select-wrapper">
+                                    <select class="form-select" required>
+                                        <option value="">선택하세요</option>
+                                        <option value="shopify">Shopify</option>
+                                        <option value="cafe24">Cafe24</option>
+                                        <option value="custom">자체구축</option>
+                                        <option value="wordpress">WordPress</option>
+                                        <option value="etc">기타</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">수주 여부 <span class="required-mark">*</span></label>
+                                <div class="select-wrapper">
+                                    <select class="form-select" id="winLossSelect" required>
+                                        <option value="">선택하세요</option>
+                                        <option value="won">수주 성공</option>
+                                        <option value="lost">수주 실패</option>
+                                        <option value="ongoing">진행 중</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" id="winLossReasonGroup" style="display: none;">
+                            <label class="form-label">수주/실패 사유</label>
+                            <input type="text" class="form-input" placeholder="예: 경쟁사 대비 가격 경쟁력">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">프로젝트 기간</label>
+                                <div class="date-range">
+                                    <input type="date" class="form-input">
+                                    <span class="range-separator">~</span>
+                                    <input type="date" class="form-input">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">견적 금액</label>
+                                <div class="input-with-unit">
+                                    <input type="number" class="form-input" placeholder="3500">
+                                    <span class="input-unit">만원</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">기술 스택</label>
+                            <div class="tag-input-container">
+                                <div class="tag-input-wrapper">
+                                    <div class="selected-tags" id="techStackTags"></div>
+                                    <input type="text" class="tag-input" placeholder="기술 입력 후 Enter" id="techStackInput">
+                                </div>
+                                <div class="suggested-tags">
+                                    <span class="suggested-tag" data-tag="React">React</span>
+                                    <span class="suggested-tag" data-tag="Vue.js">Vue.js</span>
+                                    <span class="suggested-tag" data-tag="Node.js">Node.js</span>
+                                    <span class="suggested-tag" data-tag="PHP">PHP</span>
+                                    <span class="suggested-tag" data-tag="MySQL">MySQL</span>
+                                    <span class="suggested-tag" data-tag="PostgreSQL">PostgreSQL</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">주요 기능</label>
+                            <div class="tag-input-container">
+                                <div class="tag-input-wrapper">
+                                    <div class="selected-tags" id="featureTags"></div>
+                                    <input type="text" class="tag-input" placeholder="기능 입력 후 Enter" id="featureTagInput">
+                                </div>
+                                <div class="suggested-tags">
+                                    <span class="suggested-tag" data-tag="회원가입">회원가입</span>
+                                    <span class="suggested-tag" data-tag="결제">결제</span>
+                                    <span class="suggested-tag" data-tag="배송">배송</span>
+                                    <span class="suggested-tag" data-tag="라이브커머스">라이브커머스</span>
+                                    <span class="suggested-tag" data-tag="AI 챗봇">AI 챗봇</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">메모</label>
+                            <textarea class="form-textarea" rows="3" placeholder="프로젝트 관련 특이사항이나 메모"></textarea>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="card upload-dropzone-card">
+                    <div class="card-header">
+                        <h3 class="card-title">문서 업로드</h3>
+                        <span class="upload-hint">최대 50MB / 파일당</span>
+                    </div>
+                    
+                    <div class="dropzone" id="dropzone">
+                        <div class="dropzone-content">
+                            <div class="dropzone-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                            <h4>파일을 드래그하거나 클릭하여 업로드</h4>
+                            <p>PDF, DOCX, HWP, PPTX, XLSX, JPG, PNG 지원</p>
+                            <input type="file" id="fileInput" multiple accept=".pdf,.docx,.hwp,.pptx,.xlsx,.jpg,.jpeg,.png,.js,.py,.html,.css" hidden>
+                            <button type="button" class="btn-secondary" id="browseBtn">파일 찾아보기</button>
+                        </div>
+                    </div>
+                    
+                    <div class="file-categories">
+                        <div class="category-item active" data-category="all">
+                            <span class="category-icon">📁</span>
+                            <span>전체</span>
+                        </div>
+                        <div class="category-item" data-category="proposal">
+                            <span class="category-icon">📄</span>
+                            <span>제안서</span>
+                        </div>
+                        <div class="category-item" data-category="plan">
+                            <span class="category-icon">📋</span>
+                            <span>기획서</span>
+                        </div>
+                        <div class="category-item" data-category="design">
+                            <span class="category-icon">🎨</span>
+                            <span>디자인</span>
+                        </div>
+                        <div class="category-item" data-category="code">
+                            <span class="category-icon">💻</span>
+                            <span>코드</span>
+                        </div>
+                    </div>
+                    
+                    <div class="uploaded-files" id="uploadedFiles">
+                        <div class="file-item">
+                            <div class="file-icon pdf">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                            </div>
+                            <div class="file-info">
+                                <span class="file-name">제안서_v2.3.pdf</span>
+                                <span class="file-meta">2.4 MB · 제안서</span>
+                            </div>
+                            <div class="file-status complete">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                            <button class="file-remove" title="삭제">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="file-item">
+                            <div class="file-icon docx">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                    <line x1="16" y1="13" x2="8" y2="13"/>
+                                    <line x1="16" y1="17" x2="8" y2="17"/>
+                                </svg>
+                            </div>
+                            <div class="file-info">
+                                <span class="file-name">기능정의서.docx</span>
+                                <span class="file-meta">1.8 MB · 기획서</span>
+                            </div>
+                            <div class="file-status complete">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                            <button class="file-remove" title="삭제">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="file-item uploading">
+                            <div class="file-icon img">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                                    <polyline points="21 15 16 10 5 21"/>
+                                </svg>
+                            </div>
+                            <div class="file-info">
+                                <span class="file-name">메인_시안_v1.png</span>
+                                <span class="file-meta">업로드 중... 65%</span>
+                                <div class="upload-progress">
+                                    <div class="progress-bar" style="--progress: 65%"></div>
+                                </div>
+                            </div>
+                            <div class="file-status uploading">
+                                <div class="spinner"></div>
+                            </div>
+                            <button class="file-remove" title="취소">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-actions">
+                        <button type="button" class="btn-secondary">임시 저장</button>
+                        <button type="submit" class="btn-primary btn-large" id="submitProject">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                                <polyline points="17 21 17 13 7 13 7 21"/>
+                                <polyline points="7 3 7 8 15 8"/>
+                            </svg>
+                            프로젝트 등록 및 AI 학습
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Document Management Page -->
+        <section class="page" id="page-documents">
+            <div class="page-header">
+                <h1 class="page-title">문서 관리</h1>
+                <p class="page-subtitle">등록된 프로젝트 문서를 관리하고 AI 학습 상태를 확인합니다</p>
+            </div>
+            
+            <div class="documents-container">
+                <!-- Stats -->
+                <div class="doc-stats">
+                    <div class="doc-stat-card">
+                        <div class="doc-stat-icon blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <div class="doc-stat-info">
+                            <span class="doc-stat-value">142</span>
+                            <span class="doc-stat-label">총 프로젝트</span>
+                        </div>
+                    </div>
+                    <div class="doc-stat-card">
+                        <div class="doc-stat-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                        <div class="doc-stat-info">
+                            <span class="doc-stat-value">1,847</span>
+                            <span class="doc-stat-label">등록 문서</span>
+                        </div>
+                    </div>
+                    <div class="doc-stat-card">
+                        <div class="doc-stat-icon green">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="doc-stat-info">
+                            <span class="doc-stat-value">1,823</span>
+                            <span class="doc-stat-label">학습 완료</span>
+                        </div>
+                    </div>
+                    <div class="doc-stat-card">
+                        <div class="doc-stat-icon orange">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <div class="doc-stat-info">
+                            <span class="doc-stat-value">24</span>
+                            <span class="doc-stat-label">학습 대기</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filters -->
+                <div class="doc-filters">
+                    <div class="filter-search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                        <input type="text" placeholder="프로젝트명, 고객사, 문서명 검색..." class="filter-input">
+                    </div>
+                    <div class="filter-options">
+                        <select class="form-select small">
+                            <option>전체 업종</option>
+                            <option>뷰티</option>
+                            <option>패션</option>
+                            <option>F&B</option>
+                            <option>공공</option>
+                        </select>
+                        <select class="form-select small">
+                            <option>전체 상태</option>
+                            <option>학습 완료</option>
+                            <option>학습 중</option>
+                            <option>대기 중</option>
+                        </select>
+                        <select class="form-select small">
+                            <option>최신순</option>
+                            <option>이름순</option>
+                            <option>문서 수</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Project List -->
+                <div class="project-grid">
+                    <div class="project-card">
+                        <div class="project-card-header">
+                            <div class="project-card-icon beauty">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                </svg>
+                            </div>
+                            <div class="project-card-status learned">학습 완료</div>
+                        </div>
+                        <h4 class="project-card-title">B사 뷰티 브랜드</h4>
+                        <div class="project-card-meta">
+                            <span>뷰티</span>
+                            <span>Shopify</span>
+                            <span>2024.12</span>
+                        </div>
+                        <div class="project-card-docs">
+                            <div class="doc-count">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <span>12개 문서</span>
+                            </div>
+                            <div class="doc-types">
+                                <span class="doc-type-badge proposal">제안서 2</span>
+                                <span class="doc-type-badge plan">기획서 5</span>
+                                <span class="doc-type-badge design">디자인 5</span>
+                            </div>
+                        </div>
+                        <div class="project-card-actions">
+                            <button class="btn-icon-small" title="문서 보기">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon-small" title="수정">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon-small" title="재학습">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23 4 23 10 17 10"/>
+                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-card-header">
+                            <div class="project-card-icon food">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                                    <line x1="6" y1="1" x2="6" y2="4"/>
+                                    <line x1="10" y1="1" x2="10" y2="4"/>
+                                    <line x1="14" y1="1" x2="14" y2="4"/>
+                                </svg>
+                            </div>
+                            <div class="project-card-status learning">학습 중</div>
+                        </div>
+                        <h4 class="project-card-title">C사 F&B 커머스</h4>
+                        <div class="project-card-meta">
+                            <span>F&B</span>
+                            <span>Cafe24</span>
+                            <span>2024.11</span>
+                        </div>
+                        <div class="project-card-docs">
+                            <div class="doc-count">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <span>8개 문서</span>
+                            </div>
+                            <div class="learning-progress">
+                                <div class="progress-track">
+                                    <div class="progress-fill" style="--progress: 75%"></div>
+                                </div>
+                                <span>75%</span>
+                            </div>
+                        </div>
+                        <div class="project-card-actions">
+                            <button class="btn-icon-small" title="문서 보기">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon-small" title="수정">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon-small" title="재학습">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23 4 23 10 17 10"/>
+                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-card-header">
+                            <div class="project-card-icon fashion">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>
+                                </svg>
+                            </div>
+                            <div class="project-card-status pending">대기 중</div>
+                        </div>
+                        <h4 class="project-card-title">D사 패션몰 리뉴얼</h4>
+                        <div class="project-card-meta">
+                            <span>패션</span>
+                            <span>자체구축</span>
+                            <span>2024.10</span>
+                        </div>
+                        <div class="project-card-docs">
+                            <div class="doc-count">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <span>15개 문서</span>
+                            </div>
+                            <div class="doc-types">
+                                <span class="doc-type-badge proposal">제안서 1</span>
+                                <span class="doc-type-badge plan">기획서 8</span>
+                                <span class="doc-type-badge design">디자인 6</span>
+                            </div>
+                        </div>
+                        <div class="project-card-actions">
+                            <button class="btn-icon-small" title="문서 보기">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon-small" title="수정">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon-small start-learning" title="학습 시작">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="5 3 19 12 5 21 5 3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-card-header">
+                            <div class="project-card-icon public">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                    <polyline points="9 22 9 12 15 12 15 22"/>
+                                </svg>
+                            </div>
+                            <div class="project-card-status learned">학습 완료</div>
+                        </div>
+                        <h4 class="project-card-title">E기관 공공 포털</h4>
+                        <div class="project-card-meta">
+                            <span>공공</span>
+                            <span>React</span>
+                            <span>2024.09</span>
+                        </div>
+                        <div class="project-card-docs">
+                            <div class="doc-count">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <span>22개 문서</span>
+                            </div>
+                            <div class="doc-types">
+                                <span class="doc-type-badge proposal">제안서 3</span>
+                                <span class="doc-type-badge plan">기획서 12</span>
+                                <span class="doc-type-badge code">코드 7</span>
+                            </div>
+                        </div>
+                        <div class="project-card-actions">
+                            <button class="btn-icon-small" title="문서 보기">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon-small" title="수정">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon-small" title="재학습">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23 4 23 10 17 10"/>
+                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- AI Chat Widget -->
+    <div class="ai-chat-widget" id="aiChatWidget">
+        <button class="chat-toggle" id="chatToggle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span class="chat-badge">AI</span>
+        </button>
+        <div class="chat-panel" id="chatPanel">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <span class="ai-badge">AI</span>
+                    Agency Brain 어시스턴트
+                </div>
+                <button class="chat-close" id="chatClose">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message ai">
+                    <div class="message-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 16v-4"/>
+                            <path d="M12 8h.01"/>
+                        </svg>
+                    </div>
+                    <div class="message-content">
+                        안녕하세요! Agency Brain AI 어시스턴트입니다. 무엇을 도와드릴까요?
+                        <div class="quick-prompts">
+                            <button class="quick-prompt">견적 산출 방법</button>
+                            <button class="quick-prompt">제안서 작성 팁</button>
+                            <button class="quick-prompt">유사 프로젝트 찾기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" placeholder="메시지를 입력하세요...">
+                <button class="chat-send">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
