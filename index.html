@@ -571,13 +571,49 @@
                             <div class="select-wrapper">
                                 <select class="form-select" id="industry">
                                     <option value="">업종을 선택하세요</option>
-                                    <option value="beauty">뷰티</option>
-                                    <option value="fashion">패션</option>
-                                    <option value="fnb">F&B</option>
-                                    <option value="public">공공</option>
-                                    <option value="healthcare">헬스케어</option>
-                                    <option value="finance">금융</option>
-                                    <option value="education">교육</option>
+                                    <optgroup label="🛒 커머스">
+                                        <option value="fashion">패션/의류</option>
+                                        <option value="beauty">뷰티/화장품</option>
+                                        <option value="fnb">식품/F&B</option>
+                                        <option value="electronics">가전/전자</option>
+                                        <option value="furniture">가구/인테리어</option>
+                                        <option value="sports">스포츠/아웃도어</option>
+                                        <option value="kids">유아/아동</option>
+                                        <option value="pets">반려동물</option>
+                                        <option value="luxury">명품/럭셔리</option>
+                                        <option value="lifestyle">라이프스타일/잡화</option>
+                                    </optgroup>
+                                    <optgroup label="🏢 서비스">
+                                        <option value="healthcare">의료/헬스케어</option>
+                                        <option value="education">교육/이러닝</option>
+                                        <option value="finance">금융/핀테크</option>
+                                        <option value="travel">여행/관광</option>
+                                        <option value="realestate">부동산</option>
+                                        <option value="restaurant">음식점/카페</option>
+                                        <option value="fitness">피트니스/웰니스</option>
+                                        <option value="salon">뷰티샵/헤어샵</option>
+                                        <option value="consulting">컨설팅/전문서비스</option>
+                                        <option value="recruitment">채용/HR</option>
+                                    </optgroup>
+                                    <optgroup label="🎬 미디어/콘텐츠">
+                                        <option value="media">뉴스/미디어</option>
+                                        <option value="entertainment">엔터테인먼트</option>
+                                        <option value="ott">OTT/스트리밍</option>
+                                        <option value="gaming">게임</option>
+                                        <option value="community">커뮤니티/SNS</option>
+                                    </optgroup>
+                                    <optgroup label="🏛️ 공공/기관">
+                                        <option value="public">공공기관</option>
+                                        <option value="nonprofit">비영리/NGO</option>
+                                        <option value="association">협회/단체</option>
+                                        <option value="university">대학/교육기관</option>
+                                    </optgroup>
+                                    <optgroup label="🏭 B2B">
+                                        <option value="b2b_commerce">B2B 커머스</option>
+                                        <option value="saas">SaaS/솔루션</option>
+                                        <option value="manufacturing">제조/유통</option>
+                                        <option value="logistics">물류/배송</option>
+                                    </optgroup>
                                 </select>
                             </div>
                         </div>
@@ -589,7 +625,7 @@
                         
                         <div class="form-group">
                             <label class="form-label">플랫폼</label>
-                            <div class="checkbox-group">
+                            <div class="checkbox-group" id="proposalPlatforms">
                                 <label class="checkbox-item">
                                     <input type="checkbox" name="platform" value="shopify">
                                     <span class="checkmark"></span>
@@ -601,14 +637,69 @@
                                     <span>Cafe24</span>
                                 </label>
                                 <label class="checkbox-item">
-                                    <input type="checkbox" name="platform" value="custom">
+                                    <input type="checkbox" name="platform" value="magento">
                                     <span class="checkmark"></span>
-                                    <span>자체구축</span>
+                                    <span>Magento</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="woocommerce">
+                                    <span class="checkmark"></span>
+                                    <span>WooCommerce</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="godo">
+                                    <span class="checkmark"></span>
+                                    <span>고도몰</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="makeshop">
+                                    <span class="checkmark"></span>
+                                    <span>메이크샵</span>
                                 </label>
                                 <label class="checkbox-item">
                                     <input type="checkbox" name="platform" value="wordpress">
                                     <span class="checkmark"></span>
                                     <span>WordPress</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="webflow">
+                                    <span class="checkmark"></span>
+                                    <span>Webflow</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="react">
+                                    <span class="checkmark"></span>
+                                    <span>React/Next.js</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="vue">
+                                    <span class="checkmark"></span>
+                                    <span>Vue/Nuxt.js</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="flutter">
+                                    <span class="checkmark"></span>
+                                    <span>Flutter</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="reactnative">
+                                    <span class="checkmark"></span>
+                                    <span>React Native</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="ios">
+                                    <span class="checkmark"></span>
+                                    <span>iOS Native</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="android">
+                                    <span class="checkmark"></span>
+                                    <span>Android Native</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="platform" value="custom">
+                                    <span class="checkmark"></span>
+                                    <span>자체구축</span>
                                 </label>
                             </div>
                         </div>
@@ -632,13 +723,15 @@
                                     <div class="selected-tags" id="selectedTags"></div>
                                     <input type="text" class="tag-input" placeholder="기능 입력 후 Enter" id="featureInput">
                                 </div>
-                                <div class="suggested-tags">
-                                    <span class="suggested-tag" data-tag="회원가입">회원가입</span>
+                                <div class="suggested-tags" id="proposalSuggestedTags">
+                                    <span class="suggested-tag" data-tag="회원가입/로그인">회원가입/로그인</span>
+                                    <span class="suggested-tag" data-tag="소셜로그인">소셜로그인</span>
+                                    <span class="suggested-tag" data-tag="상품검색">상품검색</span>
+                                    <span class="suggested-tag" data-tag="장바구니">장바구니</span>
                                     <span class="suggested-tag" data-tag="결제">결제</span>
-                                    <span class="suggested-tag" data-tag="배송">배송</span>
-                                    <span class="suggested-tag" data-tag="라이브커머스">라이브커머스</span>
+                                    <span class="suggested-tag" data-tag="배송조회">배송조회</span>
+                                    <span class="suggested-tag" data-tag="리뷰">리뷰</span>
                                     <span class="suggested-tag" data-tag="AI 챗봇">AI 챗봇</span>
-                                    <span class="suggested-tag" data-tag="정기구독">정기구독</span>
                                 </div>
                             </div>
                         </div>
