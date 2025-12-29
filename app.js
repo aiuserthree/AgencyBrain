@@ -200,193 +200,720 @@ function initProposalForm() {
         ios: 'iOS Native', android: 'Android Native', custom: '자체구축'
     };
     
-    // 제안서 생성 함수
+    // 제안서 생성 함수 - 실제 에이전시 제안서 구조 반영
     function generateProposal(data) {
         const { industry, industryName, target, platforms, budgetMin, budgetMax, features } = data;
-        const today = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1;
         
         // 예상 공수 및 견적 계산
-        const featureCount = features.length;
-        const baseWeeks = Math.max(4, Math.ceil(featureCount * 0.8));
-        const estimatedWeeks = baseWeeks + (platforms.length > 2 ? 2 : 0);
+        const featureCount = features.length || 5;
+        const baseWeeks = Math.max(8, Math.ceil(featureCount * 1.2));
+        const estimatedWeeks = baseWeeks + (platforms.length > 2 ? 3 : 0);
         const avgBudget = Math.round((parseInt(budgetMin) + parseInt(budgetMax)) / 2);
         
         // 팀 구성 계산
         const teamSize = {
             pm: 1,
-            designer: Math.ceil(featureCount / 8),
-            developer: Math.ceil(featureCount / 5),
-            publisher: Math.ceil(featureCount / 10)
+            planner: 1,
+            designer: Math.max(1, Math.ceil(featureCount / 6)),
+            publisher: Math.max(1, Math.ceil(featureCount / 8)),
+            frontDev: Math.max(1, Math.ceil(featureCount / 5)),
+            backDev: Math.max(1, Math.ceil(featureCount / 6)),
+            qa: 1
+        };
+        
+        // 업종별 키워드 및 전략
+        const industryStrategies = {
+            fashion: { keyword: '스타일', value: '트렌드 선도', pain: '사이즈 불확실성', solution: 'AI 사이즈 추천' },
+            beauty: { keyword: '아름다움', value: '맞춤형 뷰티', pain: '피부 타입 매칭', solution: 'AI 피부 진단' },
+            fnb: { keyword: '맛', value: '신선함과 편리함', pain: '배송 신선도', solution: '실시간 배송 추적' },
+            electronics: { keyword: '기술', value: '스마트 라이프', pain: '스펙 비교 어려움', solution: '스펙 비교 도구' },
+            furniture: { keyword: '공간', value: '나만의 공간', pain: '배치 시뮬레이션', solution: 'AR 가구 배치' },
+            healthcare: { keyword: '건강', value: '건강한 삶', pain: '예약 불편', solution: '스마트 예약 시스템' },
+            education: { keyword: '성장', value: '평생 학습', pain: '학습 진도 관리', solution: 'AI 학습 분석' },
+            finance: { keyword: '자산', value: '안전한 자산관리', pain: '복잡한 상품 비교', solution: 'AI 상품 추천' },
+            travel: { keyword: '여행', value: '특별한 경험', pain: '일정 계획 어려움', solution: 'AI 여행 플래너' },
+            default: { keyword: '혁신', value: '디지털 전환', pain: '사용성 개선', solution: '최적화된 UX' }
+        };
+        
+        const strategy = industryStrategies[industry] || industryStrategies.default;
+        
+        // IA 구조 생성
+        const generateIA = () => {
+            const mainMenus = ['홈', '서비스 소개', '상품/서비스', '고객센터', '마이페이지'];
+            return mainMenus.map((menu, i) => {
+                const subMenus = features.slice(i * 2, i * 2 + 3).map(f => f) || ['메뉴1', '메뉴2'];
+                return { main: menu, sub: subMenus.length > 0 ? subMenus : ['상세페이지'] };
+            });
         };
         
         return `
-            <div class="proposal-cover">
-                <h1>${industryName} 플랫폼 구축 제안서</h1>
-                <p class="subtitle">${target || 'MZ세대'} 대상 맞춤형 솔루션</p>
-                <p class="meta">제안일: ${today} | Agency Brain</p>
+            <!-- 표지 -->
+            <div class="proposal-cover-page">
+                <div class="cover-badge">PROPOSAL</div>
+                <h1 class="cover-title">${industryName}<br>플랫폼 구축 제안서</h1>
+                <div class="cover-subtitle">${target || '고객'} 대상 디지털 플랫폼 구축 프로젝트</div>
+                <div class="cover-meta">
+                    <div class="cover-date">${year}년 ${month}월</div>
+                    <div class="cover-company">AGENCY BRAIN</div>
+                </div>
             </div>
             
-            <div class="proposal-section">
-                <h2>📋 1. 프로젝트 개요</h2>
-                <table class="proposal-table">
-                    <tr><th>항목</th><th>내용</th></tr>
-                    <tr><td>프로젝트명</td><td>${industryName} 플랫폼 구축 프로젝트</td></tr>
-                    <tr><td>업종</td><td>${industryName}</td></tr>
-                    <tr><td>타겟 고객</td><td>${target || '미지정'}</td></tr>
-                    <tr><td>개발 플랫폼</td><td>${platforms.join(', ')}</td></tr>
-                    <tr><td>예산 범위</td><td>${budgetMin}만원 ~ ${budgetMax}만원</td></tr>
-                    <tr><td>예상 기간</td><td>${estimatedWeeks}주</td></tr>
-                </table>
+            <!-- 목차 -->
+            <div class="proposal-section toc-section">
+                <h2>📑 목차</h2>
+                <div class="toc-list">
+                    <div class="toc-item"><span class="toc-num">01</span><span class="toc-title">제안 개요</span></div>
+                    <div class="toc-item"><span class="toc-num">02</span><span class="toc-title">프로젝트 이해</span></div>
+                    <div class="toc-item"><span class="toc-num">03</span><span class="toc-title">전략 방향</span></div>
+                    <div class="toc-item"><span class="toc-num">04</span><span class="toc-title">크리에이티브 컨셉</span></div>
+                    <div class="toc-item"><span class="toc-num">05</span><span class="toc-title">사이트 구조 (IA)</span></div>
+                    <div class="toc-item"><span class="toc-num">06</span><span class="toc-title">주요 기능 상세</span></div>
+                    <div class="toc-item"><span class="toc-num">07</span><span class="toc-title">디자인 방향</span></div>
+                    <div class="toc-item"><span class="toc-num">08</span><span class="toc-title">레퍼런스</span></div>
+                    <div class="toc-item"><span class="toc-num">09</span><span class="toc-title">추진 일정</span></div>
+                    <div class="toc-item"><span class="toc-num">10</span><span class="toc-title">투입 조직</span></div>
+                    <div class="toc-item"><span class="toc-num">11</span><span class="toc-title">견적</span></div>
+                    <div class="toc-item"><span class="toc-num">12</span><span class="toc-title">당사 역량</span></div>
+                </div>
             </div>
             
+            <!-- 01. 제안 개요 -->
             <div class="proposal-section">
-                <h2>🎯 2. 프로젝트 목표</h2>
-                <p>${industryName} 분야의 ${target || '타겟 고객'}을 위한 최적화된 디지털 플랫폼을 구축하여 사용자 경험을 극대화하고, 비즈니스 목표 달성을 지원합니다.</p>
-                <ul class="proposal-list">
-                    <li>사용자 친화적인 UI/UX 설계로 전환율 향상</li>
-                    <li>모바일 퍼스트 반응형 디자인 적용</li>
-                    <li>확장 가능한 아키텍처 설계</li>
-                    <li>SEO 최적화 및 성능 최적화</li>
-                    <li>보안 강화 및 개인정보 보호 준수</li>
-                </ul>
+                <div class="section-header">
+                    <span class="section-num">01</span>
+                    <h2>제안 개요</h2>
+                </div>
+                <div class="overview-grid">
+                    <div class="overview-item">
+                        <div class="overview-label">프로젝트명</div>
+                        <div class="overview-value">${industryName} 플랫폼 구축</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">사업 범위</div>
+                        <div class="overview-value">UI/UX 기획, 디자인, 퍼블리싱, 개발</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">타겟 사용자</div>
+                        <div class="overview-value">${target || '일반 사용자'}</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">개발 환경</div>
+                        <div class="overview-value">${platforms.length > 0 ? platforms.join(', ') : '협의 필요'}</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">예상 기간</div>
+                        <div class="overview-value">${estimatedWeeks}주 (약 ${Math.ceil(estimatedWeeks / 4)}개월)</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">예산 범위</div>
+                        <div class="overview-value">${parseInt(budgetMin).toLocaleString()} ~ ${parseInt(budgetMax).toLocaleString()}만원</div>
+                    </div>
+                </div>
             </div>
             
+            <!-- 02. 프로젝트 이해 -->
             <div class="proposal-section">
-                <h2>⚙️ 3. 주요 기능</h2>
-                <div class="feature-grid">
-                    ${features.map((f, i) => `
-                        <div class="feature-card">
-                            <div class="icon">${getFeatureIcon(f)}</div>
-                            <div class="name">${f}</div>
-                            <div class="desc">핵심 기능 ${i + 1}</div>
+                <div class="section-header">
+                    <span class="section-num">02</span>
+                    <h2>프로젝트 이해</h2>
+                </div>
+                
+                <h3>프로젝트 배경</h3>
+                <div class="insight-box">
+                    <p>디지털 전환이 가속화되는 현 시점에서 ${industryName} 분야의 ${target || '고객'}들은 더욱 편리하고 개인화된 디지털 경험을 요구하고 있습니다. 기존 서비스의 한계를 극복하고, 차별화된 고객 경험을 제공하기 위한 새로운 플랫폼이 필요합니다.</p>
+                </div>
+                
+                <h3>현황 분석</h3>
+                <div class="analysis-grid">
+                    <div class="analysis-card negative">
+                        <div class="analysis-icon">😟</div>
+                        <div class="analysis-title">Pain Point</div>
+                        <ul class="analysis-list">
+                            <li>${strategy.pain}</li>
+                            <li>복잡한 사용자 여정</li>
+                            <li>모바일 최적화 미흡</li>
+                            <li>개인화 서비스 부재</li>
+                        </ul>
+                    </div>
+                    <div class="analysis-card positive">
+                        <div class="analysis-icon">🎯</div>
+                        <div class="analysis-title">Opportunity</div>
+                        <ul class="analysis-list">
+                            <li>${strategy.solution} 도입</li>
+                            <li>직관적 UX 설계</li>
+                            <li>모바일 퍼스트 전략</li>
+                            <li>AI 기반 개인화</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>목표</h3>
+                <div class="goal-list">
+                    <div class="goal-item">
+                        <span class="goal-num">01</span>
+                        <div class="goal-content">
+                            <div class="goal-title">사용자 경험 혁신</div>
+                            <div class="goal-desc">직관적인 UI/UX로 이탈률 30% 감소</div>
+                        </div>
+                    </div>
+                    <div class="goal-item">
+                        <span class="goal-num">02</span>
+                        <div class="goal-content">
+                            <div class="goal-title">비즈니스 성과 향상</div>
+                            <div class="goal-desc">전환율 향상을 통한 매출 증대</div>
+                        </div>
+                    </div>
+                    <div class="goal-item">
+                        <span class="goal-num">03</span>
+                        <div class="goal-content">
+                            <div class="goal-title">브랜드 가치 제고</div>
+                            <div class="goal-desc">프리미엄 브랜드 이미지 구축</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 03. 전략 방향 -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">03</span>
+                    <h2>전략 방향</h2>
+                </div>
+                
+                <div class="strategy-main">
+                    <div class="strategy-keyword">"${strategy.keyword}"</div>
+                    <div class="strategy-slogan">${strategy.value}을 위한<br>디지털 경험 설계</div>
+                </div>
+                
+                <div class="strategy-pillars">
+                    <div class="pillar">
+                        <div class="pillar-icon">🎯</div>
+                        <div class="pillar-title">User-Centric</div>
+                        <div class="pillar-desc">사용자 중심 설계로<br>최적의 경험 제공</div>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon">📱</div>
+                        <div class="pillar-title">Mobile First</div>
+                        <div class="pillar-desc">모바일 환경에<br>최적화된 UI/UX</div>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon">🤖</div>
+                        <div class="pillar-title">AI & Data</div>
+                        <div class="pillar-desc">데이터 기반<br>개인화 서비스</div>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon">⚡</div>
+                        <div class="pillar-title">Performance</div>
+                        <div class="pillar-desc">빠른 로딩 속도와<br>안정적인 서비스</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 04. 크리에이티브 컨셉 -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">04</span>
+                    <h2>크리에이티브 컨셉</h2>
+                </div>
+                
+                <div class="concept-main">
+                    <div class="concept-title">CONCEPT</div>
+                    <div class="concept-keyword">"Seamless ${strategy.keyword} Experience"</div>
+                    <div class="concept-desc">끊김 없는 ${strategy.keyword} 경험으로 ${target || '고객'}의 일상에 자연스럽게 스며드는 플랫폼</div>
+                </div>
+                
+                <div class="concept-elements">
+                    <div class="concept-element">
+                        <div class="element-title">톤 & 무드</div>
+                        <div class="element-tags">
+                            <span class="element-tag">Premium</span>
+                            <span class="element-tag">Modern</span>
+                            <span class="element-tag">Intuitive</span>
+                        </div>
+                    </div>
+                    <div class="concept-element">
+                        <div class="element-title">컬러 키워드</div>
+                        <div class="color-palette">
+                            <div class="color-chip" style="background: linear-gradient(135deg, #667eea, #764ba2)"></div>
+                            <div class="color-chip" style="background: linear-gradient(135deg, #f093fb, #f5576c)"></div>
+                            <div class="color-chip" style="background: linear-gradient(135deg, #4facfe, #00f2fe)"></div>
+                            <div class="color-chip" style="background: #1a1a2e"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 05. 사이트 구조 (IA) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <h2>사이트 구조 (IA)</h2>
+                </div>
+                
+                <div class="ia-diagram">
+                    <div class="ia-root">
+                        <span>🏠 HOME</span>
+                    </div>
+                    <div class="ia-branches">
+                        ${generateIA().map(menu => `
+                            <div class="ia-branch">
+                                <div class="ia-main">${menu.main}</div>
+                                <div class="ia-subs">
+                                    ${menu.sub.map(sub => `<div class="ia-sub">${sub}</div>`).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="ia-note">
+                    <p>* 상세 IA는 킥오프 미팅 이후 요구사항 분석을 통해 확정됩니다.</p>
+                </div>
+            </div>
+            
+            <!-- 06. 주요 기능 상세 -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">06</span>
+                    <h2>주요 기능 상세</h2>
+                </div>
+                
+                <div class="feature-detail-grid">
+                    ${features.slice(0, 8).map((f, i) => `
+                        <div class="feature-detail-card">
+                            <div class="feature-detail-header">
+                                <span class="feature-detail-icon">${getFeatureIcon(f)}</span>
+                                <span class="feature-detail-num">F${String(i + 1).padStart(2, '0')}</span>
+                            </div>
+                            <div class="feature-detail-title">${f}</div>
+                            <div class="feature-detail-desc">${getFeatureDescription(f)}</div>
+                            <div class="feature-detail-points">
+                                <span class="point">• 사용자 편의성 향상</span>
+                                <span class="point">• 전환율 개선</span>
+                            </div>
                         </div>
                     `).join('')}
                 </div>
+                
+                ${features.length > 8 ? `
+                <div class="more-features">
+                    <h4>추가 기능</h4>
+                    <div class="more-features-list">
+                        ${features.slice(8).map(f => `<span class="more-feature-tag">${f}</span>`).join('')}
+                    </div>
+                </div>
+                ` : ''}
             </div>
             
+            <!-- 07. 디자인 방향 -->
             <div class="proposal-section">
-                <h2>📅 4. 프로젝트 일정</h2>
-                <div class="timeline-chart">
-                    <div class="timeline-row">
-                        <span class="timeline-label">기획/분석</span>
-                        <div class="timeline-bar-container">
-                            <div class="timeline-bar phase-plan" style="width: ${Math.round(15/estimatedWeeks*100)}%">
-                                ${Math.ceil(estimatedWeeks * 0.15)}주
+                <div class="section-header">
+                    <span class="section-num">07</span>
+                    <h2>디자인 방향</h2>
+                </div>
+                
+                <div class="design-direction">
+                    <div class="design-principle">
+                        <div class="principle-num">01</div>
+                        <div class="principle-content">
+                            <div class="principle-title">미니멀 & 클린</div>
+                            <div class="principle-desc">불필요한 요소를 제거하고 핵심 콘텐츠에 집중할 수 있는 깔끔한 디자인</div>
+                        </div>
+                    </div>
+                    <div class="design-principle">
+                        <div class="principle-num">02</div>
+                        <div class="principle-content">
+                            <div class="principle-title">일관된 디자인 시스템</div>
+                            <div class="principle-desc">컴포넌트 기반 디자인 시스템으로 브랜드 일관성 유지 및 개발 효율성 향상</div>
+                        </div>
+                    </div>
+                    <div class="design-principle">
+                        <div class="principle-num">03</div>
+                        <div class="principle-content">
+                            <div class="principle-title">인터랙티브 요소</div>
+                            <div class="principle-desc">적절한 마이크로 인터랙션으로 사용자 피드백 및 몰입감 제공</div>
+                        </div>
+                    </div>
+                    <div class="design-principle">
+                        <div class="principle-num">04</div>
+                        <div class="principle-content">
+                            <div class="principle-title">접근성 준수</div>
+                            <div class="principle-desc">WCAG 2.1 가이드라인 준수로 모든 사용자를 위한 접근성 확보</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 08. 레퍼런스 -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">08</span>
+                    <h2>레퍼런스</h2>
+                </div>
+                
+                <div class="reference-grid">
+                    <div class="reference-card">
+                        <div class="reference-image" style="background: linear-gradient(135deg, #667eea, #764ba2)">
+                            <span>PROJECT A</span>
+                        </div>
+                        <div class="reference-info">
+                            <div class="reference-title">${industryName} A사 플랫폼</div>
+                            <div class="reference-meta">2024 | 웹/앱</div>
+                            <div class="reference-tags">
+                                <span>UI/UX</span>
+                                <span>개발</span>
                             </div>
                         </div>
                     </div>
-                    <div class="timeline-row">
-                        <span class="timeline-label">디자인</span>
-                        <div class="timeline-bar-container">
-                            <div class="timeline-bar phase-design" style="width: ${Math.round(25/estimatedWeeks*100)}%; margin-left: ${Math.round(15/estimatedWeeks*100)}%">
-                                ${Math.ceil(estimatedWeeks * 0.25)}주
+                    <div class="reference-card">
+                        <div class="reference-image" style="background: linear-gradient(135deg, #f093fb, #f5576c)">
+                            <span>PROJECT B</span>
+                        </div>
+                        <div class="reference-info">
+                            <div class="reference-title">${industryName} B사 리뉴얼</div>
+                            <div class="reference-meta">2024 | 반응형 웹</div>
+                            <div class="reference-tags">
+                                <span>리뉴얼</span>
+                                <span>디자인</span>
                             </div>
                         </div>
                     </div>
-                    <div class="timeline-row">
-                        <span class="timeline-label">개발</span>
-                        <div class="timeline-bar-container">
-                            <div class="timeline-bar phase-dev" style="width: ${Math.round(45/estimatedWeeks*100)}%; margin-left: ${Math.round(30/estimatedWeeks*100)}%">
-                                ${Math.ceil(estimatedWeeks * 0.45)}주
-                            </div>
+                    <div class="reference-card">
+                        <div class="reference-image" style="background: linear-gradient(135deg, #4facfe, #00f2fe)">
+                            <span>PROJECT C</span>
                         </div>
-                    </div>
-                    <div class="timeline-row">
-                        <span class="timeline-label">테스트/오픈</span>
-                        <div class="timeline-bar-container">
-                            <div class="timeline-bar phase-test" style="width: ${Math.round(15/estimatedWeeks*100)}%; margin-left: ${Math.round(85/estimatedWeeks*100)}%">
-                                ${Math.ceil(estimatedWeeks * 0.15)}주
+                        <div class="reference-info">
+                            <div class="reference-title">유사 업종 C사</div>
+                            <div class="reference-meta">2023 | 커머스</div>
+                            <div class="reference-tags">
+                                <span>풀스택</span>
+                                <span>커머스</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
+            <!-- 09. 추진 일정 -->
             <div class="proposal-section">
-                <h2>👥 5. 투입 인력</h2>
-                <div class="team-grid">
-                    <div class="team-member">
-                        <div class="avatar">👨‍💼</div>
-                        <div class="role">PM</div>
-                        <div class="count">${teamSize.pm}명</div>
+                <div class="section-header">
+                    <span class="section-num">09</span>
+                    <h2>추진 일정</h2>
+                </div>
+                
+                <div class="schedule-summary">
+                    <div class="schedule-total">
+                        <span class="schedule-label">총 프로젝트 기간</span>
+                        <span class="schedule-value">${estimatedWeeks}주 (약 ${Math.ceil(estimatedWeeks / 4)}개월)</span>
                     </div>
-                    <div class="team-member">
-                        <div class="avatar">🎨</div>
-                        <div class="role">디자이너</div>
-                        <div class="count">${teamSize.designer}명</div>
+                </div>
+                
+                <div class="gantt-chart">
+                    <div class="gantt-header">
+                        <div class="gantt-phase-label">단계</div>
+                        ${Array.from({length: Math.min(estimatedWeeks, 16)}, (_, i) => `<div class="gantt-week">${i + 1}W</div>`).join('')}
                     </div>
-                    <div class="team-member">
-                        <div class="avatar">💻</div>
-                        <div class="role">개발자</div>
-                        <div class="count">${teamSize.developer}명</div>
+                    <div class="gantt-row">
+                        <div class="gantt-phase-name">
+                            <span class="phase-dot" style="background: #00D9FF"></span>
+                            킥오프/분석
+                        </div>
+                        <div class="gantt-bar-area">
+                            <div class="gantt-bar" style="width: ${Math.round(10/estimatedWeeks*100)}%; background: linear-gradient(90deg, #00D9FF, #00B4CC)"></div>
+                        </div>
                     </div>
-                    <div class="team-member">
-                        <div class="avatar">🖥️</div>
-                        <div class="role">퍼블리셔</div>
-                        <div class="count">${teamSize.publisher}명</div>
+                    <div class="gantt-row">
+                        <div class="gantt-phase-name">
+                            <span class="phase-dot" style="background: #7B61FF"></span>
+                            UX/UI 기획
+                        </div>
+                        <div class="gantt-bar-area">
+                            <div class="gantt-bar" style="width: ${Math.round(15/estimatedWeeks*100)}%; margin-left: ${Math.round(8/estimatedWeeks*100)}%; background: linear-gradient(90deg, #7B61FF, #5B41DF)"></div>
+                        </div>
+                    </div>
+                    <div class="gantt-row">
+                        <div class="gantt-phase-name">
+                            <span class="phase-dot" style="background: #FF6B9D"></span>
+                            디자인
+                        </div>
+                        <div class="gantt-bar-area">
+                            <div class="gantt-bar" style="width: ${Math.round(20/estimatedWeeks*100)}%; margin-left: ${Math.round(18/estimatedWeeks*100)}%; background: linear-gradient(90deg, #FF6B9D, #FF4B7D)"></div>
+                        </div>
+                    </div>
+                    <div class="gantt-row">
+                        <div class="gantt-phase-name">
+                            <span class="phase-dot" style="background: #FFB347"></span>
+                            퍼블리싱
+                        </div>
+                        <div class="gantt-bar-area">
+                            <div class="gantt-bar" style="width: ${Math.round(20/estimatedWeeks*100)}%; margin-left: ${Math.round(30/estimatedWeeks*100)}%; background: linear-gradient(90deg, #FFB347, #FF8C00)"></div>
+                        </div>
+                    </div>
+                    <div class="gantt-row">
+                        <div class="gantt-phase-name">
+                            <span class="phase-dot" style="background: #2ED573"></span>
+                            개발
+                        </div>
+                        <div class="gantt-bar-area">
+                            <div class="gantt-bar" style="width: ${Math.round(35/estimatedWeeks*100)}%; margin-left: ${Math.round(35/estimatedWeeks*100)}%; background: linear-gradient(90deg, #2ED573, #1EC05C)"></div>
+                        </div>
+                    </div>
+                    <div class="gantt-row">
+                        <div class="gantt-phase-name">
+                            <span class="phase-dot" style="background: #5352ED"></span>
+                            QA/테스트
+                        </div>
+                        <div class="gantt-bar-area">
+                            <div class="gantt-bar" style="width: ${Math.round(15/estimatedWeeks*100)}%; margin-left: ${Math.round(70/estimatedWeeks*100)}%; background: linear-gradient(90deg, #5352ED, #3742fa)"></div>
+                        </div>
+                    </div>
+                    <div class="gantt-row">
+                        <div class="gantt-phase-name">
+                            <span class="phase-dot" style="background: #FF4757"></span>
+                            오픈/안정화
+                        </div>
+                        <div class="gantt-bar-area">
+                            <div class="gantt-bar" style="width: ${Math.round(10/estimatedWeeks*100)}%; margin-left: ${Math.round(85/estimatedWeeks*100)}%; background: linear-gradient(90deg, #FF4757, #FF6B81)"></div>
+                        </div>
                     </div>
                 </div>
             </div>
             
+            <!-- 10. 투입 조직 -->
             <div class="proposal-section">
-                <h2>💰 6. 예상 견적</h2>
-                <div class="budget-breakdown">
-                    <div class="budget-item">
-                        <span class="label">기획/PM</span>
-                        <div class="bar-container"><div class="bar" style="width: 15%"></div></div>
-                        <span class="value">${Math.round(avgBudget * 0.15).toLocaleString()}만원</span>
+                <div class="section-header">
+                    <span class="section-num">10</span>
+                    <h2>투입 조직</h2>
+                </div>
+                
+                <div class="org-chart">
+                    <div class="org-pm">
+                        <div class="org-card pm">
+                            <div class="org-icon">👨‍💼</div>
+                            <div class="org-role">PM</div>
+                            <div class="org-count">${teamSize.pm}명</div>
+                            <div class="org-desc">프로젝트 총괄</div>
+                        </div>
                     </div>
-                    <div class="budget-item">
-                        <span class="label">디자인</span>
-                        <div class="bar-container"><div class="bar" style="width: 25%"></div></div>
-                        <span class="value">${Math.round(avgBudget * 0.25).toLocaleString()}만원</span>
-                    </div>
-                    <div class="budget-item">
-                        <span class="label">프론트엔드</span>
-                        <div class="bar-container"><div class="bar" style="width: 30%"></div></div>
-                        <span class="value">${Math.round(avgBudget * 0.30).toLocaleString()}만원</span>
-                    </div>
-                    <div class="budget-item">
-                        <span class="label">백엔드</span>
-                        <div class="bar-container"><div class="bar" style="width: 25%"></div></div>
-                        <span class="value">${Math.round(avgBudget * 0.25).toLocaleString()}만원</span>
-                    </div>
-                    <div class="budget-item">
-                        <span class="label">QA/테스트</span>
-                        <div class="bar-container"><div class="bar" style="width: 5%"></div></div>
-                        <span class="value">${Math.round(avgBudget * 0.05).toLocaleString()}만원</span>
+                    <div class="org-teams">
+                        <div class="org-card">
+                            <div class="org-icon">📋</div>
+                            <div class="org-role">기획</div>
+                            <div class="org-count">${teamSize.planner}명</div>
+                            <div class="org-desc">UX 설계, 화면 정의</div>
+                        </div>
+                        <div class="org-card">
+                            <div class="org-icon">🎨</div>
+                            <div class="org-role">디자인</div>
+                            <div class="org-count">${teamSize.designer}명</div>
+                            <div class="org-desc">UI 디자인, 그래픽</div>
+                        </div>
+                        <div class="org-card">
+                            <div class="org-icon">🖥️</div>
+                            <div class="org-role">퍼블리싱</div>
+                            <div class="org-count">${teamSize.publisher}명</div>
+                            <div class="org-desc">HTML/CSS, 반응형</div>
+                        </div>
+                        <div class="org-card">
+                            <div class="org-icon">💻</div>
+                            <div class="org-role">프론트엔드</div>
+                            <div class="org-count">${teamSize.frontDev}명</div>
+                            <div class="org-desc">클라이언트 개발</div>
+                        </div>
+                        <div class="org-card">
+                            <div class="org-icon">⚙️</div>
+                            <div class="org-role">백엔드</div>
+                            <div class="org-count">${teamSize.backDev}명</div>
+                            <div class="org-desc">서버, API, DB</div>
+                        </div>
+                        <div class="org-card">
+                            <div class="org-icon">🔍</div>
+                            <div class="org-role">QA</div>
+                            <div class="org-count">${teamSize.qa}명</div>
+                            <div class="org-desc">테스트, 품질관리</div>
+                        </div>
                     </div>
                 </div>
-                <div class="total-estimate">
-                    <div class="label">총 예상 견적</div>
-                    <div class="amount">${avgBudget.toLocaleString()}만원</div>
-                    <div class="note">* VAT 별도, 세부 견적은 협의 후 확정</div>
+                
+                <div class="team-total">
+                    <span>총 투입 인력</span>
+                    <span class="team-total-count">${Object.values(teamSize).reduce((a, b) => a + b, 0)}명</span>
                 </div>
             </div>
             
+            <!-- 11. 견적 -->
             <div class="proposal-section">
-                <h2>📦 7. 산출물</h2>
-                <table class="proposal-table">
-                    <tr><th>구분</th><th>산출물</th><th>형식</th></tr>
-                    <tr><td>기획</td><td>요구사항 정의서, 화면설계서, IA</td><td>PPT, Figma</td></tr>
-                    <tr><td>디자인</td><td>디자인 시안, 스타일 가이드, 아이콘</td><td>Figma, PNG/SVG</td></tr>
-                    <tr><td>개발</td><td>소스코드, API 문서, DB 설계서</td><td>GitHub, Swagger</td></tr>
-                    <tr><td>QA</td><td>테스트 케이스, 테스트 결과서</td><td>Excel, PDF</td></tr>
-                    <tr><td>운영</td><td>운영 매뉴얼, 교육 자료</td><td>PDF, PPT</td></tr>
+                <div class="section-header">
+                    <span class="section-num">11</span>
+                    <h2>견적</h2>
+                </div>
+                
+                <table class="estimate-table">
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>상세 내역</th>
+                            <th>산출 근거</th>
+                            <th>금액 (만원)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>기획</td>
+                            <td>요구사항 분석, IA, 화면설계서, 기능정의서</td>
+                            <td>기획자 ${teamSize.planner}명 × ${Math.ceil(estimatedWeeks * 0.3)}주</td>
+                            <td class="amount">${Math.round(avgBudget * 0.12).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td>디자인</td>
+                            <td>UI 디자인, 디자인 시스템, 그래픽 에셋</td>
+                            <td>디자이너 ${teamSize.designer}명 × ${Math.ceil(estimatedWeeks * 0.35)}주</td>
+                            <td class="amount">${Math.round(avgBudget * 0.23).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td>퍼블리싱</td>
+                            <td>HTML/CSS, 반응형, 인터랙션</td>
+                            <td>퍼블리셔 ${teamSize.publisher}명 × ${Math.ceil(estimatedWeeks * 0.3)}주</td>
+                            <td class="amount">${Math.round(avgBudget * 0.15).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td>프론트엔드</td>
+                            <td>클라이언트 개발, API 연동</td>
+                            <td>FE개발 ${teamSize.frontDev}명 × ${Math.ceil(estimatedWeeks * 0.5)}주</td>
+                            <td class="amount">${Math.round(avgBudget * 0.22).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td>백엔드</td>
+                            <td>서버 개발, DB 설계, API 개발</td>
+                            <td>BE개발 ${teamSize.backDev}명 × ${Math.ceil(estimatedWeeks * 0.5)}주</td>
+                            <td class="amount">${Math.round(avgBudget * 0.20).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td>QA/PM</td>
+                            <td>품질관리, 테스트, 프로젝트 관리</td>
+                            <td>QA ${teamSize.qa}명 + PM ${teamSize.pm}명</td>
+                            <td class="amount">${Math.round(avgBudget * 0.08).toLocaleString()}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="total-label">합계 (VAT 별도)</td>
+                            <td class="total-amount">${avgBudget.toLocaleString()}</td>
+                        </tr>
+                    </tfoot>
                 </table>
+                
+                <div class="estimate-note">
+                    <p>※ 본 견적은 제안 시점의 예상 견적이며, 상세 요구사항 확정 후 변동될 수 있습니다.</p>
+                    <p>※ 서버 호스팅, 외부 API 라이선스 등 별도 비용은 포함되지 않았습니다.</p>
+                </div>
             </div>
             
+            <!-- 12. 당사 역량 -->
             <div class="proposal-section">
-                <h2>✅ 8. 기대 효과</h2>
-                <ul class="proposal-list">
-                    <li><strong>사용자 경험 향상:</strong> 직관적인 UI/UX로 사용자 만족도 및 재방문율 증가</li>
-                    <li><strong>운영 효율화:</strong> 자동화된 시스템으로 관리 비용 절감</li>
-                    <li><strong>매출 증대:</strong> 전환율 최적화를 통한 매출 향상</li>
-                    <li><strong>브랜드 가치 상승:</strong> 전문적인 플랫폼으로 브랜드 신뢰도 향상</li>
-                    <li><strong>확장성 확보:</strong> 유연한 아키텍처로 향후 기능 확장 용이</li>
-                </ul>
+                <div class="section-header">
+                    <span class="section-num">12</span>
+                    <h2>당사 역량</h2>
+                </div>
+                
+                <div class="company-intro">
+                    <h3>Why Us?</h3>
+                    <p>Agency Brain은 디지털 에이전시로서 다년간의 프로젝트 경험과 전문 인력을 바탕으로 최상의 결과물을 제공합니다.</p>
+                </div>
+                
+                <div class="capability-grid">
+                    <div class="capability-card">
+                        <div class="capability-number">100+</div>
+                        <div class="capability-label">프로젝트 수행</div>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-number">50+</div>
+                        <div class="capability-label">전문 인력</div>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-number">95%</div>
+                        <div class="capability-label">고객 만족도</div>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-number">10+</div>
+                        <div class="capability-label">수상 경력</div>
+                    </div>
+                </div>
+                
+                <div class="why-us-list">
+                    <div class="why-us-item">
+                        <span class="why-us-icon">✓</span>
+                        <div class="why-us-content">
+                            <strong>${industryName} 분야 전문성</strong>
+                            <p>다수의 ${industryName} 관련 프로젝트 수행 경험 보유</p>
+                        </div>
+                    </div>
+                    <div class="why-us-item">
+                        <span class="why-us-icon">✓</span>
+                        <div class="why-us-content">
+                            <strong>원스톱 서비스</strong>
+                            <p>기획부터 디자인, 개발, 운영까지 전 과정 지원</p>
+                        </div>
+                    </div>
+                    <div class="why-us-item">
+                        <span class="why-us-icon">✓</span>
+                        <div class="why-us-content">
+                            <strong>애자일 방법론</strong>
+                            <p>빠른 피드백과 유연한 대응으로 프로젝트 성공률 제고</p>
+                        </div>
+                    </div>
+                    <div class="why-us-item">
+                        <span class="why-us-icon">✓</span>
+                        <div class="why-us-content">
+                            <strong>사후 지원 체계</strong>
+                            <p>오픈 후 3개월 무상 하자보수 및 운영 지원</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 마무리 -->
+            <div class="proposal-ending">
+                <div class="ending-message">
+                    <h2>감사합니다</h2>
+                    <p>본 제안서와 관련하여 궁금하신 사항이 있으시면<br>언제든지 문의해 주시기 바랍니다.</p>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-label">담당자</span>
+                        <span class="contact-value">Agency Brain 영업팀</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">연락처</span>
+                        <span class="contact-value">02-1234-5678</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">이메일</span>
+                        <span class="contact-value">contact@agencybrain.com</span>
+                    </div>
+                </div>
             </div>
         `;
+    }
+    
+    // 기능별 설명 생성
+    function getFeatureDescription(feature) {
+        const descriptions = {
+            '회원가입/로그인': '이메일, 소셜 로그인 등 다양한 방식의 회원 인증 시스템',
+            '소셜로그인': '카카오, 네이버, 구글 등 소셜 계정 연동 로그인',
+            '상품검색': 'AI 기반 스마트 검색 및 필터링 기능',
+            '장바구니': '실시간 동기화 및 임시저장 기능이 포함된 장바구니',
+            '결제': 'PG사 연동 및 다양한 결제 수단 지원',
+            '배송조회': '실시간 배송 현황 추적 및 알림 서비스',
+            '리뷰': '사진/영상 리뷰 및 평점 시스템',
+            'AI 챗봇': '24시간 자동 응대 AI 채팅 상담',
+            '마이페이지': '개인화된 대시보드 및 설정 관리',
+            '고객센터': 'FAQ, 1:1 문의, 공지사항 통합 관리'
+        };
+        return descriptions[feature] || '사용자 경험 향상을 위한 핵심 기능';
     }
     
     // 기능별 아이콘 매핑
@@ -407,7 +934,7 @@ function initProposalForm() {
         return '✨';
     }
     
-    // HTML 다운로드
+    // HTML 다운로드 - 전문적인 제안서 스타일
     function downloadAsHTML(content, filename) {
         const htmlContent = `
 <!DOCTYPE html>
@@ -417,32 +944,113 @@ function initProposalForm() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${filename}</title>
     <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-        h1 { font-size: 2rem; color: #1a1a2e; margin-bottom: 10px; }
-        h2 { font-size: 1.3rem; color: #0891b2; margin: 30px 0 15px; padding-bottom: 10px; border-bottom: 2px solid #0891b2; }
-        h3 { font-size: 1.1rem; margin: 20px 0 10px; }
-        p { margin-bottom: 15px; color: #555; }
-        .proposal-cover { text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 100%); border-radius: 12px; margin-bottom: 40px; }
-        .proposal-cover h1 { background: linear-gradient(90deg, #0891b2, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .subtitle { font-size: 1.2rem; color: #666; margin-bottom: 20px; }
-        .meta { color: #888; }
+        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #1a1a2e; max-width: 1000px; margin: 0 auto; padding: 40px; background: #f8fafc; }
+        
+        /* 표지 */
+        .proposal-cover-page { text-align: center; padding: 80px 40px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); border-radius: 16px; margin-bottom: 40px; color: white; page-break-after: always; }
+        .cover-badge { display: inline-block; padding: 10px 30px; background: rgba(0, 217, 255, 0.2); border: 1px solid rgba(0, 217, 255, 0.3); border-radius: 30px; font-size: 12px; letter-spacing: 4px; color: #00D9FF; margin-bottom: 40px; }
+        .cover-title { font-size: 36px; font-weight: 700; line-height: 1.3; margin-bottom: 20px; color: white; }
+        .cover-subtitle { font-size: 18px; color: rgba(255,255,255,0.7); margin-bottom: 50px; }
+        .cover-meta { display: flex; justify-content: center; gap: 50px; color: rgba(255,255,255,0.5); font-size: 14px; }
+        
+        /* 섹션 */
+        .proposal-section { margin-bottom: 40px; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); page-break-inside: avoid; }
+        .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #00D9FF; }
+        .section-num { font-size: 28px; font-weight: 700; color: #00D9FF; opacity: 0.5; }
+        .section-header h2 { font-size: 20px; color: #1a1a2e; margin: 0; }
+        h3 { font-size: 16px; margin: 24px 0 16px; color: #1a1a2e; padding-left: 12px; border-left: 3px solid #00D9FF; }
+        p { color: #555; line-height: 1.8; margin-bottom: 16px; }
+        
+        /* 목차 */
+        .toc-section { background: #f1f5f9; }
+        .toc-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .toc-item { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: white; border-radius: 8px; }
+        .toc-num { font-size: 12px; font-weight: 700; color: #00D9FF; min-width: 28px; }
+        .toc-title { font-size: 14px; color: #1a1a2e; }
+        
+        /* 개요 그리드 */
+        .overview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .overview-item { background: #f8fafc; border-radius: 8px; padding: 20px; border-left: 3px solid #00D9FF; }
+        .overview-label { font-size: 12px; color: #888; margin-bottom: 8px; }
+        .overview-value { font-size: 15px; font-weight: 600; color: #1a1a2e; }
+        
+        /* 분석 카드 */
+        .analysis-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0; }
+        .analysis-card { background: #f8fafc; border-radius: 12px; padding: 24px; }
+        .analysis-card.negative { border-top: 3px solid #FF6B9D; }
+        .analysis-card.positive { border-top: 3px solid #2ED573; }
+        .analysis-icon { font-size: 32px; margin-bottom: 12px; }
+        .analysis-title { font-weight: 700; margin-bottom: 16px; color: #1a1a2e; }
+        .analysis-list { list-style: none; padding: 0; }
+        .analysis-list li { padding: 8px 0 8px 20px; position: relative; color: #555; font-size: 14px; }
+        .analysis-list li::before { content: '•'; position: absolute; left: 0; color: #00D9FF; }
+        
+        /* 전략 */
+        .strategy-main { text-align: center; padding: 50px 30px; background: linear-gradient(135deg, rgba(123, 97, 255, 0.1) 0%, rgba(0, 217, 255, 0.1) 100%); border-radius: 12px; margin-bottom: 30px; }
+        .strategy-keyword { font-size: 40px; font-weight: 700; color: #00D9FF; margin-bottom: 16px; }
+        .strategy-slogan { font-size: 16px; color: #555; line-height: 1.6; }
+        .strategy-pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .pillar { text-align: center; padding: 30px 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .pillar-icon { font-size: 32px; margin-bottom: 16px; }
+        .pillar-title { font-weight: 700; color: #00D9FF; margin-bottom: 8px; font-size: 14px; }
+        .pillar-desc { font-size: 12px; color: #888; line-height: 1.5; }
+        
+        /* 기능 */
+        .feature-detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .feature-detail-card { padding: 24px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .feature-detail-header { display: flex; justify-content: space-between; margin-bottom: 12px; }
+        .feature-detail-icon { font-size: 24px; }
+        .feature-detail-num { font-size: 12px; color: #888; font-weight: 600; }
+        .feature-detail-title { font-weight: 700; margin-bottom: 8px; color: #1a1a2e; }
+        .feature-detail-desc { font-size: 13px; color: #555; margin-bottom: 12px; line-height: 1.6; }
+        .feature-detail-points .point { display: block; font-size: 11px; color: #888; }
+        
+        /* 테이블 */
         table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { padding: 12px 16px; text-align: left; border: 1px solid #ddd; }
-        th { background: #f8fafc; font-weight: 600; }
-        ul { padding-left: 20px; margin: 15px 0; }
-        li { margin: 8px 0; color: #555; }
-        .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin: 20px 0; }
-        .feature-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center; }
-        .feature-card .icon { font-size: 2rem; margin-bottom: 10px; }
-        .feature-card .name { font-weight: 600; }
-        .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 20px 0; }
-        .team-member { text-align: center; padding: 25px; background: #f8fafc; border-radius: 8px; }
-        .team-member .avatar { font-size: 2.5rem; margin-bottom: 10px; }
-        .team-member .role { font-weight: 600; }
-        .total-estimate { text-align: center; padding: 40px; background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 100%); border-radius: 12px; margin: 30px 0; }
-        .total-estimate .amount { font-size: 2.5rem; font-weight: 700; color: #0891b2; }
-        @media print { body { max-width: 100%; } .proposal-cover { break-after: page; } }
+        th, td { padding: 14px 16px; text-align: left; border: 1px solid #e2e8f0; font-size: 14px; }
+        th { background: #f1f5f9; font-weight: 600; color: #1a1a2e; }
+        td { color: #555; }
+        td.amount, .total-amount { text-align: right; font-weight: 600; color: #1a1a2e; }
+        tfoot td { background: rgba(0, 217, 255, 0.1); font-weight: 700; }
+        .total-label { text-align: right; }
+        .total-amount { font-size: 18px; color: #00D9FF; }
+        
+        /* 조직도 */
+        .org-chart { padding: 30px; background: #f8fafc; border-radius: 12px; }
+        .org-pm { display: flex; justify-content: center; margin-bottom: 30px; }
+        .org-card { text-align: center; padding: 20px 24px; background: white; border-radius: 12px; border: 1px solid #e2e8f0; min-width: 120px; }
+        .org-card.pm { border-color: #00D9FF; background: rgba(0, 217, 255, 0.1); }
+        .org-icon { font-size: 28px; margin-bottom: 8px; }
+        .org-role { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+        .org-count { font-size: 18px; color: #00D9FF; font-weight: 600; margin-bottom: 4px; }
+        .org-desc { font-size: 11px; color: #888; }
+        .org-teams { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+        .team-total { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0; }
+        .team-total-count { font-size: 24px; font-weight: 700; color: #00D9FF; }
+        
+        /* 역량 */
+        .capability-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
+        .capability-card { text-align: center; padding: 30px 20px; background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(123, 97, 255, 0.1) 100%); border-radius: 12px; }
+        .capability-number { font-size: 36px; font-weight: 700; color: #00D9FF; }
+        .capability-label { font-size: 13px; color: #555; margin-top: 8px; }
+        
+        /* 마무리 */
+        .proposal-ending { text-align: center; padding: 60px 30px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); border-radius: 16px; margin-top: 40px; color: white; }
+        .ending-message h2 { font-size: 28px; margin-bottom: 16px; color: white; }
+        .ending-message p { color: rgba(255,255,255,0.7); margin-bottom: 40px; }
+        .contact-info { display: flex; justify-content: center; gap: 50px; }
+        .contact-item { text-align: left; }
+        .contact-label { display: block; font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+        .contact-value { color: #00D9FF; font-weight: 500; }
+        
+        /* 인쇄 스타일 */
+        @media print {
+            body { max-width: 100%; padding: 20px; background: white; }
+            .proposal-section { box-shadow: none; border: 1px solid #e2e8f0; }
+            .proposal-cover-page { page-break-after: always; }
+        }
     </style>
 </head>
 <body>
@@ -461,23 +1069,45 @@ function initProposalForm() {
         URL.revokeObjectURL(url);
     }
     
-    // Word 다운로드 (HTML 기반)
+    // Word 다운로드 (HTML 기반) - 전문적인 제안서 스타일
     function downloadAsWord(content, filename) {
         const htmlContent = `
 <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-<head><meta charset="utf-8"><title>${filename}</title>
+<head>
+<meta charset="utf-8">
+<title>${filename}</title>
+<!--[if gte mso 9]>
+<xml>
+<w:WordDocument>
+<w:View>Print</w:View>
+<w:Zoom>100</w:Zoom>
+</w:WordDocument>
+</xml>
+<![endif]-->
 <style>
-body { font-family: '맑은 고딕', sans-serif; line-height: 1.6; }
-h1 { font-size: 24pt; color: #1a1a2e; }
-h2 { font-size: 14pt; color: #0891b2; border-bottom: 2px solid #0891b2; padding-bottom: 5px; margin-top: 30px; }
-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-th, td { padding: 8px 12px; border: 1px solid #ddd; }
-th { background: #f0f0f0; }
-ul { margin: 10px 0; padding-left: 20px; }
-li { margin: 5px 0; }
+@page { size: A4; margin: 2cm; }
+body { font-family: '맑은 고딕', 'Malgun Gothic', sans-serif; line-height: 1.6; color: #333; }
+h1 { font-size: 28pt; color: #1a1a2e; text-align: center; margin-bottom: 20pt; }
+h2 { font-size: 16pt; color: #0891b2; border-bottom: 2pt solid #0891b2; padding-bottom: 8pt; margin-top: 30pt; margin-bottom: 15pt; }
+h3 { font-size: 12pt; color: #1a1a2e; margin-top: 20pt; margin-bottom: 10pt; border-left: 3pt solid #0891b2; padding-left: 10pt; }
+p { font-size: 10pt; margin-bottom: 10pt; color: #444; }
+table { width: 100%; border-collapse: collapse; margin: 15pt 0; }
+th, td { padding: 10pt 12pt; border: 1pt solid #ddd; font-size: 10pt; }
+th { background: #f0f0f0; font-weight: bold; }
+ul { margin: 10pt 0; padding-left: 20pt; }
+li { margin: 6pt 0; font-size: 10pt; }
+.cover { text-align: center; padding: 100pt 0; page-break-after: always; }
+.cover h1 { font-size: 36pt; margin-bottom: 15pt; }
+.cover .subtitle { font-size: 14pt; color: #666; margin-bottom: 50pt; }
+.section-num { font-size: 18pt; color: #0891b2; font-weight: bold; margin-right: 10pt; }
+.highlight { color: #0891b2; font-weight: bold; }
+.amount { text-align: right; font-weight: bold; }
+.total { background: #e6f7ff; font-weight: bold; font-size: 12pt; }
 </style>
 </head>
-<body>${content}</body>
+<body>
+${content}
+</body>
 </html>`;
         
         const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
