@@ -1231,17 +1231,111 @@ ${content}
 function initEstimateForm() {
     const form = document.getElementById('estimateForm');
     const resultCard = document.getElementById('estimateResult');
+    const industrySelect = document.getElementById('estimateIndustry');
+    const featuresContainer = document.getElementById('estimateFeatures');
+    const platformSelectAll = document.getElementById('estimatePlatformSelectAll');
+    const featureSelectAll = document.getElementById('estimateFeatureSelectAll');
+    
+    // 업종별 필수 기능 데이터
+    const estimateFeatures = {
+        fashion: ['회원가입/로그인', '소셜로그인', '상품검색', '장바구니', '결제', '배송조회', '리뷰', '위시리스트', '사이즈가이드', '코디추천', '반응형', '관리자페이지'],
+        beauty: ['회원가입/로그인', '소셜로그인', '상품검색', '장바구니', '결제', 'AI 피부진단', '정기구독', '리뷰', '멤버십', '맞춤추천', '반응형', '관리자페이지'],
+        fnb: ['회원가입/로그인', '상품검색', '장바구니', '결제', '정기배송', '영양정보', '레시피', '리뷰', '매장찾기', '반응형', '관리자페이지'],
+        electronics: ['회원가입/로그인', '상품검색', '장바구니', '결제', '배송조회', 'A/S신청', '스펙비교', '리뷰', '설치예약', '반응형', '관리자페이지'],
+        furniture: ['회원가입/로그인', '상품검색', '장바구니', '결제', '3D뷰어', 'AR배치', '리뷰', '설치예약', '인테리어상담', '반응형', '관리자페이지'],
+        sports: ['회원가입/로그인', '상품검색', '장바구니', '결제', '배송조회', '커뮤니티', '운동기록', '챌린지', '멤버십', '반응형', '관리자페이지'],
+        kids: ['회원가입/로그인', '상품검색', '장바구니', '결제', '배송조회', '육아정보', '성장기록', '안전인증', '리뷰', '반응형', '관리자페이지'],
+        pets: ['회원가입/로그인', '상품검색', '장바구니', '결제', '정기배송', '건강기록', '수의사상담', '커뮤니티', '리뷰', '반응형', '관리자페이지'],
+        luxury: ['회원가입/로그인', 'VIP인증', '상품검색', '장바구니', '결제', '정품인증', '컨시어지', 'VIP서비스', '예약방문', '반응형', '관리자페이지'],
+        healthcare: ['회원가입/로그인', '본인인증', '진료예약', '의료진검색', '진료기록', '처방전', '화상진료', '건강검진', '결제', '반응형', '관리자페이지'],
+        education: ['회원가입/로그인', '강좌검색', '수강신청', '결제', '온라인강의', '실시간수업', '과제제출', '성적조회', '수료증', '반응형', '관리자페이지'],
+        finance: ['회원가입/로그인', '본인인증', '계좌연결', '상품조회', '신청/가입', '자산관리', '거래내역', '이체', '보안인증', '반응형', '관리자페이지'],
+        travel: ['회원가입/로그인', '여행상품검색', '항공예약', '호텔예약', '결제', '일정관리', '리뷰', '마일리지', '보험', '반응형', '관리자페이지'],
+        realestate: ['회원가입/로그인', '매물검색', '지도검색', '방문예약', '중개사상담', '시세정보', '3D투어', '계약관리', '반응형', '관리자페이지'],
+        restaurant: ['회원가입/로그인', '매장검색', '메뉴검색', '예약', '웨이팅', '결제', '포인트', '리뷰', '테이크아웃', '반응형', '관리자페이지'],
+        fitness: ['회원가입/로그인', '수업예약', '회원권관리', 'PT예약', '운동기록', '출석체크', '락커관리', '커뮤니티', '결제', '반응형', '관리자페이지'],
+        salon: ['회원가입/로그인', '스타일검색', '예약', '디자이너선택', '결제', '포인트', '리뷰', '포트폴리오', '반응형', '관리자페이지'],
+        media: ['회원가입/로그인', '기사검색', '구독', '댓글', '북마크', '공유', '맞춤뉴스', '프리미엄', '결제', '반응형', '관리자페이지'],
+        entertainment: ['회원가입/로그인', '콘텐츠검색', '시청/청취', '구독', '좋아요', '플레이리스트', '굿즈샵', '결제', '반응형', '관리자페이지'],
+        ott: ['회원가입/로그인', '콘텐츠검색', '시청', '구독결제', '프로필관리', '찜목록', '다운로드', '추천', '반응형', '관리자페이지'],
+        community: ['회원가입/로그인', '게시글작성', '댓글', '좋아요', '팔로우', '메시지', '알림', '검색', '신고', '반응형', '관리자페이지'],
+        public: ['회원가입/로그인', '본인인증', '민원신청', '서류발급', '예약', '공지사항', '챗봇', 'FAQ', '반응형', '관리자페이지'],
+        nonprofit: ['회원가입/로그인', '후원하기', '정기후원', '캠페인', '봉사신청', '증명서발급', '뉴스레터', '반응형', '관리자페이지'],
+        association: ['회원가입/로그인', '회원가입신청', '회비납부', '행사신청', '자료실', '온라인투표', '커뮤니티', '반응형', '관리자페이지'],
+        b2b_commerce: ['회원가입/로그인', '기업인증', '상품검색', 'RFQ요청', '견적서', '주문', '결제', '재고관리', '정산', '반응형', '관리자페이지'],
+        saas: ['회원가입/로그인', '서비스소개', '요금제', '무료체험', '결제', '대시보드', '팀관리', 'API', '반응형', '관리자페이지'],
+        manufacturing: ['회원가입/로그인', '제품카탈로그', '견적요청', '주문', '생산현황', '품질관리', '물류추적', '정산', '반응형', '관리자페이지']
+    };
+    
+    // 기능 체크박스 업데이트
+    function updateEstimateFeatures() {
+        const selectedIndustry = industrySelect?.value;
+        if (!featuresContainer) return;
+        
+        let features = estimateFeatures[selectedIndustry] || ['회원가입/로그인', '소셜로그인', '상품검색', '장바구니', '결제', '배송조회', '리뷰', '반응형', '관리자페이지'];
+        
+        featuresContainer.innerHTML = features.map(feature => `
+            <label class="checkbox-item">
+                <input type="checkbox" name="est_feature" value="${feature}">
+                <span class="checkmark"></span>
+                <span>${feature}</span>
+            </label>
+        `).join('');
+        
+        if (featureSelectAll) featureSelectAll.checked = false;
+        initEstimateFeatureEvents();
+    }
+    
+    // 기능 체크박스 이벤트
+    function initEstimateFeatureEvents() {
+        const featureCheckboxes = featuresContainer?.querySelectorAll('input[name="est_feature"]');
+        featureCheckboxes?.forEach(cb => {
+            cb.addEventListener('change', () => updateEstimateSelectAllState('feature'));
+        });
+    }
+    
+    // 전체선택 상태 업데이트
+    function updateEstimateSelectAllState(type) {
+        if (type === 'platform') {
+            const checkboxes = document.querySelectorAll('input[name="est_platform"]');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            if (platformSelectAll) platformSelectAll.checked = allChecked;
+        } else if (type === 'feature') {
+            const checkboxes = document.querySelectorAll('input[name="est_feature"]');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            if (featureSelectAll) featureSelectAll.checked = allChecked;
+        }
+    }
+    
+    // 플랫폼 전체선택
+    platformSelectAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('input[name="est_platform"]').forEach(cb => cb.checked = e.target.checked);
+    });
+    
+    // 기능 전체선택
+    featureSelectAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('input[name="est_feature"]').forEach(cb => cb.checked = e.target.checked);
+    });
+    
+    // 플랫폼 개별 체크박스
+    document.querySelectorAll('input[name="est_platform"]').forEach(cb => {
+        cb.addEventListener('change', () => updateEstimateSelectAllState('platform'));
+    });
+    
+    // 업종 변경 이벤트
+    industrySelect?.addEventListener('change', updateEstimateFeatures);
+    
+    // 초기 기능 체크박스 생성
+    updateEstimateFeatures();
     
     form?.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Add animation to result
         if (resultCard) {
             resultCard.style.animation = 'none';
-            resultCard.offsetHeight; // Trigger reflow
+            resultCard.offsetHeight;
             resultCard.style.animation = 'fadeIn 0.5s ease';
             
-            // Animate gauge
             const gaugeFill = resultCard.querySelector('.gauge-fill');
             const gaugeMarker = resultCard.querySelector('.gauge-marker');
             
@@ -1546,6 +1640,9 @@ function initIAForm() {
         ]
     };
 
+    // IA 전체선택 체크박스
+    const iaFeatureSelectAll = document.getElementById('iaFeatureSelectAll');
+    
     // 주요 기능 업데이트 함수
     function updateIAFeatures() {
         const industry = industrySelect?.value || '';
@@ -1570,14 +1667,41 @@ function initIAForm() {
                     <span>${feature}</span>
                 </label>
             `).join('');
+            
+            // 전체선택 상태 업데이트
+            if (iaFeatureSelectAll) iaFeatureSelectAll.checked = false;
+            initIAFeatureCheckboxEvents();
         }
     }
+    
+    // IA 기능 체크박스 이벤트
+    function initIAFeatureCheckboxEvents() {
+        const checkboxes = featuresContainer?.querySelectorAll('input[name="ia_feature"]');
+        checkboxes?.forEach(cb => {
+            cb.addEventListener('change', updateIASelectAllState);
+        });
+    }
+    
+    // IA 전체선택 상태 업데이트
+    function updateIASelectAllState() {
+        const checkboxes = document.querySelectorAll('input[name="ia_feature"]');
+        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+        if (iaFeatureSelectAll) iaFeatureSelectAll.checked = allChecked;
+    }
+    
+    // IA 전체선택 이벤트
+    iaFeatureSelectAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('input[name="ia_feature"]').forEach(cb => cb.checked = e.target.checked);
+    });
 
     // 업종 선택 시 주요 기능 업데이트
     industrySelect?.addEventListener('change', updateIAFeatures);
     
     // 사이트 유형 선택 시 주요 기능 업데이트
     siteTypeSelect?.addEventListener('change', updateIAFeatures);
+    
+    // 초기 기능 체크박스 생성
+    updateIAFeatures();
     
     form?.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -2179,10 +2303,43 @@ function initFunctionalForm() {
         admin_dashboard: '관리자 대시보드', admin_user: '회원 관리', admin_order: '주문 관리', admin_stats: '통계/리포트'
     };
 
-    // 기능 유형 변경 시 옵션 업데이트
-    funcTypeSelect?.addEventListener('change', () => {
-        const funcType = funcTypeSelect.value;
-        const options = funcTypeOptions[funcType] || funcTypeOptions['signup'];
+    // 전체선택 체크박스
+    const funcOptionSelectAll = document.getElementById('funcOptionSelectAll');
+    
+    // 업종별 추가 옵션 데이터
+    const industrySpecificOptions = {
+        fashion: ['사이즈 가이드', '코디 추천', '가상 피팅', '스타일 필터', '착용샷 리뷰'],
+        beauty: ['피부 타입 선택', 'AI 맞춤 추천', '성분 분석', '가상 메이크업', '뷰티 팁'],
+        fnb: ['알레르기 정보', '영양 정보', '원산지 표시', '유통기한 관리', '레시피 연동'],
+        electronics: ['스펙 비교', '호환성 체크', '설치 가이드', 'A/S 연동', '사용 설명서'],
+        furniture: ['3D 뷰어', 'AR 배치', '사이즈 시뮬레이션', '인테리어 상담', '배송 설치'],
+        healthcare: ['보험 연동', '의료 기록', '본인인증 강화', '처방전 연동', '건강검진 연계'],
+        education: ['학습 진도', '수료증 발급', '과제 제출', '실시간 수업', '학습 분석'],
+        finance: ['본인인증 강화', '보안 인증', '자산 연동', '신용 조회', '계좌 연결'],
+        travel: ['항공 연동', '호텔 연동', '보험 가입', '일정 공유', '환율 계산'],
+        realestate: ['매물 지도', '시세 정보', 'VR 투어', '대출 상담', '계약 관리'],
+        restaurant: ['웨이팅 관리', '테이블 선택', '메뉴 추천', '알레르기 필터', '결제 분리'],
+        fitness: ['운동 기록', '바디 체크', 'PT 예약', '식단 관리', '출석 체크'],
+        salon: ['스타일 시뮬레이션', '디자이너 포트폴리오', '시술 추천', '예약 알림', '재방문 쿠폰'],
+        public: ['공인인증', '실명 인증', '전자서명', '민원 추적', '증명서 발급'],
+        nonprofit: ['기부 영수증', '후원 현황', '캠페인 참여', '봉사 시간', '투명성 리포트'],
+        b2b: ['기업 인증', '대량 주문', '견적서', '세금계산서', '거래처 관리'],
+        saas: ['팀 관리', 'API 연동', '사용량 분석', '권한 설정', '데이터 백업']
+    };
+    
+    // 상세 옵션 업데이트 함수
+    function updateFuncOptions() {
+        const funcType = funcTypeSelect?.value || 'signup';
+        const industry = funcIndustrySelect?.value || '';
+        
+        // 기본 옵션
+        let options = funcTypeOptions[funcType] || funcTypeOptions['signup'];
+        
+        // 업종별 추가 옵션 병합
+        if (industry && industrySpecificOptions[industry]) {
+            const additionalOptions = industrySpecificOptions[industry];
+            options = [...options, ...additionalOptions];
+        }
         
         if (funcOptionsContainer) {
             funcOptionsContainer.innerHTML = options.map((option, index) => `
@@ -2192,41 +2349,40 @@ function initFunctionalForm() {
                     <span>${option}</span>
                 </label>
             `).join('');
+            
+            if (funcOptionSelectAll) funcOptionSelectAll.checked = false;
+            initFuncOptionCheckboxEvents();
         }
+    }
+    
+    // 상세 옵션 체크박스 이벤트
+    function initFuncOptionCheckboxEvents() {
+        const checkboxes = funcOptionsContainer?.querySelectorAll('input[name="func_option"]');
+        checkboxes?.forEach(cb => {
+            cb.addEventListener('change', updateFuncSelectAllState);
+        });
+    }
+    
+    // 전체선택 상태 업데이트
+    function updateFuncSelectAllState() {
+        const checkboxes = document.querySelectorAll('input[name="func_option"]');
+        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+        if (funcOptionSelectAll) funcOptionSelectAll.checked = allChecked;
+    }
+    
+    // 전체선택 이벤트
+    funcOptionSelectAll?.addEventListener('change', (e) => {
+        document.querySelectorAll('input[name="func_option"]').forEach(cb => cb.checked = e.target.checked);
     });
 
-    // 업종에 따른 추가 옵션 변경
-    funcIndustrySelect?.addEventListener('change', () => {
-        const funcType = funcTypeSelect?.value;
-        const industry = funcIndustrySelect.value;
-        
-        // 업종별 추가 옵션
-        let additionalOptions = [];
-        if (industry === 'beauty') {
-            additionalOptions = ['피부 타입 선택', 'AI 맞춤 추천'];
-        } else if (industry === 'fashion') {
-            additionalOptions = ['사이즈 선택', '코디 추천'];
-        } else if (industry === 'fnb') {
-            additionalOptions = ['알레르기 정보', '영양 정보'];
-        } else if (industry === 'healthcare') {
-            additionalOptions = ['보험 연동', '의료 기록 연동'];
-        } else if (industry === 'public') {
-            additionalOptions = ['공인인증', '실명 인증'];
-        }
-        
-        const baseOptions = funcTypeOptions[funcType] || funcTypeOptions['signup'];
-        const allOptions = [...baseOptions, ...additionalOptions];
-        
-        if (funcOptionsContainer) {
-            funcOptionsContainer.innerHTML = allOptions.map((option, index) => `
-                <label class="checkbox-item">
-                    <input type="checkbox" name="func_option" value="${option}" ${index < 3 ? 'checked' : ''}>
-                    <span class="checkmark"></span>
-                    <span>${option}</span>
-                </label>
-            `).join('');
-        }
-    });
+    // 기능 유형 변경 시 옵션 업데이트
+    funcTypeSelect?.addEventListener('change', updateFuncOptions);
+
+    // 업종 변경 시 옵션 업데이트
+    funcIndustrySelect?.addEventListener('change', updateFuncOptions);
+    
+    // 초기 옵션 생성
+    updateFuncOptions();
     
     form?.addEventListener('submit', (e) => {
         e.preventDefault();

@@ -816,89 +816,136 @@
                         <h3 class="card-title">견적 요청 정보</h3>
                     </div>
                     <form class="estimate-form" id="estimateForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">플랫폼</label>
-                                <div class="select-wrapper">
-                                    <select class="form-select">
-                                        <option value="shopify">Shopify</option>
-                                        <option value="cafe24">Cafe24</option>
-                                        <option value="custom">자체구축</option>
-                                    </select>
-                                </div>
+                        <div class="form-group">
+                            <label class="form-label">업종</label>
+                            <div class="select-wrapper">
+                                <select class="form-select" id="estimateIndustry">
+                                    <option value="">업종을 선택하세요</option>
+                                    <optgroup label="🛒 커머스">
+                                        <option value="fashion">패션/의류</option>
+                                        <option value="beauty">뷰티/화장품</option>
+                                        <option value="fnb">식품/F&B</option>
+                                        <option value="electronics">가전/전자</option>
+                                        <option value="furniture">가구/인테리어</option>
+                                        <option value="sports">스포츠/아웃도어</option>
+                                        <option value="kids">유아/아동</option>
+                                        <option value="pets">반려동물</option>
+                                        <option value="luxury">명품/럭셔리</option>
+                                    </optgroup>
+                                    <optgroup label="🏢 서비스">
+                                        <option value="healthcare">의료/헬스케어</option>
+                                        <option value="education">교육/이러닝</option>
+                                        <option value="finance">금융/핀테크</option>
+                                        <option value="travel">여행/관광</option>
+                                        <option value="realestate">부동산</option>
+                                        <option value="restaurant">음식점/카페</option>
+                                        <option value="fitness">피트니스</option>
+                                        <option value="salon">뷰티샵/헤어샵</option>
+                                    </optgroup>
+                                    <optgroup label="🎬 미디어/콘텐츠">
+                                        <option value="media">뉴스/미디어</option>
+                                        <option value="entertainment">엔터테인먼트</option>
+                                        <option value="ott">OTT/스트리밍</option>
+                                        <option value="community">커뮤니티/SNS</option>
+                                    </optgroup>
+                                    <optgroup label="🏛️ 공공/기관">
+                                        <option value="public">공공기관</option>
+                                        <option value="nonprofit">비영리/NGO</option>
+                                        <option value="association">협회/단체</option>
+                                    </optgroup>
+                                    <optgroup label="🏭 B2B">
+                                        <option value="b2b_commerce">B2B 커머스</option>
+                                        <option value="saas">SaaS/솔루션</option>
+                                        <option value="manufacturing">제조/유통</option>
+                                    </optgroup>
+                                </select>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">상품 수</label>
-                                <input type="number" class="form-input" value="50" placeholder="상품 수">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">플랫폼</label>
+                            <div class="select-all-wrapper">
+                                <label class="checkbox-item select-all">
+                                    <input type="checkbox" id="estimatePlatformSelectAll">
+                                    <span class="checkmark"></span>
+                                    <span>전체선택</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-group" id="estimatePlatforms">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="shopify">
+                                    <span class="checkmark"></span>
+                                    <span>Shopify</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="cafe24">
+                                    <span class="checkmark"></span>
+                                    <span>Cafe24</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="magento">
+                                    <span class="checkmark"></span>
+                                    <span>Magento</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="woocommerce">
+                                    <span class="checkmark"></span>
+                                    <span>WooCommerce</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="godo">
+                                    <span class="checkmark"></span>
+                                    <span>고도몰</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="makeshop">
+                                    <span class="checkmark"></span>
+                                    <span>메이크샵</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="wordpress">
+                                    <span class="checkmark"></span>
+                                    <span>WordPress</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="react">
+                                    <span class="checkmark"></span>
+                                    <span>React/Next.js</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="vue">
+                                    <span class="checkmark"></span>
+                                    <span>Vue/Nuxt.js</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="flutter">
+                                    <span class="checkmark"></span>
+                                    <span>Flutter</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="reactnative">
+                                    <span class="checkmark"></span>
+                                    <span>React Native</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="est_platform" value="custom">
+                                    <span class="checkmark"></span>
+                                    <span>자체구축</span>
+                                </label>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">필수 기능</label>
-                            <div class="feature-grid">
-                                <label class="feature-checkbox">
-                                    <input type="checkbox" checked>
-                                    <span class="feature-box">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                            <circle cx="8.5" cy="7" r="4"/>
-                                            <line x1="20" y1="8" x2="20" y2="14"/>
-                                            <line x1="23" y1="11" x2="17" y2="11"/>
-                                        </svg>
-                                        회원가입
-                                    </span>
+                            <div class="select-all-wrapper">
+                                <label class="checkbox-item select-all">
+                                    <input type="checkbox" id="estimateFeatureSelectAll">
+                                    <span class="checkmark"></span>
+                                    <span>전체선택</span>
                                 </label>
-                                <label class="feature-checkbox">
-                                    <input type="checkbox" checked>
-                                    <span class="feature-box">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                                            <line x1="1" y1="10" x2="23" y2="10"/>
-                                        </svg>
-                                        결제
-                                    </span>
-                                </label>
-                                <label class="feature-checkbox">
-                                    <input type="checkbox" checked>
-                                    <span class="feature-box">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="1" y="3" width="15" height="13"/>
-                                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-                                            <circle cx="5.5" cy="18.5" r="2.5"/>
-                                            <circle cx="18.5" cy="18.5" r="2.5"/>
-                                        </svg>
-                                        배송
-                                    </span>
-                                </label>
-                                <label class="feature-checkbox">
-                                    <input type="checkbox" checked>
-                                    <span class="feature-box">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-                                            <line x1="12" y1="18" x2="12.01" y2="18"/>
-                                        </svg>
-                                        반응형
-                                    </span>
-                                </label>
-                                <label class="feature-checkbox">
-                                    <input type="checkbox">
-                                    <span class="feature-box">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polygon points="23 7 16 12 23 17 23 7"/>
-                                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-                                        </svg>
-                                        라이브커머스
-                                    </span>
-                                </label>
-                                <label class="feature-checkbox">
-                                    <input type="checkbox">
-                                    <span class="feature-box">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                                        </svg>
-                                        AI 챗봇
-                                    </span>
-                                </label>
+                            </div>
+                            <div class="checkbox-group" id="estimateFeatures">
+                                <!-- 동적으로 생성됨 -->
                             </div>
                         </div>
                         
@@ -1196,28 +1243,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">상품/콘텐츠 수</label>
-                            <input type="number" class="form-input" id="iaProductCount" value="150" placeholder="예: 100">
-                        </div>
-                        <div class="form-group">
                             <label class="form-label">주요 기능</label>
-                            <div class="checkbox-group vertical" id="iaFeatures">
+                            <div class="select-all-wrapper">
+                                <label class="checkbox-item select-all">
+                                    <input type="checkbox" id="iaFeatureSelectAll">
+                                    <span class="checkmark"></span>
+                                    <span>전체선택</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-group" id="iaFeatures">
                                 <!-- 동적으로 변경됨 -->
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="ia_feature" value="회원가입" checked>
-                                    <span class="checkmark"></span>
-                                    <span>회원가입</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="ia_feature" value="로그인" checked>
-                                    <span class="checkmark"></span>
-                                    <span>로그인</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="ia_feature" value="상품검색" checked>
-                                    <span class="checkmark"></span>
-                                    <span>상품검색</span>
-                                </label>
                             </div>
                         </div>
                         <button type="submit" class="btn-primary btn-large">
@@ -1649,23 +1684,15 @@
                         
                         <div class="form-group">
                             <label class="form-label">상세 옵션</label>
-                            <div class="checkbox-group vertical" id="funcOptions">
+                            <div class="select-all-wrapper">
+                                <label class="checkbox-item select-all">
+                                    <input type="checkbox" id="funcOptionSelectAll">
+                                    <span class="checkmark"></span>
+                                    <span>전체선택</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-group" id="funcOptions">
                                 <!-- 동적으로 변경됨 -->
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="func_option" value="social_login" checked>
-                                    <span class="checkmark"></span>
-                                    <span>소셜 로그인 포함</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="func_option" value="identity_verify" checked>
-                                    <span class="checkmark"></span>
-                                    <span>본인인증 포함</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="func_option" value="age_limit">
-                                    <span class="checkmark"></span>
-                                    <span>14세 미만 가입 제한</span>
-                                </label>
                             </div>
                         </div>
                         
