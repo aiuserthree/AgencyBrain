@@ -625,6 +625,13 @@
                         
                         <div class="form-group">
                             <label class="form-label">플랫폼</label>
+                            <div class="select-all-wrapper">
+                                <label class="checkbox-item select-all">
+                                    <input type="checkbox" id="platformSelectAll">
+                                    <span class="checkmark"></span>
+                                    <span>전체선택</span>
+                                </label>
+                            </div>
                             <div class="checkbox-group" id="proposalPlatforms">
                                 <label class="checkbox-item">
                                     <input type="checkbox" name="platform" value="shopify">
@@ -718,21 +725,15 @@
                         
                         <div class="form-group">
                             <label class="form-label">주요 기능 (필수)</label>
-                            <div class="tag-input-container">
-                                <div class="tag-input-wrapper">
-                                    <div class="selected-tags" id="selectedTags"></div>
-                                    <input type="text" class="tag-input" placeholder="기능 입력 후 Enter" id="featureInput">
-                                </div>
-                                <div class="suggested-tags" id="proposalSuggestedTags">
-                                    <span class="suggested-tag" data-tag="회원가입/로그인">회원가입/로그인</span>
-                                    <span class="suggested-tag" data-tag="소셜로그인">소셜로그인</span>
-                                    <span class="suggested-tag" data-tag="상품검색">상품검색</span>
-                                    <span class="suggested-tag" data-tag="장바구니">장바구니</span>
-                                    <span class="suggested-tag" data-tag="결제">결제</span>
-                                    <span class="suggested-tag" data-tag="배송조회">배송조회</span>
-                                    <span class="suggested-tag" data-tag="리뷰">리뷰</span>
-                                    <span class="suggested-tag" data-tag="AI 챗봇">AI 챗봇</span>
-                                </div>
+                            <div class="select-all-wrapper">
+                                <label class="checkbox-item select-all">
+                                    <input type="checkbox" id="featureSelectAll">
+                                    <span class="checkmark"></span>
+                                    <span>전체선택</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-group" id="proposalFeatures">
+                                <!-- 동적으로 생성됨 -->
                             </div>
                         </div>
                         

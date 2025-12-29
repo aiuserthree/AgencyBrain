@@ -88,7 +88,6 @@ function initProposalForm() {
     const form = document.getElementById('proposalForm');
     const resultCard = document.getElementById('proposalResult');
     const industrySelect = document.getElementById('industry');
-    const suggestedTagsContainer = document.getElementById('proposalSuggestedTags');
     
     // 업종별 주요 기능 데이터
     const proposalFeatures = {
@@ -132,53 +131,96 @@ function initProposalForm() {
         logistics: ['회원가입/로그인', '배송조회', '운송예약', '견적산출', '창고관리', '재고관리', '정산', 'API연동', '대시보드', '리포트', '실시간추적', '배차관리', '기사관리', '반품관리', '통관', '보험', '계약관리', 'TMS']
     };
     
-    // 업종 변경 시 주요 기능 업데이트
+    // 체크박스 컨테이너
+    const featuresContainer = document.getElementById('proposalFeatures');
+    const platformSelectAll = document.getElementById('platformSelectAll');
+    const featureSelectAll = document.getElementById('featureSelectAll');
+    
+    // 업종 변경 시 주요 기능 체크박스 업데이트
     function updateProposalFeatures() {
         const selectedIndustry = industrySelect?.value;
         
-        if (!suggestedTagsContainer) return;
+        if (!featuresContainer) return;
         
         let features = proposalFeatures[selectedIndustry] || ['회원가입/로그인', '소셜로그인', '상품검색', '장바구니', '결제', '배송조회', '리뷰', 'AI 챗봇'];
         
-        suggestedTagsContainer.innerHTML = features.map(feature => 
-            `<span class="suggested-tag" data-tag="${feature}">${feature}</span>`
-        ).join('');
+        featuresContainer.innerHTML = features.map(feature => `
+            <label class="checkbox-item">
+                <input type="checkbox" name="feature" value="${feature}">
+                <span class="checkmark"></span>
+                <span>${feature}</span>
+            </label>
+        `).join('');
         
-        // 태그 클릭 이벤트 다시 바인딩
-        initSuggestedTags();
+        // 전체선택 체크 해제
+        if (featureSelectAll) {
+            featureSelectAll.checked = false;
+        }
+        
+        // 개별 체크박스 변경 시 전체선택 상태 업데이트
+        initFeatureCheckboxEvents();
     }
     
-    // 추천 태그 클릭 이벤트 초기화
-    function initSuggestedTags() {
-        const suggestedTags = suggestedTagsContainer?.querySelectorAll('.suggested-tag');
-        suggestedTags?.forEach(tag => {
-            tag.addEventListener('click', () => {
-                const tagText = tag.dataset.tag;
-                const selectedTags = document.getElementById('selectedTags');
-                
-                // 이미 선택된 태그인지 확인
-                const existingTags = selectedTags.querySelectorAll('.tag');
-                const tagExists = Array.from(existingTags).some(t => t.textContent.replace('×', '').trim() === tagText);
-                
-                if (!tagExists) {
-                    const tagElement = document.createElement('span');
-                    tagElement.className = 'tag';
-                    tagElement.innerHTML = `${tagText}<span class="tag-remove">×</span>`;
-                    selectedTags.appendChild(tagElement);
-                    
-                    tagElement.querySelector('.tag-remove').addEventListener('click', () => {
-                        tagElement.remove();
-                    });
-                }
+    // 기능 체크박스 이벤트 초기화
+    function initFeatureCheckboxEvents() {
+        const featureCheckboxes = featuresContainer?.querySelectorAll('input[name="feature"]');
+        featureCheckboxes?.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                updateSelectAllState('feature');
             });
         });
     }
     
+    // 전체선택 상태 업데이트
+    function updateSelectAllState(type) {
+        if (type === 'platform') {
+            const platformCheckboxes = document.querySelectorAll('input[name="platform"]');
+            const allChecked = Array.from(platformCheckboxes).every(cb => cb.checked);
+            const someChecked = Array.from(platformCheckboxes).some(cb => cb.checked);
+            if (platformSelectAll) {
+                platformSelectAll.checked = allChecked;
+                platformSelectAll.indeterminate = someChecked && !allChecked;
+            }
+        } else if (type === 'feature') {
+            const featureCheckboxes = document.querySelectorAll('input[name="feature"]');
+            const allChecked = Array.from(featureCheckboxes).every(cb => cb.checked);
+            const someChecked = Array.from(featureCheckboxes).some(cb => cb.checked);
+            if (featureSelectAll) {
+                featureSelectAll.checked = allChecked;
+                featureSelectAll.indeterminate = someChecked && !allChecked;
+            }
+        }
+    }
+    
+    // 플랫폼 전체선택 이벤트
+    platformSelectAll?.addEventListener('change', (e) => {
+        const platformCheckboxes = document.querySelectorAll('input[name="platform"]');
+        platformCheckboxes.forEach(cb => {
+            cb.checked = e.target.checked;
+        });
+    });
+    
+    // 기능 전체선택 이벤트
+    featureSelectAll?.addEventListener('change', (e) => {
+        const featureCheckboxes = document.querySelectorAll('input[name="feature"]');
+        featureCheckboxes.forEach(cb => {
+            cb.checked = e.target.checked;
+        });
+    });
+    
+    // 플랫폼 개별 체크박스 이벤트
+    const platformCheckboxes = document.querySelectorAll('input[name="platform"]');
+    platformCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            updateSelectAllState('platform');
+        });
+    });
+    
     // 업종 선택 변경 이벤트
     industrySelect?.addEventListener('change', updateProposalFeatures);
     
-    // 초기 태그 이벤트 바인딩
-    initSuggestedTags();
+    // 초기 기능 체크박스 생성
+    updateProposalFeatures();
     
     // 업종 한글명 매핑
     const industryNames = {
@@ -1136,8 +1178,7 @@ ${content}
         const platforms = Array.from(document.querySelectorAll('input[name="platform"]:checked')).map(cb => platformNames[cb.value] || cb.value);
         const budgetMin = document.getElementById('budgetMin')?.value || '3000';
         const budgetMax = document.getElementById('budgetMax')?.value || '5000';
-        const selectedTags = document.getElementById('selectedTags');
-        const features = Array.from(selectedTags?.querySelectorAll('.tag') || []).map(t => t.textContent.replace('×', '').trim());
+        const features = Array.from(document.querySelectorAll('input[name="feature"]:checked')).map(cb => cb.value);
         
         // 로딩 상태
         placeholder.innerHTML = `

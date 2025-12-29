@@ -1038,10 +1038,44 @@ input, select, textarea {
     cursor: pointer;
 }
 
+/* Select All Wrapper */
+.select-all-wrapper {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.select-all-wrapper .checkbox-item.select-all {
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(123, 97, 255, 0.1) 100%);
+    border-color: var(--accent-cyan);
+    font-weight: 600;
+}
+
+.select-all-wrapper .checkbox-item.select-all:hover {
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.2) 0%, rgba(123, 97, 255, 0.2) 100%);
+}
+
 .checkbox-group {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.checkbox-group::-webkit-scrollbar {
+    width: 4px;
+}
+
+.checkbox-group::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 2px;
+}
+
+.checkbox-group::-webkit-scrollbar-thumb {
+    background: var(--border-light);
+    border-radius: 2px;
 }
 
 .checkbox-group.vertical {
