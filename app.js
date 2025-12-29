@@ -180,13 +180,336 @@ function initProposalForm() {
     // 초기 태그 이벤트 바인딩
     initSuggestedTags();
     
+    // 업종 한글명 매핑
+    const industryNames = {
+        fashion: '패션/의류', beauty: '뷰티/화장품', fnb: '식품/F&B', electronics: '가전/전자',
+        furniture: '가구/인테리어', sports: '스포츠/아웃도어', kids: '유아/아동', pets: '반려동물',
+        luxury: '명품/럭셔리', lifestyle: '라이프스타일', healthcare: '의료/헬스케어', education: '교육/이러닝',
+        finance: '금융/핀테크', travel: '여행/관광', realestate: '부동산', restaurant: '음식점/카페',
+        fitness: '피트니스/웰니스', salon: '뷰티샵/헤어샵', consulting: '컨설팅', recruitment: '채용/HR',
+        media: '뉴스/미디어', entertainment: '엔터테인먼트', ott: 'OTT/스트리밍', gaming: '게임',
+        community: '커뮤니티/SNS', public: '공공기관', nonprofit: '비영리/NGO', association: '협회/단체',
+        university: '대학/교육기관', b2b_commerce: 'B2B 커머스', saas: 'SaaS/솔루션', manufacturing: '제조/유통', logistics: '물류/배송'
+    };
+    
+    // 플랫폼 한글명 매핑
+    const platformNames = {
+        shopify: 'Shopify', cafe24: 'Cafe24', magento: 'Magento', woocommerce: 'WooCommerce',
+        godo: '고도몰', makeshop: '메이크샵', wordpress: 'WordPress', webflow: 'Webflow',
+        react: 'React/Next.js', vue: 'Vue/Nuxt.js', flutter: 'Flutter', reactnative: 'React Native',
+        ios: 'iOS Native', android: 'Android Native', custom: '자체구축'
+    };
+    
+    // 제안서 생성 함수
+    function generateProposal(data) {
+        const { industry, industryName, target, platforms, budgetMin, budgetMax, features } = data;
+        const today = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+        // 예상 공수 및 견적 계산
+        const featureCount = features.length;
+        const baseWeeks = Math.max(4, Math.ceil(featureCount * 0.8));
+        const estimatedWeeks = baseWeeks + (platforms.length > 2 ? 2 : 0);
+        const avgBudget = Math.round((parseInt(budgetMin) + parseInt(budgetMax)) / 2);
+        
+        // 팀 구성 계산
+        const teamSize = {
+            pm: 1,
+            designer: Math.ceil(featureCount / 8),
+            developer: Math.ceil(featureCount / 5),
+            publisher: Math.ceil(featureCount / 10)
+        };
+        
+        return `
+            <div class="proposal-cover">
+                <h1>${industryName} 플랫폼 구축 제안서</h1>
+                <p class="subtitle">${target || 'MZ세대'} 대상 맞춤형 솔루션</p>
+                <p class="meta">제안일: ${today} | Agency Brain</p>
+            </div>
+            
+            <div class="proposal-section">
+                <h2>📋 1. 프로젝트 개요</h2>
+                <table class="proposal-table">
+                    <tr><th>항목</th><th>내용</th></tr>
+                    <tr><td>프로젝트명</td><td>${industryName} 플랫폼 구축 프로젝트</td></tr>
+                    <tr><td>업종</td><td>${industryName}</td></tr>
+                    <tr><td>타겟 고객</td><td>${target || '미지정'}</td></tr>
+                    <tr><td>개발 플랫폼</td><td>${platforms.join(', ')}</td></tr>
+                    <tr><td>예산 범위</td><td>${budgetMin}만원 ~ ${budgetMax}만원</td></tr>
+                    <tr><td>예상 기간</td><td>${estimatedWeeks}주</td></tr>
+                </table>
+            </div>
+            
+            <div class="proposal-section">
+                <h2>🎯 2. 프로젝트 목표</h2>
+                <p>${industryName} 분야의 ${target || '타겟 고객'}을 위한 최적화된 디지털 플랫폼을 구축하여 사용자 경험을 극대화하고, 비즈니스 목표 달성을 지원합니다.</p>
+                <ul class="proposal-list">
+                    <li>사용자 친화적인 UI/UX 설계로 전환율 향상</li>
+                    <li>모바일 퍼스트 반응형 디자인 적용</li>
+                    <li>확장 가능한 아키텍처 설계</li>
+                    <li>SEO 최적화 및 성능 최적화</li>
+                    <li>보안 강화 및 개인정보 보호 준수</li>
+                </ul>
+            </div>
+            
+            <div class="proposal-section">
+                <h2>⚙️ 3. 주요 기능</h2>
+                <div class="feature-grid">
+                    ${features.map((f, i) => `
+                        <div class="feature-card">
+                            <div class="icon">${getFeatureIcon(f)}</div>
+                            <div class="name">${f}</div>
+                            <div class="desc">핵심 기능 ${i + 1}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            <div class="proposal-section">
+                <h2>📅 4. 프로젝트 일정</h2>
+                <div class="timeline-chart">
+                    <div class="timeline-row">
+                        <span class="timeline-label">기획/분석</span>
+                        <div class="timeline-bar-container">
+                            <div class="timeline-bar phase-plan" style="width: ${Math.round(15/estimatedWeeks*100)}%">
+                                ${Math.ceil(estimatedWeeks * 0.15)}주
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-row">
+                        <span class="timeline-label">디자인</span>
+                        <div class="timeline-bar-container">
+                            <div class="timeline-bar phase-design" style="width: ${Math.round(25/estimatedWeeks*100)}%; margin-left: ${Math.round(15/estimatedWeeks*100)}%">
+                                ${Math.ceil(estimatedWeeks * 0.25)}주
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-row">
+                        <span class="timeline-label">개발</span>
+                        <div class="timeline-bar-container">
+                            <div class="timeline-bar phase-dev" style="width: ${Math.round(45/estimatedWeeks*100)}%; margin-left: ${Math.round(30/estimatedWeeks*100)}%">
+                                ${Math.ceil(estimatedWeeks * 0.45)}주
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-row">
+                        <span class="timeline-label">테스트/오픈</span>
+                        <div class="timeline-bar-container">
+                            <div class="timeline-bar phase-test" style="width: ${Math.round(15/estimatedWeeks*100)}%; margin-left: ${Math.round(85/estimatedWeeks*100)}%">
+                                ${Math.ceil(estimatedWeeks * 0.15)}주
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="proposal-section">
+                <h2>👥 5. 투입 인력</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="avatar">👨‍💼</div>
+                        <div class="role">PM</div>
+                        <div class="count">${teamSize.pm}명</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="avatar">🎨</div>
+                        <div class="role">디자이너</div>
+                        <div class="count">${teamSize.designer}명</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="avatar">💻</div>
+                        <div class="role">개발자</div>
+                        <div class="count">${teamSize.developer}명</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="avatar">🖥️</div>
+                        <div class="role">퍼블리셔</div>
+                        <div class="count">${teamSize.publisher}명</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="proposal-section">
+                <h2>💰 6. 예상 견적</h2>
+                <div class="budget-breakdown">
+                    <div class="budget-item">
+                        <span class="label">기획/PM</span>
+                        <div class="bar-container"><div class="bar" style="width: 15%"></div></div>
+                        <span class="value">${Math.round(avgBudget * 0.15).toLocaleString()}만원</span>
+                    </div>
+                    <div class="budget-item">
+                        <span class="label">디자인</span>
+                        <div class="bar-container"><div class="bar" style="width: 25%"></div></div>
+                        <span class="value">${Math.round(avgBudget * 0.25).toLocaleString()}만원</span>
+                    </div>
+                    <div class="budget-item">
+                        <span class="label">프론트엔드</span>
+                        <div class="bar-container"><div class="bar" style="width: 30%"></div></div>
+                        <span class="value">${Math.round(avgBudget * 0.30).toLocaleString()}만원</span>
+                    </div>
+                    <div class="budget-item">
+                        <span class="label">백엔드</span>
+                        <div class="bar-container"><div class="bar" style="width: 25%"></div></div>
+                        <span class="value">${Math.round(avgBudget * 0.25).toLocaleString()}만원</span>
+                    </div>
+                    <div class="budget-item">
+                        <span class="label">QA/테스트</span>
+                        <div class="bar-container"><div class="bar" style="width: 5%"></div></div>
+                        <span class="value">${Math.round(avgBudget * 0.05).toLocaleString()}만원</span>
+                    </div>
+                </div>
+                <div class="total-estimate">
+                    <div class="label">총 예상 견적</div>
+                    <div class="amount">${avgBudget.toLocaleString()}만원</div>
+                    <div class="note">* VAT 별도, 세부 견적은 협의 후 확정</div>
+                </div>
+            </div>
+            
+            <div class="proposal-section">
+                <h2>📦 7. 산출물</h2>
+                <table class="proposal-table">
+                    <tr><th>구분</th><th>산출물</th><th>형식</th></tr>
+                    <tr><td>기획</td><td>요구사항 정의서, 화면설계서, IA</td><td>PPT, Figma</td></tr>
+                    <tr><td>디자인</td><td>디자인 시안, 스타일 가이드, 아이콘</td><td>Figma, PNG/SVG</td></tr>
+                    <tr><td>개발</td><td>소스코드, API 문서, DB 설계서</td><td>GitHub, Swagger</td></tr>
+                    <tr><td>QA</td><td>테스트 케이스, 테스트 결과서</td><td>Excel, PDF</td></tr>
+                    <tr><td>운영</td><td>운영 매뉴얼, 교육 자료</td><td>PDF, PPT</td></tr>
+                </table>
+            </div>
+            
+            <div class="proposal-section">
+                <h2>✅ 8. 기대 효과</h2>
+                <ul class="proposal-list">
+                    <li><strong>사용자 경험 향상:</strong> 직관적인 UI/UX로 사용자 만족도 및 재방문율 증가</li>
+                    <li><strong>운영 효율화:</strong> 자동화된 시스템으로 관리 비용 절감</li>
+                    <li><strong>매출 증대:</strong> 전환율 최적화를 통한 매출 향상</li>
+                    <li><strong>브랜드 가치 상승:</strong> 전문적인 플랫폼으로 브랜드 신뢰도 향상</li>
+                    <li><strong>확장성 확보:</strong> 유연한 아키텍처로 향후 기능 확장 용이</li>
+                </ul>
+            </div>
+        `;
+    }
+    
+    // 기능별 아이콘 매핑
+    function getFeatureIcon(feature) {
+        const iconMap = {
+            '회원가입': '👤', '로그인': '🔐', '회원가입/로그인': '👤', '소셜로그인': '🔗',
+            '상품검색': '🔍', '검색': '🔍', '장바구니': '🛒', '결제': '💳',
+            '배송조회': '🚚', '배송': '📦', '리뷰': '⭐', '위시리스트': '❤️',
+            '적립금': '💰', '쿠폰': '🎟️', '적립금/쿠폰': '🎁', '포인트': '💎',
+            '이벤트': '🎉', '멤버십': '👑', 'AI': '🤖', '챗봇': '💬',
+            '예약': '📅', '알림': '🔔', '마이페이지': '📱', '고객센터': '📞',
+            '커뮤니티': '👥', '게시판': '📝', '메시지': '✉️', '공지사항': '📢'
+        };
+        
+        for (const [key, icon] of Object.entries(iconMap)) {
+            if (feature.includes(key)) return icon;
+        }
+        return '✨';
+    }
+    
+    // HTML 다운로드
+    function downloadAsHTML(content, filename) {
+        const htmlContent = `
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${filename}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h1 { font-size: 2rem; color: #1a1a2e; margin-bottom: 10px; }
+        h2 { font-size: 1.3rem; color: #0891b2; margin: 30px 0 15px; padding-bottom: 10px; border-bottom: 2px solid #0891b2; }
+        h3 { font-size: 1.1rem; margin: 20px 0 10px; }
+        p { margin-bottom: 15px; color: #555; }
+        .proposal-cover { text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 100%); border-radius: 12px; margin-bottom: 40px; }
+        .proposal-cover h1 { background: linear-gradient(90deg, #0891b2, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { font-size: 1.2rem; color: #666; margin-bottom: 20px; }
+        .meta { color: #888; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 16px; text-align: left; border: 1px solid #ddd; }
+        th { background: #f8fafc; font-weight: 600; }
+        ul { padding-left: 20px; margin: 15px 0; }
+        li { margin: 8px 0; color: #555; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin: 20px 0; }
+        .feature-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center; }
+        .feature-card .icon { font-size: 2rem; margin-bottom: 10px; }
+        .feature-card .name { font-weight: 600; }
+        .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 20px 0; }
+        .team-member { text-align: center; padding: 25px; background: #f8fafc; border-radius: 8px; }
+        .team-member .avatar { font-size: 2.5rem; margin-bottom: 10px; }
+        .team-member .role { font-weight: 600; }
+        .total-estimate { text-align: center; padding: 40px; background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 100%); border-radius: 12px; margin: 30px 0; }
+        .total-estimate .amount { font-size: 2.5rem; font-weight: 700; color: #0891b2; }
+        @media print { body { max-width: 100%; } .proposal-cover { break-after: page; } }
+    </style>
+</head>
+<body>
+    ${content}
+</body>
+</html>`;
+        
+        const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${filename}.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+    
+    // Word 다운로드 (HTML 기반)
+    function downloadAsWord(content, filename) {
+        const htmlContent = `
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head><meta charset="utf-8"><title>${filename}</title>
+<style>
+body { font-family: '맑은 고딕', sans-serif; line-height: 1.6; }
+h1 { font-size: 24pt; color: #1a1a2e; }
+h2 { font-size: 14pt; color: #0891b2; border-bottom: 2px solid #0891b2; padding-bottom: 5px; margin-top: 30px; }
+table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+th, td { padding: 8px 12px; border: 1px solid #ddd; }
+th { background: #f0f0f0; }
+ul { margin: 10px 0; padding-left: 20px; }
+li { margin: 5px 0; }
+</style>
+</head>
+<body>${content}</body>
+</html>`;
+        
+        const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${filename}.doc`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+    
+    // 폼 제출 이벤트
     form?.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Show loading state
         const placeholder = resultCard.querySelector('.result-placeholder');
         const content = resultCard.querySelector('.result-content');
+        const proposalContent = document.getElementById('proposalContent');
         
+        // 입력값 수집
+        const industry = industrySelect?.value || '';
+        const industryName = industryNames[industry] || '일반';
+        const target = document.getElementById('target')?.value || '';
+        const platforms = Array.from(document.querySelectorAll('input[name="platform"]:checked')).map(cb => platformNames[cb.value] || cb.value);
+        const budgetMin = document.getElementById('budgetMin')?.value || '3000';
+        const budgetMax = document.getElementById('budgetMax')?.value || '5000';
+        const selectedTags = document.getElementById('selectedTags');
+        const features = Array.from(selectedTags?.querySelectorAll('.tag') || []).map(t => t.textContent.replace('×', '').trim());
+        
+        // 로딩 상태
         placeholder.innerHTML = `
             <div class="placeholder-icon loading">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -194,15 +517,38 @@ function initProposalForm() {
                     <path d="M12 6v6l4 2"/>
                 </svg>
             </div>
-            <h3>AI 분석 중...</h3>
-            <p>과거 프로젝트 데이터를 분석하고 있습니다.<br>잠시만 기다려주세요.</p>
+            <h3>AI 제안서 생성 중...</h3>
+            <p>입력하신 정보를 바탕으로 맞춤형 제안서를 생성하고 있습니다.<br>잠시만 기다려주세요.</p>
         `;
+        placeholder.style.display = 'flex';
+        content.style.display = 'none';
         
-        // Simulate AI processing
+        // 제안서 생성
         setTimeout(() => {
+            const proposalHTML = generateProposal({
+                industry, industryName, target, platforms, budgetMin, budgetMax, features
+            });
+            
+            proposalContent.innerHTML = proposalHTML;
             placeholder.style.display = 'none';
             content.style.display = 'block';
             content.style.animation = 'fadeIn 0.5s ease';
+            
+            // 다운로드 버튼 이벤트
+            document.getElementById('downloadHTML')?.addEventListener('click', () => {
+                downloadAsHTML(proposalHTML, `${industryName}_제안서_${new Date().toISOString().split('T')[0]}`);
+            });
+            
+            document.getElementById('downloadWord')?.addEventListener('click', () => {
+                downloadAsWord(proposalHTML, `${industryName}_제안서_${new Date().toISOString().split('T')[0]}`);
+            });
+            
+            document.getElementById('copyProposal')?.addEventListener('click', () => {
+                const textContent = proposalContent.innerText;
+                navigator.clipboard.writeText(textContent).then(() => {
+                    alert('제안서 내용이 클립보드에 복사되었습니다.');
+                });
+            });
         }, 2000);
     });
 }
