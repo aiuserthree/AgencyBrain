@@ -266,10 +266,26 @@ function initProposalForm() {
         // 플랫폼별 비용 (만원) - 기본 개발비
         // ============================================
         const platformCosts = {
-            web: { name: 'PC 웹', design: 800, publishing: 600, dev: 1200 },
-            mobile: { name: '모바일 웹(반응형)', design: 400, publishing: 400, dev: 500 },
-            ios: { name: 'iOS 앱', design: 600, publishing: 0, dev: 2500 },
-            android: { name: 'Android 앱', design: 400, publishing: 0, dev: 2200 },
+            // 솔루션 기반
+            shopify: { name: 'Shopify', design: 600, publishing: 400, dev: 800 },
+            cafe24: { name: 'Cafe24', design: 500, publishing: 350, dev: 600 },
+            magento: { name: 'Magento', design: 700, publishing: 500, dev: 1500 },
+            woocommerce: { name: 'WooCommerce', design: 500, publishing: 400, dev: 700 },
+            godo: { name: '고도몰', design: 500, publishing: 350, dev: 600 },
+            makeshop: { name: '메이크샵', design: 500, publishing: 350, dev: 550 },
+            wordpress: { name: 'WordPress', design: 500, publishing: 400, dev: 600 },
+            webflow: { name: 'Webflow', design: 600, publishing: 300, dev: 400 },
+            // 자체 개발
+            react: { name: 'React/Next.js', design: 800, publishing: 600, dev: 1800 },
+            vue: { name: 'Vue/Nuxt.js', design: 800, publishing: 600, dev: 1700 },
+            // 앱 개발
+            flutter: { name: 'Flutter', design: 700, publishing: 0, dev: 2800 },
+            reactnative: { name: 'React Native', design: 700, publishing: 0, dev: 2600 },
+            ios: { name: 'iOS Native', design: 600, publishing: 0, dev: 3000 },
+            android: { name: 'Android Native', design: 500, publishing: 0, dev: 2500 },
+            // 자체구축
+            custom: { name: '자체구축', design: 900, publishing: 700, dev: 2200 },
+            // 기타
             admin: { name: '관리자 페이지', design: 500, publishing: 400, dev: 1500 }
         };
 
@@ -2445,9 +2461,15 @@ function initProposalForm() {
                         const pc = platformCosts[p];
                         if (!pc) return '';
                         const platformTotal = pc.design + pc.publishing + pc.dev;
+                        const platformIcons = {
+                            shopify: '🛒', cafe24: '🏪', magento: '🔶', woocommerce: '🛍️',
+                            godo: '🏬', makeshop: '🏪', wordpress: '📝', webflow: '🌊',
+                            react: '⚛️', vue: '💚', flutter: '🦋', reactnative: '📱',
+                            ios: '🍎', android: '🤖', custom: '🔧', admin: '⚙️'
+                        };
                         return `
                         <div class="platform-estimate-card">
-                            <div class="platform-icon">${p === 'web' ? '🖥️' : p === 'mobile' ? '📱' : p === 'ios' ? '🍎' : p === 'android' ? '🤖' : '⚙️'}</div>
+                            <div class="platform-icon">${platformIcons[p] || '🌐'}</div>
                             <div class="platform-name">${pc.name}</div>
                             <div class="platform-breakdown">
                                 <div class="breakdown-item">
