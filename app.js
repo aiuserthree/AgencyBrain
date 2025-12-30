@@ -8832,10 +8832,441 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             `;
         }
         
-        // UI 컴포넌트 테이블
-        const uiRows = spec.ui ? spec.ui.map(u => `
-            <tr><td><span class="ui-type">${u.type}</span></td><td>${u.name}</td><td>${u.style || u.placeholder || u.options?.join(', ') || '-'}</td></tr>
-        `).join('') : '';
+        // UI 컴포넌트별 상세 설명 생성
+        const renderUIDetail = (u) => {
+            let details = [];
+            
+            // 유형별 상세 설명
+            switch(u.type) {
+                case '입력':
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">입력 형식</span>
+                                    <span class="detail-value">${u.placeholder || u.format || '자유 입력'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">유효성 검사</span>
+                                    <span class="detail-value">${u.validation || '없음'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">최대 길이</span>
+                                    <span class="detail-value">${u.maxLength ? u.maxLength + '자' : '제한 없음'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">입력 시 동작</span>
+                                    <span class="detail-value">실시간 유효성 검사, 오류 시 필드 하단 빨간색 에러 메시지 표시</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">포커스 아웃 시</span>
+                                    <span class="detail-value">최종 유효성 검사 실행, 통과 시 녹색 체크 표시</span>
+                                </div>
+                                ${u.error ? `<div class="detail-row error"><span class="detail-label">에러 메시지</span><span class="detail-value">"${u.error}"</span></div>` : ''}
+                            </div>
+                        </div>
+                    `);
+                    break;
+                    
+                case '버튼':
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">스타일</span>
+                                    <span class="detail-value">${u.style || '기본 버튼'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">클릭 시 동작</span>
+                                    <span class="detail-value">${u.onClick || '해당 기능 실행'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">비활성화 조건</span>
+                                    <span class="detail-value">${u.disabled || '필수 입력값 미입력 시'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">로딩 상태</span>
+                                    <span class="detail-value">클릭 후 스피너 표시, 버튼 비활성화, 중복 클릭 방지</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">성공 시</span>
+                                    <span class="detail-value">${u.success || '완료 메시지 표시 또는 다음 화면 이동'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">실패 시</span>
+                                    <span class="detail-value">${u.failure || '에러 팝업 표시, 버튼 원래 상태로 복구'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    break;
+                    
+                case '셀렉트':
+                case '라디오':
+                case '체크박스':
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">선택 옵션</span>
+                                    <span class="detail-value">${Array.isArray(u.options) ? u.options.join(' / ') : (u.options || '동적 로딩')}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">기본값</span>
+                                    <span class="detail-value">${u.defaultValue || '선택 없음'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">선택 시 동작</span>
+                                    <span class="detail-value">${u.onChange || '선택값 저장, 연관 UI 업데이트'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">필수 여부</span>
+                                    <span class="detail-value">${u.required ? '필수 (미선택 시 다음 단계 진행 불가)' : '선택사항'}</span>
+                                </div>
+                                ${u.type === '체크박스' ? `
+                                <div class="detail-row">
+                                    <span class="detail-label">체크 시</span>
+                                    <span class="detail-value">체크 아이콘 표시, 관련 기능 활성화</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">해제 시</span>
+                                    <span class="detail-value">빈 박스 표시, 관련 기능 비활성화</span>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `);
+                    break;
+                    
+                case '스테퍼':
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">구성</span>
+                                    <span class="detail-value">[-] 버튼 + 숫자 표시 + [+] 버튼</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">기본값</span>
+                                    <span class="detail-value">${u.defaultValue || '1'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">최소값</span>
+                                    <span class="detail-value">${u.min || '1'} (미만 시 [-] 버튼 비활성화)</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">최대값</span>
+                                    <span class="detail-value">${u.max || '99'} (초과 시 [+] 버튼 비활성화)</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">[-] 클릭 시</span>
+                                    <span class="detail-value">수량 1 감소, 관련 금액 실시간 재계산</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">[+] 클릭 시</span>
+                                    <span class="detail-value">수량 1 증가, 관련 금액 실시간 재계산</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">직접 입력 시</span>
+                                    <span class="detail-value">숫자만 허용, 범위 초과 시 자동 보정</span>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    break;
+                    
+                case '캘린더':
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">표시 형식</span>
+                                    <span class="detail-value">월간 캘린더, 이전/다음 월 네비게이션</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">선택 가능일</span>
+                                    <span class="detail-value">오늘 이후 날짜 (과거 날짜 회색 비활성화)</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">예약 불가일</span>
+                                    <span class="detail-value">회색 처리 + 취소선, 클릭 시 "예약 마감" 토스트</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">날짜 선택 시</span>
+                                    <span class="detail-value">해당 날짜 하이라이트, 시간대 데이터 로딩</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">특수일 표시</span>
+                                    <span class="detail-value">공휴일 빨간색, 주말 회색 배경</span>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    break;
+                    
+                case '모달':
+                case '바텀시트':
+                case '팝업':
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">스타일</span>
+                                    <span class="detail-value">${u.style || (u.type === '바텀시트' ? '하단에서 슬라이드업' : '화면 중앙 오버레이')}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">오픈 시</span>
+                                    <span class="detail-value">배경 딤 처리(반투명 검정), 스크롤 잠금</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">닫기 방법</span>
+                                    <span class="detail-value">X 버튼 클릭 / 배경 클릭 / ESC 키</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">닫힘 시</span>
+                                    <span class="detail-value">애니메이션과 함께 닫힘, 배경 딤 해제, 스크롤 복원</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">애니메이션</span>
+                                    <span class="detail-value">${u.type === '바텀시트' ? '하단→상단 슬라이드' : '페이드인/스케일업'} (300ms)</span>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    break;
+                    
+                case '업로드':
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">업로드 방식</span>
+                                    <span class="detail-value">클릭하여 파일 선택 / 드래그앤드롭</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">허용 형식</span>
+                                    <span class="detail-value">${u.accept || 'JPG, PNG, GIF (이미지) / PDF, DOC (문서)'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">최대 용량</span>
+                                    <span class="detail-value">${u.maxSize || '10MB'} (초과 시 에러 메시지)</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">최대 개수</span>
+                                    <span class="detail-value">${u.maxCount || '10'}개 (초과 시 선택 불가)</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">업로드 중</span>
+                                    <span class="detail-value">프로그레스 바 표시, 취소 버튼 제공</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">업로드 완료</span>
+                                    <span class="detail-value">썸네일 미리보기, X 삭제 버튼 표시</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">삭제 클릭 시</span>
+                                    <span class="detail-value">"삭제하시겠습니까?" 확인 후 삭제</span>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    break;
+                    
+                case '탭':
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">탭 목록</span>
+                                    <span class="detail-value">${Array.isArray(u.options) ? u.options.join(' | ') : (u.options || '동적 로딩')}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">기본 선택</span>
+                                    <span class="detail-value">첫 번째 탭 활성화</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">탭 클릭 시</span>
+                                    <span class="detail-value">해당 탭 활성화(하단 인디케이터), 콘텐츠 영역 전환</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">비활성 탭</span>
+                                    <span class="detail-value">회색 텍스트, 클릭 시 활성화</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">전환 애니메이션</span>
+                                    <span class="detail-value">슬라이드 또는 페이드 (200ms)</span>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    break;
+                    
+                case '별점':
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">구성</span>
+                                    <span class="detail-value">별 아이콘 5개 (☆☆☆☆☆ → ★★★★★)</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">선택 방식</span>
+                                    <span class="detail-value">클릭 또는 드래그로 1~5점 선택</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">호버 시</span>
+                                    <span class="detail-value">해당 점수까지 별 채워짐 미리보기</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">클릭 시</span>
+                                    <span class="detail-value">점수 확정, 별 채워짐 애니메이션</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">점수 표시</span>
+                                    <span class="detail-value">"${u.labels || '1점-별로예요 / 2점-그저그래요 / 3점-보통이에요 / 4점-좋아요 / 5점-최고예요'}"</span>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    break;
+                    
+                case '슬라이더':
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">구성</span>
+                                    <span class="detail-value">${u.style || '트랙 + 핸들 (양쪽 핸들로 범위 선택)'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">범위</span>
+                                    <span class="detail-value">${u.min || '0'} ~ ${u.max || '100'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">드래그 시</span>
+                                    <span class="detail-value">핸들 이동, 현재값 툴팁 표시</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">값 변경 시</span>
+                                    <span class="detail-value">실시간 결과 필터링/업데이트</span>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    break;
+                    
+                case '토글':
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">스타일</span>
+                                    <span class="detail-value">${u.style || 'ON/OFF 스위치 형태'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">OFF 상태</span>
+                                    <span class="detail-value">회색 배경, 좌측 핸들</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">ON 상태</span>
+                                    <span class="detail-value">활성 색상 배경, 우측 핸들</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">클릭 시</span>
+                                    <span class="detail-value">상태 전환 애니메이션 (200ms), 설정값 즉시 저장</span>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    break;
+                    
+                case '텍스트':
+                case '리스트':
+                case '표':
+                case '그리드':
+                case '카운터':
+                case '썸네일':
+                case '태그':
+                case '아이콘':
+                case '링크':
+                default:
+                    details.push(`
+                        <div class="ui-detail-card">
+                            <div class="ui-detail-header">
+                                <span class="ui-type">${u.type}</span>
+                                <strong>${u.name}</strong>
+                            </div>
+                            <div class="ui-detail-body">
+                                <div class="detail-row">
+                                    <span class="detail-label">스타일</span>
+                                    <span class="detail-value">${u.style || '기본 스타일'}</span>
+                                </div>
+                                ${u.options ? `<div class="detail-row"><span class="detail-label">옵션/내용</span><span class="detail-value">${Array.isArray(u.options) ? u.options.join(', ') : u.options}</span></div>` : ''}
+                                ${u.placeholder ? `<div class="detail-row"><span class="detail-label">표시 형식</span><span class="detail-value">${u.placeholder}</span></div>` : ''}
+                                ${u.type === '링크' ? `
+                                <div class="detail-row">
+                                    <span class="detail-label">클릭 시</span>
+                                    <span class="detail-value">해당 페이지/팝업으로 이동</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">호버 시</span>
+                                    <span class="detail-value">밑줄 표시, 커서 포인터</span>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `);
+            }
+            
+            return details.join('');
+        };
+        
+        // UI 컴포넌트 상세 카드 생성
+        const uiCards = spec.ui ? spec.ui.map(u => renderUIDetail(u)).join('') : '';
         
         // 동작 정의 테이블
         const actionRows = spec.actions ? spec.actions.map(a => `
@@ -8871,19 +9302,18 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
                 
                 ${spec.ui ? `
                 <div class="spec-section">
-                    <h6>📱 UI 컴포넌트</h6>
-                    <table class="spec-table">
-                        <thead><tr><th>유형</th><th>이름</th><th>스타일/속성</th></tr></thead>
-                        <tbody>${uiRows}</tbody>
-                    </table>
+                    <h6>📱 화면 구성 상세</h6>
+                    <div class="ui-detail-grid">
+                        ${uiCards}
+                    </div>
                 </div>
                 ` : ''}
                 
                 ${spec.actions ? `
                 <div class="spec-section">
-                    <h6>⚡ 동작 정의</h6>
+                    <h6>⚡ 동작 흐름</h6>
                     <table class="spec-table action-table">
-                        <thead><tr><th>트리거</th><th></th><th>동작</th></tr></thead>
+                        <thead><tr><th>트리거 (사용자 액션)</th><th></th><th>시스템 동작</th></tr></thead>
                         <tbody>${actionRows}</tbody>
                     </table>
                 </div>

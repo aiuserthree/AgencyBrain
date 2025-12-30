@@ -5845,6 +5845,126 @@ input, select, textarea {
     border-radius: var(--border-radius);
 }
 
+/* UI 상세 그리드 */
+.ui-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+}
+
+.ui-detail-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.ui-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(123, 97, 255, 0.08) 100%);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ui-detail-header strong {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.ui-detail-body {
+    padding: 12px 16px;
+}
+
+.detail-row {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border-color);
+    font-size: 0.85rem;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    flex: 0 0 100px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.detail-value {
+    flex: 1;
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.detail-row.error .detail-value {
+    color: var(--accent-pink);
+}
+
+/* UI 타입 배지 색상 */
+.ui-type {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.ui-detail-header .ui-type {
+    background: var(--accent-purple);
+    color: white;
+}
+
+/* UI 타입별 색상 구분 */
+.ui-detail-card:has(.ui-type:contains("입력")) .ui-type,
+.ui-detail-header .ui-type[data-type="입력"] {
+    background: #3b82f6;
+}
+
+.ui-detail-card:has(.ui-type:contains("버튼")) .ui-type {
+    background: #10b981;
+}
+
+.ui-detail-card:has(.ui-type:contains("셀렉트")) .ui-type,
+.ui-detail-card:has(.ui-type:contains("라디오")) .ui-type,
+.ui-detail-card:has(.ui-type:contains("체크박스")) .ui-type {
+    background: #f59e0b;
+}
+
+.ui-detail-card:has(.ui-type:contains("모달")) .ui-type,
+.ui-detail-card:has(.ui-type:contains("팝업")) .ui-type,
+.ui-detail-card:has(.ui-type:contains("바텀시트")) .ui-type {
+    background: #ef4444;
+}
+
+.ui-detail-card:has(.ui-type:contains("캘린더")) .ui-type {
+    background: #8b5cf6;
+}
+
+.ui-detail-card:has(.ui-type:contains("업로드")) .ui-type {
+    background: #06b6d4;
+}
+
+@media (max-width: 768px) {
+    .ui-detail-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .detail-label {
+        flex: none;
+    }
+}
+
 @media (max-width: 768px) {
     .alert-popup {
         grid-template-columns: 1fr;
