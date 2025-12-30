@@ -752,7 +752,151 @@ function initProposalForm() {
                 </div>
             </div>
             
-            <!-- 03. 현황 분석 - Pain Point (Slide 8) -->
+            <!-- 02. 트렌드 분석 - 국내 UIUX TREND 1 (Slide 8) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">02</span>
+                    <h2>국내 ${industryName} UIUX TREND</h2>
+                </div>
+                
+                <div class="trend-subtitle">비주얼 중심의 고객친화적 패턴으로 방문 유저의 주목을 끌고, 콘텐츠와 상품의 자연스러운 연계 구성이 특징</div>
+                
+                <div class="trend-comparison-grid">
+                    <div class="trend-comp-card">
+                        <div class="comp-header">탐색기반 고객친화 UX</div>
+                        <div class="comp-features">
+                            <ul>
+                                <li>상품과 콘텐츠 메뉴의 복합 구성</li>
+                                <li>원하는 메뉴 바로가기</li>
+                                <li>메인 검색 바 강조</li>
+                                <li>쉽고 친절한 고객관점 UX Writing</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="trend-comp-card">
+                        <div class="comp-header">부드러운 신뢰감 제고 UI</div>
+                        <div class="comp-features">
+                            <ul>
+                                <li>브랜드 메인 컬러 + 파스텔톤 믹스</li>
+                                <li>모바일 고려한 라운드형 카드배너</li>
+                                <li>3D 아이콘 활용 직관적 비주얼</li>
+                                <li>캐주얼하고 친근한 톤앤매너</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 02. 트렌드 분석 - 국내 UIUX TREND 2 (Slide 9) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">02</span>
+                    <h2>국내 ${industryName} UIUX TREND</h2>
+                </div>
+                
+                <div class="trend-subtitle">다양한 유입채널과 고객군에 대응하기 위한 단순 메뉴구성, 행동 중심 설계와 브랜드 메시지 전달에 주력</div>
+                
+                <div class="trend-comparison-grid">
+                    <div class="trend-comp-card">
+                        <div class="comp-header">행동기반 UX</div>
+                        <div class="comp-features">
+                            <ul>
+                                <li>방문 목적별 메뉴 단순화 (처음이세요? / 자주 가는 메뉴)</li>
+                                <li>메뉴 중심 빠른 이동 지원</li>
+                                <li>직관적이고 안내/제안형 UX Writing</li>
+                                <li>"지금 바로 상담하기", "쉽게 알려드릴게요" 등</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="trend-comp-card">
+                        <div class="comp-header">브랜드 강조 UI</div>
+                        <div class="comp-features">
+                            <ul>
+                                <li>브랜드 메인컬러 포인트</li>
+                                <li>모던하고 미니멀한 UI</li>
+                                <li>회사 소개 및 뉴스 콘텐츠 강조</li>
+                                <li>신뢰도/안정성 제고 콘텐츠</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 02. 트렌드 분석 - 글로벌 UIUX TREND (Slide 10) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">02</span>
+                    <h2>글로벌 ${industryName} UIUX TREND</h2>
+                </div>
+                
+                <div class="trend-subtitle">정보의 밀도보다 고급스럽고 간결한 시각, 정교하고 디테일한 타겟 유저별 플로우 설계가 특징</div>
+                
+                <div class="trend-comparison-grid">
+                    <div class="trend-comp-card">
+                        <div class="comp-header">방문 타겟별 브랜딩 UX</div>
+                        <div class="comp-features">
+                            <ul>
+                                <li>방문 타겟별 메인 랜딩 상이 (개인/기관/일반)</li>
+                                <li>다양한 사용자 그룹 고려한 지역과 언어 지원</li>
+                                <li>브랜드 메시지 메인 포지셔닝 노출</li>
+                                <li>정보신뢰성 콘텐츠 강화 (리서치, 인사이트)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="trend-comp-card">
+                        <div class="comp-header">시각적 노이즈 최소화 UI</div>
+                        <div class="comp-features">
+                            <ul>
+                                <li>브랜드 메인컬러 활용한 비주얼 브랜딩</li>
+                                <li>일관된 컬러와 레이아웃 배치</li>
+                                <li>아이콘/일러스트보다 기업 이미지 중심</li>
+                                <li>전문성 강조한 비주얼 톤앤매너</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 02. 트렌드 분석 - 시사점 (Slide 11) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">02</span>
+                    <h2>UIUX 트렌드 시사점</h2>
+                </div>
+                
+                <div class="insight-main-box">
+                    <h3>국내외 주요 ${industryName} 웹사이트 UIUX는</h3>
+                </div>
+                
+                <div class="insight-cards-grid">
+                    <div class="insight-card">
+                        <div class="insight-icon">👁️</div>
+                        <div class="insight-title">보여주는 신뢰에서 경험하게 하는 신뢰로</div>
+                        <div class="insight-desc">단순히 데이터를 증명하거나 보여주는 것에서 고객이 '왜 선택해야 하는가'를 경험하도록 설계</div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-icon">💬</div>
+                        <div class="insight-title">설명이 아닌 대화 (자연어 중심)</div>
+                        <div class="insight-desc">일방향적 정보 전달에서 전문성과 친근함의 균형을 잡는 커뮤니케이션으로 변화</div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-icon">🎯</div>
+                        <div class="insight-title">행동을 유도하는 콘텐츠와 정보 배치</div>
+                        <div class="insight-desc">다양한 방문 목적과 타겟에 대응하여 고객의 눈길을 끄는 상품과 콘텐츠 제공</div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-icon">📱</div>
+                        <div class="insight-title">모든 디바이스에서 동일한 경험 품질</div>
+                        <div class="insight-desc">기기와 유입채널이 달라도 동일한 정보와 경험 품질을 유지하는 반응형 기반</div>
+                    </div>
+                </div>
+                
+                <div class="insight-conclusion">
+                    <p><strong>정보 중심의 웹사이트가 아닌, 신뢰 경험 중심의 커뮤니케이션 플랫폼 지향</strong></p>
+                </div>
+            </div>
+            
+            <!-- 03. 현황 분석 - Pain Point (Slide 12) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">03</span>
@@ -787,6 +931,216 @@ function initProposalForm() {
                 <div class="insight-box">
                     <h4>💡 차별화 포인트</h4>
                     <p>경쟁사 대비 <strong>${ind.solutions[0]}</strong>을 통한 차별화된 사용자 경험 제공이 핵심입니다.</p>
+                </div>
+            </div>
+            
+            <!-- 03. 현황 분석 - UXUI 관점 (Slide 13) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">03</span>
+                    <h2>기존 사이트 UXUI 분석</h2>
+                </div>
+                
+                <div class="analysis-subtitle">사이트 정보구조와 메뉴 및 네비게이션</div>
+                
+                <div class="asis-issues-grid">
+                    <div class="asis-issue-card">
+                        <div class="issue-num">1</div>
+                        <div class="issue-content">
+                            <div class="issue-title">브랜드 콘셉트 파악이 힘들고 통일성 낮은 UI</div>
+                            <div class="issue-desc">배너 애니메이션, 컬러, 폰트 등 UI 부분의 통일성이 떨어지고 분산된 정보 전달 구조</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">2</div>
+                        <div class="issue-content">
+                            <div class="issue-title">사용자가 정보를 파악하기 어려운 구조</div>
+                            <div class="issue-desc">메인 첫 화면에서 제공하는 카테고리 연결 버튼, 바로가기 버튼, 배너 등 요소가 너무 많음</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">3</div>
+                        <div class="issue-content">
+                            <div class="issue-title">여러 메뉴가 다양한 형식으로 분산되어 있음</div>
+                            <div class="issue-desc">메뉴 구조가 분산되어 홈페이지 구조를 한 눈에 파악하기 어려움</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">4</div>
+                        <div class="issue-content">
+                            <div class="issue-title">일부 메뉴가 GNB에 없어 IA 재정비 필요</div>
+                            <div class="issue-desc">메뉴 페이지에서만 접근 가능하며, 콘텐츠 해상도가 기존 페이지와 상이</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 03. 현황 분석 - 콘텐츠/디자인 관점 (Slide 14) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">03</span>
+                    <h2>기존 사이트 콘텐츠/디자인 분석</h2>
+                </div>
+                
+                <div class="analysis-subtitle">콘텐츠 및 커뮤니케이션, 페이지 디자인</div>
+                
+                <div class="asis-issues-grid">
+                    <div class="asis-issue-card">
+                        <div class="issue-num">1</div>
+                        <div class="issue-content">
+                            <div class="issue-title">콘텐츠 페이지 레이아웃과 요소가 반복됨</div>
+                            <div class="issue-desc">웹페이지 전반의 레이아웃과 요소가 유사한 패턴으로 구성되어 콘텐츠가 차별화되지 않음</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">2</div>
+                        <div class="issue-content">
+                            <div class="issue-title">정적 디자인으로 인한 차별점 없는 UI</div>
+                            <div class="issue-desc">콘텐츠 업로드 형식이 블로그와 유사하여 기업의 전문성이 다소 낮아 보임</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">3</div>
+                        <div class="issue-content">
+                            <div class="issue-title">콘텐츠 형식/디자인 요소 시각화 개선 필요</div>
+                            <div class="issue-desc">본문에서 복잡한 이미지로 설명을 대체하는 경우가 많아 콘텐츠 형식 개선 필요</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">4</div>
+                        <div class="issue-content">
+                            <div class="issue-title">PC/MO 환경에서 공통적으로 가독성 낮음</div>
+                            <div class="issue-desc">영상 콘텐츠 선택 시 레이어 팝업으로 노출되어 화면 활용도가 제한됨</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 03. 현황 분석 - 개인화 관점 (Slide 15) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">03</span>
+                    <h2>기존 사이트 개인화 분석</h2>
+                </div>
+                
+                <div class="analysis-subtitle">고객 개인화 맞춤 데이터 제공 부족</div>
+                
+                <div class="asis-issues-grid">
+                    <div class="asis-issue-card">
+                        <div class="issue-num">1</div>
+                        <div class="issue-content">
+                            <div class="issue-title">회원 로그인 시스템의 부재</div>
+                            <div class="issue-desc">로그인 시스템이 없어 고객에게 개인화 데이터 분석, 맞춤 정보 제공이 불가능</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">2</div>
+                        <div class="issue-content">
+                            <div class="issue-title">고객에게 맞춤 데이터 제공 불가</div>
+                            <div class="issue-desc">일시적 세션 기반의 사용자 정보를 제공하는 형식으로 정보의 정확성과 지속성이 낮음</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">3</div>
+                        <div class="issue-content">
+                            <div class="issue-title">개인화 메뉴가 있지만 부정확한 정보 제공</div>
+                            <div class="issue-desc">마이페이지 메뉴가 존재하나 로그인 기반이 아닌 세션 기반의 정보 제공</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">4</div>
+                        <div class="issue-content">
+                            <div class="issue-title">고객 데이터 축적 불가</div>
+                            <div class="issue-desc">고객 데이터를 통한 트렌드 파악 및 상품 개발이 중요한데 데이터 수집이 되지 않음</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 03. 현황 분석 - 사용자 경험 관점 (Slide 16) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">03</span>
+                    <h2>기존 사이트 사용자 경험 분석</h2>
+                </div>
+                
+                <div class="analysis-subtitle">사용자 경험 측면 및 시스템 환경</div>
+                
+                <div class="asis-issues-grid">
+                    <div class="asis-issue-card">
+                        <div class="issue-num">1</div>
+                        <div class="issue-content">
+                            <div class="issue-title">PC 기반으로 설계된 가로형 UI 구조</div>
+                            <div class="issue-desc">PC 기반의 레이아웃, 해상도, 가로형 스크롤로 설계된 페이지가 많아 모바일 사용성 낮음</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">2</div>
+                        <div class="issue-content">
+                            <div class="issue-title">모바일 퍼스트 기반의 웹사이트 구성 필요</div>
+                            <div class="issue-desc">모바일 퍼스트를 기본으로 하는 메뉴 설계와 페이지, 콘텐츠 구성 필요</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">3</div>
+                        <div class="issue-content">
+                            <div class="issue-title">문서디자인 형식으로 가독성 낮은 페이지 다수</div>
+                            <div class="issue-desc">텍스트 중심의 페이지, 인포그래픽 및 시각화 자료가 문서디자인 형식</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue-card">
+                        <div class="issue-num">4</div>
+                        <div class="issue-content">
+                            <div class="issue-title">최적화 이슈로 부정적 사용자 경험</div>
+                            <div class="issue-desc">페이지 및 콘텐츠 로딩 속도가 느리고, 폰트 적용에 시간이 소요됨</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 03. 현황 분석 - 주요 개선 포인트 (Slide 17) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">03</span>
+                    <h2>주요 개선 포인트와 방향</h2>
+                </div>
+                
+                <div class="improvement-direction">
+                    <h3>ASIS ${industryName} 웹사이트의 주요 개선 포인트와 개선 방향은,</h3>
+                </div>
+                
+                <div class="improvement-cards-grid">
+                    <div class="improvement-card">
+                        <div class="improve-icon">🎯</div>
+                        <div class="improve-title">고객이 보고 싶은 정보를 직관적으로 볼 수 있는 구조</div>
+                        <div class="improve-desc">직관적이고 유연한 정보 구조 배치로 원하는 정보를 쉽게 찾을 수 있는 메뉴 및 화면 구성</div>
+                        <ul class="improve-actions">
+                            <li>대화형 AI 검색을 통한 정보, 인사이트 제공</li>
+                            <li>브랜드 톤앤매너와 페르소나 정의를 통한 일관된 경험</li>
+                        </ul>
+                    </div>
+                    <div class="improvement-card">
+                        <div class="improve-icon">📖</div>
+                        <div class="improve-title">초보 고객도 쉽게 읽히는 비주얼 디자인 콘텐츠</div>
+                        <div class="improve-desc">어렵고 복잡한 내용을 쉽게 이해할 수 있는 디자인 요소와 인터랙션의 경험적 콘텐츠 구성</div>
+                        <ul class="improve-actions">
+                            <li>데이터 시각화 강화</li>
+                            <li>마이크로카피 및 UX라이팅 개선</li>
+                        </ul>
+                    </div>
+                    <div class="improvement-card">
+                        <div class="improve-icon">📱</div>
+                        <div class="improve-title">접근성 향상을 통한 사용자 경험 개선</div>
+                        <div class="improve-desc">반응형, 모바일 기반 설계와 디자인을 통해 고객의 접근성을 높이는 방향 개선</div>
+                        <ul class="improve-actions">
+                            <li>모바일 퍼스트 기반 웹사이트 구성</li>
+                            <li>광범위한 고객층 대응</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="improvement-conclusion">
+                    <p><strong>모바일 기반으로 정보 구조, 비주얼 요소, 사용자 여정 개선을 통해 고객이 필요한 정보와 인사이트를 한 곳에서 모두 제공할 수 있는 AI ${ind.keyword} 플랫폼으로 전환</strong></p>
                 </div>
             </div>
             
@@ -837,7 +1191,309 @@ function initProposalForm() {
                 </div>
             </div>
             
-            <!-- 05. IA 정보구조 (Slide 11) - 동적 IA -->
+            <!-- 04. 리뉴얼 전략 - 콘텐츠 개선 (Slide 19) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">04</span>
+                    <h2>콘텐츠 개선 전략</h2>
+                </div>
+                
+                <div class="strategy-subtitle">신뢰와 데이터를 기반으로 콘텐츠 최적화</div>
+                
+                <div class="content-strategy-grid">
+                    <div class="content-strategy-card">
+                        <div class="cs-icon">🔍</div>
+                        <div class="cs-title">SEO/AIO 기반 콘텐츠 최적화</div>
+                        <ul class="cs-list">
+                            <li>키워드 기반 블로그, 뉴스룸, 리포트 코너 구축</li>
+                            <li>메타태그, 제목 구조, 이미지 ALT 등 기술적 SEO</li>
+                            <li>FAQ, 가이드, 용어사전 등 '질문 기반 콘텐츠' 확보</li>
+                        </ul>
+                    </div>
+                    <div class="content-strategy-card">
+                        <div class="cs-icon">📅</div>
+                        <div class="cs-title">시의성 있는 콘텐츠 제공</div>
+                        <ul class="cs-list">
+                            <li>주요 이벤트·정책에 맞춘 타이밍 콘텐츠</li>
+                            <li>분기별, 월별 인사이트</li>
+                            <li>뉴스 + 분석 콘텐츠 결합</li>
+                        </ul>
+                    </div>
+                    <div class="content-strategy-card">
+                        <div class="cs-icon">🛤️</div>
+                        <div class="cs-title">고객 여정에 따른 콘텐츠 배치</div>
+                        <ul class="cs-list">
+                            <li><strong>인지 단계:</strong> 트렌드, 이슈 요약</li>
+                            <li><strong>고려 단계:</strong> 비교, 사례, 영상 콘텐츠</li>
+                            <li><strong>전환 단계:</strong> 1:1 문의, 간편 가입 UX</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="strategy-insight">
+                    <p>잠재 고객들이 검색을 통해 신뢰할 수 있는 브랜드와 콘텐츠를 확인하고, 유용한 콘텐츠에 머물며 자연스럽게 서비스/상품 관심으로 전환되도록 유도</p>
+                </div>
+            </div>
+            
+            <!-- 04. 리뉴얼 전략 - 개인화 서비스 (Slide 20) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">04</span>
+                    <h2>개인화 서비스 전략</h2>
+                </div>
+                
+                <div class="strategy-subtitle">AI 기술 활용을 통한 개인화 서비스</div>
+                
+                <div class="personalization-grid">
+                    <div class="personal-service-card">
+                        <div class="ps-icon">🤖</div>
+                        <div class="ps-title">자연어 기반 AI 검색/상담</div>
+                        <div class="ps-desc">사용자가 질문하듯 입력하면 관련 정보를 자연어로 응답</div>
+                        <ul class="ps-features">
+                            <li>상품, 리포트, 용어 등 복합 정보 대화형 응대</li>
+                            <li>고객의 이전 질문 등을 반영한 연속적 맥락 대응</li>
+                        </ul>
+                    </div>
+                    <div class="personal-service-card">
+                        <div class="ps-icon">📊</div>
+                        <div class="ps-title">AI 기반 개인화 마이페이지</div>
+                        <div class="ps-desc">관심사, 이력 등을 실시간 반영한 맞춤 대시보드</div>
+                        <ul class="ps-features">
+                            <li>현황, 실적 등을 직관적으로 시각화</li>
+                            <li>개인별 리마인더, 제안, 목표 달성률 추적</li>
+                        </ul>
+                    </div>
+                    <div class="personal-service-card">
+                        <div class="ps-icon">📚</div>
+                        <div class="ps-title">사용자 관심별 콘텐츠 큐레이션</div>
+                        <div class="ps-desc">검색/열람 이력과 관심사 분석을 통한 맞춤 콘텐츠</div>
+                        <ul class="ps-features">
+                            <li>최신 리서치, 마켓 인사이트 맞춤 제공</li>
+                            <li>푸시·메일·마이페이지를 통한 콘텐츠 제안</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="strategy-insight">
+                    <p>AI 기반 검색·상담, 개인 맞춤 마이페이지, 관심 기반 콘텐츠 큐레이션을 통해 사용자가 원하는 정보를 직관적이고 능동적으로 경험할 수 있는 개인화 서비스 제공</p>
+                </div>
+            </div>
+            
+            <!-- 04. 리뉴얼 전략 - 시스템 개발 (Slide 21) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">04</span>
+                    <h2>시스템 개발 전략</h2>
+                </div>
+                
+                <div class="strategy-subtitle">효율적인 운영을 위한 시스템 개발</div>
+                
+                <div class="system-dev-grid">
+                    <div class="system-dev-card">
+                        <div class="sd-icon">📝</div>
+                        <div class="sd-title">콘텐츠 업데이트 및 관리</div>
+                        <ul class="sd-features">
+                            <li>관리자 페이지에서 콘텐츠 손쉽게 등록·수정</li>
+                            <li>카테고리, 태그, 키워드 기반 콘텐츠 분류 및 검색</li>
+                            <li>발행일 자동화, 예약 기능 등 효율적 운영</li>
+                            <li>열람수 기반 자동 추천 콘텐츠 구성</li>
+                        </ul>
+                    </div>
+                    <div class="system-dev-card">
+                        <div class="sd-icon">📈</div>
+                        <div class="sd-title">고객 행동 데이터 분석 지원</div>
+                        <ul class="sd-features">
+                            <li>방문자 유입 경로, 체류 시간, 클릭 패턴 실시간 수집</li>
+                            <li>관심 콘텐츠 열람 이력 기반 선호도 분석</li>
+                            <li>AI 기반 전환 가능성 예측 및 개인화 콘텐츠 제공</li>
+                            <li>대시보드 형태의 관리자 분석 도구 제공</li>
+                        </ul>
+                    </div>
+                    <div class="system-dev-card">
+                        <div class="sd-icon">🔐</div>
+                        <div class="sd-title">소셜 로그인 활용 고객 관리</div>
+                        <ul class="sd-features">
+                            <li>카카오, 네이버, 구글 등 소셜 계정 연동 간편 회원가입</li>
+                            <li>로그인 기반 관심사 저장, 열람 이력 개인화</li>
+                            <li>비로그인/로그인 사용자 행동 비교 분석</li>
+                            <li>리드 수집 및 고객 세분화 마케팅 자동화</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="strategy-insight">
+                    <p>콘텐츠를 효율적으로 업데이트·관리하고, 고객 행동 데이터를 분석해 맞춤형 서비스를 제공하며, 소셜 로그인을 통한 간편한 고객 관리로 운영 효율성과 사용자 경험을 강화</p>
+                </div>
+            </div>
+            
+            <!-- 05. UX & 시스템 구축 - 디자인 컨셉 1 (Slide 22) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <h2>디자인 전략 및 컨셉</h2>
+                </div>
+                
+                <div class="design-concept-main">
+                    <div class="concept-keyword">Connected Confidence.</div>
+                    <div class="concept-tagline">데이터와 사람, 브랜드와 경험이 하나로 연결되는 신뢰</div>
+                </div>
+                
+                <div class="concept-description">
+                    <p>${industryName}는 데이터로 말하고, 사람의 언어로 신뢰를 쌓습니다.</p>
+                    <p>${ind.keyword}라는 영역은 숫자와 논리로 설득되지만, 진짜 신뢰는 <strong>'이해되는 경험'</strong>에서 완성됩니다.</p>
+                    <p>우리는 복잡한 정보를 명료하게 해석하고, 그 데이터를 사용자의 여정 속에 자연스럽게 연결합니다.</p>
+                </div>
+            </div>
+            
+            <!-- 05. UX & 시스템 구축 - 디자인 컨셉 2 (Slide 23) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <h2>Proactive UX for Confidence</h2>
+                </div>
+                
+                <div class="design-approach-subtitle">정보가 고객에게 먼저 다가와 신뢰와 확신으로 이어지는 UX 경험</div>
+                
+                <div class="design-approach-grid">
+                    <div class="approach-card">
+                        <div class="approach-label">Design</div>
+                        <div class="approach-title">Readable Design.</div>
+                        <div class="approach-desc">정보가 '보이는' 디자인이 아닌 '읽히는' 디자인<br>쉽게 해석하고 이해할 수 있도록 구조화</div>
+                    </div>
+                    <div class="approach-card">
+                        <div class="approach-label">Contents</div>
+                        <div class="approach-title">Desirable Contents.</div>
+                        <div class="approach-desc">고객의 눈높이에서 이해하기 쉽게<br>잘 정리 및 선별된 호감 콘텐츠</div>
+                    </div>
+                    <div class="approach-card">
+                        <div class="approach-label">Development</div>
+                        <div class="approach-title">Connected Dev.</div>
+                        <div class="approach-desc">데이터+서비스+고객 관리가<br>유기적으로 통합된 관리시스템</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 05. 디자인 시스템 - Trend (Slide 24) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <h2>${industryName} 디자인 트렌드</h2>
+                </div>
+                
+                <div class="trend-main-title">모바일 뱅킹/핀테크의 공통적인 4가지 방향</div>
+                
+                <div class="design-trend-grid">
+                    <div class="design-trend-card">
+                        <div class="dt-icon">📱</div>
+                        <div class="dt-title">모바일이 중심 채널로 고착</div>
+                        <div class="dt-desc">언제, 어디서든 정보를 확인할 수 있는 신뢰, 투명성 기반 모바일 중심 경험</div>
+                    </div>
+                    <div class="design-trend-card">
+                        <div class="dt-icon">🎯</div>
+                        <div class="dt-title">AI 기반 개인화/맞춤형 경험</div>
+                        <div class="dt-desc">사용자별 맞춤형 정보 & 인사이트 제공으로 개인화된 경험</div>
+                    </div>
+                    <div class="design-trend-card">
+                        <div class="dt-icon">💬</div>
+                        <div class="dt-title">대화형 인터페이스와 자연어 탐색</div>
+                        <div class="dt-desc">정보 검색과 상품 탐색을 말하듯 쉽게 자연어로 처리</div>
+                    </div>
+                    <div class="design-trend-card">
+                        <div class="dt-icon">📊</div>
+                        <div class="dt-title">미니멀 UI + 데이터 시각화</div>
+                        <div class="dt-desc">복잡한 정보를 쉽고, 읽히게 보여주는 요약 중심 설계</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 05. 디자인 시스템 - UI Readable (Slide 25) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <h2>UI & Visual - Readable</h2>
+                </div>
+                
+                <div class="ui-concept-subtitle">정보를 읽히는 구조로 바꾸는 UX</div>
+                <div class="ui-concept-desc">정보를 더 쉽게 읽고 이해할 수 있도록</div>
+                
+                <div class="ui-principle-grid">
+                    <div class="ui-principle-card">
+                        <div class="up-title">데이터 시각화</div>
+                        <div class="up-desc">복잡한 데이터를 한눈에 읽히도록 구조화, 단순화, 의미 전달에 중점</div>
+                        <div class="up-benefit">초보자도 데이터가 읽히는 경험</div>
+                    </div>
+                    <div class="ui-principle-card">
+                        <div class="up-title">여백 중심, 아이콘 의미 보조</div>
+                        <div class="up-desc">복잡한 개념은 아이콘, 라벨로 즉시 의미 파악 가능하게</div>
+                        <div class="up-benefit">시각적 복잡도를 낮추면서 의미·맥락·가독성 강화</div>
+                    </div>
+                    <div class="ui-principle-card">
+                        <div class="up-title">카드 중심 UI</div>
+                        <div class="up-desc">카드 형태의 반복되는 구조로 사용자가 읽는 리듬을 형성</div>
+                        <div class="up-benefit">복잡한 개념을 작은 덩어리로 인지</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 05. 디자인 시스템 - UI Proactive (Slide 26) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <h2>UI & Visual - Proactive</h2>
+                </div>
+                
+                <div class="ui-concept-subtitle">사용자보다 먼저 정보가 다가오는 능동적 UX</div>
+                <div class="ui-concept-desc">사용자의 행동을 유도하는 능동형 인터페이스 구현</div>
+                
+                <div class="ui-principle-grid">
+                    <div class="ui-principle-card">
+                        <div class="up-title">시선을 먼저 끌어주는 AI 기능</div>
+                        <div class="up-desc">첫 화면을 자연어 기반 검색/질문과 부드러운 인터랙션으로 필요한 정보를 자연스럽게 안내</div>
+                        <div class="up-benefit">하단 영역에 대화창을 항상 노출하여 언제든 사용자 요구에 반응</div>
+                    </div>
+                    <div class="ui-principle-card">
+                        <div class="up-title">Guided Motion, 제안형 UI</div>
+                        <div class="up-desc">부드러운 등장, 위치 이동 움직임으로 먼저 제안, 업데이트 느낌을 시각적으로 부여</div>
+                        <div class="up-benefit">AI 영역의 색상 변화 인터랙션으로 능동적, 즉각적 서비스 느낌</div>
+                    </div>
+                    <div class="ui-principle-card">
+                        <div class="up-title">개인화</div>
+                        <div class="up-desc">이용 패턴이 누적될수록 개인 맞춤이 정교화되고 개인화된 정보 노출</div>
+                        <div class="up-benefit">내 상황을 먼저 이해하고 제안하는 서비스 느낌 제공</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 05. 디자인 시스템 - UI Connected (Slide 27) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <h2>UI & Visual - Connected</h2>
+                </div>
+                
+                <div class="ui-concept-subtitle">데이터+서비스+UI가 유기적으로 통합된 UX</div>
+                <div class="ui-concept-desc">정보의 맥락에 따라 다양한 정보를 함께 제공</div>
+                
+                <div class="ui-principle-grid">
+                    <div class="ui-principle-card">
+                        <div class="up-title">통합된 카드 패턴</div>
+                        <div class="up-desc">다양한 상품, 콘텐츠를 어떤 화면에서도 동일한 레이아웃과 모듈 구조를 유지</div>
+                        <div class="up-benefit">단절감을 없애고 한 흐름 안에 있는 느낌 제공</div>
+                    </div>
+                    <div class="ui-principle-card">
+                        <div class="up-title">구조적 연속성 유지</div>
+                        <div class="up-desc">화면이 바뀌어도 형태를 유지하여 콘텐츠를 하나의 체계 안에서 인지하도록</div>
+                        <div class="up-benefit">사용자가 모든 정보를 같은 체계 안에서 인지</div>
+                    </div>
+                    <div class="ui-principle-card">
+                        <div class="up-title">브랜드 아이덴티티</div>
+                        <div class="up-desc">브랜드 톤앤매너와 아이덴티티를 인터페이스 톤에 일관되게 적용</div>
+                        <div class="up-benefit">브랜드만의 철학을 자연스럽게 느낄 수 있도록</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 05. IA 정보구조 (Slide 28) - 동적 IA -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">05</span>
@@ -1060,6 +1716,254 @@ function initProposalForm() {
                 </div>
             </div>
             
+            <!-- 07. AI 기능 기획 - AI 서비스 목표 (Slide 40) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">07</span>
+                    <h2>AI 서비스 목표</h2>
+                </div>
+                
+                <div class="ai-service-goal-box">
+                    <div class="ai-goal-quote">"${ind.keyword}에 대해 궁금한 게 생길 때,<br>플랫폼에 와서 그냥 말하듯이 물어보면,<br>나에게 맞는 설명과 추천을 한 번에 보여주는 서비스"</div>
+                </div>
+                
+                <div class="ai-core-goal">
+                    <h4>핵심 목표</h4>
+                    <p>고객이 원하는 방식으로 질문하면, AI가 개인별 맞춤 답변과 함께 관련 콘텐츠를 한 화면에 통합하여 제공.<br>
+                    자연어 통합검색과 개인별 추천을 결합해 상담과 전환까지 자연스럽게 연결하는 지능형 플랫폼 경험 구현.</p>
+                </div>
+            </div>
+            
+            <!-- 07. AI 기능 기획 - 시나리오 정의 (Slide 41) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">07</span>
+                    <h2>AI 시나리오 정의</h2>
+                </div>
+                
+                <div class="scenario-intro">플랫폼이 만나게 될 두 가지 전형적인 고객 유형을 선정하여<br>각각 다른 경험과 니즈를 가진 고객들이 동일한 플랫폼에서 맞춤 경험을 얻을 수 있도록 설계</div>
+                
+                <div class="persona-comparison-grid">
+                    <div class="persona-scenario-card">
+                        <div class="persona-avatar-large">👩</div>
+                        <div class="persona-name-large">${ind.persona.name} (${ind.persona.age}세)</div>
+                        <div class="persona-job">${ind.persona.job}</div>
+                        <div class="persona-type">초보 고객</div>
+                        <div class="persona-desc-large">${ind.persona.desc}</div>
+                    </div>
+                    <div class="persona-scenario-card">
+                        <div class="persona-avatar-large">👨‍💼</div>
+                        <div class="persona-name-large">전문 고객 B (40대)</div>
+                        <div class="persona-job">대기업 과장, 경험 10년+</div>
+                        <div class="persona-type">전문 고객</div>
+                        <div class="persona-desc-large">명확한 조건으로 정교한 검색을 원하는 전문 사용자</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 07. AI 기능 기획 - 시나리오 1 (Slide 42-44) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">07</span>
+                    <h2>시나리오 1 - 초보 고객 여정</h2>
+                </div>
+                
+                <div class="scenario-journey-grid">
+                    <div class="scenario-step-card">
+                        <div class="step-num">① 첫 방문</div>
+                        <div class="step-title">검색을 통해 플랫폼에 처음 방문</div>
+                        <div class="step-desc">복잡한 메뉴 구조를 탐색할 필요 없이, 홈페이지 중앙의 큰 질문형 검색창이 바로 눈에 들어옴</div>
+                    </div>
+                    <div class="scenario-step-card">
+                        <div class="step-num">② 통합검색</div>
+                        <div class="step-title">"쉽게 설명해줘"라고 질문</div>
+                        <div class="step-desc">하나의 통합된 검색 결과 화면에서 AI 요약 설명 + 관련 상품 + 학습 콘텐츠를 동시에 제공</div>
+                    </div>
+                    <div class="scenario-step-card">
+                        <div class="step-num">③ AI 개인화</div>
+                        <div class="step-title">맞춤형 AI 검색 결과 제공</div>
+                        <div class="step-desc">여러 번 방문하며 탐색한 패턴을 AI와 그래프DB가 분석하여 개인화된 인사이트와 추천 제공</div>
+                    </div>
+                </div>
+                
+                <div class="scenario-result">
+                    <div class="result-title">AI 판단 결과</div>
+                    <div class="result-content">"${ind.persona.age}대, ${ind.keyword} 경험 적음, 장기적 관점에 관심" → 개인화된 현황 분석 + 방향 제안 + 학습 자료 추천</div>
+                </div>
+            </div>
+            
+            <!-- 07. AI 기능 기획 - 시나리오 2 (Slide 45-47) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">07</span>
+                    <h2>시나리오 2 - 전문 고객 여정</h2>
+                </div>
+                
+                <div class="scenario-journey-grid">
+                    <div class="scenario-step-card">
+                        <div class="step-num">① 명확한 목적</div>
+                        <div class="step-title">후보를 정해놓고 방문하는 40대</div>
+                        <div class="step-desc">명확한 관심 분야와 후보 리스트를 이미 가지고 있으며, 상세 비교 분석을 원함</div>
+                    </div>
+                    <div class="scenario-step-card">
+                        <div class="step-num">② 조건 검색</div>
+                        <div class="step-title">구체적인 조건으로 정교한 질문 입력</div>
+                        <div class="step-desc">"3년 이상, 수수료 낮고 안정적인 상품 알려줘" → 조건검색 + 상세 비교 결과 제공</div>
+                    </div>
+                    <div class="scenario-step-card">
+                        <div class="step-num">③ AI 리포트</div>
+                        <div class="step-title">맞춤형 AI 포트폴리오 리포트</div>
+                        <div class="step-desc">행동 패턴 분석을 통해 "장기 보유 전제의 성장형에 강한 관심"으로 판단, 맞춤 리포트 자동 생성</div>
+                    </div>
+                </div>
+                
+                <div class="scenario-result">
+                    <div class="result-title">AI 판단 결과</div>
+                    <div class="result-content">"40대, 경험 풍부, 구체적 조건 검색" → 상세 비교 분석 + AI 포트폴리오 리포트 + 전문가 상담 연결</div>
+                </div>
+            </div>
+            
+            <!-- 07. AI 기능 기획 - 단계별 개발 프로세스 (Slide 49-52) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">07</span>
+                    <h2>AI 단계별 개발 프로세스</h2>
+                </div>
+                
+                <div class="ai-dev-process-grid">
+                    <div class="ai-process-card">
+                        <div class="process-step-num">Step 1</div>
+                        <div class="process-title">데이터 표준화</div>
+                        <div class="process-subtitle">흩어진 데이터를 한 곳에, 같은 틀로</div>
+                        <ul class="process-items">
+                            <li>표준 정보 테이블 구축</li>
+                            <li>성과/가격/구성 통합 테이블 설계</li>
+                            <li>문서 메타정보 + 문단 단위 텍스트 테이블 생성</li>
+                        </ul>
+                    </div>
+                    <div class="ai-process-card">
+                        <div class="process-step-num">Step 2</div>
+                        <div class="process-title">온톨로지 설계</div>
+                        <div class="process-subtitle">체계적인 분류 체계로 자연어 질문을 조건으로 변환</div>
+                        <ul class="process-items">
+                            <li>자산군, 지역, 테마 등 분류 체계 적용</li>
+                            <li>위험 수준 분류</li>
+                            <li>자연어 질문을 검색 조건으로 자동 변환</li>
+                        </ul>
+                    </div>
+                    <div class="ai-process-card">
+                        <div class="process-step-num">Step 3</div>
+                        <div class="process-title">검색 + 벡터 인덱스</div>
+                        <div class="process-subtitle">후보 상품과 적합 이유를 동시에 답변</div>
+                        <ul class="process-items">
+                            <li>검색 인덱스: 조건 기반 필터링</li>
+                            <li>벡터 인덱스: 의미 기반 유사도 검색</li>
+                            <li>상품 리스트 + 근거 설명 동시 제공</li>
+                        </ul>
+                    </div>
+                    <div class="ai-process-card">
+                        <div class="process-step-num">Step 4</div>
+                        <div class="process-title">그래프 DB</div>
+                        <div class="process-subtitle">관계를 이해하는 두 번째 뇌</div>
+                        <ul class="process-items">
+                            <li>상품 ↔ 테마 ↔ 고객 행동 관계망 구축</li>
+                            <li>유사 상품 자동 추천</li>
+                            <li>개인별 맞춤 리포트 생성</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 07. AI 기능 기획 - AI 관리자 페이지 (Slide 55) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">07</span>
+                    <h2>AI 관리자 페이지</h2>
+                </div>
+                
+                <div class="ai-admin-subtitle">AI는 한 번 구축하고 끝나는 것이 아니라, 지속적으로 모니터링하고 개선해야 하는 살아있는 시스템</div>
+                
+                <div class="ai-admin-grid">
+                    <div class="ai-admin-card">
+                        <div class="admin-icon">📊</div>
+                        <div class="admin-title">대시보드</div>
+                        <div class="admin-desc">방문통계, 검색/AI 분석, 인기 키워드, 시스템 알림</div>
+                    </div>
+                    <div class="ai-admin-card">
+                        <div class="admin-icon">🤖</div>
+                        <div class="admin-title">AI 관리</div>
+                        <div class="admin-desc">RAG 소스 관리, 정보연결/그래프 관리, 검색 품질관리</div>
+                    </div>
+                    <div class="ai-admin-card">
+                        <div class="admin-icon">👥</div>
+                        <div class="admin-title">개인화 관리</div>
+                        <div class="admin-desc">관심 테마 분석, 행동 로그, 추천 알고리즘 설정</div>
+                    </div>
+                    <div class="ai-admin-card">
+                        <div class="admin-icon">📈</div>
+                        <div class="admin-title">운영 리포트</div>
+                        <div class="admin-desc">AI 사용량, 인기상품/검색, 콘텐츠 조회수 분석</div>
+                    </div>
+                </div>
+                
+                <div class="ai-admin-note">
+                    <p><strong>구현 방안:</strong> AI 품질을 "켜놓고 방치"가 아니라 운영자가 함께 튜닝하는 구조로 설계</p>
+                </div>
+            </div>
+            
+            <!-- 07. AI 기능 기획 - 안전한 AI 운영 (Slide 56) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">07</span>
+                    <h2>안전한 AI 운영 관리 체계</h2>
+                </div>
+                
+                <div class="ai-safety-subtitle">${industryName} 서비스에서 AI를 운영할 때는 기술적 완성도 만큼이나 보안, 규제 준수, 소비자 보호가 중요</div>
+                
+                <div class="ai-safety-grid">
+                    <div class="ai-safety-card">
+                        <div class="safety-num">1</div>
+                        <div class="safety-title">데이터 보안</div>
+                        <ul class="safety-items">
+                            <li>개인정보 암호화 및 접근 통제</li>
+                            <li>데이터 마스킹 처리</li>
+                            <li>로그 모니터링 및 이상 탐지</li>
+                        </ul>
+                    </div>
+                    <div class="ai-safety-card">
+                        <div class="safety-num">2</div>
+                        <div class="safety-title">AI 윤리 준수</div>
+                        <ul class="safety-items">
+                            <li>편향성 검증 및 공정성 확보</li>
+                            <li>AI 판단 근거 설명 가능성</li>
+                            <li>부적절한 응답 필터링</li>
+                        </ul>
+                    </div>
+                    <div class="ai-safety-card">
+                        <div class="safety-num">3</div>
+                        <div class="safety-title">규제 대응</div>
+                        <ul class="safety-items">
+                            <li>관련 법규 준수 체계</li>
+                            <li>AI 서비스 고지 의무 이행</li>
+                            <li>정기 감사 및 보고 체계</li>
+                        </ul>
+                    </div>
+                    <div class="ai-safety-card">
+                        <div class="safety-num">4</div>
+                        <div class="safety-title">품질 관리</div>
+                        <ul class="safety-items">
+                            <li>응답 정확도 모니터링</li>
+                            <li>사용자 피드백 수집 및 반영</li>
+                            <li>지속적 모델 개선 체계</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="ai-safety-conclusion">
+                    <p><strong>지속 가능하고 신뢰할 수 있는 AI 서비스 운영 체계를 통해 ${industryName}의 디지털 혁신을 안전하게 실현</strong></p>
+                </div>
+            </div>
+            
             <!-- PLAN 구분선 -->
             <div class="proposal-divider plan">
                 <span class="divider-label">PLAN</span>
@@ -1069,7 +1973,7 @@ function initProposalForm() {
                 </div>
             </div>
             
-            <!-- 08. 수행 계획 - 추진조직 (Slide 18) -->
+            <!-- 08. 수행 계획 - 추진조직 (Slide 58) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">08</span>
@@ -1265,6 +2169,202 @@ function initProposalForm() {
                 <div class="estimate-note">
                     <p>※ 본 견적은 제안 시점의 예상 견적이며, 상세 요구사항 확정 후 변동될 수 있습니다.</p>
                     <p>※ 서버 호스팅, 외부 API 라이선스, 클라우드 비용 등 별도 비용은 포함되지 않았습니다.</p>
+                </div>
+            </div>
+            
+            <!-- 09. 품질 및 성과관리 - 사업관리 방안 (Slide 64) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">09</span>
+                    <h2>품질 및 성과관리</h2>
+                </div>
+                
+                <div class="quality-intro">체계적인 품질관리 시스템을 통해 프로젝트 수행 품질을 보장합니다</div>
+                
+                <div class="quality-grid">
+                    <div class="quality-card">
+                        <div class="quality-icon">📋</div>
+                        <div class="quality-title">산출물 표준화</div>
+                        <div class="quality-desc">모든 산출물의 형식, 내용, 품질 기준을 표준화하여 일관성 유지</div>
+                        <ul class="quality-items">
+                            <li>산출물 템플릿 제공</li>
+                            <li>작성 가이드 및 체크리스트</li>
+                            <li>버전 관리 체계</li>
+                        </ul>
+                    </div>
+                    <div class="quality-card">
+                        <div class="quality-icon">✅</div>
+                        <div class="quality-title">품질 검토</div>
+                        <div class="quality-desc">단계별 품질 검토 및 승인 프로세스 운영</div>
+                        <ul class="quality-items">
+                            <li>자체 QA 검토</li>
+                            <li>고객 리뷰 및 승인</li>
+                            <li>품질 개선 피드백</li>
+                        </ul>
+                    </div>
+                    <div class="quality-card">
+                        <div class="quality-icon">📊</div>
+                        <div class="quality-title">성과 측정</div>
+                        <div class="quality-desc">KPI 기반 프로젝트 성과 모니터링</div>
+                        <ul class="quality-items">
+                            <li>일정 준수율</li>
+                            <li>결함 발생률</li>
+                            <li>고객 만족도</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 09. 품질 및 성과관리 - 업무보고 방안 (Slide 67) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">09</span>
+                    <h2>업무보고 방안</h2>
+                </div>
+                
+                <div class="report-subtitle">체계적인 보고 체계를 통해 프로젝트 투명성과 소통 효율을 극대화합니다</div>
+                
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>유형</th>
+                            <th>목적</th>
+                            <th>참석자</th>
+                            <th>주기</th>
+                            <th>산출물</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>일일 보고</strong></td>
+                            <td>업무 진행 현황 공유</td>
+                            <td>실무진</td>
+                            <td>매일</td>
+                            <td>일일 리포트 (메신저)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>주간 보고</strong></td>
+                            <td>주요 이슈 및 진행 상황 점검</td>
+                            <td>PM + 파트별 리더</td>
+                            <td>주 1회</td>
+                            <td>주간 보고서</td>
+                        </tr>
+                        <tr>
+                            <td><strong>월간 보고</strong></td>
+                            <td>목표 대비 진행률, 리스크 관리</td>
+                            <td>전체 팀 + 고객</td>
+                            <td>월 1회</td>
+                            <td>월간 보고서</td>
+                        </tr>
+                        <tr>
+                            <td><strong>단계별 보고</strong></td>
+                            <td>마일스톤 완료 및 승인</td>
+                            <td>전체 + 고객 경영진</td>
+                            <td>단계 완료 시</td>
+                            <td>산출물 + 보고서</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 09. 품질 및 성과관리 - 긴급이슈 대응 (Slide 68) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">09</span>
+                    <h2>긴급이슈 대응 프로세스</h2>
+                </div>
+                
+                <div class="emergency-intro">예기치 못한 이슈 발생 시 신속하고 체계적인 대응 체계를 운영합니다</div>
+                
+                <div class="emergency-process">
+                    <div class="emergency-step">
+                        <div class="emergency-step-num">1</div>
+                        <div class="emergency-step-content">
+                            <div class="emergency-title">이슈 발견</div>
+                            <div class="emergency-desc">담당자가 이슈를 인지하고 PM에게 즉시 보고</div>
+                            <div class="emergency-time">⏱️ 10분 이내</div>
+                        </div>
+                    </div>
+                    <div class="emergency-arrow">→</div>
+                    <div class="emergency-step">
+                        <div class="emergency-step-num">2</div>
+                        <div class="emergency-step-content">
+                            <div class="emergency-title">긴급 판단</div>
+                            <div class="emergency-desc">PM이 이슈 심각도를 판단하고 긴급 여부 결정</div>
+                            <div class="emergency-time">⏱️ 30분 이내</div>
+                        </div>
+                    </div>
+                    <div class="emergency-arrow">→</div>
+                    <div class="emergency-step">
+                        <div class="emergency-step-num">3</div>
+                        <div class="emergency-step-content">
+                            <div class="emergency-title">대응 조치</div>
+                            <div class="emergency-desc">원인 분석 및 해결 방안 수립, 실행</div>
+                            <div class="emergency-time">⏱️ 2시간 이내</div>
+                        </div>
+                    </div>
+                    <div class="emergency-arrow">→</div>
+                    <div class="emergency-step">
+                        <div class="emergency-step-num">4</div>
+                        <div class="emergency-step-content">
+                            <div class="emergency-title">결과 보고</div>
+                            <div class="emergency-desc">해결 결과 고객 보고 및 재발 방지책 공유</div>
+                            <div class="emergency-time">⏱️ 4시간 이내</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="emergency-note">
+                    <p>※ 서비스 장애 등 심각한 이슈의 경우, 24시간 비상 연락 체계를 통해 즉시 대응합니다.</p>
+                </div>
+            </div>
+            
+            <!-- 09. 품질 및 성과관리 - 품질관리 자동화 (Slide 69) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">09</span>
+                    <h2>품질관리 자동화</h2>
+                </div>
+                
+                <div class="automation-subtitle">자동화된 품질 검증 시스템을 통해 일관된 품질을 보장합니다</div>
+                
+                <div class="automation-grid">
+                    <div class="automation-card">
+                        <div class="auto-icon">🔍</div>
+                        <div class="auto-title">코드 품질 검사</div>
+                        <ul class="auto-items">
+                            <li>ESLint / Prettier 코드 스타일</li>
+                            <li>SonarQube 정적 분석</li>
+                            <li>코드 리뷰 자동화</li>
+                        </ul>
+                    </div>
+                    <div class="automation-card">
+                        <div class="auto-icon">🧪</div>
+                        <div class="auto-title">테스트 자동화</div>
+                        <ul class="auto-items">
+                            <li>단위 테스트 (Jest, Mocha)</li>
+                            <li>E2E 테스트 (Cypress, Playwright)</li>
+                            <li>커버리지 80% 이상 유지</li>
+                        </ul>
+                    </div>
+                    <div class="automation-card">
+                        <div class="auto-icon">🚀</div>
+                        <div class="auto-title">CI/CD 파이프라인</div>
+                        <ul class="auto-items">
+                            <li>GitHub Actions / Jenkins</li>
+                            <li>빌드 / 테스트 / 배포 자동화</li>
+                            <li>스테이징 / 프로덕션 분리</li>
+                        </ul>
+                    </div>
+                    <div class="automation-card">
+                        <div class="auto-icon">📈</div>
+                        <div class="auto-title">모니터링</div>
+                        <ul class="auto-items">
+                            <li>Sentry 에러 추적</li>
+                            <li>성능 모니터링 (Lighthouse)</li>
+                            <li>실시간 알림 시스템</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             
