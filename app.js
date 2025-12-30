@@ -7806,7 +7806,68 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
         electronics: '가전', furniture: '가구', sports: '스포츠', kids: '유아동', pets: '반려동물', luxury: '럭셔리', lifestyle: '라이프스타일'
     };
     const industryName = industryNames[industry] || '일반';
-    const docId = `FD-${funcType.toUpperCase().substring(0, 3)}-001`;
+    
+    // 기능정의서.md 형식에 맞는 화면 ID 생성
+    const pageType = options.length > 0 ? 'P' : 'LP';
+    const screenId = `${industryName.charAt(0).toUpperCase()}_${funcType}_1_0_0_0_0_${pageType}`;
+    
+    // 기능 유형별 메뉴 경로 정의
+    const menuPaths = {
+        // 회원/인증
+        'login': '로그인 > 로그인',
+        'signup': '로그인 > 회원가입',
+        'social_login': '로그인 > 소셜 로그인',
+        'find_id': '로그인 > 아이디 찾기',
+        'find_pw': '로그인 > 비밀번호 찾기',
+        // 상품/서비스
+        'product_list': '상품 > 리스트',
+        'product_detail': '상품 > 상세',
+        'cart': '상품 > 장바구니',
+        'order': '상품 > 주문',
+        'payment': '상품 > 결제',
+        'size_guide': '상품 > 사이즈 가이드',
+        'styling': '상품 > 스타일링 추천',
+        'virtual_fitting': '상품 > 가상 피팅',
+        // 예약
+        'booking': '예약 > 예약하기',
+        'install_booking': '예약 > 설치예약',
+        'class_booking': '예약 > 수업 예약',
+        'pt_booking': '예약 > PT 예약',
+        'visit_booking': '예약 > 방문 예약',
+        'consultation': '상담 > 상담 신청',
+        // 마이페이지
+        'mypage': '마이페이지 > 홈',
+        'order_history': '마이페이지 > 주문 내역',
+        'review': '마이페이지 > 후기 관리',
+        'inquiry': '마이페이지 > 1:1 문의',
+        'profile': '마이페이지 > 회원정보',
+        // 고객지원
+        'faq': '고객지원 > 자주하는 질문',
+        'notice': '고객지원 > 공지사항',
+        'contact': '고객지원 > 문의하기',
+        // 관리자
+        'admin_dashboard': '관리자 > 대시보드',
+        'admin_user': '관리자 > 회원 관리',
+        'admin_order': '관리자 > 주문 관리',
+        'admin_booking': '관리자 > 예약 관리'
+    };
+    const menuPath = menuPaths[funcType] || `${funcName}`;
+    
+    // 화면 타입 정의
+    const screenTypes = {
+        'login': 'page', 'signup': 'page', 'social_login': 'layer pop up',
+        'cart': 'page', 'payment': 'page', 'booking': 'page',
+        'admin_dashboard': 'page'
+    };
+    const screenType = screenTypes[funcType] || 'page';
+    
+    // 접근 권한 정의
+    const accessRights = {
+        'login': '전체', 'signup': '전체', 'product_list': '전체', 'product_detail': '전체',
+        'cart': '전체', 'payment': '로그인', 'booking': '로그인', 'mypage': '로그인',
+        'admin_dashboard': '관리자', 'admin_user': '관리자', 'admin_order': '관리자'
+    };
+    const accessRight = accessRights[funcType] || '로그인';
     
     // 기능 유형별 상세 정보 (페이지 UI 요소 + 행위 + 결과 + 기본값 포함)
     const funcTypeInfo = {
@@ -9692,181 +9753,435 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
         return renderOptionSpec(opt, spec, idx);
     }).join('');
     
-    // 화면 구성 요소 생성
-    const screenElements = options.slice(0, 6).map(opt => `
-        <div class="element"><span class="el-type">[UI]</span> ${opt} 영역</div>
-    `).join('');
+    // 기능정의서.md 형식에 맞는 기능 설명 생성
+    const generateFuncDescription = () => {
+        // 기능 유형별 상세 기능 설명 데이터
+        const funcDescriptions = {
+            'login': {
+                sections: [
+                    { title: '로그인 안내', items: ['로그인 안내정보'] },
+                    { title: '로그인 입력', items: [
+                        '아이디 : 이메일 형식',
+                        'ㄴ 이메일 입력 시, 이메일 도메인 지원',
+                        '→ @naver.com, @gmail.com, @icloud.com, @kakao.com, @daum.net, @nate.com, @hanmail.net',
+                        '비밀번호 : 영문, 숫자, 특수문자 포함 8자~20자 입력'
+                    ]},
+                    { title: '간편 로그인', items: [
+                        '카카오 간편로그인 처리',
+                        'ㄴ 카카오 계정 인증/연동 자사 회원 O : 로그인 완료 처리',
+                        'ㄴ 카카오 계정 인증/연동 자사 회원 X : 카카오 간편 회원가입 프로세스 진행'
+                    ]},
+                    { title: '이메일 회원가입', items: ['회원가입 페이지로 이동'] },
+                    { title: '아이디 찾기', items: ['아이디 찾기 페이지로 이동'] },
+                    { title: '비밀번호 찾기', items: ['비밀번호 찾기 페이지로 이동'] }
+                ]
+            },
+            'signup': {
+                sections: [
+                    { title: '정책', items: [
+                        '본인인증 CI 정보 기준 중복 가입 불가(1회원 1계정 가입 정책)',
+                        '본인인증 CI 정보 기준 만 19세 미만 회원인 경우 가입 불가'
+                    ]},
+                    { title: '휴대폰 본인인증 방법 선택', items: ['PASS (NICE 평가정보)'] },
+                    { title: '인증 성공 시 약관동의 단계로 이동', items: ['인증 실패 시 인증 실패값 노출 후 본인인증 페이지로 포워딩'] }
+                ]
+            },
+            'booking': {
+                sections: [
+                    { title: '예약 상담', items: [
+                        '비로그인 상태 진입한 경우',
+                        'ㄴ "로그인하고 간편 상담 신청하기" 배너 영역 노출 : 클릭 시 로그인 페이지로 이동, 로그인 성공 후 복귀',
+                        'ㄴ 이름 [텍스트입력] : 한글 10자 이내',
+                        'ㄴ 휴대폰번호 [텍스트입력 \'-\'제외] : 숫자 15자 이내',
+                        'ㄴ 희망 상담 시간 선택 옵션1 : 최대한 빨리 연락주세요',
+                        'ㄴ 희망 상담 시간 선택 옵션2 : 희망 날짜/시간 선택',
+                        '→ 날짜 : 평일 영업일 기준 7일 날짜 리스트 노출 (주말/공휴일 제외)',
+                        '→ 시간 : 상담 가능 시간 선택',
+                        'ㄴ 모두 선택 후 확인 시 필수 입력값 체크 및 "상담신청이 완료되었습니다." 확인 얼럿'
+                    ]},
+                    { title: '로그인 상태 진입한 경우', items: [
+                        'ㄴ 이름/휴대폰 번호 정보 로그인 CI값 기준으로 기입력된 상태로 노출',
+                        'ㄴ 희망 상담 시간 선택 옵션1 : 최대한 빨리 연락주세요',
+                        'ㄴ 희망 상담 시간 선택 옵션2 : 희망 날짜/시간 선택'
+                    ]},
+                    { title: '예약 완료 시 알림톡/SMS 발송', items: [
+                        'ㄴ 발송 시 알림 발송 메시지',
+                        'ㄴ 카카오 알림톡 발송 실패 시 SMS 발송 진행'
+                    ]}
+                ],
+                alertMessage: `예약 신청 접수 안내
+
+#{고객명}님의 문의가 접수되었습니다.
+
+고객님께서 요청하신 #{상담신청시간} 희망상담 시간에 담당자가 연락을 드릴 예정입니다.
+
+과정 중 문의가 있으신 경우, 언제든 고객센터로 문의해주세요.
+
+감사합니다.`
+            },
+            'install_booking': {
+                sections: [
+                    { title: '설치 제품 정보 확인', items: [
+                        '설치 대상 제품 정보 자동 노출',
+                        'ㄴ 제품명, 제품 이미지, 수량 표시',
+                        'ㄴ 제품 변경 클릭 시 설치 가능 제품 목록 모달'
+                    ]},
+                    { title: '설치 희망일 선택', items: [
+                        '캘린더 형태로 설치 가능일 선택',
+                        'ㄴ 오늘+3일 후부터 선택 가능',
+                        'ㄴ 예약 마감일은 회색 비활성화 처리',
+                        'ㄴ 날짜 선택 시 해당 시간대 로딩'
+                    ]},
+                    { title: '설치 시간대 선택', items: [
+                        '오전 (9-12시) / 오후 (13-18시) 선택',
+                        'ㄴ 마감된 시간대는 비활성화 처리'
+                    ]},
+                    { title: '설치 주소 입력', items: [
+                        '회원 기본 주소 자동 입력',
+                        'ㄴ 주소 검색 버튼 클릭 시 다음 주소 API 팝업',
+                        'ㄴ 상세주소 직접 입력 (최대 100자)'
+                    ]},
+                    { title: '연락처 입력', items: [
+                        '회원 휴대폰 자동 입력',
+                        'ㄴ 자동 하이픈 추가 (010-0000-0000)',
+                        'ㄴ 잘못된 형식 입력 시 에러 표시'
+                    ]},
+                    { title: '출입 방법 선택', items: [
+                        '자유출입 / 공동현관 비밀번호 / 경비실 호출 선택',
+                        'ㄴ 공동현관 비밀번호 선택 시 입력 필드 표시'
+                    ]},
+                    { title: '예약하기 버튼', items: [
+                        '필수값 미입력 시 비활성화',
+                        'ㄴ 클릭 시 예약 정보 유효성 검사',
+                        'ㄴ 예약 성공 시 "설치 예약이 완료되었습니다" 팝업',
+                        'ㄴ 예약 실패 시 에러 메시지 팝업'
+                    ]}
+                ]
+            },
+            'payment': {
+                sections: [
+                    { title: '주문 상품 확인', items: [
+                        '장바구니 상품 목록 표시',
+                        'ㄴ 펼치기/접기 기능',
+                        'ㄴ 상품명 클릭 시 상품 상세 새 탭'
+                    ]},
+                    { title: '배송지 정보', items: [
+                        '기본 배송지 자동 선택',
+                        'ㄴ 저장된 배송지 선택',
+                        'ㄴ 새 배송지 추가',
+                        'ㄴ 주소 검색 시 다음 주소 API 팝업'
+                    ]},
+                    { title: '결제 수단 선택', items: [
+                        '신용카드 / 간편결제 / 무통장입금 선택',
+                        'ㄴ 신용카드 : 카드 정보 입력 폼',
+                        'ㄴ 간편결제 : 카카오페이/네이버페이 등 버튼',
+                        'ㄴ 무통장입금 : 입금 은행 선택, 입금자명 입력'
+                    ]},
+                    { title: '카드 정보 입력', items: [
+                        '카드 번호 : 16자리, 4자리마다 자동 하이픈',
+                        '유효기간 : MM/YY 형식',
+                        'CVC : 3자리 마스킹 표시',
+                        '할부 선택 : 일시불~12개월'
+                    ]},
+                    { title: '쿠폰/포인트 적용', items: [
+                        '쿠폰 코드 입력 또는 보유 쿠폰 선택',
+                        '포인트 사용 입력 (전액사용 버튼)',
+                        '실시간 결제금액 재계산'
+                    ]},
+                    { title: '결제하기 버튼', items: [
+                        '필수 동의 + 정보 입력 완료 시 활성화',
+                        'ㄴ 클릭 시 결제 진행',
+                        'ㄴ 결제 성공 : 주문 완료 페이지 이동',
+                        'ㄴ 결제 실패 : 에러 팝업, 사유 표시, 재시도 버튼'
+                    ]}
+                ]
+            },
+            'cart': {
+                sections: [
+                    { title: '상품 선택', items: [
+                        '전체선택 체크박스 : 모든 상품 선택/해제',
+                        '개별 상품 체크박스 : 개별 선택/해제',
+                        'ㄴ 일부만 선택 시 전체선택 indeterminate 상태'
+                    ]},
+                    { title: '수량 변경', items: [
+                        '스테퍼 형태 (+/-) 버튼',
+                        'ㄴ - 클릭 : 수량 1 감소 (최소 1)',
+                        'ㄴ + 클릭 : 수량 1 증가, 재고 체크',
+                        'ㄴ 재고 초과 시 "재고가 부족합니다" 토스트'
+                    ]},
+                    { title: '옵션 변경', items: [
+                        '옵션 변경 링크 클릭 시 바텀시트',
+                        'ㄴ 옵션 선택 후 변경 버튼'
+                    ]},
+                    { title: '상품 삭제', items: [
+                        '개별 삭제 : X 버튼 클릭 → 확인 팝업',
+                        '선택 삭제 : 선택 상품 일괄 삭제',
+                        '품절 상품 삭제 : 품절 상품 일괄 삭제'
+                    ]},
+                    { title: '금액 계산', items: [
+                        '총 상품 금액 표시',
+                        '배송비 표시 (무료배송 조건 안내)',
+                        '할인 금액 표시',
+                        '총 결제 예정 금액 실시간 계산'
+                    ]},
+                    { title: '주문하기 버튼', items: [
+                        '선택 상품 없으면 비활성화',
+                        'ㄴ 로그인 시 : 주문서 작성 페이지 이동',
+                        'ㄴ 비로그인 시 : 로그인 유도 팝업',
+                        'ㄴ 품절 상품 포함 시 : 에러 팝업'
+                    ]}
+                ]
+            },
+            'mypage': {
+                sections: [
+                    { title: '공통 노출 정보', items: [
+                        '알림 배치 : 정책으로 정의된 알람을 해당 시기에 노출',
+                        'ㄴ 후기 작성 알림',
+                        'ㄴ 상담 신청 완료 상태 알림',
+                        'ㄴ 1:1 문의 등록/답변 알림'
+                    ]},
+                    { title: '멤버십 인증서 노출', items: [
+                        'ㄴ 이름',
+                        'ㄴ 휴대폰번호 (마스킹 처리)',
+                        'ㄴ 멤버십 상태 : 가입 / 미가입',
+                        'ㄴ 바코드 : 멤버십 상태 \'가입\' 시 출력'
+                    ]},
+                    { title: '퀵링크 공통 노출 영역', items: [
+                        '계약/주문 조회',
+                        '후기 관리 : 작성 가능한 후기 건수 노출',
+                        '1:1 문의 내역',
+                        '회원정보 관리'
+                    ]}
+                ]
+            },
+            'size_guide': {
+                sections: [
+                    { title: '사이즈표 탭', items: [
+                        '의류/신발 등 카테고리별 탭',
+                        'ㄴ 의류 탭 : S/M/L/XL 기준 사이즈표',
+                        'ㄴ 신발 탭 : 230~290mm 사이즈표'
+                    ]},
+                    { title: '부위별 치수표', items: [
+                        '테이블 형태로 사이즈별 치수 표시',
+                        'ㄴ 행 호버 시 해당 사이즈 하이라이트',
+                        'ㄴ 사이즈 클릭 시 내 사이즈로 선택'
+                    ]},
+                    { title: '내 사이즈 입력', items: [
+                        '키(cm) / 몸무게(kg) 입력',
+                        'ㄴ 숫자만 허용, 범위 검사',
+                        'ㄴ 추천받기 버튼 클릭 시 결과 표시'
+                    ]},
+                    { title: '추천 사이즈 결과', items: [
+                        '입력값 기반 사이즈 추천',
+                        'ㄴ "고객님께 추천드리는 사이즈는 M입니다"',
+                        'ㄴ 다시 측정 클릭 시 입력 폼으로 복귀'
+                    ]},
+                    { title: '측정 방법 안내', items: [
+                        '아코디언 형태 (펼치기/접기)',
+                        'ㄴ 측정 방법 이미지+텍스트 가이드'
+                    ]}
+                ]
+            }
+        };
+        
+        // 기본 기능 설명 (기능 유형이 없을 경우)
+        const defaultDesc = {
+            sections: [
+                { title: '기능 진입', items: [
+                    '메뉴/버튼 클릭 시 해당 기능 페이지 진입',
+                    'ㄴ 로그인 필요 시 로그인 페이지로 이동 후 복귀'
+                ]},
+                { title: '정보 입력/선택', items: [
+                    '필수 입력 항목 표시 (*)',
+                    'ㄴ 유효성 검사 실패 시 에러 메시지 표시',
+                    '선택 입력 항목 (선택사항)'
+                ]},
+                { title: '처리 완료', items: [
+                    '확인/완료 버튼 클릭 시 처리',
+                    'ㄴ 성공 : 완료 메시지 표시',
+                    'ㄴ 실패 : 에러 메시지 표시, 재시도 유도'
+                ]}
+            ]
+        };
+        
+        const desc = funcDescriptions[funcType] || defaultDesc;
+        
+        // 선택된 옵션 기반으로 추가 기능 설명 생성
+        options.forEach((opt, idx) => {
+            if (idx < 3) {
+                desc.sections.push({
+                    title: `${opt} 기능`,
+                    items: [
+                        `${opt} 관련 UI 요소 구성`,
+                        `ㄴ 사용자 입력/선택 처리`,
+                        `ㄴ 유효성 검사 및 에러 처리`,
+                        `→ 성공 시 : 다음 단계 진행`,
+                        `→ 실패 시 : 에러 메시지 표시`
+                    ]
+                });
+            }
+        });
+        
+        return desc;
+    };
+    
+    const funcDesc = generateFuncDescription();
+    
+    // 기능 설명 HTML 생성
+    const renderFuncSections = () => {
+        return funcDesc.sections.map((section, idx) => `
+            <div class="func-desc-section">
+                <div class="func-desc-number">${idx + 1}</div>
+                <div class="func-desc-content">
+                    <div class="func-desc-title">${section.title}</div>
+                    <ul class="func-desc-items">
+                        ${section.items.map(item => {
+                            const isArrow = item.startsWith('→');
+                            const isNested = item.startsWith('ㄴ');
+                            const itemClass = isArrow ? 'arrow-item' : (isNested ? 'nested-item' : '');
+                            return `<li class="${itemClass}">${item}</li>`;
+                        }).join('')}
+                    </ul>
+                </div>
+            </div>
+        `).join('');
+    };
+    
+    // 비고 섹션 생성
+    const renderRemarks = () => {
+        const remarks = [];
+        
+        // 마스킹 정책
+        if (['login', 'signup', 'mypage', 'profile', 'inquiry'].includes(funcType)) {
+            remarks.push({
+                title: '이름 마스킹 처리 정책',
+                items: [
+                    '(공통) 공백인 경우 마스킹 대상에서 제외',
+                    '1자일 경우: 전체 마스킹',
+                    '2자일 경우 : 첫번째 노출, 2번째 마스킹',
+                    '3~5자일 경우 : 첫번째 + 마지막 자리 노출, 가운데 마스킹',
+                    '6자 이상 : 앞 2자리 + 마지막 2자리 노출, 가운데 마스킹'
+                ]
+            });
+            remarks.push({
+                title: '휴대폰번호 마스킹 처리 정책',
+                items: [
+                    '10자 미만 : 첫 2자리 + 마지막 2자리 노출, 가운데 마스킹',
+                    '10자 이상 : 첫 3자리 + 마지막 4자리 노출, 가운데 마스킹 (예: 010-****-1111)'
+                ]
+            });
+        }
+        
+        // 이메일 마스킹
+        if (['login', 'signup', 'find_id'].includes(funcType)) {
+            remarks.push({
+                title: '이메일 마스킹 처리 정책',
+                items: [
+                    '1자리인 경우 전체 마스킹 : *@naver.com',
+                    '2자리 이상인 경우 2번째 자리부터 마스킹 : a*@naver.com',
+                    '3자리 이상인 경우 4번째 자리부터 마스킹 : abc***@naver.com'
+                ]
+            });
+        }
+        
+        // 일반 안내사항
+        remarks.push({
+            title: '일반 안내사항',
+            items: [
+                '본 기능은 ' + industryName + ' 업종에 최적화되어 설계되었습니다.',
+                '개인정보보호법, 정보통신망법 등 관련 법규를 준수합니다.',
+                '선택된 옵션: ' + options.slice(0, 5).join(', ') + (options.length > 5 ? ' 외 ' + (options.length - 5) + '개' : '')
+            ]
+        });
+        
+        return remarks.map(remark => `
+            <div class="func-remark">
+                <div class="remark-title">${remark.title}</div>
+                <ul class="remark-items">
+                    ${remark.items.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `).join('');
+    };
+    
+    // 알림톡 메시지 렌더링
+    const renderAlertMessage = () => {
+        if (funcDesc.alertMessage) {
+            return `
+                <div class="func-alert-message">
+                    <div class="alert-message-header">알림톡/SMS 발송 메시지</div>
+                    <div class="alert-message-content">
+                        <pre>${funcDesc.alertMessage}</pre>
+                    </div>
+                </div>
+            `;
+        }
+        return '';
+    };
     
     return `
-        <div class="func-doc-header">
-            <div class="doc-meta">
-                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">${docId}</span></div>
-                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
-                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
-                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
-                <div class="meta-item"><span class="meta-label">분류</span><span class="meta-value">${info.category}</span></div>
-            </div>
-        </div>
-
-        <div class="func-journey">
-            <h4>📍 사용자 여정 (User Journey)</h4>
-            <div class="journey-flow">
-                ${info.steps.map((step, idx) => `
-                    <div class="journey-step ${idx === info.steps.length - 1 ? 'completed' : ''}">
-                        <span class="step-num">${idx + 1}</span>
-                        <span class="step-title">${step}</span>
-                    </div>
-                    ${idx < info.steps.length - 1 ? '<div class="journey-arrow">→</div>' : ''}
-                `).join('')}
-            </div>
-        </div>
-
-        <div class="func-section">
-            <h4>1. 기능 개요</h4>
-            <div class="func-overview">
-                <p><strong>기능명:</strong> ${info.icon} ${funcName}</p>
-                <p><strong>기능 목적:</strong> ${info.purpose}</p>
-                <p><strong>접근 경로:</strong> 메인 > ${info.category} > ${funcName}</p>
-                <p><strong>권한:</strong> 로그인 사용자 (일부 기능 비회원 허용)</p>
-            </div>
-        </div>
-
-        <div class="func-section">
-            <h4>2. 화면 구성 (Screen Layout)</h4>
-            <div class="screen-layout">
-                <div class="screen-item">
-                    <h5>2.1 ${funcName} 메인 화면</h5>
-                    <div class="screen-elements">
-                        <div class="element"><span class="el-type">[헤더]</span> 페이지 타이틀 및 안내</div>
-                        ${screenElements}
-                        <div class="element"><span class="el-type">[버튼]</span> 주요 액션 버튼</div>
-                        <div class="element"><span class="el-type">[안내]</span> 도움말/가이드</div>
-                    </div>
-                </div>
-                <div class="screen-item">
-                    <h5>2.2 상세/결과 화면</h5>
-                    <div class="screen-elements">
-                        <div class="element"><span class="el-type">[결과]</span> 처리 결과 표시 영역</div>
-                        <div class="element"><span class="el-type">[상세]</span> 상세 정보 영역</div>
-                        <div class="element"><span class="el-type">[버튼]</span> 다음 단계/완료 버튼</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        ${info.pageUI ? `
-        <div class="func-section page-ui-section">
-            <h4>2.5 📋 ${funcName} 페이지 UI 요소별 행위/결과 정의</h4>
-            <p class="section-desc">이 페이지에서 사용되는 모든 UI 요소와 각 요소에서 발생할 수 있는 사용자 행위, 시스템 반응, 결과 상태를 정의합니다.</p>
-            
-            ${info.pageUI.map((ui, idx) => `
-            <div class="page-ui-group">
-                <div class="page-ui-header">
-                    <span class="ui-number">${idx + 1}</span>
-                    <div class="ui-info">
-                        <strong>${ui.element}</strong>
-                        <span class="ui-type-badge">${ui.type}</span>
-                    </div>
-                    <div class="ui-default">
-                        <span class="default-label">기본값:</span>
-                        <span class="default-value">${ui.defaultVal}</span>
-                    </div>
-                </div>
-                <table class="page-ui-table">
-                    <thead>
-                        <tr>
-                            <th width="25%">사용자 행위</th>
-                            <th width="45%">시스템 반응 (결과)</th>
-                            <th width="30%">다음 상태</th>
-                        </tr>
-                    </thead>
+        <div class="func-spec-document">
+            <!-- 화면 기본 정보 테이블 (기능정의서.md 형식) -->
+            <div class="func-info-table">
+                <table>
                     <tbody>
-                        ${ui.actions.map(act => `
                         <tr>
-                            <td><strong>${act.action}</strong></td>
-                            <td>${act.result}</td>
-                            <td><span class="next-state">${act.nextState}</span></td>
+                            <th>화면 ID</th>
+                            <td><code>${screenId}</code></td>
                         </tr>
-                        `).join('')}
+                        <tr>
+                            <th>메뉴 경로</th>
+                            <td>${menuPath}</td>
+                        </tr>
+                        <tr>
+                            <th>타입</th>
+                            <td>${screenType}</td>
+                        </tr>
+                        <tr>
+                            <th>PC/MO</th>
+                            <td>공통</td>
+                        </tr>
+                        <tr>
+                            <th>Spec</th>
+                            <td>1차</td>
+                        </tr>
+                        <tr>
+                            <th>접근 권한</th>
+                            <td>${accessRight}</td>
+                        </tr>
+                        <tr>
+                            <th>관련 요구사항</th>
+                            <td>FO_REQ_${String(Math.floor(Math.random() * 100)).padStart(3, '0')}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-            `).join('')}
-        </div>
-        ` : ''}
-
-        <div class="func-section func-spec-section">
-            <h4>3. 선택된 기능 상세 스펙</h4>
-            <div class="func-spec-container">
-                ${optionItems || '<div class="empty-spec">선택된 옵션이 없습니다</div>'}
+            
+            <!-- 기능 설명 섹션 -->
+            <div class="func-description-section">
+                <h4>기능 설명</h4>
+                <div class="func-desc-container">
+                    ${renderFuncSections()}
+                </div>
             </div>
-        </div>
-
-        <div class="func-section">
-            <h4>4. 데이터 정의</h4>
-            <div class="func-table detail">
-                <div class="func-row header"><span>필드명</span><span>데이터 타입</span><span>설명</span><span>필수</span></div>
-                <div class="func-row"><span>id</span><span>BIGINT</span><span>고유 식별자 (PK, Auto Increment)</span><span class="required">Y</span></div>
-                <div class="func-row"><span>user_id</span><span>BIGINT</span><span>사용자 ID (FK)</span><span class="required">Y</span></div>
-                <div class="func-row"><span>type</span><span>VARCHAR(50)</span><span>${funcName} 유형</span><span class="required">Y</span></div>
-                <div class="func-row"><span>status</span><span>VARCHAR(20)</span><span>상태 (대기/진행/완료/취소)</span><span class="required">Y</span></div>
-                <div class="func-row"><span>data</span><span>JSON</span><span>상세 데이터</span><span class="optional">N</span></div>
-                <div class="func-row"><span>created_at</span><span>DATETIME</span><span>생성일시</span><span class="required">Y</span></div>
-                <div class="func-row"><span>updated_at</span><span>DATETIME</span><span>수정일시</span><span class="required">Y</span></div>
+            
+            <!-- 알림톡 메시지 (해당 시) -->
+            ${renderAlertMessage()}
+            
+            <!-- 선택된 상세 옵션 스펙 -->
+            <div class="func-options-section">
+                <h4>상세 옵션 스펙</h4>
+                <div class="func-options-container">
+                    ${optionItems || '<div class="empty-spec">선택된 옵션이 없습니다</div>'}
+                </div>
             </div>
-        </div>
-
-        <div class="func-section">
-            <h4>5. 비즈니스 규칙</h4>
-            <ul class="func-list">
-                <li><strong>접근 권한:</strong> ${industryName} 업종 특성에 맞는 권한 체계 적용</li>
-                <li><strong>데이터 보관:</strong> 관련 법규에 따른 데이터 보관 기간 준수</li>
-                <li><strong>처리 기준:</strong> ${funcName} 처리 기준 및 정책 적용</li>
-                ${options.slice(0, 3).map(opt => `<li><strong>${opt}:</strong> ${opt} 관련 비즈니스 규칙 적용</li>`).join('')}
-            </ul>
-        </div>
-
-        <div class="func-section">
-            <h4>6. 에러 처리</h4>
-            <div class="func-table">
-                <div class="func-row header"><span>에러 상황</span><span>에러 메시지</span><span>처리 방법</span></div>
-                <div class="func-row"><span>필수 항목 누락</span><span>"필수 항목을 입력해주세요"</span><span>누락 필드 하이라이트</span></div>
-                <div class="func-row"><span>유효성 검증 실패</span><span>"입력 정보를 확인해주세요"</span><span>오류 필드 표시</span></div>
-                <div class="func-row"><span>권한 없음</span><span>"접근 권한이 없습니다"</span><span>로그인/권한 안내</span></div>
-                <div class="func-row"><span>처리 실패</span><span>"처리 중 오류가 발생했습니다"</span><span>재시도 안내</span></div>
-                <div class="func-row"><span>네트워크 오류</span><span>"네트워크 연결을 확인해주세요"</span><span>재시도 버튼</span></div>
-            </div>
-        </div>
-
-        <div class="func-section">
-            <h4>7. API 연동</h4>
-            <div class="func-table">
-                <div class="func-row header"><span>API</span><span>메소드</span><span>설명</span></div>
-                <div class="func-row"><span>/api/${funcType}</span><span>GET</span><span>${funcName} 목록/상세 조회</span></div>
-                <div class="func-row"><span>/api/${funcType}</span><span>POST</span><span>${funcName} 생성/등록</span></div>
-                <div class="func-row"><span>/api/${funcType}/{id}</span><span>PUT</span><span>${funcName} 수정</span></div>
-                <div class="func-row"><span>/api/${funcType}/{id}</span><span>DELETE</span><span>${funcName} 삭제</span></div>
-                <div class="func-row"><span>/api/${funcType}/{id}/status</span><span>PATCH</span><span>${funcName} 상태 변경</span></div>
-            </div>
-        </div>
-
-        <div class="func-section">
-            <h4>8. 연관 기능</h4>
-            <div class="func-related">
-                <div class="related-item"><span class="related-icon">👤</span> 회원가입/로그인</div>
-                <div class="related-item"><span class="related-icon">📱</span> 알림/푸시</div>
-                <div class="related-item"><span class="related-icon">📊</span> 관리자 대시보드</div>
-                <div class="related-item"><span class="related-icon">💳</span> 결제 (해당 시)</div>
-            </div>
-        </div>
-
-        <div class="func-analysis">
-            <h4>📊 분석 근거</h4>
-            <div class="analysis-content">
-                <p><strong>참조 프로젝트:</strong> ${industryName} 업종 유사 프로젝트 ${refCount}건 분석</p>
-                <p><strong>법규 준수:</strong> 개인정보보호법, 정보통신망법 등 관련 법규 반영</p>
-                <p><strong>UX 벤치마킹:</strong> ${industryName} 업종 Top 10 서비스 ${funcName} 기능 분석</p>
-                <p><strong>선택 옵션:</strong> ${options.length}개 옵션 적용됨</p>
+            
+            <!-- 비고 섹션 -->
+            <div class="func-remarks-section">
+                <h4>비고</h4>
+                <div class="func-remarks-container">
+                    ${renderRemarks()}
+                </div>
             </div>
         </div>
     `;
