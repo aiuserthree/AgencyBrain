@@ -4648,15 +4648,6 @@ function generateBookingSpec(industry, options) {
             </div>
         </div>
     `;
-                <li><strong>2일 전~당일:</strong> 환불 불가</li>
-                ${options.includes('노쇼 정책') ? `<li><strong>노쇼:</strong> 3회 노쇼 시 30일간 예약 제한</li>` : ''}
-            </ul>
-        </div>
-        <div class="func-analysis">
-            <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석</p>
-        </div>
-    `;
 }
 
 // 정기구독 기능정의서 생성
