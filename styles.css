@@ -4835,6 +4835,45 @@ input, select, textarea {
     margin-right: 8px;
 }
 
+.tree-item.depth-2 {
+    padding-left: 80px;
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.tree-item.depth-2::before {
+    content: '│  ├─';
+    color: var(--text-muted);
+    margin-right: 8px;
+}
+
+.tree-item.depth-3 {
+    padding-left: 112px;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.tree-item.depth-3::before {
+    content: '│  │  ├─';
+    color: var(--text-muted);
+    margin-right: 8px;
+}
+
+.tree-item.depth-4 {
+    padding-left: 144px;
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.tree-item.depth-4::before {
+    content: '│  │  │  ├─';
+    color: var(--text-muted);
+    margin-right: 8px;
+}
+
 .tree-icon {
     font-size: 1.1rem;
 }
