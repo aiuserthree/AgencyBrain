@@ -242,262 +242,647 @@ function initProposalForm() {
         ios: 'iOS Native', android: 'Android Native', custom: '자체구축'
     };
     
-    // 제안서 생성 함수 - 실제 에이전시 제안서 구조 반영
+    // 제안서 생성 함수 - 제안서.md 구조 기반 전문 제안서 생성
     function generateProposal(data) {
         const { industry, industryName, target, platforms, budgetMin, budgetMax, features } = data;
         const today = new Date();
         const year = today.getFullYear();
         const month = today.getMonth() + 1;
+        const day = today.getDate();
         
         // 예상 공수 및 견적 계산
         const featureCount = features.length || 5;
-        const baseWeeks = Math.max(8, Math.ceil(featureCount * 1.2));
-        const estimatedWeeks = baseWeeks + (platforms.length > 2 ? 3 : 0);
+        const baseMonths = Math.max(4, Math.ceil(featureCount / 3));
+        const estimatedMonths = baseMonths + (platforms.length > 2 ? 1 : 0);
         const avgBudget = Math.round((parseInt(budgetMin) + parseInt(budgetMax)) / 2);
+        
+        // MM(Man-Month) 계산
+        const totalMM = {
+            uiux: Math.round(estimatedMonths * 3.5),
+            frontend: Math.round(estimatedMonths * 2.5),
+            backend: Math.round(estimatedMonths * 2),
+            ai: Math.round(estimatedMonths * 3),
+            total: 0
+        };
+        totalMM.total = totalMM.uiux + totalMM.frontend + totalMM.backend + totalMM.ai;
         
         // 팀 구성 계산
         const teamSize = {
             pm: 1,
-            planner: 1,
-            designer: Math.max(1, Math.ceil(featureCount / 6)),
-            publisher: Math.max(1, Math.ceil(featureCount / 8)),
-            frontDev: Math.max(1, Math.ceil(featureCount / 5)),
-            backDev: Math.max(1, Math.ceil(featureCount / 6)),
+            uiPlanner: Math.max(1, Math.ceil(featureCount / 8)),
+            artDirector: 1,
+            designer: Math.max(2, Math.ceil(featureCount / 5)),
+            publisher: Math.max(2, Math.ceil(featureCount / 6)),
+            frontDev: Math.max(1, Math.ceil(featureCount / 6)),
+            backDev: Math.max(2, Math.ceil(featureCount / 5)),
+            aiPlanner: 1,
+            aiDev: Math.max(2, Math.ceil(featureCount / 8)),
             qa: 1
         };
         
         // 업종별 키워드 및 전략
         const industryStrategies = {
-            fashion: { keyword: '스타일', value: '트렌드 선도', pain: '사이즈 불확실성', solution: 'AI 사이즈 추천' },
-            beauty: { keyword: '아름다움', value: '맞춤형 뷰티', pain: '피부 타입 매칭', solution: 'AI 피부 진단' },
-            fnb: { keyword: '맛', value: '신선함과 편리함', pain: '배송 신선도', solution: '실시간 배송 추적' },
-            electronics: { keyword: '기술', value: '스마트 라이프', pain: '스펙 비교 어려움', solution: '스펙 비교 도구' },
-            furniture: { keyword: '공간', value: '나만의 공간', pain: '배치 시뮬레이션', solution: 'AR 가구 배치' },
-            healthcare: { keyword: '건강', value: '건강한 삶', pain: '예약 불편', solution: '스마트 예약 시스템' },
-            education: { keyword: '성장', value: '평생 학습', pain: '학습 진도 관리', solution: 'AI 학습 분석' },
-            finance: { keyword: '자산', value: '안전한 자산관리', pain: '복잡한 상품 비교', solution: 'AI 상품 추천' },
-            travel: { keyword: '여행', value: '특별한 경험', pain: '일정 계획 어려움', solution: 'AI 여행 플래너' },
-            default: { keyword: '혁신', value: '디지털 전환', pain: '사용성 개선', solution: '최적화된 UX' }
+            fashion: { keyword: '스타일', value: '트렌드 선도', pain: '사이즈 불확실성', solution: 'AI 사이즈 추천', persona: '스타일에 민감한 2030 세대' },
+            beauty: { keyword: '아름다움', value: '맞춤형 뷰티', pain: '피부 타입 매칭', solution: 'AI 피부 진단', persona: '뷰티에 관심 높은 여성 고객' },
+            fnb: { keyword: '맛', value: '신선함과 편리함', pain: '배송 신선도', solution: '실시간 배송 추적', persona: '편리함을 추구하는 맞벌이 가정' },
+            electronics: { keyword: '기술', value: '스마트 라이프', pain: '스펙 비교 어려움', solution: 'AI 스펙 비교', persona: '기술에 관심 높은 얼리어답터' },
+            furniture: { keyword: '공간', value: '나만의 공간', pain: '배치 시뮬레이션', solution: 'AR 가구 배치', persona: '신혼부부 및 인테리어에 관심 있는 고객' },
+            healthcare: { keyword: '건강', value: '건강한 삶', pain: '예약 불편', solution: '스마트 예약 시스템', persona: '건강관리에 적극적인 3040 세대' },
+            education: { keyword: '성장', value: '평생 학습', pain: '학습 진도 관리', solution: 'AI 학습 분석', persona: '자기계발에 열정적인 직장인' },
+            finance: { keyword: '자산', value: '안전한 자산관리', pain: '복잡한 상품 비교', solution: 'AI 상품 추천', persona: '투자에 관심 있는 스마트 투자자' },
+            travel: { keyword: '여행', value: '특별한 경험', pain: '일정 계획 어려움', solution: 'AI 여행 플래너', persona: '새로운 경험을 추구하는 MZ세대' },
+            realestate: { keyword: '공간', value: '내 집 마련', pain: '정보 비대칭', solution: 'AI 매물 추천', persona: '내 집 마련을 꿈꾸는 2030 세대' },
+            default: { keyword: '혁신', value: '디지털 전환', pain: '사용성 개선', solution: '최적화된 UX', persona: '디지털 네이티브 세대' }
         };
         
         const strategy = industryStrategies[industry] || industryStrategies.default;
         
         // IA 구조 생성
         const generateIA = () => {
-            const mainMenus = ['홈', '서비스 소개', '상품/서비스', '고객센터', '마이페이지'];
-            return mainMenus.map((menu, i) => {
-                const subMenus = features.slice(i * 2, i * 2 + 3).map(f => f) || ['메뉴1', '메뉴2'];
-                return { main: menu, sub: subMenus.length > 0 ? subMenus : ['상세페이지'] };
-            });
+            const iaStructure = {
+                '메인': ['AI 검색/상담', '인기/추천 상품', '실시간 키워드', 'AI 브리핑'],
+                '상품/서비스': ['유형별', '테마별', '맞춤 추천', '상품 비교'],
+                'AI 어드바이저': ['AI 대화', '성향 분석', '맞춤 가이드'],
+                '인사이트': ['트렌드', '전문 콘텐츠', '뉴스룸', '리서치'],
+                'MY': ['투자 성향', '관심 상품', '히스토리', '상담 내역'],
+                '고객센터': ['공지사항', 'FAQ', '1:1 문의', '이벤트']
+            };
+            return Object.entries(iaStructure).map(([main, subs]) => ({ main, sub: subs }));
         };
         
         return `
-            <!-- 표지 -->
+            <!-- 표지 (Slide 1) -->
             <div class="proposal-cover-page">
                 <div class="cover-badge">PROPOSAL</div>
-                <h1 class="cover-title">${industryName}<br>플랫폼 구축 제안서</h1>
-                <div class="cover-subtitle">${target || '고객'} 대상 디지털 플랫폼 구축 프로젝트</div>
-                <div class="cover-meta">
-                    <div class="cover-date">${year}년 ${month}월</div>
-                    <div class="cover-company">AGENCY BRAIN</div>
+                <h1 class="cover-title">${industryName}<br>플랫폼 구축 제안</h1>
+                <div class="cover-slogan">One Platform, Smarter ${strategy.keyword} Experience</div>
+                <div class="cover-subtitle">${target || '고객'} 경험을 위한 통합 플랫폼 제안서</div>
+                <table class="cover-info-table">
+                    <tr><td>클라이언트</td><td>${industryName} 프로젝트</td></tr>
+                    <tr><td>제안유형</td><td>UX/UI 및 AI를 포함한 전체 기획 및 개발</td></tr>
+                    <tr><td>제출일</td><td>${year}. ${String(month).padStart(2, '0')}. ${String(day).padStart(2, '0')}</td></tr>
+                </table>
+                <div class="cover-company">AGENCY BRAIN</div>
+                <div class="cover-copyright">Copyright © ${year} Agency Brain. All rights reserved.</div>
+            </div>
+            
+            <!-- Prolog (Slide 2) -->
+            <div class="proposal-prolog">
+                <div class="prolog-title">Prolog</div>
+                <div class="prolog-quote">"움직이는 과녁을 어떻게 맞출 것인가?"</div>
+                <div class="prolog-content">
+                    <p>하루가 다르게 변화하는 시장에서 고객에게 '정확히 명중하는' 커뮤니케이션을 제공하려면, 변화의 속도에 맞춰 우리 역시 끊임없이 움직여야 합니다.</p>
+                    <p>인터넷·모바일·AI 기술의 고도화, 데이터 분석 기반 서비스의 확산, 그리고 정보를 적극적으로 탐색하는 스마트 고객의 등장은 ${industryName} 분야의 디지털 채널에 대한 기대 수준을 한층 높여 놓았습니다.</p>
+                    <p>이러한 환경 변화 속에서 기존의 정보 나열 중심 플랫폼으로는 더 이상 고객의 UX 요구나 비즈니스 전략을 충족시키기 어렵습니다.</p>
+                    <p><strong>따라서 '데이터 기반 · 모바일 퍼스트 · 개인화 서비스'를 핵심으로 하는 새로운 디지털 플랫폼으로의 전환이 필요합니다.</strong></p>
                 </div>
             </div>
             
-            <!-- 목차 -->
+            <!-- 목차 (Slide 3) -->
             <div class="proposal-section toc-section">
-                <h2>📑 목차</h2>
-                <div class="toc-list">
-                    <div class="toc-item"><span class="toc-num">01</span><span class="toc-title">제안 개요</span></div>
-                    <div class="toc-item"><span class="toc-num">02</span><span class="toc-title">프로젝트 이해</span></div>
-                    <div class="toc-item"><span class="toc-num">03</span><span class="toc-title">전략 방향</span></div>
-                    <div class="toc-item"><span class="toc-num">04</span><span class="toc-title">크리에이티브 컨셉</span></div>
-                    <div class="toc-item"><span class="toc-num">05</span><span class="toc-title">사이트 구조 (IA)</span></div>
-                    <div class="toc-item"><span class="toc-num">06</span><span class="toc-title">주요 기능 상세</span></div>
-                    <div class="toc-item"><span class="toc-num">07</span><span class="toc-title">디자인 방향</span></div>
-                    <div class="toc-item"><span class="toc-num">08</span><span class="toc-title">레퍼런스</span></div>
-                    <div class="toc-item"><span class="toc-num">09</span><span class="toc-title">추진 일정</span></div>
-                    <div class="toc-item"><span class="toc-num">10</span><span class="toc-title">투입 조직</span></div>
-                    <div class="toc-item"><span class="toc-num">11</span><span class="toc-title">견적</span></div>
-                    <div class="toc-item"><span class="toc-num">12</span><span class="toc-title">당사 역량</span></div>
+                <h2>📑 문서 목차</h2>
+                <div class="toc-container">
+                    <div class="toc-column">
+                        <div class="toc-category">ASIS</div>
+                        <div class="toc-group">
+                            <div class="toc-item"><span class="toc-num">01</span><span class="toc-title">프로젝트 개요</span></div>
+                            <div class="toc-sub">• 제안배경 • 프로젝트 목표</div>
+                        </div>
+                        <div class="toc-group">
+                            <div class="toc-item"><span class="toc-num">02</span><span class="toc-title">트렌드 분석</span></div>
+                            <div class="toc-sub">• 주요고객층 분석 • UIUX 트렌드 • 시사점</div>
+                        </div>
+                        <div class="toc-group">
+                            <div class="toc-item"><span class="toc-num">03</span><span class="toc-title">현황 분석</span></div>
+                            <div class="toc-sub">• UIUX 관점 • 콘텐츠 관점 • 개선 방향</div>
+                        </div>
+                    </div>
+                    <div class="toc-column">
+                        <div class="toc-category">TOBE</div>
+                        <div class="toc-group">
+                            <div class="toc-item"><span class="toc-num">04</span><span class="toc-title">리뉴얼 전략</span></div>
+                            <div class="toc-sub">• 개선 전략 • 콘텐츠 개선 • 개인화 서비스</div>
+                        </div>
+                        <div class="toc-group">
+                            <div class="toc-item"><span class="toc-num">05</span><span class="toc-title">UX & 시스템 구축</span></div>
+                            <div class="toc-sub">• 디자인 컨셉 • 디자인 시스템 • IA • 개발 방안</div>
+                        </div>
+                        <div class="toc-group">
+                            <div class="toc-item"><span class="toc-num">06</span><span class="toc-title">AI 기능 기획</span></div>
+                            <div class="toc-sub">• AI 서비스 목표 • 시나리오 정의 • 개발 프로세스</div>
+                        </div>
+                    </div>
+                    <div class="toc-column">
+                        <div class="toc-category">PLAN</div>
+                        <div class="toc-group">
+                            <div class="toc-item"><span class="toc-num">07</span><span class="toc-title">수행 계획</span></div>
+                            <div class="toc-sub">• 추진 조직 • 수행일정 • 인원투입 계획</div>
+                        </div>
+                        <div class="toc-group">
+                            <div class="toc-item"><span class="toc-num">08</span><span class="toc-title">품질 관리</span></div>
+                            <div class="toc-sub">• 사업관리 • 산출물 관리 • 보고 방안</div>
+                        </div>
+                        <div class="toc-category" style="margin-top:20px">WE ARE</div>
+                        <div class="toc-group">
+                            <div class="toc-item"><span class="toc-num">09</span><span class="toc-title">회사 소개</span></div>
+                            <div class="toc-sub">• 제안사 현황 • 수행사례</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- 01. 제안 개요 -->
+            <!-- ASIS 구분선 -->
+            <div class="proposal-divider">
+                <span class="divider-label">ASIS</span>
+                <div class="divider-sections">
+                    <span>01 프로젝트 개요</span>
+                    <span>02 트렌드 분석</span>
+                    <span>03 현황 분석</span>
+                </div>
+            </div>
+            
+            <!-- 01. 프로젝트 개요 - 제안배경 (Slide 5) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">01</span>
-                    <h2>제안 개요</h2>
+                    <h2>프로젝트 개요</h2>
                 </div>
-                <div class="overview-grid">
-                    <div class="overview-item">
-                        <div class="overview-label">프로젝트명</div>
-                        <div class="overview-value">${industryName} 플랫폼 구축</div>
+                
+                <h3>제안배경</h3>
+                <div class="background-box">
+                    <div class="background-title">기술 혁신, 고객 행동 변화, 데이터 기반 의사결정 확산이라는 변화 속에서 디지털 채널의 역할에 대한 재정의가 필요</div>
+                </div>
+                
+                <div class="background-grid">
+                    <div class="background-item">
+                        <div class="bg-icon">🌐</div>
+                        <div class="bg-title">인터넷·모바일·AI의 고도화</div>
+                        <ul class="bg-list">
+                            <li>${industryName} 시장의 급격한 성장</li>
+                            <li>금융 서비스의 접점은 모바일로 이동</li>
+                            <li>AI 기반 추천·검색이 기본 도구가 됨</li>
+                        </ul>
                     </div>
-                    <div class="overview-item">
-                        <div class="overview-label">사업 범위</div>
-                        <div class="overview-value">UI/UX 기획, 디자인, 퍼블리싱, 개발</div>
+                    <div class="background-item">
+                        <div class="bg-icon">👥</div>
+                        <div class="bg-title">스마트 고객의 등장</div>
+                        <ul class="bg-list">
+                            <li>직접 데이터를 비교·분석하는 고객</li>
+                            <li>성과/위험/비용을 스스로 판단</li>
+                            <li>앱/유튜브/SNS에서 정보 소비</li>
+                        </ul>
                     </div>
-                    <div class="overview-item">
-                        <div class="overview-label">타겟 사용자</div>
-                        <div class="overview-value">${target || '일반 사용자'}</div>
+                    <div class="background-item">
+                        <div class="bg-icon">📊</div>
+                        <div class="bg-title">데이터 분석과 맞춤 서비스 시대</div>
+                        <ul class="bg-list">
+                            <li>고객 행동 데이터 분석 필수화</li>
+                            <li>클릭 패턴, 관심 분야 분석</li>
+                            <li>AI 기반 개인화 서비스 기대</li>
+                        </ul>
                     </div>
-                    <div class="overview-item">
-                        <div class="overview-label">개발 환경</div>
-                        <div class="overview-value">${platforms.length > 0 ? platforms.join(', ') : '협의 필요'}</div>
-                    </div>
-                    <div class="overview-item">
-                        <div class="overview-label">예상 기간</div>
-                        <div class="overview-value">${estimatedWeeks}주 (약 ${Math.ceil(estimatedWeeks / 4)}개월)</div>
-                    </div>
-                    <div class="overview-item">
-                        <div class="overview-label">예산 범위</div>
-                        <div class="overview-value">${parseInt(budgetMin).toLocaleString()} ~ ${parseInt(budgetMax).toLocaleString()}만원</div>
-                    </div>
+                </div>
+                
+                <div class="insight-highlight">
+                    <div class="insight-label">인사이트</div>
+                    <p>이 환경에서 고객 접점인 플랫폼은 <strong>브랜드 신뢰, 서비스 이해, 고객 확보, 교육, 영향력 강화</strong>의 핵심 매체로 기능해야 함</p>
                 </div>
             </div>
             
-            <!-- 02. 프로젝트 이해 -->
+            <!-- 01. 프로젝트 개요 - 프로젝트 목표 (Slide 6) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">01</span>
+                    <h2>프로젝트 목표</h2>
+                </div>
+                
+                <div class="objective-intro">
+                    ${industryName} 플랫폼을 이용하는 ${target || '고객'}들에게 일관된 사용자 경험을 제공하고, <strong>'모바일 퍼스트' 전략</strong>에 기반한 최적화된 웹 플랫폼을 구축.
+                </div>
+                
+                <div class="objective-grid">
+                    <div class="objective-card">
+                        <div class="obj-icon">🎯</div>
+                        <div class="obj-title">디지털/모바일 최적화 경험</div>
+                        <div class="obj-desc">모바일 최적화된 UI/UX 제공으로 다양한 디바이스에서 이용할 수 있도록 구축</div>
+                    </div>
+                    <div class="objective-card">
+                        <div class="obj-icon">👤</div>
+                        <div class="obj-title">개인화된 경험 및 편의성</div>
+                        <div class="obj-desc">목적이나 성향에 따라 원하는 정보를 쉽게 찾을 수 있는 개인화 서비스 제공</div>
+                    </div>
+                    <div class="objective-card">
+                        <div class="obj-icon">💬</div>
+                        <div class="obj-title">유연한 소통 및 고객 참여</div>
+                        <div class="obj-desc">고객 행동에 따른 양방향 소통 기능 강화 (질의응답/CTA 요소)</div>
+                    </div>
+                    <div class="objective-card">
+                        <div class="obj-icon">🤝</div>
+                        <div class="obj-title">브랜드 비전 공유 및 신뢰 구축</div>
+                        <div class="obj-desc">신뢰할 수 있는 파트너로서의 정보 공유 및 제공</div>
+                    </div>
+                </div>
+                
+                <div class="agenda-section">
+                    <h4>주요 Agenda</h4>
+                    <div class="agenda-grid">
+                        <div class="agenda-item">
+                            <div class="agenda-title">콘텐츠 개선</div>
+                            <ul>
+                                <li>정보통합 및 구조개선</li>
+                                <li>고객관점의 친절한 설명 제시</li>
+                            </ul>
+                        </div>
+                        <div class="agenda-item">
+                            <div class="agenda-title">UX/UI 개선</div>
+                            <ul>
+                                <li>네비게이션 최적화</li>
+                                <li>시각적요소/가독성 강화</li>
+                                <li>AI 기반 맞춤 서비스 제공</li>
+                            </ul>
+                        </div>
+                        <div class="agenda-item">
+                            <div class="agenda-title">인프라 및 관리 시스템</div>
+                            <ul>
+                                <li>콘텐츠 관리기능 강화</li>
+                                <li>유연한 시스템 구축</li>
+                                <li>플랫폼 고도화</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="keywords-box">
+                    <span class="keyword-tag"># 편리하고 직관적인 사용자 경험</span>
+                    <span class="keyword-tag"># 다양한 디바이스에 최적화</span>
+                    <span class="keyword-tag"># 유연한 커뮤니케이션</span>
+                    <span class="keyword-tag"># 고객 참여 유도</span>
+                </div>
+            </div>
+            
+            <!-- 02. 트렌드 분석 - 주요고객층 (Slide 7) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">02</span>
-                    <h2>프로젝트 이해</h2>
+                    <h2>트렌드 분석</h2>
                 </div>
                 
-                <h3>프로젝트 배경</h3>
-                <div class="insight-box">
-                    <p>디지털 전환이 가속화되는 현 시점에서 ${industryName} 분야의 ${target || '고객'}들은 더욱 편리하고 개인화된 디지털 경험을 요구하고 있습니다. 기존 서비스의 한계를 극복하고, 차별화된 고객 경험을 제공하기 위한 새로운 플랫폼이 필요합니다.</p>
-                </div>
+                <h3>주요 고객층 분석</h3>
+                <div class="trend-intro">모바일 네이티브 세대의 서비스 접근, 정보 소비의 소셜화, 신뢰감 있는 시각화 정보의 중요성 확대</div>
                 
-                <h3>현황 분석</h3>
-                <div class="analysis-grid">
-                    <div class="analysis-card negative">
-                        <div class="analysis-icon">😟</div>
-                        <div class="analysis-title">Pain Point</div>
-                        <ul class="analysis-list">
-                            <li>${strategy.pain}</li>
-                            <li>복잡한 사용자 여정</li>
-                            <li>모바일 최적화 미흡</li>
-                            <li>개인화 서비스 부재</li>
+                <div class="customer-analysis-grid">
+                    <div class="customer-card">
+                        <div class="customer-icon">📱</div>
+                        <div class="customer-title">모바일 메인 채널화</div>
+                        <ul>
+                            <li>고객의 80% 이상이 모바일에서 서비스 탐색</li>
+                            <li>모바일은 짧고 직관적인 정보 선호</li>
                         </ul>
                     </div>
-                    <div class="analysis-card positive">
-                        <div class="analysis-icon">🎯</div>
-                        <div class="analysis-title">Opportunity</div>
-                        <ul class="analysis-list">
-                            <li>${strategy.solution} 도입</li>
-                            <li>직관적 UX 설계</li>
-                            <li>모바일 퍼스트 전략</li>
-                            <li>AI 기반 개인화</li>
+                    <div class="customer-card">
+                        <div class="customer-icon">👥</div>
+                        <div class="customer-title">저변 확대</div>
+                        <ul>
+                            <li>중고액 보유 중장년층에서 소액 중심 젊은층으로 확대</li>
+                            <li>디지털 리터러시 격차 존재</li>
+                        </ul>
+                    </div>
+                    <div class="customer-card">
+                        <div class="customer-icon">🔍</div>
+                        <div class="customer-title">다양한 정보 채널</div>
+                        <ul>
+                            <li>앱, 웹, 유튜브, SNS, 커뮤니티 등 다양한 채널</li>
+                            <li>직접 검색보다 추천 알고리즘 활용 증가</li>
+                        </ul>
+                    </div>
+                    <div class="customer-card">
+                        <div class="customer-icon">📊</div>
+                        <div class="customer-title">핵심 요약형 콘텐츠 선호</div>
+                        <ul>
+                            <li>AI요약·테마 기반 큐레이션 형태 선호</li>
+                            <li>바로 읽을 수 있는 카드형, 대시보드형 콘텐츠</li>
                         </ul>
                     </div>
                 </div>
                 
-                <h3>목표</h3>
-                <div class="goal-list">
-                    <div class="goal-item">
-                        <span class="goal-num">01</span>
-                        <div class="goal-content">
-                            <div class="goal-title">사용자 경험 혁신</div>
-                            <div class="goal-desc">직관적인 UI/UX로 이탈률 30% 감소</div>
-                        </div>
+                <div class="insight-highlight">
+                    <div class="insight-label">고객분석 시사점</div>
+                    <p>고객층의 연령, 정보 이해도, 탐색 채널이 세분화되면서, <strong>하나의 플랫폼 안에서 다층 고객을 균형 있게 포용하는 통합형 경험 설계</strong>가 중요</p>
+                </div>
+            </div>
+            
+            <!-- 02. 트렌드 분석 - UIUX 트렌드 (Slide 8-10) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">02</span>
+                    <h2>UIUX 트렌드</h2>
+                </div>
+                
+                <h3>국내외 주요 플랫폼 UIUX TREND</h3>
+                <div class="trend-intro">비주얼 중심의 고객친화적 패턴으로 사이트에 방문한 유저의 주목을 끌도록 유도하며 콘텐츠와 상품의 자연스러운 연계 구성이 특징적</div>
+                
+                <div class="trend-grid">
+                    <div class="trend-card">
+                        <div class="trend-badge">탐색기반 고객친화 UX</div>
+                        <ul>
+                            <li>상품과 콘텐츠 메뉴의 복합 구성</li>
+                            <li>원하는 메뉴 바로가기</li>
+                            <li>메인 검색 바 강조</li>
+                            <li>쉽고 친절한 고객관점 UX Writing</li>
+                        </ul>
                     </div>
-                    <div class="goal-item">
-                        <span class="goal-num">02</span>
-                        <div class="goal-content">
-                            <div class="goal-title">비즈니스 성과 향상</div>
-                            <div class="goal-desc">전환율 향상을 통한 매출 증대</div>
-                        </div>
+                    <div class="trend-card">
+                        <div class="trend-badge">부드러운 신뢰감 제고 UI</div>
+                        <ul>
+                            <li>브랜드 메인 컬러+ 파스텔톤 믹스</li>
+                            <li>모바일 고려한 라운드형 카드배너</li>
+                            <li>3D 아이콘 활용한 직관적 비주얼</li>
+                            <li>캐주얼하고 친근한 톤앤매너</li>
+                        </ul>
                     </div>
-                    <div class="goal-item">
-                        <span class="goal-num">03</span>
-                        <div class="goal-content">
-                            <div class="goal-title">브랜드 가치 제고</div>
-                            <div class="goal-desc">프리미엄 브랜드 이미지 구축</div>
+                    <div class="trend-card">
+                        <div class="trend-badge">행동기반 UX</div>
+                        <ul>
+                            <li>방문 목적별 메뉴 단순화</li>
+                            <li>메뉴 중심 빠른 이동 지원</li>
+                            <li>직관적이고 안내/권유/제안형 UX Writing</li>
+                        </ul>
+                    </div>
+                    <div class="trend-card">
+                        <div class="trend-badge">브랜드 강조 UI</div>
+                        <ul>
+                            <li>브랜드 메인컬러 포인트</li>
+                            <li>모던하고 미니멀한 UI</li>
+                            <li>신뢰도/안정성 제고 콘텐츠</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="trend-summary">
+                    <h4>웹사이트 UX 방향</h4>
+                    <div class="trend-summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-icon">✨</div>
+                            <div class="summary-text">보여주는 신뢰에서, <strong>경험하게 하는 신뢰</strong>로</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-icon">💬</div>
+                            <div class="summary-text">정보 설명이 아닌, <strong>대화 (자연어 중심)</strong></div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-icon">🎯</div>
+                            <div class="summary-text"><strong>행동을 유도</strong>하는 콘텐츠와 정보 배치</div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- 03. 전략 방향 -->
+            <!-- 03. 현황 분석 (Slide 12-16) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">03</span>
-                    <h2>전략 방향</h2>
+                    <h2>현황 분석</h2>
                 </div>
                 
-                <div class="strategy-main">
-                    <div class="strategy-keyword">"${strategy.keyword}"</div>
-                    <div class="strategy-slogan">${strategy.value}을 위한<br>디지털 경험 설계</div>
+                <h3>ASIS 분석 - UIUX 관점</h3>
+                <div class="asis-issues">
+                    <div class="asis-issue">
+                        <div class="issue-num">1</div>
+                        <div class="issue-content">
+                            <div class="issue-title">브랜드 콘셉트 파악이 힘들고 통일성 낮은 UI</div>
+                            <div class="issue-desc">배너 애니메이션, 컬러, 폰트 등 UI 부분의 통일성이 떨어지고 분산되어 있는 일방적 정보 전달 구조</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue">
+                        <div class="issue-num">2</div>
+                        <div class="issue-content">
+                            <div class="issue-title">사용자가 정보를 파악하기 어려운 구조</div>
+                            <div class="issue-desc">카테고리 연결 버튼, 바로가기 버튼, 배너 등 요소가 너무 많아 정보 파악이 어려움</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue">
+                        <div class="issue-num">3</div>
+                        <div class="issue-content">
+                            <div class="issue-title">여러 메뉴가 다양한 형식으로 분산</div>
+                            <div class="issue-desc">메뉴 구조가 분산되어 플랫폼 구조를 한 눈에 파악하기 어려움</div>
+                        </div>
+                    </div>
+                    <div class="asis-issue">
+                        <div class="issue-num">4</div>
+                        <div class="issue-content">
+                            <div class="issue-title">개인화 서비스 및 데이터 축적 불가</div>
+                            <div class="issue-desc">로그인 시스템의 부재로 개인화 서비스와 고객 데이터 축적이 어려움</div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="strategy-pillars">
-                    <div class="pillar">
-                        <div class="pillar-icon">🎯</div>
-                        <div class="pillar-title">User-Centric</div>
-                        <div class="pillar-desc">사용자 중심 설계로<br>최적의 경험 제공</div>
+                <h3>주요 개선 포인트와 방향</h3>
+                <div class="improvement-grid">
+                    <div class="improvement-card">
+                        <div class="improve-icon">📊</div>
+                        <div class="improve-title">직관적으로 볼 수 있는 구조</div>
+                        <div class="improve-desc">직관적이고 유연한 정보 구조 배치로 고객이 보고 싶은 정보를 쉽게 찾을 수 있는 메뉴 및 화면 구성</div>
                     </div>
-                    <div class="pillar">
-                        <div class="pillar-icon">📱</div>
-                        <div class="pillar-title">Mobile First</div>
-                        <div class="pillar-desc">모바일 환경에<br>최적화된 UI/UX</div>
+                    <div class="improvement-card">
+                        <div class="improve-icon">🎨</div>
+                        <div class="improve-title">비주얼 디자인 콘텐츠 구성</div>
+                        <div class="improve-desc">초보 고객도 쉽게 이해할 수 있는 디자인 요소와 인터렉션의 경험적 콘텐츠 구성</div>
                     </div>
-                    <div class="pillar">
-                        <div class="pillar-icon">🤖</div>
-                        <div class="pillar-title">AI & Data</div>
-                        <div class="pillar-desc">데이터 기반<br>개인화 서비스</div>
+                    <div class="improvement-card">
+                        <div class="improve-icon">📱</div>
+                        <div class="improve-title">접근성 향상 사용자 경험</div>
+                        <div class="improve-desc">반응형, 모바일 기반 설계와 디자인으로 고객의 접근성을 높이는 방향의 개선</div>
                     </div>
-                    <div class="pillar">
-                        <div class="pillar-icon">⚡</div>
-                        <div class="pillar-title">Performance</div>
-                        <div class="pillar-desc">빠른 로딩 속도와<br>안정적인 서비스</div>
-                    </div>
+                </div>
+                
+                <div class="insight-highlight">
+                    <div class="insight-label">UX 개선방향</div>
+                    <p>모바일을 기반으로 하여 정보 구조, 비주얼 요소, 사용자 여정 개선을 통해 <strong>고객이 필요한 정보와 인사이트를 한 곳에서 모두 제공할 수 있는 AI 어시스턴트 플랫폼</strong>으로 전환</p>
                 </div>
             </div>
             
-            <!-- 04. 크리에이티브 컨셉 -->
+            <!-- TOBE 구분선 -->
+            <div class="proposal-divider tobe">
+                <span class="divider-label">TOBE</span>
+                <div class="divider-sections">
+                    <span>04 리뉴얼 전략</span>
+                    <span>05 UX & 시스템 구축</span>
+                    <span>06 AI 기능 기획</span>
+                </div>
+            </div>
+            
+            <!-- 04. 리뉴얼 전략 (Slide 18-21) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">04</span>
-                    <h2>크리에이티브 컨셉</h2>
+                    <h2>리뉴얼 전략</h2>
                 </div>
                 
-                <div class="concept-main">
-                    <div class="concept-title">CONCEPT</div>
-                    <div class="concept-keyword">"Seamless ${strategy.keyword} Experience"</div>
-                    <div class="concept-desc">끊김 없는 ${strategy.keyword} 경험으로 ${target || '고객'}의 일상에 자연스럽게 스며드는 플랫폼</div>
-                </div>
+                <div class="strategy-quote">"고객 경험 개선(AI 어시스턴트 플랫폼)을 목표로 차별화된 서비스를 제공하는 플랫폼 구현"</div>
                 
-                <div class="concept-elements">
-                    <div class="concept-element">
-                        <div class="element-title">톤 & 무드</div>
-                        <div class="element-tags">
-                            <span class="element-tag">Premium</span>
-                            <span class="element-tag">Modern</span>
-                            <span class="element-tag">Intuitive</span>
-                        </div>
+                <div class="strategy-pillars">
+                    <div class="pillar">
+                        <div class="pillar-num">1</div>
+                        <div class="pillar-title">고객 유입 확대</div>
+                        <div class="pillar-desc">자연 검색과 AI 검색에 최적화된 콘텐츠 및 구조 설계로 신규 방문자 유입 강화</div>
+                        <ul class="pillar-list">
+                            <li>콘텐츠형 페이지 신설</li>
+                            <li>SEO/AIO 기반 키워드 전략</li>
+                            <li>검색 유입 성과 측정 설계</li>
+                        </ul>
                     </div>
-                    <div class="concept-element">
-                        <div class="element-title">컬러 키워드</div>
-                        <div class="color-palette">
-                            <div class="color-chip" style="background: linear-gradient(135deg, #667eea, #764ba2)"></div>
-                            <div class="color-chip" style="background: linear-gradient(135deg, #f093fb, #f5576c)"></div>
-                            <div class="color-chip" style="background: linear-gradient(135deg, #4facfe, #00f2fe)"></div>
-                            <div class="color-chip" style="background: #1a1a2e"></div>
-                        </div>
+                    <div class="pillar">
+                        <div class="pillar-num">2</div>
+                        <div class="pillar-title">고객 중심 서비스 강화</div>
+                        <div class="pillar-desc">정보 통합으로 이용자의 정보 접근성과 비교 분석 편의성 제공</div>
+                        <ul class="pillar-list">
+                            <li>상품 비교 기능 추가</li>
+                            <li>목적/테마별 정보제공 설계</li>
+                            <li>상세페이지 UI 표준화</li>
+                        </ul>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-num">3</div>
+                        <div class="pillar-title">효율적 고객 관리</div>
+                        <div class="pillar-desc">관리자 시스템 고도화를 통해 고객 데이터를 마케팅 전략에 실질 활용</div>
+                        <ul class="pillar-list">
+                            <li>고객 행동 대시보드 구축</li>
+                            <li>성향별 콘텐츠 반응 분석</li>
+                            <li>고객 세그먼트별 리포트</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>콘텐츠 개선 - 신뢰와 데이터를 기반으로 콘텐츠 최적화</h3>
+                <div class="content-strategy-grid">
+                    <div class="content-card">
+                        <div class="content-title">SEO/AIO 기반 콘텐츠 최적화</div>
+                        <ul>
+                            <li>키워드 기반 블로그, 뉴스룸, 리포트 코너 구축</li>
+                            <li>메타태그, 제목 구조, 이미지 ALT 등 기술적 SEO</li>
+                            <li>FAQ, 가이드, 용어사전 등 '질문 기반 콘텐츠' 확보</li>
+                        </ul>
+                    </div>
+                    <div class="content-card">
+                        <div class="content-title">시의성 있는 콘텐츠 제공</div>
+                        <ul>
+                            <li>주요 이벤트·정책에 맞춘 타이밍 콘텐츠</li>
+                            <li>분기별, 월별 인사이트</li>
+                            <li>뉴스 + 분석 콘텐츠 결합</li>
+                        </ul>
+                    </div>
+                    <div class="content-card">
+                        <div class="content-title">고객 여정에 따른 콘텐츠 배치</div>
+                        <ul>
+                            <li>인지 단계: 트렌드, 이슈 요약</li>
+                            <li>고려 단계: 비교, 사례, 영상 콘텐츠</li>
+                            <li>전환 단계: 1:1 문의, 간편 가입 UX</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>개인화 서비스 - AI 기술 활용</h3>
+                <div class="personalization-grid">
+                    <div class="personal-card">
+                        <div class="personal-icon">🤖</div>
+                        <div class="personal-title">자연어 기반 AI 검색/상담</div>
+                        <div class="personal-desc">질문하듯 입력하면 관련 정보를 자연어로 응답, 대화형 응대</div>
+                    </div>
+                    <div class="personal-card">
+                        <div class="personal-icon">📊</div>
+                        <div class="personal-title">AI 기반 개인화 마이페이지</div>
+                        <div class="personal-desc">관심사, 이력 등을 실시간 반영한 맞춤 대시보드 시각화</div>
+                    </div>
+                    <div class="personal-card">
+                        <div class="personal-icon">📚</div>
+                        <div class="personal-title">사용자 관심별 콘텐츠 큐레이션</div>
+                        <div class="personal-desc">검색/열람 이력과 관심사 분석을 통한 맞춤 콘텐츠 제공</div>
                     </div>
                 </div>
             </div>
             
-            <!-- 05. 사이트 구조 (IA) -->
+            <!-- 05. UX & 시스템 구축 - 디자인 컨셉 (Slide 22-28) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">05</span>
-                    <h2>사이트 구조 (IA)</h2>
+                    <h2>UX & 시스템 구축</h2>
                 </div>
                 
-                <div class="ia-diagram">
+                <h3>디자인 전략 및 컨셉</h3>
+                <div class="design-concept-main">
+                    <div class="concept-slogan">Connected Confidence.</div>
+                    <div class="concept-subtitle">데이터와 사람, 브랜드와 경험이 하나로 연결되는 신뢰</div>
+                    <p class="concept-desc">복잡한 정보를 명료하게 해석하고, 그 데이터를 사용자의 여정 속에 자연스럽게 연결합니다.<br>진짜 신뢰는 '이해되는 경험'에서 완성됩니다.</p>
+                </div>
+                
+                <div class="design-approach">
+                    <div class="approach-title">Proactive UX for Confidence</div>
+                    <div class="approach-subtitle">정보가 고객에게 먼저 다가와 신뢰와 확신으로 이어지는 UX 경험</div>
+                    
+                    <div class="approach-grid">
+                        <div class="approach-card">
+                            <div class="approach-label">Design</div>
+                            <div class="approach-name">Readable Design.</div>
+                            <div class="approach-desc">정보가 '보이는' 디자인이 아닌 '읽히는' 디자인<br>쉽게 해석하고 이해할 수 있도록 구조화</div>
+                        </div>
+                        <div class="approach-card">
+                            <div class="approach-label">Contents</div>
+                            <div class="approach-name">Desirable Contents.</div>
+                            <div class="approach-desc">고객의 눈높이에서 이해하기 쉽게<br>잘 정리 및 선별된 호감 콘텐츠</div>
+                        </div>
+                        <div class="approach-card">
+                            <div class="approach-label">Development</div>
+                            <div class="approach-name">Connected Dev.</div>
+                            <div class="approach-desc">데이터+서비스+고객 관리가<br>유기적으로 통합된 관리시스템</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>디자인 시스템 - UI & Visual</h3>
+                <div class="design-system-grid">
+                    <div class="design-system-card">
+                        <div class="ds-title">Readable</div>
+                        <div class="ds-subtitle">금융정보를 읽히는 구조로 바꾸는 UX</div>
+                        <ul>
+                            <li><strong>데이터 시각화</strong> - 복잡한 데이터를 한눈에 읽히도록 구조화</li>
+                            <li><strong>여백중심, 아이콘 의미보조</strong> - 핵심 정보만 또렷하게</li>
+                            <li><strong>카드중심 UI</strong> - 반복되는 구조로 읽는 리듬 형성</li>
+                        </ul>
+                    </div>
+                    <div class="design-system-card">
+                        <div class="ds-title">Proactive</div>
+                        <div class="ds-subtitle">사용자보다 먼저 정보가 다가오는 능동적 UX</div>
+                        <ul>
+                            <li><strong>AI 기능</strong> - 시선을 먼저 끌어주는 자연어 기반 검색</li>
+                            <li><strong>Guided motion</strong> - 부드러운 움직임으로 제안하는 느낌</li>
+                            <li><strong>개인화</strong> - 이용패턴이 누적될수록 정교화</li>
+                        </ul>
+                    </div>
+                    <div class="design-system-card">
+                        <div class="ds-title">Connected</div>
+                        <div class="ds-subtitle">데이터+서비스+UI가 유기적으로 통합된 UX</div>
+                        <ul>
+                            <li><strong>통합된 카드패턴</strong> - 모든 콘텐츠를 같은 체계 안에서 인지</li>
+                            <li><strong>구조적 연속성</strong> - 화면이 바뀌어도 한 흐름 유지</li>
+                            <li><strong>브랜드 아이덴티티</strong> - 일관된 톤앤매너 적용</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 05. IA 구조 (Slide 29-31) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <h2>IA (Information Architecture)</h2>
+                </div>
+                
+                <h3>변경 프론트 IA</h3>
+                <div class="ia-intro">상품, AI 어드바이저, 인사이트, 고객지원 등의 공통메뉴를 통합하고, AI를 중심으로 고객 여정 전반을 리딩하는 단일하고 능동적인 흐름으로 연결되도록 재설계</div>
+                
+                <div class="ia-diagram-new">
                     <div class="ia-root">
-                        <span>🏠 HOME</span>
+                        <span>🏠 ${industryName} 플랫폼</span>
                     </div>
                     <div class="ia-branches">
                         ${generateIA().map(menu => `
@@ -511,8 +896,178 @@ function initProposalForm() {
                     </div>
                 </div>
                 
+                <h3>주요 IA 구성의도</h3>
+                <div class="ia-purpose-grid">
+                    <div class="ia-purpose-card">
+                        <div class="purpose-menu">메인</div>
+                        <div class="purpose-goal">방문 목적에 빠르게 대응하며, AI 기반 뉴스브리핑과 시장 상황 중심의 입체적 콘텐츠 홈</div>
+                        <div class="purpose-effect">AI 기반 문장형 검색 도입으로 탐색 시간 단축, 콘텐츠 소비와 재방문 유도</div>
+                    </div>
+                    <div class="ia-purpose-card">
+                        <div class="purpose-menu">AI 어드바이저</div>
+                        <div class="purpose-goal">AI 분석과 대화형 인터랙션을 통해 고객의 여정 전반을 지원하는 개인 AI 어드바이저</div>
+                        <div class="purpose-effect">능동적이고 개인화된 정보 제공으로 서비스 차별화</div>
+                    </div>
+                    <div class="ia-purpose-card">
+                        <div class="purpose-menu">MY</div>
+                        <div class="purpose-goal">고객 프로필과 히스토리 확인 및 최적의 포트폴리오를 제공받는 개인 관리 공간</div>
+                        <div class="purpose-effect">고객의 히스토리와 관심 요인 기반 개인화된 경험 지속 강화</div>
+                    </div>
+                </div>
+                
                 <div class="ia-note">
                     <p>* 상세 IA는 킥오프 미팅 이후 요구사항 분석을 통해 확정됩니다.</p>
+                </div>
+            </div>
+            
+            <!-- 05. 개발 방안 (Slide 33-39) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <h2>개발 방안</h2>
+                </div>
+                
+                <h3>개발 표준화 및 품질고도화 체계 구축</h3>
+                <div class="dev-strategy-grid">
+                    <div class="dev-card">
+                        <div class="dev-title">PC/Mobile 최적화 및 컴포넌트 기반 개발</div>
+                        <ul>
+                            <li>Mobile First 접근: 320px부터 시작하는 점진적 확장 설계</li>
+                            <li>Atomic Design 패턴: Atoms > Molecules > Organisms</li>
+                            <li>코드 스플리팅을 통한 번들 사이즈 최소화</li>
+                            <li>목표: Mobile LCP 2.5초 이하, FID 100ms 이하</li>
+                        </ul>
+                    </div>
+                    <div class="dev-card">
+                        <div class="dev-title">SEO·AI 검색 친화 태그 설계</div>
+                        <ul>
+                            <li>시맨틱 마크업 HTML5 태그 적극 활용</li>
+                            <li>구조화된 데이터: JSON-LD 스키마 적용</li>
+                            <li>메타 태그 최적화: OG태그, 메타 정보</li>
+                            <li>FAQ 스키마 적용으로 AI 어시스턴트 답변 최적화</li>
+                        </ul>
+                    </div>
+                    <div class="dev-card">
+                        <div class="dev-title">웹 접근성 및 브라우저 호환성</div>
+                        <ul>
+                            <li>웹 접근성 표준(KWCAG/WCAG) 준수 구조 설계</li>
+                            <li>주요 브라우저·OS 환경 크로스브라우징 검증</li>
+                            <li>체계적 QA 프로세스를 통한 오류 최소화</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>기술 스택</h3>
+                <table class="tech-stack-table">
+                    <thead>
+                        <tr>
+                            <th>영역</th>
+                            <th>적용 기술</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Front-end</td><td>React / Next.js</td></tr>
+                        <tr><td>Back-end</td><td>Java / Spring Boot</td></tr>
+                        <tr><td>Database</td><td>PostgreSQL / PGVector</td></tr>
+                        <tr><td>Graph DB</td><td>Neo4j</td></tr>
+                        <tr><td>AI</td><td>Python / LangGraph / LangChain</td></tr>
+                        <tr><td>배포</td><td>Cloud (AWS/Azure/GCP)</td></tr>
+                        <tr><td>보안</td><td>Spring Security / JWT</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 06. AI 기능 기획 (Slide 40-56) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">06</span>
+                    <h2>AI 기능 기획 및 개발</h2>
+                </div>
+                
+                <div class="ai-service-goal">
+                    <div class="ai-quote">"${strategy.keyword}에 대해 궁금한 게 생길 때,<br>플랫폼에 와서 그냥 말하듯이 물어보면,<br>나에게 맞는 설명과 추천을 한 번에 보여주는 서비스"</div>
+                    
+                    <div class="ai-core-goal">
+                        <h4>핵심 목표</h4>
+                        <p>고객이 원하는 방식으로 질문하면, AI가 개인별 맞춤 답변과 함께 관련 콘텐츠를 한 화면에 통합하여 제공.<br>자연어 통합검색과 개인별 추천을 결합해 상담과 전환까지 자연스럽게 연결하는 지능형 플랫폼 경험 구현.</p>
+                    </div>
+                </div>
+                
+                <h3>AI 시나리오 정의</h3>
+                <div class="ai-scenario-grid">
+                    <div class="scenario-card">
+                        <div class="scenario-persona">
+                            <div class="persona-avatar">👤</div>
+                            <div class="persona-info">
+                                <div class="persona-name">초보 고객 A (30대)</div>
+                                <div class="persona-desc">${strategy.persona}</div>
+                            </div>
+                        </div>
+                        <div class="scenario-journey">
+                            <div class="journey-step">
+                                <div class="step-num">1</div>
+                                <div class="step-content">첫 방문 - 자연어 검색창에 질문</div>
+                            </div>
+                            <div class="journey-step">
+                                <div class="step-num">2</div>
+                                <div class="step-content">통합검색으로 쉬운 설명 + 추천 상품 확인</div>
+                            </div>
+                            <div class="journey-step">
+                                <div class="step-num">3</div>
+                                <div class="step-content">행동 패턴 분석 후 맞춤형 AI 리포트 제공</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scenario-card">
+                        <div class="scenario-persona">
+                            <div class="persona-avatar">👨‍💼</div>
+                            <div class="persona-info">
+                                <div class="persona-name">전문 고객 B (40대)</div>
+                                <div class="persona-desc">10년+ 경험, 구체적인 조건 검색</div>
+                            </div>
+                        </div>
+                        <div class="scenario-journey">
+                            <div class="journey-step">
+                                <div class="step-num">1</div>
+                                <div class="step-content">명확한 조건으로 정교한 질문 입력</div>
+                            </div>
+                            <div class="journey-step">
+                                <div class="step-num">2</div>
+                                <div class="step-content">조건검색 + 상세 비교 결과 제공</div>
+                            </div>
+                            <div class="journey-step">
+                                <div class="step-num">3</div>
+                                <div class="step-content">AI 포트폴리오 리포트 자동 생성</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>단계별 개발 프로세스</h3>
+                <div class="ai-dev-process">
+                    <div class="process-step">
+                        <div class="process-num">Step 1</div>
+                        <div class="process-title">데이터 표준화</div>
+                        <div class="process-desc">흩어진 데이터를 한 곳에, 같은 틀로 정리</div>
+                    </div>
+                    <div class="process-arrow">→</div>
+                    <div class="process-step">
+                        <div class="process-num">Step 2</div>
+                        <div class="process-title">온톨로지 설계</div>
+                        <div class="process-desc">체계적인 분류 체계로 자연어 질문을 조건으로 변환</div>
+                    </div>
+                    <div class="process-arrow">→</div>
+                    <div class="process-step">
+                        <div class="process-num">Step 3</div>
+                        <div class="process-title">검색 인덱스 + 벡터 인덱스</div>
+                        <div class="process-desc">후보 상품과 적합 이유를 동시에 답변</div>
+                    </div>
+                    <div class="process-arrow">→</div>
+                    <div class="process-step">
+                        <div class="process-num">Step 4</div>
+                        <div class="process-title">그래프 DB</div>
+                        <div class="process-desc">관계를 이해하는 두 번째 뇌</div>
+                    </div>
                 </div>
             </div>
             
@@ -548,322 +1103,386 @@ function initProposalForm() {
                     </div>
                 </div>
                 ` : ''}
+            
             </div>
             
-            <!-- 07. 디자인 방향 -->
+            <!-- PLAN 구분선 -->
+            <div class="proposal-divider plan">
+                <span class="divider-label">PLAN</span>
+                <div class="divider-sections">
+                    <span>07 수행 계획</span>
+                    <span>08 품질 관리</span>
+                </div>
+            </div>
+            
+            <!-- 07. 수행 계획 - 추진조직 (Slide 58) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">07</span>
-                    <h2>디자인 방향</h2>
+                    <h2>수행 계획</h2>
                 </div>
                 
-                <div class="design-direction">
-                    <div class="design-principle">
-                        <div class="principle-num">01</div>
-                        <div class="principle-content">
-                            <div class="principle-title">미니멀 & 클린</div>
-                            <div class="principle-desc">불필요한 요소를 제거하고 핵심 콘텐츠에 집중할 수 있는 깔끔한 디자인</div>
-                        </div>
-                    </div>
-                    <div class="design-principle">
-                        <div class="principle-num">02</div>
-                        <div class="principle-content">
-                            <div class="principle-title">일관된 디자인 시스템</div>
-                            <div class="principle-desc">컴포넌트 기반 디자인 시스템으로 브랜드 일관성 유지 및 개발 효율성 향상</div>
-                        </div>
-                    </div>
-                    <div class="design-principle">
-                        <div class="principle-num">03</div>
-                        <div class="principle-content">
-                            <div class="principle-title">인터랙티브 요소</div>
-                            <div class="principle-desc">적절한 마이크로 인터랙션으로 사용자 피드백 및 몰입감 제공</div>
-                        </div>
-                    </div>
-                    <div class="design-principle">
-                        <div class="principle-num">04</div>
-                        <div class="principle-content">
-                            <div class="principle-title">접근성 준수</div>
-                            <div class="principle-desc">WCAG 2.1 가이드라인 준수로 모든 사용자를 위한 접근성 확보</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 08. 레퍼런스 -->
-            <div class="proposal-section">
-                <div class="section-header">
-                    <span class="section-num">08</span>
-                    <h2>레퍼런스</h2>
-                </div>
+                <h3>추진조직 및 R&R</h3>
+                <div class="org-intro">통합 PM 및 프로젝트 영역별 전문 PM 중심의 인력 구성으로 체계적인 일정 관리와 효율적인 통합 프로젝트 수행</div>
                 
-                <div class="reference-grid">
-                    <div class="reference-card">
-                        <div class="reference-image" style="background: linear-gradient(135deg, #667eea, #764ba2)">
-                            <span>PROJECT A</span>
-                        </div>
-                        <div class="reference-info">
-                            <div class="reference-title">${industryName} A사 플랫폼</div>
-                            <div class="reference-meta">2024 | 웹/앱</div>
-                            <div class="reference-tags">
-                                <span>UI/UX</span>
-                                <span>개발</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="reference-card">
-                        <div class="reference-image" style="background: linear-gradient(135deg, #f093fb, #f5576c)">
-                            <span>PROJECT B</span>
-                        </div>
-                        <div class="reference-info">
-                            <div class="reference-title">${industryName} B사 리뉴얼</div>
-                            <div class="reference-meta">2024 | 반응형 웹</div>
-                            <div class="reference-tags">
-                                <span>리뉴얼</span>
-                                <span>디자인</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="reference-card">
-                        <div class="reference-image" style="background: linear-gradient(135deg, #4facfe, #00f2fe)">
-                            <span>PROJECT C</span>
-                        </div>
-                        <div class="reference-info">
-                            <div class="reference-title">유사 업종 C사</div>
-                            <div class="reference-meta">2023 | 커머스</div>
-                            <div class="reference-tags">
-                                <span>풀스택</span>
-                                <span>커머스</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 09. 추진 일정 -->
-            <div class="proposal-section">
-                <div class="section-header">
-                    <span class="section-num">09</span>
-                    <h2>추진 일정</h2>
-                </div>
-                
-                <div class="schedule-summary">
-                    <div class="schedule-total">
-                        <span class="schedule-label">총 프로젝트 기간</span>
-                        <span class="schedule-value">${estimatedWeeks}주 (약 ${Math.ceil(estimatedWeeks / 4)}개월)</span>
-                    </div>
-                </div>
-                
-                <div class="gantt-chart">
-                    <div class="gantt-header">
-                        <div class="gantt-phase-label">단계</div>
-                        ${Array.from({length: Math.min(estimatedWeeks, 16)}, (_, i) => `<div class="gantt-week">${i + 1}W</div>`).join('')}
-                    </div>
-                    <div class="gantt-row">
-                        <div class="gantt-phase-name">
-                            <span class="phase-dot" style="background: #00D9FF"></span>
-                            킥오프/분석
-                        </div>
-                        <div class="gantt-bar-area">
-                            <div class="gantt-bar" style="width: ${Math.round(10/estimatedWeeks*100)}%; background: linear-gradient(90deg, #00D9FF, #00B4CC)"></div>
-                        </div>
-                    </div>
-                    <div class="gantt-row">
-                        <div class="gantt-phase-name">
-                            <span class="phase-dot" style="background: #7B61FF"></span>
-                            UX/UI 기획
-                        </div>
-                        <div class="gantt-bar-area">
-                            <div class="gantt-bar" style="width: ${Math.round(15/estimatedWeeks*100)}%; margin-left: ${Math.round(8/estimatedWeeks*100)}%; background: linear-gradient(90deg, #7B61FF, #5B41DF)"></div>
-                        </div>
-                    </div>
-                    <div class="gantt-row">
-                        <div class="gantt-phase-name">
-                            <span class="phase-dot" style="background: #FF6B9D"></span>
-                            디자인
-                        </div>
-                        <div class="gantt-bar-area">
-                            <div class="gantt-bar" style="width: ${Math.round(20/estimatedWeeks*100)}%; margin-left: ${Math.round(18/estimatedWeeks*100)}%; background: linear-gradient(90deg, #FF6B9D, #FF4B7D)"></div>
-                        </div>
-                    </div>
-                    <div class="gantt-row">
-                        <div class="gantt-phase-name">
-                            <span class="phase-dot" style="background: #FFB347"></span>
-                            퍼블리싱
-                        </div>
-                        <div class="gantt-bar-area">
-                            <div class="gantt-bar" style="width: ${Math.round(20/estimatedWeeks*100)}%; margin-left: ${Math.round(30/estimatedWeeks*100)}%; background: linear-gradient(90deg, #FFB347, #FF8C00)"></div>
-                        </div>
-                    </div>
-                    <div class="gantt-row">
-                        <div class="gantt-phase-name">
-                            <span class="phase-dot" style="background: #2ED573"></span>
-                            개발
-                        </div>
-                        <div class="gantt-bar-area">
-                            <div class="gantt-bar" style="width: ${Math.round(35/estimatedWeeks*100)}%; margin-left: ${Math.round(35/estimatedWeeks*100)}%; background: linear-gradient(90deg, #2ED573, #1EC05C)"></div>
-                        </div>
-                    </div>
-                    <div class="gantt-row">
-                        <div class="gantt-phase-name">
-                            <span class="phase-dot" style="background: #5352ED"></span>
-                            QA/테스트
-                        </div>
-                        <div class="gantt-bar-area">
-                            <div class="gantt-bar" style="width: ${Math.round(15/estimatedWeeks*100)}%; margin-left: ${Math.round(70/estimatedWeeks*100)}%; background: linear-gradient(90deg, #5352ED, #3742fa)"></div>
-                        </div>
-                    </div>
-                    <div class="gantt-row">
-                        <div class="gantt-phase-name">
-                            <span class="phase-dot" style="background: #FF4757"></span>
-                            오픈/안정화
-                        </div>
-                        <div class="gantt-bar-area">
-                            <div class="gantt-bar" style="width: ${Math.round(10/estimatedWeeks*100)}%; margin-left: ${Math.round(85/estimatedWeeks*100)}%; background: linear-gradient(90deg, #FF4757, #FF6B81)"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 10. 투입 조직 -->
-            <div class="proposal-section">
-                <div class="section-header">
-                    <span class="section-num">10</span>
-                    <h2>투입 조직</h2>
-                </div>
-                
-                <div class="org-chart">
-                    <div class="org-pm">
-                        <div class="org-card pm">
+                <div class="org-chart-new">
+                    <div class="org-level org-top">
+                        <div class="org-card-new pm">
                             <div class="org-icon">👨‍💼</div>
-                            <div class="org-role">PM</div>
-                            <div class="org-count">${teamSize.pm}명</div>
-                            <div class="org-desc">프로젝트 총괄</div>
+                            <div class="org-role">통합 PM</div>
+                            <div class="org-count">${teamSize.pm}명 (고급)</div>
                         </div>
                     </div>
-                    <div class="org-teams">
-                        <div class="org-card">
-                            <div class="org-icon">📋</div>
-                            <div class="org-role">기획</div>
-                            <div class="org-count">${teamSize.planner}명</div>
-                            <div class="org-desc">UX 설계, 화면 정의</div>
+                    <div class="org-level org-middle">
+                        <div class="org-team-group">
+                            <div class="team-label">UIUX Plan / Design</div>
+                            <div class="org-cards-row">
+                                <div class="org-card-new"><div class="org-role">Art Director</div><div class="org-count">${teamSize.artDirector}명</div></div>
+                                <div class="org-card-new"><div class="org-role">UI Planner</div><div class="org-count">${teamSize.uiPlanner}명</div></div>
+                                <div class="org-card-new"><div class="org-role">Designer</div><div class="org-count">${teamSize.designer}명</div></div>
+                                <div class="org-card-new"><div class="org-role">Publisher</div><div class="org-count">${teamSize.publisher}명</div></div>
+                            </div>
                         </div>
-                        <div class="org-card">
-                            <div class="org-icon">🎨</div>
-                            <div class="org-role">디자인</div>
-                            <div class="org-count">${teamSize.designer}명</div>
-                            <div class="org-desc">UI 디자인, 그래픽</div>
+                        <div class="org-team-group">
+                            <div class="team-label">Front/Back-end 개발</div>
+                            <div class="org-cards-row">
+                                <div class="org-card-new"><div class="org-role">개발 PM</div><div class="org-count">1명</div></div>
+                                <div class="org-card-new"><div class="org-role">Front-end</div><div class="org-count">${teamSize.frontDev}명</div></div>
+                                <div class="org-card-new"><div class="org-role">Back-end</div><div class="org-count">${teamSize.backDev}명</div></div>
+                            </div>
                         </div>
-                        <div class="org-card">
-                            <div class="org-icon">🖥️</div>
-                            <div class="org-role">퍼블리싱</div>
-                            <div class="org-count">${teamSize.publisher}명</div>
-                            <div class="org-desc">HTML/CSS, 반응형</div>
-                        </div>
-                        <div class="org-card">
-                            <div class="org-icon">💻</div>
-                            <div class="org-role">프론트엔드</div>
-                            <div class="org-count">${teamSize.frontDev}명</div>
-                            <div class="org-desc">클라이언트 개발</div>
-                        </div>
-                        <div class="org-card">
-                            <div class="org-icon">⚙️</div>
-                            <div class="org-role">백엔드</div>
-                            <div class="org-count">${teamSize.backDev}명</div>
-                            <div class="org-desc">서버, API, DB</div>
-                        </div>
-                        <div class="org-card">
-                            <div class="org-icon">🔍</div>
-                            <div class="org-role">QA</div>
-                            <div class="org-count">${teamSize.qa}명</div>
-                            <div class="org-desc">테스트, 품질관리</div>
+                        <div class="org-team-group">
+                            <div class="team-label">AI Service 개발</div>
+                            <div class="org-cards-row">
+                                <div class="org-card-new"><div class="org-role">AI PM</div><div class="org-count">1명</div></div>
+                                <div class="org-card-new"><div class="org-role">AI Planner</div><div class="org-count">${teamSize.aiPlanner}명</div></div>
+                                <div class="org-card-new"><div class="org-role">AI Developer</div><div class="org-count">${teamSize.aiDev}명</div></div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="team-total">
-                    <span>총 투입 인력</span>
-                    <span class="team-total-count">${Object.values(teamSize).reduce((a, b) => a + b, 0)}명</span>
+                <div class="team-total-new">
+                    <div class="total-item">
+                        <span class="total-label">총 투입 인력</span>
+                        <span class="total-value">${Object.values(teamSize).reduce((a, b) => a + b, 0)}명</span>
+                    </div>
+                    <div class="total-item">
+                        <span class="total-label">총 투입 공수</span>
+                        <span class="total-value">${totalMM.total} MM</span>
+                    </div>
                 </div>
             </div>
             
-            <!-- 11. 견적 -->
+            <!-- 07. 수행 계획 - 프로젝트 일정 (Slide 59) -->
             <div class="proposal-section">
                 <div class="section-header">
-                    <span class="section-num">11</span>
-                    <h2>견적</h2>
+                    <span class="section-num">07</span>
+                    <h2>프로젝트 수행일정</h2>
                 </div>
                 
-                <table class="estimate-table">
+                <div class="schedule-intro">프로젝트는 분석 및 설계 2개월, 개발 ${estimatedMonths - 2}개월을 포함하여 총 <strong>${estimatedMonths}개월</strong>간 수행되며, 안정적으로 새로운 플랫폼으로 전환 / 오픈할 수 있도록 계획</div>
+                
+                <table class="schedule-table">
                     <thead>
                         <tr>
-                            <th>구분</th>
-                            <th>상세 내역</th>
-                            <th>산출 근거</th>
-                            <th>금액 (만원)</th>
+                            <th>단계</th>
+                            <th>상세업무</th>
+                            <th>주요 산출물</th>
+                            ${Array.from({length: estimatedMonths}, (_, i) => `<th>M+${String(i + 1).padStart(2, '0')}</th>`).join('')}
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>기획</td>
-                            <td>요구사항 분석, IA, 화면설계서, 기능정의서</td>
-                            <td>기획자 ${teamSize.planner}명 × ${Math.ceil(estimatedWeeks * 0.3)}주</td>
-                            <td class="amount">${Math.round(avgBudget * 0.12).toLocaleString()}</td>
+                            <td rowspan="2">요구분석/정의</td>
+                            <td>환경/요구사항수집</td>
+                            <td>환경분석, 벤치마킹, 요구사항정의</td>
+                            <td class="gantt-cell active"></td>
+                            ${Array.from({length: estimatedMonths - 1}, () => `<td class="gantt-cell"></td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td>IA 정의</td>
+                            <td>IA 구조 확정</td>
+                            <td class="gantt-cell active"></td>
+                            ${Array.from({length: estimatedMonths - 1}, () => `<td class="gantt-cell"></td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td rowspan="2">프로토타입</td>
+                            <td>UX 디자인방향 도출</td>
+                            <td>UX 디자인 컨셉 정의</td>
+                            <td class="gantt-cell active"></td>
+                            <td class="gantt-cell active"></td>
+                            ${Array.from({length: estimatedMonths - 2}, () => `<td class="gantt-cell"></td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td>프로토타입 제작</td>
+                            <td>메인 및 본문 2종</td>
+                            <td class="gantt-cell"></td>
+                            <td class="gantt-cell active"></td>
+                            ${Array.from({length: estimatedMonths - 2}, () => `<td class="gantt-cell"></td>`).join('')}
                         </tr>
                         <tr>
                             <td>디자인</td>
-                            <td>UI 디자인, 디자인 시스템, 그래픽 에셋</td>
-                            <td>디자이너 ${teamSize.designer}명 × ${Math.ceil(estimatedWeeks * 0.35)}주</td>
-                            <td class="amount">${Math.round(avgBudget * 0.23).toLocaleString()}</td>
+                            <td>전체 프론트 디자인</td>
+                            <td>피그마 파일 및 디자인 가이드</td>
+                            <td class="gantt-cell"></td>
+                            <td class="gantt-cell active"></td>
+                            <td class="gantt-cell active"></td>
+                            ${Array.from({length: estimatedMonths - 3}, () => `<td class="gantt-cell"></td>`).join('')}
                         </tr>
                         <tr>
-                            <td>퍼블리싱</td>
-                            <td>HTML/CSS, 반응형, 인터랙션</td>
-                            <td>퍼블리셔 ${teamSize.publisher}명 × ${Math.ceil(estimatedWeeks * 0.3)}주</td>
-                            <td class="amount">${Math.round(avgBudget * 0.15).toLocaleString()}</td>
+                            <td>개발</td>
+                            <td>Front/Back-end 개발</td>
+                            <td>개발 환경 설정, 전체 소스 개발</td>
+                            <td class="gantt-cell"></td>
+                            <td class="gantt-cell"></td>
+                            <td class="gantt-cell active"></td>
+                            ${Array.from({length: estimatedMonths - 4}, (_, i) => `<td class="gantt-cell active"></td>`).join('')}
+                            <td class="gantt-cell"></td>
                         </tr>
                         <tr>
-                            <td>프론트엔드</td>
-                            <td>클라이언트 개발, API 연동</td>
-                            <td>FE개발 ${teamSize.frontDev}명 × ${Math.ceil(estimatedWeeks * 0.5)}주</td>
-                            <td class="amount">${Math.round(avgBudget * 0.22).toLocaleString()}</td>
+                            <td>테스트</td>
+                            <td>통합/사용자 테스트</td>
+                            <td>기획/디자인 통합테스트</td>
+                            ${Array.from({length: estimatedMonths - 2}, () => `<td class="gantt-cell"></td>`).join('')}
+                            <td class="gantt-cell active"></td>
+                            <td class="gantt-cell active"></td>
                         </tr>
                         <tr>
-                            <td>백엔드</td>
-                            <td>서버 개발, DB 설계, API 개발</td>
-                            <td>BE개발 ${teamSize.backDev}명 × ${Math.ceil(estimatedWeeks * 0.5)}주</td>
-                            <td class="amount">${Math.round(avgBudget * 0.20).toLocaleString()}</td>
+                            <td>오픈</td>
+                            <td>운영서버 이관</td>
+                            <td>운영서버 이관 / 오픈</td>
+                            ${Array.from({length: estimatedMonths - 1}, () => `<td class="gantt-cell"></td>`).join('')}
+                            <td class="gantt-cell active milestone"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="schedule-milestones">
+                    <div class="milestone-item">
+                        <span class="milestone-marker">◆</span>
+                        <span class="milestone-label">중간보고</span>
+                        <span class="milestone-time">M+02</span>
+                    </div>
+                    <div class="milestone-item">
+                        <span class="milestone-marker complete">◆</span>
+                        <span class="milestone-label">완료보고</span>
+                        <span class="milestone-time">M+${String(estimatedMonths).padStart(2, '0')}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 07. 인원투입 계획 (Slide 60) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">07</span>
+                    <h2>인원투입 계획</h2>
+                </div>
+                
+                <div class="mm-summary">
+                    <div class="mm-intro">프로젝트 수행 팀은 홈페이지 구축 <strong>${totalMM.uiux + totalMM.frontend + totalMM.backend} MM</strong> + AI서비스 구축 <strong>${totalMM.ai} MM</strong> = 총 <strong>${totalMM.total} MM</strong> 투입 예상</div>
+                </div>
+                
+                <table class="mm-table">
+                    <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>담당분야</th>
+                            <th>Task</th>
+                            ${Array.from({length: estimatedMonths}, (_, i) => `<th>M+${String(i + 1).padStart(2, '0')}</th>`).join('')}
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>통합 PM</td>
+                            <td>Web / AI</td>
+                            <td>일정관리, 통합관리, 요건 분석/설계</td>
+                            ${Array.from({length: estimatedMonths}, () => `<td>1</td>`).join('')}
+                            <td><strong>${estimatedMonths}</strong></td>
                         </tr>
                         <tr>
-                            <td>QA/PM</td>
-                            <td>품질관리, 테스트, 프로젝트 관리</td>
-                            <td>QA ${teamSize.qa}명 + PM ${teamSize.pm}명</td>
-                            <td class="amount">${Math.round(avgBudget * 0.08).toLocaleString()}</td>
+                            <td>UI Planner</td>
+                            <td>Web site</td>
+                            <td>요건/기능분석, UI 설계</td>
+                            ${Array.from({length: estimatedMonths}, () => `<td>1</td>`).join('')}
+                            <td><strong>${estimatedMonths}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Designer</td>
+                            <td>Web site</td>
+                            <td>UI/UX 프로토타입/콘텐츠 디자인</td>
+                            ${Array.from({length: estimatedMonths}, (_, i) => `<td>${i < 2 ? 1 : teamSize.designer}</td>`).join('')}
+                            <td><strong>${2 + (estimatedMonths - 2) * teamSize.designer}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Publisher</td>
+                            <td>Web site</td>
+                            <td>UI/UX 개발</td>
+                            ${Array.from({length: estimatedMonths}, (_, i) => `<td>${i < 1 ? 0 : teamSize.publisher}</td>`).join('')}
+                            <td><strong>${(estimatedMonths - 1) * teamSize.publisher}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Developer</td>
+                            <td>Web site</td>
+                            <td>Front/Back-end 개발</td>
+                            ${Array.from({length: estimatedMonths}, (_, i) => `<td>${i < 2 ? 0 : teamSize.frontDev + teamSize.backDev}</td>`).join('')}
+                            <td><strong>${(estimatedMonths - 2) * (teamSize.frontDev + teamSize.backDev)}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>AI Developer</td>
+                            <td>AI</td>
+                            <td>AI 분석 설계 / 개발</td>
+                            ${Array.from({length: estimatedMonths}, () => `<td>${teamSize.aiDev}</td>`).join('')}
+                            <td><strong>${estimatedMonths * teamSize.aiDev}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>QA</td>
+                            <td>Web / AI</td>
+                            <td>테스트 및 검증</td>
+                            ${Array.from({length: estimatedMonths}, (_, i) => `<td>${i >= estimatedMonths - 2 ? 1 : 0}</td>`).join('')}
+                            <td><strong>2</strong></td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="3" class="total-label">합계 (VAT 별도)</td>
-                            <td class="total-amount">${avgBudget.toLocaleString()}</td>
+                            <td colspan="3" class="total-label">Total MM</td>
+                            ${Array.from({length: estimatedMonths}, (_, i) => {
+                                let mm = 2; // PM + Planner
+                                mm += (i < 2 ? 1 : teamSize.designer);
+                                mm += (i < 1 ? 0 : teamSize.publisher);
+                                mm += (i < 2 ? 0 : teamSize.frontDev + teamSize.backDev);
+                                mm += teamSize.aiDev;
+                                mm += (i >= estimatedMonths - 2 ? 1 : 0);
+                                return `<td><strong>${mm}</strong></td>`;
+                            }).join('')}
+                            <td class="total-amount"><strong>${totalMM.total}</strong></td>
                         </tr>
                     </tfoot>
                 </table>
+            </div>
+            
+            <!-- 08. 품질 관리 (Slide 64-69) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">08</span>
+                    <h2>품질 및 성과관리</h2>
+                </div>
                 
-                <div class="estimate-note">
-                    <p>※ 본 견적은 제안 시점의 예상 견적이며, 상세 요구사항 확정 후 변동될 수 있습니다.</p>
-                    <p>※ 서버 호스팅, 외부 API 라이선스 등 별도 비용은 포함되지 않았습니다.</p>
+                <h3>사업관리 방안</h3>
+                <div class="quality-grid">
+                    <div class="quality-card">
+                        <div class="quality-icon">📅</div>
+                        <div class="quality-title">일정 관리 및 커뮤니케이션</div>
+                        <ul>
+                            <li>WBS 작성 및 변경관리</li>
+                            <li>일정 이슈 사전 모니터링 및 조치</li>
+                            <li>협업 Tool 활용 커뮤니케이션</li>
+                        </ul>
+                    </div>
+                    <div class="quality-card">
+                        <div class="quality-icon">📋</div>
+                        <div class="quality-title">SLA기반 산출물 및 R&R관리</div>
+                        <ul>
+                            <li>SLA 산출물 표준화 계획 및 통제</li>
+                            <li>SLA 표준 및 절차매뉴얼 수립</li>
+                            <li>SLA 평가기준 및 실적 보고</li>
+                        </ul>
+                    </div>
+                    <div class="quality-card">
+                        <div class="quality-icon">👥</div>
+                        <div class="quality-title">우수인력 관리</div>
+                        <ul>
+                            <li>인적자원 총괄 관리</li>
+                            <li>적정 투입인원 검증</li>
+                            <li>우수 인력 유지 방안</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>업무 보고체계</h3>
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>시기</th>
+                            <th>내용</th>
+                            <th>보고서</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>착수보고</td>
+                            <td>계약 후 1개월 내</td>
+                            <td>사업추진일정, 조직 및 역할, 사업범위, 추진 방안</td>
+                            <td>착수 보고서</td>
+                        </tr>
+                        <tr>
+                            <td>주간보고</td>
+                            <td>1회/주</td>
+                            <td>주간 진행내용, 진척상황, 협의 내용, 협조사항</td>
+                            <td>주간업무 보고서</td>
+                        </tr>
+                        <tr>
+                            <td>월간보고</td>
+                            <td>1회/월</td>
+                            <td>월간 진행내용, 이슈/위험요소, 의사결정 요청사항</td>
+                            <td>월간업무 보고서</td>
+                        </tr>
+                        <tr>
+                            <td>수시보고</td>
+                            <td>수시</td>
+                            <td>긴급 변경 및 이슈, 위험 발생시</td>
+                            <td>이슈보고서</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3>긴급이슈 대응 프로세스</h3>
+                <div class="emergency-process">
+                    <div class="emergency-badge">🚨 365일 24시간 긴급업무 대응</div>
+                    <div class="emergency-flow">
+                        <div class="flow-step">
+                            <div class="flow-num">1</div>
+                            <div class="flow-content">비상연락망 가동<br><span class="flow-time">30분 내 업무분장</span></div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="flow-num">2</div>
+                            <div class="flow-content">원격관리 툴 통한<br>커뮤니케이션</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="flow-num">3</div>
+                            <div class="flow-content">작업물 백업 및<br>관리</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="flow-num">4</div>
+                            <div class="flow-content">완료보고 및 검수의뢰<br><span class="flow-time">1-3시간 내 완료</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- 12. 당사 역량 -->
+            <!-- WE ARE 구분선 -->
+            <div class="proposal-divider weare">
+                <span class="divider-label">WE ARE</span>
+                <div class="divider-sections">
+                    <span>09 회사 소개</span>
+                </div>
+            </div>
+            
+            <!-- 09. 회사 소개 -->
             <div class="proposal-section">
                 <div class="section-header">
-                    <span class="section-num">12</span>
-                    <h2>당사 역량</h2>
+                    <span class="section-num">09</span>
+                    <h2>회사 소개</h2>
                 </div>
                 
-                <div class="company-intro">
-                    <h3>Why Us?</h3>
-                    <p>Agency Brain은 디지털 에이전시로서 다년간의 프로젝트 경험과 전문 인력을 바탕으로 최상의 결과물을 제공합니다.</p>
+                <div class="company-intro-new">
+                    <h3>Agency Brain</h3>
+                    <p>디지털 에이전시로서 다년간의 프로젝트 경험과 전문 인력을 바탕으로 최상의 결과물을 제공합니다.</p>
                 </div>
                 
                 <div class="capability-grid">
@@ -885,58 +1504,148 @@ function initProposalForm() {
                     </div>
                 </div>
                 
-                <div class="why-us-list">
-                    <div class="why-us-item">
-                        <span class="why-us-icon">✓</span>
-                        <div class="why-us-content">
-                            <strong>${industryName} 분야 전문성</strong>
-                            <p>다수의 ${industryName} 관련 프로젝트 수행 경험 보유</p>
+                <h3>주요 수행사례</h3>
+                <div class="portfolio-grid">
+                    <div class="portfolio-card">
+                        <div class="portfolio-image" style="background: linear-gradient(135deg, #667eea, #764ba2)">
+                            <span>금융 프로젝트</span>
+                        </div>
+                        <div class="portfolio-info">
+                            <div class="portfolio-title">${industryName} A사 플랫폼</div>
+                            <div class="portfolio-desc">UX/UI 기획, 디자인, 개발</div>
+                            <div class="portfolio-tags"><span>웹/앱</span><span>AI</span></div>
                         </div>
                     </div>
-                    <div class="why-us-item">
-                        <span class="why-us-icon">✓</span>
-                        <div class="why-us-content">
-                            <strong>원스톱 서비스</strong>
-                            <p>기획부터 디자인, 개발, 운영까지 전 과정 지원</p>
+                    <div class="portfolio-card">
+                        <div class="portfolio-image" style="background: linear-gradient(135deg, #f093fb, #f5576c)">
+                            <span>커머스 프로젝트</span>
+                        </div>
+                        <div class="portfolio-info">
+                            <div class="portfolio-title">B사 자사몰 구축</div>
+                            <div class="portfolio-desc">반응형 웹, 관리자 시스템</div>
+                            <div class="portfolio-tags"><span>e-Commerce</span></div>
                         </div>
                     </div>
-                    <div class="why-us-item">
-                        <span class="why-us-icon">✓</span>
-                        <div class="why-us-content">
-                            <strong>애자일 방법론</strong>
-                            <p>빠른 피드백과 유연한 대응으로 프로젝트 성공률 제고</p>
+                    <div class="portfolio-card">
+                        <div class="portfolio-image" style="background: linear-gradient(135deg, #4facfe, #00f2fe)">
+                            <span>AI 프로젝트</span>
+                        </div>
+                        <div class="portfolio-info">
+                            <div class="portfolio-title">C사 AI 어시스턴트</div>
+                            <div class="portfolio-desc">AI 챗봇, 추천 시스템</div>
+                            <div class="portfolio-tags"><span>AI/ML</span><span>LLM</span></div>
                         </div>
                     </div>
-                    <div class="why-us-item">
-                        <span class="why-us-icon">✓</span>
-                        <div class="why-us-content">
-                            <strong>사후 지원 체계</strong>
-                            <p>오픈 후 3개월 무상 하자보수 및 운영 지원</p>
-                        </div>
+                </div>
+                
+                <h3>운영 및 유지보수 계획</h3>
+                <div class="maintenance-grid">
+                    <div class="maintenance-item">
+                        <div class="maint-icon">🛡️</div>
+                        <div class="maint-title">안정화 지원</div>
+                        <div class="maint-desc">시스템 검수 완료 후 참여 인력 안정화 지원</div>
+                    </div>
+                    <div class="maintenance-item">
+                        <div class="maint-icon">⚡</div>
+                        <div class="maint-title">신속한 장애조치</div>
+                        <div class="maint-desc">장애 발생 시 최단시간 내 도착 및 조치</div>
+                    </div>
+                    <div class="maintenance-item">
+                        <div class="maint-icon">🔧</div>
+                        <div class="maint-title">무상 하자보수</div>
+                        <div class="maint-desc">검수 후 1년간 무상 하자 보수 지원</div>
+                    </div>
+                    <div class="maintenance-item">
+                        <div class="maint-icon">📈</div>
+                        <div class="maint-title">유상 유지보수</div>
+                        <div class="maint-desc">무상 하자 보수 이외 건에 대해 별도 계약</div>
                     </div>
                 </div>
             </div>
             
-            <!-- 마무리 -->
+            <!-- 견적 섹션 -->
+            <div class="proposal-section estimate-section">
+                <div class="section-header">
+                    <span class="section-num">💰</span>
+                    <h2>투자 비용</h2>
+                </div>
+                
+                <table class="estimate-table">
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>상세 내역</th>
+                            <th>투입 인원</th>
+                            <th>금액 (만원)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>UX/UI 기획</td>
+                            <td>요구사항 분석, IA, 화면설계서, 스토리보드</td>
+                            <td>${teamSize.uiPlanner}명 × ${estimatedMonths}개월</td>
+                            <td class="amount">${Math.round(avgBudget * 0.15).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td>디자인</td>
+                            <td>UI 디자인, 디자인 시스템, 프로토타입</td>
+                            <td>${teamSize.designer}명 × ${estimatedMonths}개월</td>
+                            <td class="amount">${Math.round(avgBudget * 0.20).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td>퍼블리싱</td>
+                            <td>HTML/CSS, 반응형, 프론트엔드 개발</td>
+                            <td>${teamSize.publisher + teamSize.frontDev}명 × ${estimatedMonths - 1}개월</td>
+                            <td class="amount">${Math.round(avgBudget * 0.18).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td>백엔드 개발</td>
+                            <td>서버 개발, DB 설계, API, 관리자 시스템</td>
+                            <td>${teamSize.backDev}명 × ${estimatedMonths - 2}개월</td>
+                            <td class="amount">${Math.round(avgBudget * 0.17).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td>AI 개발</td>
+                            <td>AI 기획, 자연어 검색, 개인화 추천, 그래프 DB</td>
+                            <td>${teamSize.aiPlanner + teamSize.aiDev}명 × ${estimatedMonths}개월</td>
+                            <td class="amount">${Math.round(avgBudget * 0.22).toLocaleString()}</td>
+                        </tr>
+                        <tr>
+                            <td>PM/QA</td>
+                            <td>프로젝트 관리, 품질관리, 테스트</td>
+                            <td>${teamSize.pm + teamSize.qa}명</td>
+                            <td class="amount">${Math.round(avgBudget * 0.08).toLocaleString()}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="total-label">합계 (VAT 별도)</td>
+                            <td class="total-amount">${avgBudget.toLocaleString()} 만원</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+                <div class="estimate-note">
+                    <p>※ 본 견적은 제안 시점의 예상 견적이며, 상세 요구사항 확정 후 변동될 수 있습니다.</p>
+                    <p>※ 서버 호스팅, 외부 API 라이선스, 클라우드 비용 등 별도 비용은 포함되지 않았습니다.</p>
+                    <p>※ 투입 인원의 정규직 비율은 100%입니다.</p>
+                </div>
+            </div>
+            
+            <!-- 마무리 (Slide 70) -->
             <div class="proposal-ending">
+                <div class="ending-badge">One Platform, Smarter ${strategy.keyword} Experience</div>
                 <div class="ending-message">
                     <h2>감사합니다</h2>
-                    <p>본 제안서와 관련하여 궁금하신 사항이 있으시면<br>언제든지 문의해 주시기 바랍니다.</p>
+                    <p>함께 성장할 기회를 기대합니다</p>
                 </div>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <span class="contact-label">담당자</span>
-                        <span class="contact-value">Agency Brain 영업팀</span>
-                    </div>
-                    <div class="contact-item">
-                        <span class="contact-label">연락처</span>
-                        <span class="contact-value">02-1234-5678</span>
-                    </div>
-                    <div class="contact-item">
-                        <span class="contact-label">이메일</span>
-                        <span class="contact-value">contact@agencybrain.com</span>
-                    </div>
-                </div>
+                <table class="ending-info-table">
+                    <tr><td>클라이언트</td><td>${industryName} 프로젝트</td></tr>
+                    <tr><td>제안유형</td><td>UX/UI 및 AI를 포함한 전체 기획 및 개발</td></tr>
+                    <tr><td>제출일</td><td>${year}. ${String(month).padStart(2, '0')}. ${String(day).padStart(2, '0')}</td></tr>
+                </table>
+                <div class="ending-company">AGENCY BRAIN</div>
+                <div class="ending-copyright">Copyright © ${year} Agency Brain. All rights reserved.</div>
             </div>
         `;
     }
