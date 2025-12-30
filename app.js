@@ -250,33 +250,239 @@ function initProposalForm() {
         const month = today.getMonth() + 1;
         const day = today.getDate();
         
-        // 예상 공수 및 견적 계산
+        // ============================================
+        // 업종별 복잡도 계수 (1.0 ~ 1.5)
+        // ============================================
+        const industryComplexity = {
+            fashion: 1.2, beauty: 1.1, fnb: 1.0, electronics: 1.3, furniture: 1.2, healthcare: 1.4,
+            education: 1.3, finance: 1.5, travel: 1.3, realestate: 1.2, restaurant: 1.0, fitness: 1.1,
+            salon: 1.0, consulting: 1.2, recruitment: 1.3, media: 1.2, streaming: 1.4, gaming: 1.5,
+            sports: 1.2, charity: 1.1, association: 1.1, university: 1.3, b2b_commerce: 1.4,
+            saas: 1.5, manufacturing: 1.3, logistics: 1.4, default: 1.2
+        };
+        const complexityRate = industryComplexity[industry] || industryComplexity.default;
+
+        // ============================================
+        // 플랫폼별 비용 (만원) - 기본 개발비
+        // ============================================
+        const platformCosts = {
+            web: { name: 'PC 웹', design: 800, publishing: 600, dev: 1200 },
+            mobile: { name: '모바일 웹(반응형)', design: 400, publishing: 400, dev: 500 },
+            ios: { name: 'iOS 앱', design: 600, publishing: 0, dev: 2500 },
+            android: { name: 'Android 앱', design: 400, publishing: 0, dev: 2200 },
+            admin: { name: '관리자 페이지', design: 500, publishing: 400, dev: 1500 }
+        };
+
+        // ============================================
+        // 기능별 개발 단가 (만원)
+        // ============================================
+        const featureCosts = {
+            // 기본 기능
+            '회원가입/로그인': { planning: 80, design: 120, dev: 250, desc: 'SNS 로그인, 이메일 인증 포함' },
+            '소셜로그인': { planning: 40, design: 60, dev: 150, desc: '카카오/네이버/구글 연동' },
+            '본인인증': { planning: 30, design: 40, dev: 200, desc: 'PASS, 문자 인증' },
+            '마이페이지': { planning: 60, design: 100, dev: 200, desc: '회원정보 수정, 활동내역' },
+            '프로필관리': { planning: 50, design: 80, dev: 150, desc: '프로필 사진, 소개글' },
+            // 검색/목록
+            '상품검색': { planning: 80, design: 100, dev: 300, desc: '필터, 정렬, 자동완성' },
+            '상품목록': { planning: 60, design: 120, dev: 250, desc: '카테고리별, 무한스크롤' },
+            '상품상세': { planning: 80, design: 150, dev: 300, desc: '이미지갤러리, 옵션선택' },
+            '카테고리': { planning: 40, design: 60, dev: 150, desc: '대/중/소 카테고리 구조' },
+            '검색': { planning: 60, design: 80, dev: 200, desc: '통합검색, 최근검색어' },
+            '필터링': { planning: 50, design: 70, dev: 180, desc: '다중 필터, 정렬' },
+            // 커머스 기능
+            '장바구니': { planning: 60, design: 80, dev: 250, desc: '수량변경, 옵션수정' },
+            '위시리스트': { planning: 40, design: 60, dev: 150, desc: '찜하기, 폴더분류' },
+            '관심상품': { planning: 40, design: 60, dev: 150, desc: '좋아요, 알림설정' },
+            '주문하기': { planning: 100, design: 150, dev: 400, desc: '주문서 작성, 배송지' },
+            '결제': { planning: 80, design: 100, dev: 500, desc: 'PG연동, 다양한 결제수단' },
+            '결제시스템': { planning: 100, design: 120, dev: 600, desc: 'PG연동, 정기결제' },
+            '주문내역': { planning: 60, design: 80, dev: 200, desc: '주문상태, 상세내역' },
+            '주문관리': { planning: 80, design: 100, dev: 300, desc: '주문현황, 일괄처리' },
+            '배송조회': { planning: 40, design: 60, dev: 200, desc: '택배사 API 연동' },
+            '배송추적': { planning: 50, design: 70, dev: 250, desc: '실시간 위치추적' },
+            '반품/교환': { planning: 80, design: 100, dev: 350, desc: '신청, 진행상태' },
+            '정기배송': { planning: 80, design: 100, dev: 400, desc: '구독, 배송주기 설정' },
+            // 예약 기능
+            '예약': { planning: 80, design: 120, dev: 350, desc: '일정선택, 옵션' },
+            '예약관리': { planning: 100, design: 130, dev: 400, desc: '예약현황, 일정관리' },
+            '일정관리': { planning: 60, design: 100, dev: 250, desc: '캘린더, 알림' },
+            '실시간현황': { planning: 50, design: 80, dev: 200, desc: '대기인원, 잔여석' },
+            // 리뷰/커뮤니티
+            '리뷰': { planning: 60, design: 100, dev: 250, desc: '별점, 이미지 리뷰' },
+            '리뷰/평점': { planning: 70, design: 110, dev: 280, desc: '포토리뷰, 베스트리뷰' },
+            '커뮤니티': { planning: 80, design: 120, dev: 350, desc: '게시판, 댓글, 좋아요' },
+            '게시판': { planning: 60, design: 80, dev: 200, desc: 'CRUD, 첨부파일' },
+            '댓글': { planning: 40, design: 50, dev: 120, desc: '대댓글, 좋아요' },
+            '1:1문의': { planning: 50, design: 70, dev: 180, desc: '문의등록, 답변알림' },
+            '고객센터': { planning: 60, design: 90, dev: 220, desc: 'FAQ, 공지사항, 1:1문의' },
+            'FAQ': { planning: 30, design: 50, dev: 100, desc: '카테고리별 FAQ' },
+            '공지사항': { planning: 30, design: 50, dev: 100, desc: '공지목록, 상세' },
+            // 마케팅/프로모션
+            '쿠폰': { planning: 60, design: 80, dev: 300, desc: '발급, 사용, 유효기간' },
+            '포인트': { planning: 60, design: 80, dev: 280, desc: '적립, 사용, 내역' },
+            '이벤트': { planning: 70, design: 100, dev: 250, desc: '이벤트 페이지, 응모' },
+            '프로모션': { planning: 80, design: 120, dev: 300, desc: '할인, 기획전' },
+            '추천인': { planning: 50, design: 60, dev: 200, desc: '추천코드, 리워드' },
+            // 알림/메시지
+            '알림': { planning: 40, design: 60, dev: 200, desc: '푸시, 앱내 알림' },
+            '푸시알림': { planning: 50, design: 60, dev: 250, desc: 'FCM 연동, 타겟팅' },
+            '채팅': { planning: 80, design: 120, dev: 450, desc: '실시간 1:1 채팅' },
+            '실시간채팅': { planning: 100, design: 140, dev: 550, desc: '그룹채팅, 파일전송' },
+            '메시지': { planning: 50, design: 70, dev: 180, desc: '쪽지, 알림' },
+            // AI 기능
+            'AI추천': { planning: 150, design: 100, dev: 800, desc: '개인화 추천 알고리즘' },
+            'AI검색': { planning: 120, design: 80, dev: 600, desc: '자연어 검색, 유사상품' },
+            'AI챗봇': { planning: 150, design: 120, dev: 900, desc: 'GPT 기반 상담봇' },
+            'AI분석': { planning: 180, design: 100, dev: 1000, desc: '데이터 분석, 인사이트' },
+            'AI스타일링': { planning: 200, design: 150, dev: 1200, desc: '이미지 분석, 코디 추천' },
+            'AI코칭': { planning: 180, design: 130, dev: 1000, desc: '맞춤형 코칭, 피드백' },
+            'AR피팅': { planning: 200, design: 180, dev: 1500, desc: 'AR 가상 피팅' },
+            'VR투어': { planning: 180, design: 200, dev: 1300, desc: '360도 VR 뷰어' },
+            // 특수 기능
+            '지도': { planning: 50, design: 80, dev: 250, desc: '카카오/네이버 지도 연동' },
+            '지도검색': { planning: 70, design: 100, dev: 350, desc: '위치기반 검색, 마커' },
+            '위치기반': { planning: 60, design: 80, dev: 300, desc: 'GPS, 주변검색' },
+            '통계/리포트': { planning: 80, design: 120, dev: 400, desc: '차트, 데이터 시각화' },
+            '대시보드': { planning: 100, design: 150, dev: 450, desc: '통계, KPI 모니터링' },
+            '정산': { planning: 80, design: 100, dev: 400, desc: '매출정산, 정산내역' },
+            '정산관리': { planning: 100, design: 120, dev: 500, desc: '파트너 정산, 리포트' },
+            '파일업로드': { planning: 30, design: 40, dev: 150, desc: '이미지, 문서 업로드' },
+            '공유하기': { planning: 30, design: 40, dev: 120, desc: 'SNS 공유, 링크복사' },
+            'SNS공유': { planning: 30, design: 40, dev: 120, desc: '카카오/페이스북 공유' },
+            '다국어': { planning: 60, design: 40, dev: 200, desc: 'i18n, 언어전환' },
+            'API연동': { planning: 50, design: 30, dev: 300, desc: '외부 API 연동' },
+            // 관리자 기능
+            '회원관리': { planning: 60, design: 80, dev: 250, desc: '회원목록, 검색, 상세' },
+            '상품관리': { planning: 80, design: 100, dev: 350, desc: '상품등록, 수정, 삭제' },
+            '주문관리': { planning: 80, design: 100, dev: 300, desc: '주문현황, 상태변경' },
+            '콘텐츠관리': { planning: 60, design: 80, dev: 250, desc: '게시물, 배너 관리' },
+            '권한관리': { planning: 60, design: 70, dev: 280, desc: '역할별 권한 설정' },
+            // 기본값 (정의되지 않은 기능)
+            default: { planning: 50, design: 70, dev: 200, desc: '기본 기능 구현' }
+        };
+
+        // ============================================
+        // 견적 계산 함수
+        // ============================================
+        function calculateEstimate(platforms, features, complexityRate) {
+            const estimate = {
+                planning: { items: [], subtotal: 0 },
+                design: { items: [], subtotal: 0 },
+                publishing: { items: [], subtotal: 0 },
+                development: { items: [], subtotal: 0 },
+                pm: { items: [], subtotal: 0 },
+                total: 0
+            };
+
+            // 1. 기획 비용 계산
+            let planningCost = 0;
+            features.forEach(f => {
+                const cost = featureCosts[f] || featureCosts.default;
+                planningCost += cost.planning;
+            });
+            planningCost = Math.round(planningCost * complexityRate);
+            estimate.planning.subtotal = planningCost;
+            estimate.planning.items.push({ name: '화면설계/스토리보드', cost: Math.round(planningCost * 0.5) });
+            estimate.planning.items.push({ name: 'IA/와이어프레임', cost: Math.round(planningCost * 0.3) });
+            estimate.planning.items.push({ name: '요구사항정의서', cost: Math.round(planningCost * 0.2) });
+
+            // 2. 디자인 비용 계산 (플랫폼별 + 기능별)
+            let designCost = 0;
+            platforms.forEach(p => {
+                const pc = platformCosts[p];
+                if (pc) designCost += pc.design;
+            });
+            features.forEach(f => {
+                const cost = featureCosts[f] || featureCosts.default;
+                designCost += cost.design;
+            });
+            designCost = Math.round(designCost * complexityRate);
+            estimate.design.subtotal = designCost;
+            estimate.design.items.push({ name: 'UI 디자인', cost: Math.round(designCost * 0.6) });
+            estimate.design.items.push({ name: '디자인 시스템', cost: Math.round(designCost * 0.25) });
+            estimate.design.items.push({ name: '프로토타입', cost: Math.round(designCost * 0.15) });
+
+            // 3. 퍼블리싱 비용 계산 (웹 플랫폼만)
+            let publishingCost = 0;
+            platforms.forEach(p => {
+                const pc = platformCosts[p];
+                if (pc) publishingCost += pc.publishing;
+            });
+            publishingCost = Math.round(publishingCost * complexityRate * (features.length / 10 + 0.5));
+            estimate.publishing.subtotal = publishingCost;
+            estimate.publishing.items.push({ name: 'HTML/CSS 마크업', cost: Math.round(publishingCost * 0.5) });
+            estimate.publishing.items.push({ name: '반응형 처리', cost: Math.round(publishingCost * 0.3) });
+            estimate.publishing.items.push({ name: '인터랙션 구현', cost: Math.round(publishingCost * 0.2) });
+
+            // 4. 개발 비용 계산 (플랫폼별 + 기능별)
+            let devCost = 0;
+            platforms.forEach(p => {
+                const pc = platformCosts[p];
+                if (pc) devCost += pc.dev;
+            });
+            features.forEach(f => {
+                const cost = featureCosts[f] || featureCosts.default;
+                devCost += cost.dev;
+            });
+            devCost = Math.round(devCost * complexityRate);
+            
+            // 프론트엔드/백엔드 분리
+            const frontendCost = Math.round(devCost * 0.4);
+            const backendCost = Math.round(devCost * 0.5);
+            const infraCost = Math.round(devCost * 0.1);
+            
+            estimate.development.subtotal = devCost;
+            estimate.development.items.push({ name: '프론트엔드 개발', cost: frontendCost });
+            estimate.development.items.push({ name: '백엔드/API 개발', cost: backendCost });
+            estimate.development.items.push({ name: '서버/인프라 구축', cost: infraCost });
+
+            // 5. PM/QA 비용 (전체의 10%)
+            const pmCost = Math.round((planningCost + designCost + publishingCost + devCost) * 0.1);
+            estimate.pm.subtotal = pmCost;
+            estimate.pm.items.push({ name: '프로젝트 관리', cost: Math.round(pmCost * 0.6) });
+            estimate.pm.items.push({ name: 'QA/테스트', cost: Math.round(pmCost * 0.4) });
+
+            // 총합계
+            estimate.total = estimate.planning.subtotal + estimate.design.subtotal + 
+                           estimate.publishing.subtotal + estimate.development.subtotal + estimate.pm.subtotal;
+
+            return estimate;
+        }
+
+        // 견적 계산 실행
+        const estimate = calculateEstimate(platforms, features, complexityRate);
+
+        // 예상 공수 및 기간 계산
         const featureCount = features.length || 5;
-        const baseMonths = Math.max(4, Math.ceil(featureCount / 3));
-        const estimatedMonths = baseMonths + (platforms.length > 2 ? 1 : 0);
-        const avgBudget = Math.round((parseInt(budgetMin) + parseInt(budgetMax)) / 2);
+        const baseMonths = Math.max(3, Math.ceil(featureCount / 4));
+        const estimatedMonths = baseMonths + (platforms.length > 2 ? 1 : 0) + (estimate.total > 10000 ? 1 : 0);
         
-        // MM(Man-Month) 계산
+        // MM(Man-Month) 계산 - 견적 기반
+        const monthlyRate = 550; // 평균 월 단가 (만원)
         const totalMM = {
-            uiux: Math.round(estimatedMonths * 3.5),
-            frontend: Math.round(estimatedMonths * 2.5),
-            backend: Math.round(estimatedMonths * 2),
-            ai: Math.round(estimatedMonths * 3),
+            planning: Math.round(estimate.planning.subtotal / monthlyRate * 10) / 10,
+            design: Math.round(estimate.design.subtotal / monthlyRate * 10) / 10,
+            publishing: Math.round(estimate.publishing.subtotal / (monthlyRate * 0.8) * 10) / 10,
+            frontend: Math.round(estimate.development.subtotal * 0.4 / monthlyRate * 10) / 10,
+            backend: Math.round(estimate.development.subtotal * 0.5 / monthlyRate * 10) / 10,
+            pm: Math.round(estimate.pm.subtotal / monthlyRate * 10) / 10,
             total: 0
         };
-        totalMM.total = totalMM.uiux + totalMM.frontend + totalMM.backend + totalMM.ai;
+        totalMM.total = Math.round((totalMM.planning + totalMM.design + totalMM.publishing + 
+                                    totalMM.frontend + totalMM.backend + totalMM.pm) * 10) / 10;
         
-        // 팀 구성 계산
+        // 팀 구성 계산 - 견적 기반
         const teamSize = {
             pm: 1,
-            uiPlanner: Math.max(1, Math.ceil(featureCount / 8)),
-            artDirector: 1,
-            designer: Math.max(2, Math.ceil(featureCount / 5)),
-            publisher: Math.max(2, Math.ceil(featureCount / 6)),
-            frontDev: Math.max(1, Math.ceil(featureCount / 6)),
-            backDev: Math.max(2, Math.ceil(featureCount / 5)),
-            aiPlanner: 1,
-            aiDev: Math.max(2, Math.ceil(featureCount / 8)),
+            uiPlanner: Math.max(1, Math.ceil(totalMM.planning / estimatedMonths)),
+            artDirector: estimate.total > 8000 ? 1 : 0,
+            designer: Math.max(1, Math.ceil(totalMM.design / estimatedMonths)),
+            publisher: Math.max(1, Math.ceil(totalMM.publishing / estimatedMonths)),
+            frontDev: Math.max(1, Math.ceil(totalMM.frontend / estimatedMonths)),
+            backDev: Math.max(1, Math.ceil(totalMM.backend / estimatedMonths)),
+            aiPlanner: features.some(f => f.includes('AI')) ? 1 : 0,
+            aiDev: features.filter(f => f.includes('AI')).length > 0 ? Math.max(1, Math.ceil(features.filter(f => f.includes('AI')).length / 2)) : 0,
             qa: 1
         };
         
@@ -2104,70 +2310,229 @@ function initProposalForm() {
                 </table>
             </div>
             
-            <!-- 09. 견적 및 투자 (Slide 20) -->
+            <!-- 09. 견적 및 투자 - 요약 (Slide 20) -->
             <div class="proposal-section estimate-section">
                 <div class="section-header">
                     <span class="section-num">09</span>
-                    <h2>투자 비용</h2>
+                    <h2>투자 비용 요약</h2>
                 </div>
                 
+                <div class="estimate-summary">
+                    <div class="estimate-summary-item">
+                        <span class="summary-label">총 예상 비용</span>
+                        <span class="summary-value highlight">${estimate.total.toLocaleString()} 만원</span>
+                    </div>
+                    <div class="estimate-summary-item">
+                        <span class="summary-label">예상 기간</span>
+                        <span class="summary-value">${estimatedMonths}개월</span>
+                    </div>
+                    <div class="estimate-summary-item">
+                        <span class="summary-label">투입 공수</span>
+                        <span class="summary-value">${totalMM.total} M/M</span>
+                    </div>
+                    <div class="estimate-summary-item">
+                        <span class="summary-label">업종 복잡도</span>
+                        <span class="summary-value">${complexityRate >= 1.4 ? '높음' : complexityRate >= 1.2 ? '보통' : '낮음'}</span>
+                    </div>
+                </div>
+
+                <h3 class="estimate-subtitle">📊 분야별 비용 내역</h3>
                 <table class="estimate-table">
                     <thead>
                         <tr>
                             <th>구분</th>
                             <th>상세 내역</th>
-                            <th>투입 인원</th>
+                            <th>공수 (M/M)</th>
                             <th>금액 (만원)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>UX/UI 기획</td>
-                            <td>요구사항 분석, IA, 화면설계서, 스토리보드</td>
-                            <td>${teamSize.uiPlanner}명 × ${estimatedMonths}개월</td>
-                            <td class="amount">${Math.round(avgBudget * 0.15).toLocaleString()}</td>
+                        <tr class="category-row">
+                            <td colspan="4">UX/UI 기획</td>
                         </tr>
+                        ${estimate.planning.items.map(item => `
                         <tr>
-                            <td>디자인</td>
-                            <td>UI 디자인, 디자인 시스템, 프로토타입</td>
-                            <td>${teamSize.designer}명 × ${estimatedMonths}개월</td>
-                            <td class="amount">${Math.round(avgBudget * 0.20).toLocaleString()}</td>
+                            <td></td>
+                            <td>${item.name}</td>
+                            <td>${(item.cost / 550).toFixed(1)}</td>
+                            <td class="amount">${item.cost.toLocaleString()}</td>
+                        </tr>`).join('')}
+                        <tr class="subtotal-row">
+                            <td colspan="2">기획 소계</td>
+                            <td>${totalMM.planning}</td>
+                            <td class="amount">${estimate.planning.subtotal.toLocaleString()}</td>
                         </tr>
-                        <tr>
-                            <td>퍼블리싱</td>
-                            <td>HTML/CSS, 반응형, 프론트엔드 개발</td>
-                            <td>${teamSize.publisher + teamSize.frontDev}명 × ${estimatedMonths - 1}개월</td>
-                            <td class="amount">${Math.round(avgBudget * 0.18).toLocaleString()}</td>
+                        <tr class="category-row">
+                            <td colspan="4">디자인</td>
                         </tr>
+                        ${estimate.design.items.map(item => `
                         <tr>
-                            <td>백엔드 개발</td>
-                            <td>서버 개발, DB 설계, API, 관리자</td>
-                            <td>${teamSize.backDev}명 × ${estimatedMonths - 2}개월</td>
-                            <td class="amount">${Math.round(avgBudget * 0.17).toLocaleString()}</td>
+                            <td></td>
+                            <td>${item.name}</td>
+                            <td>${(item.cost / 550).toFixed(1)}</td>
+                            <td class="amount">${item.cost.toLocaleString()}</td>
+                        </tr>`).join('')}
+                        <tr class="subtotal-row">
+                            <td colspan="2">디자인 소계</td>
+                            <td>${totalMM.design}</td>
+                            <td class="amount">${estimate.design.subtotal.toLocaleString()}</td>
                         </tr>
-                        <tr>
-                            <td>AI 개발</td>
-                            <td>${ind.techStack.slice(0, 3).join(', ')}</td>
-                            <td>${teamSize.aiPlanner + teamSize.aiDev}명 × ${estimatedMonths}개월</td>
-                            <td class="amount">${Math.round(avgBudget * 0.22).toLocaleString()}</td>
+                        <tr class="category-row">
+                            <td colspan="4">퍼블리싱</td>
                         </tr>
+                        ${estimate.publishing.items.map(item => `
                         <tr>
-                            <td>PM/QA</td>
-                            <td>프로젝트 관리, 품질관리, 테스트</td>
-                            <td>${teamSize.pm + teamSize.qa}명</td>
-                            <td class="amount">${Math.round(avgBudget * 0.08).toLocaleString()}</td>
+                            <td></td>
+                            <td>${item.name}</td>
+                            <td>${(item.cost / 440).toFixed(1)}</td>
+                            <td class="amount">${item.cost.toLocaleString()}</td>
+                        </tr>`).join('')}
+                        <tr class="subtotal-row">
+                            <td colspan="2">퍼블리싱 소계</td>
+                            <td>${totalMM.publishing}</td>
+                            <td class="amount">${estimate.publishing.subtotal.toLocaleString()}</td>
+                        </tr>
+                        <tr class="category-row">
+                            <td colspan="4">개발</td>
+                        </tr>
+                        ${estimate.development.items.map(item => `
+                        <tr>
+                            <td></td>
+                            <td>${item.name}</td>
+                            <td>${(item.cost / 550).toFixed(1)}</td>
+                            <td class="amount">${item.cost.toLocaleString()}</td>
+                        </tr>`).join('')}
+                        <tr class="subtotal-row">
+                            <td colspan="2">개발 소계</td>
+                            <td>${(totalMM.frontend + totalMM.backend).toFixed(1)}</td>
+                            <td class="amount">${estimate.development.subtotal.toLocaleString()}</td>
+                        </tr>
+                        <tr class="category-row">
+                            <td colspan="4">PM/QA</td>
+                        </tr>
+                        ${estimate.pm.items.map(item => `
+                        <tr>
+                            <td></td>
+                            <td>${item.name}</td>
+                            <td>${(item.cost / 550).toFixed(1)}</td>
+                            <td class="amount">${item.cost.toLocaleString()}</td>
+                        </tr>`).join('')}
+                        <tr class="subtotal-row">
+                            <td colspan="2">PM/QA 소계</td>
+                            <td>${totalMM.pm}</td>
+                            <td class="amount">${estimate.pm.subtotal.toLocaleString()}</td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="3" class="total-label">합계 (VAT 별도)</td>
-                            <td class="total-amount">${avgBudget.toLocaleString()} 만원</td>
+                            <td colspan="2" class="total-label">합계 (VAT 별도)</td>
+                            <td class="total-amount">${totalMM.total} M/M</td>
+                            <td class="total-amount">${estimate.total.toLocaleString()} 만원</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- 09. 견적 및 투자 - 플랫폼별 (Slide 21) -->
+            <div class="proposal-section estimate-section">
+                <div class="section-header">
+                    <span class="section-num">09</span>
+                    <h2>플랫폼별 비용</h2>
+                </div>
+                
+                <div class="platform-estimate-grid">
+                    ${platforms.map(p => {
+                        const pc = platformCosts[p];
+                        if (!pc) return '';
+                        const platformTotal = pc.design + pc.publishing + pc.dev;
+                        return `
+                        <div class="platform-estimate-card">
+                            <div class="platform-icon">${p === 'web' ? '🖥️' : p === 'mobile' ? '📱' : p === 'ios' ? '🍎' : p === 'android' ? '🤖' : '⚙️'}</div>
+                            <div class="platform-name">${pc.name}</div>
+                            <div class="platform-breakdown">
+                                <div class="breakdown-item">
+                                    <span>디자인</span>
+                                    <span>${pc.design.toLocaleString()}만원</span>
+                                </div>
+                                ${pc.publishing > 0 ? `
+                                <div class="breakdown-item">
+                                    <span>퍼블리싱</span>
+                                    <span>${pc.publishing.toLocaleString()}만원</span>
+                                </div>` : ''}
+                                <div class="breakdown-item">
+                                    <span>개발</span>
+                                    <span>${pc.dev.toLocaleString()}만원</span>
+                                </div>
+                            </div>
+                            <div class="platform-total">
+                                <span>플랫폼 비용</span>
+                                <span class="total-value">${Math.round(platformTotal * complexityRate).toLocaleString()}만원</span>
+                            </div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                
+                <div class="estimate-note platform-note">
+                    <p>※ 플랫폼 비용은 기본 구조 구축 비용이며, 기능별 개발비는 별도 산정됩니다.</p>
+                    <p>※ 업종 복잡도(${complexityRate})가 반영된 금액입니다.</p>
+                </div>
+            </div>
+
+            <!-- 09. 견적 및 투자 - 주요 기능별 (Slide 22) -->
+            <div class="proposal-section estimate-section">
+                <div class="section-header">
+                    <span class="section-num">09</span>
+                    <h2>주요 기능별 비용</h2>
+                </div>
+                
+                <table class="feature-estimate-table">
+                    <thead>
+                        <tr>
+                            <th>기능명</th>
+                            <th>설명</th>
+                            <th>기획</th>
+                            <th>디자인</th>
+                            <th>개발</th>
+                            <th>합계 (만원)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${features.slice(0, 15).map(f => {
+                            const cost = featureCosts[f] || featureCosts.default;
+                            const total = Math.round((cost.planning + cost.design + cost.dev) * complexityRate);
+                            return `
+                        <tr>
+                            <td class="feature-name">${f}</td>
+                            <td class="feature-desc">${cost.desc}</td>
+                            <td class="cost">${Math.round(cost.planning * complexityRate).toLocaleString()}</td>
+                            <td class="cost">${Math.round(cost.design * complexityRate).toLocaleString()}</td>
+                            <td class="cost">${Math.round(cost.dev * complexityRate).toLocaleString()}</td>
+                            <td class="cost total">${total.toLocaleString()}</td>
+                        </tr>`;
+                        }).join('')}
+                        ${features.length > 15 ? `
+                        <tr class="more-features">
+                            <td colspan="5">기타 ${features.length - 15}개 기능</td>
+                            <td class="cost total">${Math.round(features.slice(15).reduce((sum, f) => {
+                                const cost = featureCosts[f] || featureCosts.default;
+                                return sum + (cost.planning + cost.design + cost.dev) * complexityRate;
+                            }, 0)).toLocaleString()}</td>
+                        </tr>` : ''}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="total-label">기능 개발 합계</td>
+                            <td class="total-amount">${Math.round(features.reduce((sum, f) => {
+                                const cost = featureCosts[f] || featureCosts.default;
+                                return sum + (cost.planning + cost.design + cost.dev) * complexityRate;
+                            }, 0)).toLocaleString()} 만원</td>
                         </tr>
                     </tfoot>
                 </table>
                 
                 <div class="estimate-note">
                     <p>※ 본 견적은 제안 시점의 예상 견적이며, 상세 요구사항 확정 후 변동될 수 있습니다.</p>
+                    <p>※ 업종 특성에 따른 복잡도 계수(${complexityRate})가 적용되었습니다.</p>
                     <p>※ 서버 호스팅, 외부 API 라이선스, 클라우드 비용 등 별도 비용은 포함되지 않았습니다.</p>
                 </div>
             </div>
