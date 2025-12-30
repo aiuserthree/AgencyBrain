@@ -7859,31 +7859,658 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
     const info = funcTypeInfo[funcType] || funcTypeInfo.default;
     const refCount = Math.floor(Math.random() * 5) + 5;
     
-    // 옵션별 상세 설명 데이터
-    const optionDetails = {
+    // 옵션별 상세 스펙 데이터 (UI 컴포넌트, 동작, 메시지 포함)
+    const optionSpecs = {
         // 회원/인증
-        '소셜 로그인 포함': '카카오, 네이버, 구글, 애플 OAuth 연동 • 소셜 계정 이메일/프로필 자동 수집 • 기존 회원과 소셜 계정 연동 처리',
-        '소셜 로그인': '소셜 로그인 버튼 UI • OAuth 인증 플로우 • 토큰 관리 및 자동 로그인',
-        '본인인증 포함': 'NICE/PASS 본인인증 모듈 연동 • CI/DI 값 저장 및 중복 가입 방지 • 인증 결과 콜백 처리',
-        '본인인증': '휴대폰/아이핀/공동인증서 본인인증 • 실명 확인 및 연령 검증 • 인증 이력 관리',
-        '14세 미만 가입 제한': '법정대리인 동의 프로세스 • 연령 확인 로직 • 미성년자 접근 제한 처리',
-        '이메일 인증': '인증 메일 발송 (인증코드/링크) • 인증 유효시간 관리 (24시간) • 재발송 및 인증 완료 처리',
-        'SMS 인증': '인증번호 6자리 SMS 발송 • 3분 유효시간 타이머 • 재발송 횟수 제한 (5회/일)',
-        '마케팅 수신 동의': '이메일/SMS/앱푸시 개별 동의 • 동의 일시 기록 • 수신 거부 처리 연동',
-        '추천인 코드': '8자리 추천 코드 생성 • 추천인/피추천인 혜택 자동 지급 • 추천 이력 및 통계 관리',
-        '자동 로그인': '자동 로그인 토큰 발급 • 기기별 로그인 유지 • 보안 정책에 따른 만료 처리',
-        '생체인증': 'Face ID / Touch ID / 지문인식 연동 • 생체정보 등록 및 검증 • Fallback 인증 수단 제공',
-        '2단계 인증': 'OTP/SMS 2차 인증 • 신뢰 기기 등록 • 인증 수단 변경 및 복구',
-        '비밀번호 찾기': '이메일/SMS 임시 비밀번호 발송 • 비밀번호 재설정 링크 • 본인 확인 절차',
-        '아이디 찾기': '휴대폰/이메일로 아이디 조회 • 마스킹 처리된 아이디 표시 • 가입일 정보 제공',
-        '로그인 기록 관리': '로그인 일시/기기/IP 기록 • 이상 로그인 탐지 알림 • 원격 로그아웃 기능',
+        '소셜 로그인 포함': {
+            ui: [
+                { type: '버튼', name: '카카오로 시작하기', style: '노란색 배경, 카카오 로고' },
+                { type: '버튼', name: '네이버로 시작하기', style: '녹색 배경, 네이버 로고' },
+                { type: '버튼', name: '구글로 시작하기', style: '흰색 배경, 구글 로고' },
+                { type: '버튼', name: '애플로 시작하기', style: '검정 배경, 애플 로고 (iOS만)' }
+            ],
+            actions: [
+                { trigger: '소셜 버튼 클릭', action: '해당 소셜 OAuth 인증 팝업 오픈' },
+                { trigger: '인증 완료', action: '이메일/닉네임/프로필 자동 수집 후 추가정보 입력 화면 이동' },
+                { trigger: '인증 취소', action: '팝업 닫힘, 원래 화면 유지' },
+                { trigger: '기존 회원 이메일 일치', action: '계정 연동 확인 팝업 표시' }
+            ],
+            alerts: [
+                { condition: '기존 회원 이메일 발견', title: '계정 연동', message: '이미 가입된 이메일입니다. 기존 계정과 연동하시겠습니까?', buttons: ['연동하기 → 비밀번호 확인 후 연동', '새로 가입 → 다른 이메일로 가입'] },
+                { condition: '인증 실패', title: '로그인 실패', message: '소셜 로그인에 실패했습니다. 다시 시도해주세요.', buttons: ['확인 → 팝업 닫기'] }
+            ]
+        },
+        '소셜 로그인': {
+            ui: [
+                { type: '버튼', name: '카카오 로그인', style: '노란색 #FEE500, 44px 높이' },
+                { type: '버튼', name: '네이버 로그인', style: '녹색 #03C75A, 44px 높이' },
+                { type: '버튼', name: '구글 로그인', style: '흰색 테두리, 44px 높이' }
+            ],
+            actions: [
+                { trigger: '버튼 클릭', action: 'OAuth 인증 페이지 리다이렉트 또는 팝업' },
+                { trigger: '인증 성공', action: '토큰 저장, 메인 페이지 이동' },
+                { trigger: '인증 실패', action: '에러 메시지 표시, 로그인 페이지 유지' }
+            ],
+            alerts: [
+                { condition: '인증 실패', title: '로그인 실패', message: '소셜 계정 인증에 실패했습니다.', buttons: ['확인 → 팝업 닫기'] }
+            ]
+        },
+        '본인인증 포함': {
+            ui: [
+                { type: '버튼', name: '휴대폰 본인인증', style: '기본 버튼, 인증 아이콘' },
+                { type: '팝업', name: 'NICE/PASS 인증 모듈', style: '500x600px 팝업창' },
+                { type: '텍스트', name: '인증 완료 표시', style: '녹색 체크 + "인증완료"' }
+            ],
+            actions: [
+                { trigger: '본인인증 버튼 클릭', action: 'NICE/PASS 인증 팝업 오픈' },
+                { trigger: '인증 완료', action: 'CI/DI 값 수신, 이름/생년월일/성별 자동 입력, 팝업 닫기' },
+                { trigger: '인증 취소 (X버튼)', action: '팝업 닫기, 인증 미완료 상태 유지' },
+                { trigger: '인증 실패', action: '에러 메시지 표시, 재인증 유도' }
+            ],
+            alerts: [
+                { condition: '이미 가입된 CI', title: '중복 가입', message: '이미 가입된 정보입니다. 로그인 또는 아이디 찾기를 이용해주세요.', buttons: ['로그인 → 로그인 페이지 이동', '아이디 찾기 → 아이디 찾기 이동', '취소 → 팝업 닫기'] },
+                { condition: '인증 시간 초과', title: '시간 초과', message: '인증 시간이 초과되었습니다. 다시 시도해주세요.', buttons: ['확인 → 팝업 닫고 재시도'] }
+            ]
+        },
+        '본인인증': {
+            ui: [
+                { type: '라디오', name: '인증 방법 선택', options: ['휴대폰 인증', '아이핀 인증', '공동인증서'] },
+                { type: '버튼', name: '인증하기', style: '활성화 버튼, 선택 후 클릭 가능' }
+            ],
+            actions: [
+                { trigger: '인증 방법 선택', action: '해당 인증 버튼 활성화' },
+                { trigger: '인증하기 클릭', action: '선택된 인증 모듈 팝업 오픈' },
+                { trigger: '인증 완료', action: '실명/생년월일 표시, 다음 단계 버튼 활성화' }
+            ],
+            alerts: [
+                { condition: '인증 실패', title: '인증 실패', message: '본인인증에 실패했습니다. 입력 정보를 확인해주세요.', buttons: ['확인 → 팝업 닫기'] },
+                { condition: '만 14세 미만', title: '가입 불가', message: '만 14세 미만은 법정대리인 동의가 필요합니다.', buttons: ['법정대리인 동의 → 동의 프로세스', '취소 → 가입 중단'] }
+            ]
+        },
+        '14세 미만 가입 제한': {
+            ui: [
+                { type: '체크박스', name: '만 14세 이상입니다', style: '필수 체크, 빨간 별표' },
+                { type: '링크', name: '만 14세 미만 가입 안내', style: '밑줄 링크' }
+            ],
+            actions: [
+                { trigger: '체크박스 미체크 시 다음 버튼', action: '다음 버튼 비활성화 상태 유지' },
+                { trigger: '안내 링크 클릭', action: '법정대리인 동의 안내 팝업 표시' },
+                { trigger: '본인인증 결과 14세 미만', action: '가입 불가 안내 후 프로세스 중단' }
+            ],
+            alerts: [
+                { condition: '14세 미만 확인', title: '가입 제한', message: '만 14세 미만은 법정대리인 동의 후 가입 가능합니다. 법정대리인 동의 절차를 진행하시겠습니까?', buttons: ['동의 진행 → 법정대리인 인증 화면', '취소 → 가입 중단'] }
+            ]
+        },
+        '이메일 인증': {
+            ui: [
+                { type: '입력', name: '이메일 주소', placeholder: 'example@email.com', validation: '이메일 형식' },
+                { type: '버튼', name: '인증메일 발송', style: '입력 필드 우측, 클릭 후 "재발송"으로 변경' },
+                { type: '입력', name: '인증번호 6자리', placeholder: '인증번호 입력', style: '인증메일 발송 후 표시' },
+                { type: '텍스트', name: '타이머', style: '빨간색, "남은 시간 23:59"' },
+                { type: '버튼', name: '인증확인', style: '인증번호 입력 후 활성화' }
+            ],
+            actions: [
+                { trigger: '인증메일 발송 클릭', action: '이메일 발송 API 호출, 인증번호 입력 필드 표시, 24시간 타이머 시작' },
+                { trigger: '인증번호 입력 후 인증확인', action: '인증번호 검증, 일치 시 "인증완료" 표시 및 필드 비활성화' },
+                { trigger: '재발송 클릭', action: '기존 인증번호 무효화, 새 인증번호 발송, 타이머 리셋' },
+                { trigger: '타이머 만료', action: '인증번호 무효화, "시간 초과" 메시지, 재발송 유도' }
+            ],
+            alerts: [
+                { condition: '인증번호 불일치', title: '인증 실패', message: '인증번호가 일치하지 않습니다. 다시 확인해주세요.', buttons: ['확인 → 팝업 닫기, 재입력 가능'] },
+                { condition: '시간 초과', title: '시간 초과', message: '인증 유효시간이 만료되었습니다. 인증메일을 재발송해주세요.', buttons: ['재발송 → 새 인증메일 발송', '취소 → 팝업 닫기'] },
+                { condition: '재발송 횟수 초과', title: '발송 제한', message: '오늘 인증메일 발송 한도(5회)를 초과했습니다. 내일 다시 시도해주세요.', buttons: ['확인 → 팝업 닫기'] }
+            ]
+        },
+        'SMS 인증': {
+            ui: [
+                { type: '입력', name: '휴대폰 번호', placeholder: '010-0000-0000', validation: '숫자만, 자동 하이픈' },
+                { type: '버튼', name: '인증번호 받기', style: '입력 필드 우측' },
+                { type: '입력', name: '인증번호', placeholder: '6자리 숫자', maxLength: 6 },
+                { type: '텍스트', name: '타이머', style: '빨간색, "02:59"' },
+                { type: '버튼', name: '확인', style: '인증번호 6자리 입력 시 활성화' }
+            ],
+            actions: [
+                { trigger: '인증번호 받기 클릭', action: 'SMS 발송, 인증번호 입력 필드 표시, 3분 타이머 시작' },
+                { trigger: '인증번호 입력 후 확인', action: '서버 검증, 성공 시 "인증완료" 표시' },
+                { trigger: '재발송 클릭', action: '새 인증번호 SMS 발송, 타이머 리셋 (일 5회 제한)' }
+            ],
+            alerts: [
+                { condition: '인증번호 불일치', title: '인증 실패', message: '인증번호가 일치하지 않습니다.', buttons: ['확인 → 재입력'] },
+                { condition: '시간 초과', title: '시간 초과', message: '인증 시간(3분)이 초과되었습니다.', buttons: ['재발송 → 새 인증번호', '취소 → 닫기'] },
+                { condition: '발송 한도 초과', title: '발송 제한', message: '일일 인증번호 발송 한도(5회)를 초과했습니다.', buttons: ['확인 → 닫기'] }
+            ]
+        },
+        '마케팅 수신 동의': {
+            ui: [
+                { type: '체크박스', name: '전체 동의', style: '상단, 클릭 시 하위 전체 체크' },
+                { type: '체크박스', name: '이메일 수신 동의', style: '선택 항목' },
+                { type: '체크박스', name: 'SMS 수신 동의', style: '선택 항목' },
+                { type: '체크박스', name: '앱 푸시 수신 동의', style: '선택 항목' },
+                { type: '링크', name: '개인정보 수집 및 이용 동의 보기', style: '내용보기 아이콘' }
+            ],
+            actions: [
+                { trigger: '전체 동의 체크', action: '하위 3개 체크박스 모두 체크' },
+                { trigger: '전체 동의 해제', action: '하위 3개 체크박스 모두 해제' },
+                { trigger: '개별 체크박스 변경', action: '전체 동의 상태 자동 업데이트' },
+                { trigger: '내용보기 클릭', action: '약관 내용 모달 팝업 표시' }
+            ],
+            alerts: []
+        },
+        '추천인 코드': {
+            ui: [
+                { type: '입력', name: '추천인 코드', placeholder: '8자리 영문+숫자 (선택)', maxLength: 8 },
+                { type: '버튼', name: '확인', style: '입력 필드 우측, 코드 입력 시 활성화' },
+                { type: '텍스트', name: '추천인 정보', style: '확인 후 "홍*동님의 추천" 표시' }
+            ],
+            actions: [
+                { trigger: '코드 입력 후 확인', action: '추천 코드 유효성 검증 API 호출' },
+                { trigger: '유효한 코드', action: '추천인 닉네임 마스킹 표시, 혜택 안내 표시' },
+                { trigger: '유효하지 않은 코드', action: '에러 메시지 표시, 재입력 유도' }
+            ],
+            alerts: [
+                { condition: '코드 존재하지 않음', title: '확인 실패', message: '존재하지 않는 추천 코드입니다. 다시 확인해주세요.', buttons: ['확인 → 재입력'] },
+                { condition: '자기 자신 코드', title: '사용 불가', message: '본인의 추천 코드는 사용할 수 없습니다.', buttons: ['확인 → 닫기'] },
+                { condition: '유효한 코드', title: '추천 혜택', message: '추천인과 회원님 모두 1,000포인트가 지급됩니다! (첫 구매 완료 시)', buttons: ['확인 → 닫기'] }
+            ]
+        },
+        '자동 로그인': {
+            ui: [
+                { type: '체크박스', name: '자동 로그인', style: '로그인 버튼 상단, 체크 아이콘' },
+                { type: '텍스트', name: '안내 문구', style: '회색 작은 글씨 "공용 PC에서는 사용을 권장하지 않습니다"' }
+            ],
+            actions: [
+                { trigger: '체크 후 로그인 성공', action: 'Refresh Token 발급, 로컬스토리지 저장, 30일 유지' },
+                { trigger: '미체크 후 로그인', action: 'Access Token만 발급, 세션 종료 시 로그아웃' },
+                { trigger: '자동 로그인 상태에서 앱 재실행', action: 'Refresh Token 검증, 유효 시 자동 로그인' }
+            ],
+            alerts: [
+                { condition: '토큰 만료', title: '세션 만료', message: '로그인 세션이 만료되었습니다. 다시 로그인해주세요.', buttons: ['로그인 → 로그인 페이지 이동'] },
+                { condition: '다른 기기 로그인', title: '보안 알림', message: '다른 기기에서 로그인되었습니다. 본인이 아니라면 비밀번호를 변경해주세요.', buttons: ['확인 → 닫기', '비밀번호 변경 → 변경 페이지'] }
+            ]
+        },
+        '생체인증': {
+            ui: [
+                { type: '버튼', name: '생체인증으로 로그인', style: '지문/얼굴 아이콘, 기본 버튼' },
+                { type: '토글', name: '생체인증 사용', style: '설정 화면 내 ON/OFF 토글' },
+                { type: '아이콘', name: '생체인증 아이콘', style: 'Face ID/Touch ID 시스템 아이콘' }
+            ],
+            actions: [
+                { trigger: '생체인증 버튼 클릭', action: '시스템 생체인증 모달 호출 (Face ID/Touch ID/지문)' },
+                { trigger: '인증 성공', action: '저장된 자격증명으로 자동 로그인' },
+                { trigger: '인증 실패', action: '"인증에 실패했습니다" 메시지, 재시도 또는 비밀번호 입력 유도' },
+                { trigger: '생체인증 미지원 기기', action: '생체인증 버튼 숨김, 일반 로그인만 표시' }
+            ],
+            alerts: [
+                { condition: '인증 실패 3회', title: '인증 제한', message: '생체인증이 여러 번 실패했습니다. 비밀번호로 로그인해주세요.', buttons: ['비밀번호 로그인 → 비밀번호 입력 화면'] },
+                { condition: '생체정보 변경 감지', title: '보안 알림', message: '기기의 생체정보가 변경되었습니다. 보안을 위해 비밀번호를 다시 입력해주세요.', buttons: ['확인 → 비밀번호 입력 화면'] }
+            ]
+        },
+        '2단계 인증': {
+            ui: [
+                { type: '입력', name: 'OTP 코드', placeholder: '6자리 인증 코드', maxLength: 6 },
+                { type: '텍스트', name: '타이머', style: '빨간색 "남은 시간: 30초"' },
+                { type: '버튼', name: '인증 코드 재발송', style: '텍스트 링크 버튼' },
+                { type: '체크박스', name: '이 기기 신뢰', style: '30일간 2단계 인증 생략' }
+            ],
+            actions: [
+                { trigger: '로그인 성공 후', action: 'SMS/이메일로 6자리 인증 코드 발송, 입력 화면 표시' },
+                { trigger: '코드 입력 후 확인', action: '코드 검증, 성공 시 로그인 완료' },
+                { trigger: '신뢰 기기 체크 후 인증', action: '기기 정보 저장, 30일간 해당 기기 2단계 인증 생략' },
+                { trigger: '재발송 클릭', action: '새 코드 발송, 기존 코드 무효화, 타이머 리셋' }
+            ],
+            alerts: [
+                { condition: '코드 불일치', title: '인증 실패', message: '인증 코드가 일치하지 않습니다.', buttons: ['확인 → 재입력'] },
+                { condition: '5회 실패', title: '계정 보호', message: '인증 시도 횟수를 초과했습니다. 30분 후 다시 시도해주세요.', buttons: ['확인 → 로그인 화면으로 이동'] }
+            ]
+        },
+        '비밀번호 찾기': {
+            ui: [
+                { type: '탭', name: '이메일/휴대폰', options: ['이메일로 찾기', '휴대폰으로 찾기'] },
+                { type: '입력', name: '이메일', placeholder: '가입 시 입력한 이메일' },
+                { type: '입력', name: '휴대폰', placeholder: '가입 시 입력한 휴대폰 번호' },
+                { type: '버튼', name: '인증번호 받기', style: '기본 버튼' },
+                { type: '입력', name: '인증번호', placeholder: '6자리 인증번호' },
+                { type: '버튼', name: '확인', style: '활성화 버튼' }
+            ],
+            actions: [
+                { trigger: '이메일 입력 후 인증번호 받기', action: '이메일로 비밀번호 재설정 링크 또는 인증번호 발송' },
+                { trigger: '휴대폰 입력 후 인증번호 받기', action: 'SMS로 6자리 인증번호 발송' },
+                { trigger: '인증 성공', action: '새 비밀번호 설정 화면 이동' },
+                { trigger: '새 비밀번호 설정 완료', action: '"비밀번호가 변경되었습니다" 알림, 로그인 화면 이동' }
+            ],
+            alerts: [
+                { condition: '가입되지 않은 정보', title: '조회 실패', message: '입력하신 정보로 가입된 계정이 없습니다.', buttons: ['확인 → 닫기', '회원가입 → 회원가입 화면'] },
+                { condition: '비밀번호 변경 완료', title: '변경 완료', message: '비밀번호가 성공적으로 변경되었습니다. 새 비밀번호로 로그인해주세요.', buttons: ['로그인 → 로그인 화면 이동'] }
+            ]
+        },
+        '아이디 찾기': {
+            ui: [
+                { type: '탭', name: '휴대폰/이메일', options: ['휴대폰으로 찾기', '이메일로 찾기'] },
+                { type: '입력', name: '이름', placeholder: '가입 시 입력한 이름' },
+                { type: '입력', name: '휴대폰/이메일', placeholder: '본인 인증용' },
+                { type: '버튼', name: '아이디 찾기', style: '기본 버튼' },
+                { type: '텍스트', name: '결과 표시', style: '마스킹 처리된 아이디 "abc***@email.com"' }
+            ],
+            actions: [
+                { trigger: '정보 입력 후 찾기 클릭', action: '본인인증 후 가입된 아이디 조회' },
+                { trigger: '아이디 찾기 성공', action: '마스킹 처리된 아이디 표시 (가입일 함께 표시)' },
+                { trigger: '여러 계정 존재', action: '마스킹된 아이디 목록 표시, 선택 가능' }
+            ],
+            alerts: [
+                { condition: '아이디 찾기 성공', title: '아이디 찾기 완료', message: '회원님의 아이디는 abc***@email.com입니다. (가입일: 2023.01.01)', buttons: ['로그인 → 로그인 화면', '비밀번호 찾기 → 비밀번호 찾기'] },
+                { condition: '가입 정보 없음', title: '조회 실패', message: '입력하신 정보로 가입된 계정이 없습니다.', buttons: ['확인 → 닫기', '회원가입 → 회원가입 화면'] }
+            ]
+        },
+        '수량 변경': {
+            ui: [
+                { type: '버튼', name: '-', style: '원형, 회색 배경, 수량 1일 때 비활성화' },
+                { type: '입력', name: '수량', style: '가운데 정렬, 숫자만 입력, 1~99' },
+                { type: '버튼', name: '+', style: '원형, 회색 배경, 재고 초과 시 비활성화' }
+            ],
+            actions: [
+                { trigger: '- 버튼 클릭', action: '수량 1 감소 (최소 1), 총 금액 재계산' },
+                { trigger: '+ 버튼 클릭', action: '수량 1 증가 (재고 한도 내), 총 금액 재계산' },
+                { trigger: '직접 입력', action: '숫자 유효성 검사, 범위 내 값으로 자동 보정' },
+                { trigger: '재고 초과 입력', action: '재고 수량으로 자동 변경, 안내 메시지 표시' }
+            ],
+            alerts: [
+                { condition: '재고 부족', title: '재고 부족', message: '현재 재고는 5개입니다. 수량을 조정해주세요.', buttons: ['확인 → 수량 5개로 변경'] },
+                { condition: '최대 구매 수량 초과', title: '구매 제한', message: '1인당 최대 구매 수량은 10개입니다.', buttons: ['확인 → 수량 10개로 변경'] }
+            ]
+        },
+        '옵션 변경': {
+            ui: [
+                { type: '링크', name: '옵션 변경', style: '텍스트 링크, 연필 아이콘' },
+                { type: '모달', name: '옵션 선택 팝업', style: '하단 슬라이드업 또는 중앙 모달' },
+                { type: '셀렉트', name: '색상', options: '상품 옵션 목록' },
+                { type: '셀렉트', name: '사이즈', options: '상품 옵션 목록' },
+                { type: '버튼', name: '변경하기', style: '하단 고정 버튼' }
+            ],
+            actions: [
+                { trigger: '옵션 변경 클릭', action: '옵션 선택 모달 팝업' },
+                { trigger: '옵션 선택', action: '해당 옵션 재고 확인, 가격 변동 시 금액 표시' },
+                { trigger: '변경하기 클릭', action: '장바구니 상품 옵션 업데이트, 모달 닫기' },
+                { trigger: '품절 옵션 선택', action: '선택 불가 표시, "품절" 라벨' }
+            ],
+            alerts: [
+                { condition: '가격 변동', title: '가격 변동 안내', message: '선택하신 옵션은 기존 옵션보다 3,000원 비쌉니다.', buttons: ['변경하기 → 옵션 변경 적용', '취소 → 모달 닫기'] },
+                { condition: '옵션 변경 완료', title: '변경 완료', message: '상품 옵션이 변경되었습니다.', buttons: ['확인 → 모달 닫기'] }
+            ]
+        },
+        '품절 상품 알림': {
+            ui: [
+                { type: '버튼', name: '재입고 알림 받기', style: '품절 상품에만 표시, 벨 아이콘' },
+                { type: '체크박스', name: '알림 수신 동의', style: '앱 푸시/SMS 선택' },
+                { type: '텍스트', name: '알림 설정 완료', style: '"재입고 시 알림을 보내드립니다"' }
+            ],
+            actions: [
+                { trigger: '알림 받기 버튼 클릭', action: '알림 설정 모달/바텀시트 표시' },
+                { trigger: '알림 설정 완료', action: '상품-회원 알림 매핑 저장, 버튼 "알림 신청 완료"로 변경' },
+                { trigger: '재입고 시', action: '알림 신청 회원에게 푸시/SMS 발송' },
+                { trigger: '알림 해제', action: '알림 매핑 삭제, 버튼 원래대로 복구' }
+            ],
+            alerts: [
+                { condition: '알림 설정 완료', title: '알림 설정 완료', message: '상품이 재입고되면 알림을 보내드립니다.', buttons: ['확인 → 닫기'] },
+                { condition: '재입고 알림', title: '재입고 알림', message: '찜해두신 [상품명]이 재입고되었습니다! 지금 바로 확인해보세요.', buttons: ['지금 구매 → 상품 상세', '나중에 → 닫기'] }
+            ]
+        },
+        '신용카드': {
+            ui: [
+                { type: '라디오', name: '카드 선택', options: '등록된 카드 목록 + 새 카드 추가' },
+                { type: '입력', name: '카드 번호', placeholder: '0000-0000-0000-0000' },
+                { type: '입력', name: '유효기간', placeholder: 'MM/YY' },
+                { type: '입력', name: 'CVC', placeholder: '3자리' },
+                { type: '셀렉트', name: '할부', options: ['일시불', '2개월', '3개월', '6개월', '12개월'] },
+                { type: '버튼', name: '결제하기', style: '하단 고정, 결제 금액 표시' }
+            ],
+            actions: [
+                { trigger: '카드 정보 입력', action: '실시간 유효성 검사, 카드사 자동 인식' },
+                { trigger: '결제하기 클릭', action: 'PG사 결제 API 호출, 3DS 인증 팝업' },
+                { trigger: '3DS 인증 완료', action: '결제 승인 요청, 성공 시 결제 완료 화면 이동' },
+                { trigger: '카드 등록 체크', action: '결제 성공 시 카드 정보 암호화 저장' }
+            ],
+            alerts: [
+                { condition: '카드 인증 실패', title: '결제 실패', message: '카드 인증에 실패했습니다. 카드 정보를 확인해주세요.', buttons: ['확인 → 재입력'] },
+                { condition: '한도 초과', title: '결제 실패', message: '카드 한도가 초과되었습니다. 다른 결제 수단을 이용해주세요.', buttons: ['확인 → 결제 수단 선택'] },
+                { condition: '결제 성공', title: '결제 완료', message: '결제가 완료되었습니다. 주문번호: 2024010112345', buttons: ['주문 확인 → 주문 상세', '쇼핑 계속 → 메인'] }
+            ]
+        },
+        '간편결제': {
+            ui: [
+                { type: '버튼', name: '카카오페이', style: '노란색, 카카오페이 로고' },
+                { type: '버튼', name: '네이버페이', style: '녹색, 네이버페이 로고' },
+                { type: '버튼', name: '토스페이', style: '파란색, 토스 로고' },
+                { type: '버튼', name: '페이코', style: '빨간색, 페이코 로고' }
+            ],
+            actions: [
+                { trigger: '간편결제 버튼 클릭', action: '해당 결제 앱으로 이동 또는 결제 팝업' },
+                { trigger: '결제 앱에서 인증', action: '비밀번호/생체인증으로 결제 승인' },
+                { trigger: '결제 완료 콜백', action: '결제 결과 수신, 성공 시 주문 완료 처리' },
+                { trigger: '결제 취소/실패', action: '원래 결제 화면으로 복귀, 에러 메시지 표시' }
+            ],
+            alerts: [
+                { condition: '앱 미설치', title: '앱 필요', message: '카카오페이 앱이 설치되어 있지 않습니다. 설치 후 이용해주세요.', buttons: ['설치하기 → 앱스토어 이동', '취소 → 닫기'] },
+                { condition: '결제 성공', title: '결제 완료', message: '카카오페이로 결제가 완료되었습니다.', buttons: ['확인 → 주문 완료 화면'] }
+            ]
+        },
+        '예약 취소': {
+            ui: [
+                { type: '버튼', name: '예약 취소', style: '회색 또는 빨간색 텍스트 버튼' },
+                { type: '라디오', name: '취소 사유', options: ['일정 변경', '단순 변심', '다른 곳 예약', '기타'] },
+                { type: '입력', name: '기타 사유', placeholder: '직접 입력 (선택)' },
+                { type: '텍스트', name: '취소 수수료 안내', style: '빨간색 강조' },
+                { type: '버튼', name: '취소 신청', style: '빨간색 버튼' }
+            ],
+            actions: [
+                { trigger: '예약 취소 클릭', action: '취소 정책 및 수수료 안내 팝업' },
+                { trigger: '취소 사유 선택', action: '취소 신청 버튼 활성화' },
+                { trigger: '취소 신청 클릭', action: '최종 확인 팝업 후 취소 처리' },
+                { trigger: '취소 완료', action: '환불 금액 안내, 예약 목록에서 제거' }
+            ],
+            alerts: [
+                { condition: '취소 확인', title: '예약 취소', message: '예약을 취소하시겠습니까?\n\n취소 수수료: 10,000원\n환불 예정 금액: 40,000원', buttons: ['취소하기 → 취소 처리 및 환불', '아니오 → 팝업 닫기'] },
+                { condition: '당일 취소', title: '취소 불가', message: '당일 예약은 취소가 불가능합니다. 직접 연락 부탁드립니다.', buttons: ['전화하기 → 전화 연결', '확인 → 닫기'] },
+                { condition: '취소 완료', title: '취소 완료', message: '예약이 취소되었습니다.\n환불 금액 40,000원은 3-5 영업일 내 환불됩니다.', buttons: ['확인 → 예약 목록으로'] }
+            ]
+        },
+        '날짜/시간 선택': {
+            ui: [
+                { type: '캘린더', name: '날짜 선택', style: '월간 캘린더, 예약 불가일 회색 처리' },
+                { type: '그리드', name: '시간 선택', style: '30분 단위 버튼, 마감 시간 비활성화' },
+                { type: '텍스트', name: '선택된 일시', style: '상단 고정, "2024년 1월 15일 (월) 오후 2:00"' },
+                { type: '버튼', name: '다음', style: '하단 고정, 날짜+시간 선택 시 활성화' }
+            ],
+            actions: [
+                { trigger: '날짜 선택', action: '해당 날짜 시간대 조회, 예약 가능 시간 표시' },
+                { trigger: '시간 선택', action: '선택된 일시 상단에 표시, 다음 버튼 활성화' },
+                { trigger: '예약 불가 날짜 클릭', action: '토스트 메시지 "예약이 마감되었습니다"' },
+                { trigger: '과거 날짜 클릭', action: '선택 불가, 회색 처리 유지' }
+            ],
+            alerts: [
+                { condition: '마감 임박', title: '마감 임박', message: '선택하신 시간대는 1자리만 남았습니다. 바로 예약하시겠습니까?', buttons: ['바로 예약 → 다음 단계', '다른 시간 → 닫기'] }
+            ]
+        },
+        '인원 선택': {
+            ui: [
+                { type: '스테퍼', name: '성인', style: '- 숫자 + 버튼, 기본값 1' },
+                { type: '스테퍼', name: '아동', style: '- 숫자 + 버튼, 기본값 0' },
+                { type: '스테퍼', name: '유아', style: '- 숫자 + 버튼, 기본값 0' },
+                { type: '텍스트', name: '인원별 요금', style: '성인 50,000원 / 아동 30,000원 / 유아 무료' },
+                { type: '텍스트', name: '총 인원/금액', style: '하단 "총 3명 / 130,000원"' }
+            ],
+            actions: [
+                { trigger: '인원 추가', action: '총 인원/금액 실시간 업데이트' },
+                { trigger: '인원 감소', action: '최소 1명 유지, 총 인원/금액 업데이트' },
+                { trigger: '최대 인원 초과', action: '+ 버튼 비활성화, 안내 메시지' }
+            ],
+            alerts: [
+                { condition: '최대 인원 초과', title: '인원 초과', message: '최대 예약 가능 인원은 10명입니다.', buttons: ['확인 → 닫기'] },
+                { condition: '유아 단독 불가', title: '예약 불가', message: '유아는 성인 동반 시에만 예약 가능합니다.', buttons: ['확인 → 닫기'] }
+            ]
+        },
+        '별점 평가': {
+            ui: [
+                { type: '별점', name: '별점', style: '5개 별 아이콘, 터치/클릭으로 선택' },
+                { type: '텍스트', name: '별점 설명', style: '1점-매우별로 ~ 5점-매우만족' },
+                { type: '별점', name: '항목별 평가', style: '배송/상품품질/가격 각각 별점' }
+            ],
+            actions: [
+                { trigger: '별 클릭/드래그', action: '해당 점수 선택, 별 채워짐 애니메이션' },
+                { trigger: '별점 미선택 시 제출', action: '별점 필수 입력 안내' }
+            ],
+            alerts: [
+                { condition: '별점 미입력', title: '별점을 선택해주세요', message: '리뷰 작성을 위해 별점을 선택해주세요.', buttons: ['확인 → 닫기'] }
+            ]
+        },
+        '포토/동영상 리뷰': {
+            ui: [
+                { type: '버튼', name: '사진 추가', style: '카메라 아이콘, + 버튼' },
+                { type: '버튼', name: '동영상 추가', style: '비디오 아이콘, + 버튼' },
+                { type: '썸네일', name: '첨부 이미지', style: '가로 스크롤, X 삭제 버튼' },
+                { type: '텍스트', name: '안내', style: '사진 최대 10장, 동영상 1개 (30초 이내)' }
+            ],
+            actions: [
+                { trigger: '사진 추가 클릭', action: '갤러리/카메라 선택 액션시트' },
+                { trigger: '이미지 선택', action: '썸네일 추가, 최대 개수 체크' },
+                { trigger: '동영상 선택', action: '길이 체크 (30초), 용량 체크 (50MB)' },
+                { trigger: 'X 버튼 클릭', action: '해당 이미지/동영상 삭제' }
+            ],
+            alerts: [
+                { condition: '이미지 초과', title: '이미지 초과', message: '이미지는 최대 10장까지 첨부 가능합니다.', buttons: ['확인 → 닫기'] },
+                { condition: '동영상 길이 초과', title: '동영상 초과', message: '동영상은 30초 이내만 업로드 가능합니다.', buttons: ['확인 → 닫기'] },
+                { condition: '포토 리뷰 적립금', title: '추가 적립금 안내', message: '포토 리뷰 작성 시 500P가 추가 적립됩니다!', buttons: ['확인 → 닫기'] }
+            ]
+        },
         
         // 상품/검색
-        '상품 등록': '상품 정보 입력 폼 (기본정보/상세/옵션) • 이미지 업로드 및 편집 • 임시저장 및 미리보기',
-        '재고 관리': '재고 수량 실시간 연동 • 안전 재고 알림 설정 • 입출고 이력 관리',
-        '옵션 관리': '색상/사이즈 등 옵션 조합 생성 • 옵션별 가격/재고 설정 • 품절 옵션 표시',
-        '상품 복사': '기존 상품 복제 기능 • 복사 항목 선택 • 대량 복사 지원',
-        '대량 등록': '엑셀 템플릿 업로드 • 유효성 검사 및 오류 표시 • 등록 결과 리포트',
+        '상품 등록': {
+            ui: [
+                { type: '탭', name: '등록 단계', options: ['기본 정보', '상세 설명', '옵션/재고', '배송 설정'] },
+                { type: '입력', name: '상품명', placeholder: '상품명 입력 (최대 50자)', validation: '필수' },
+                { type: '셀렉트', name: '카테고리', options: '대/중/소 카테고리 순차 선택' },
+                { type: '입력', name: '판매가', placeholder: '숫자만 입력', format: '천단위 콤마' },
+                { type: '업로드', name: '대표 이미지', style: '드래그앤드롭, 최대 10장' },
+                { type: '에디터', name: '상세 설명', style: 'WYSIWYG 에디터' },
+                { type: '버튼', name: '임시저장', style: '회색 버튼' },
+                { type: '버튼', name: '등록', style: '파란색 버튼' }
+            ],
+            actions: [
+                { trigger: '이미지 업로드', action: '이미지 리사이징, 썸네일 생성, 미리보기 표시' },
+                { trigger: '임시저장 클릭', action: '현재 입력 내용 DB 저장, "임시저장되었습니다" 토스트' },
+                { trigger: '등록 클릭', action: '필수항목 검증, 상품 등록 처리' },
+                { trigger: '미리보기 클릭', action: '새 탭에서 상품 상세 미리보기' }
+            ],
+            alerts: [
+                { condition: '필수항목 누락', title: '입력 확인', message: '필수 항목을 모두 입력해주세요.\n- 상품명\n- 카테고리\n- 판매가', buttons: ['확인 → 누락 항목으로 스크롤'] },
+                { condition: '등록 완료', title: '등록 완료', message: '상품이 등록되었습니다. 바로 노출하시겠습니까?', buttons: ['바로 노출 → 판매중 변경', '나중에 → 상품 목록으로'] },
+                { condition: '페이지 이탈', title: '저장 확인', message: '저장되지 않은 내용이 있습니다. 저장하시겠습니까?', buttons: ['저장 → 임시저장 후 이탈', '저장 안함 → 바로 이탈', '취소 → 현재 페이지 유지'] }
+            ]
+        },
+        '재고 관리': {
+            ui: [
+                { type: '표', name: '재고 목록', columns: '상품명, 옵션, 현재고, 안전재고, 상태' },
+                { type: '필터', name: '재고 상태', options: ['전체', '정상', '부족', '품절'] },
+                { type: '입력', name: '재고 수량', style: '인라인 수정 가능' },
+                { type: '버튼', name: '일괄 수정', style: '상단 버튼' },
+                { type: '버튼', name: '입출고', style: '각 행 버튼' }
+            ],
+            actions: [
+                { trigger: '재고 수량 수정', action: '실시간 DB 업데이트, 변경 이력 저장' },
+                { trigger: '입출고 클릭', action: '입출고 모달 표시 (수량, 사유 입력)' },
+                { trigger: '안전재고 도달', action: '관리자 알림 발송, 목록 상태 "부족"으로 변경' },
+                { trigger: '재고 0 도달', action: '상품 자동 품절 처리, 알림 발송' }
+            ],
+            alerts: [
+                { condition: '안전재고 미만', title: '재고 부족 알림', message: '[상품명] 재고가 안전재고(10개) 미만입니다.\n현재 재고: 5개', buttons: ['발주하기 → 발주 화면', '확인 → 닫기'] },
+                { condition: '품절 처리', title: '품절 안내', message: '[상품명] 재고가 소진되어 품절 처리되었습니다.', buttons: ['확인 → 닫기'] }
+            ]
+        },
+        '키워드 검색': {
+            ui: [
+                { type: '입력', name: '검색창', placeholder: '검색어를 입력하세요', style: '돋보기 아이콘, X 클리어 버튼' },
+                { type: '리스트', name: '자동완성', style: '입력 중 드롭다운, 검색어 하이라이트' },
+                { type: '태그', name: '최근 검색어', style: '가로 스크롤, X 개별 삭제' },
+                { type: '태그', name: '인기 검색어', style: '순위 번호, 상승/하락 표시' }
+            ],
+            actions: [
+                { trigger: '검색어 입력', action: '2자 이상 입력 시 자동완성 API 호출, 300ms 디바운싱' },
+                { trigger: '자동완성 항목 클릭', action: '해당 검색어로 검색 실행' },
+                { trigger: '엔터/검색 버튼', action: '검색 결과 페이지 이동, 최근 검색어 저장' },
+                { trigger: '최근 검색어 클릭', action: '해당 검색어로 검색 실행' },
+                { trigger: 'X 클릭 (최근 검색어)', action: '해당 검색어 삭제' },
+                { trigger: '전체 삭제 클릭', action: '모든 최근 검색어 삭제' }
+            ],
+            alerts: [
+                { condition: '검색 결과 없음', title: '', message: '"[검색어]"에 대한 검색 결과가 없습니다.', buttons: [] },
+                { condition: '최근 검색어 전체 삭제', title: '검색 기록 삭제', message: '최근 검색 기록을 모두 삭제하시겠습니까?', buttons: ['삭제 → 전체 삭제', '취소 → 닫기'] }
+            ]
+        },
+        '필터/정렬': {
+            ui: [
+                { type: '버튼', name: '필터', style: '필터 아이콘, 적용 개수 뱃지' },
+                { type: '셀렉트', name: '정렬', options: ['추천순', '신상품순', '판매량순', '낮은가격순', '높은가격순', '리뷰많은순'] },
+                { type: '바텀시트', name: '필터 패널', style: '하단에서 슬라이드업' },
+                { type: '체크박스', name: '카테고리 필터', options: '카테고리 목록' },
+                { type: '슬라이더', name: '가격 범위', style: '최소~최대, 양쪽 핸들' },
+                { type: '버튼', name: '적용', style: '하단 고정, 결과 수 표시' },
+                { type: '버튼', name: '초기화', style: '회색 텍스트' }
+            ],
+            actions: [
+                { trigger: '필터 버튼 클릭', action: '필터 바텀시트/모달 오픈' },
+                { trigger: '필터 옵션 선택', action: '실시간 결과 수 업데이트 (예: "총 123개 상품")' },
+                { trigger: '적용 클릭', action: '바텀시트 닫기, 필터 적용된 결과 표시' },
+                { trigger: '초기화 클릭', action: '모든 필터 해제, 기본 상태로 복원' },
+                { trigger: '정렬 변경', action: '즉시 목록 재정렬' }
+            ],
+            alerts: []
+        },
+        '장바구니 담기': {
+            ui: [
+                { type: '버튼', name: '장바구니', style: '장바구니 아이콘, 클릭 시 숫자 뱃지 업데이트' },
+                { type: '바텀시트', name: '옵션 선택', style: '상품 썸네일, 옵션 선택 UI' },
+                { type: '셀렉트', name: '옵션', options: '색상, 사이즈 등 상품 옵션' },
+                { type: '스테퍼', name: '수량', style: '- 숫자 + 버튼' },
+                { type: '버튼', name: '장바구니 담기', style: '하단 고정, 총 금액 표시' }
+            ],
+            actions: [
+                { trigger: '장바구니 버튼 클릭 (옵션 상품)', action: '옵션 선택 바텀시트 오픈' },
+                { trigger: '장바구니 버튼 클릭 (단일 상품)', action: '바로 장바구니 추가, 토스트 메시지' },
+                { trigger: '옵션 선택 완료', action: '장바구니 담기 버튼 활성화' },
+                { trigger: '장바구니 담기 클릭', action: '장바구니 API 호출, 성공 시 확인 토스트/팝업' }
+            ],
+            alerts: [
+                { condition: '장바구니 추가 성공', title: '장바구니 담기', message: '상품이 장바구니에 담겼습니다.', buttons: ['장바구니 가기 → 장바구니 페이지', '쇼핑 계속 → 팝업 닫기'] },
+                { condition: '이미 담긴 상품', title: '장바구니', message: '이미 장바구니에 있는 상품입니다. 수량을 추가하시겠습니까?', buttons: ['수량 추가 → 기존 수량 +1', '취소 → 닫기'] },
+                { condition: '품절 상품', title: '품절', message: '죄송합니다. 해당 상품은 품절되었습니다.', buttons: ['재입고 알림 → 알림 신청', '확인 → 닫기'] },
+                { condition: '장바구니 한도 초과', title: '장바구니 가득', message: '장바구니는 최대 100개까지 담을 수 있습니다.', buttons: ['장바구니 가기 → 장바구니 정리', '확인 → 닫기'] }
+            ]
+        },
+        '바로구매': {
+            ui: [
+                { type: '버튼', name: '바로구매', style: '강조 색상, 장바구니 버튼 옆' },
+                { type: '바텀시트', name: '옵션 선택', style: '옵션 있는 경우 표시' }
+            ],
+            actions: [
+                { trigger: '바로구매 클릭 (옵션 상품)', action: '옵션 선택 바텀시트 오픈' },
+                { trigger: '바로구매 클릭 (단일 상품)', action: '주문서 작성 페이지 직접 이동' },
+                { trigger: '옵션 선택 후 구매', action: '해당 옵션으로 주문서 작성 페이지 이동' }
+            ],
+            alerts: [
+                { condition: '비회원 구매 시도', title: '로그인 필요', message: '로그인 후 구매 가능합니다. 로그인하시겠습니까?', buttons: ['로그인 → 로그인 페이지 (이후 복귀)', '비회원 구매 → 비회원 주문서', '취소 → 닫기'] },
+                { condition: '품절', title: '구매 불가', message: '해당 상품은 현재 구매할 수 없습니다.', buttons: ['확인 → 닫기'] }
+            ]
+        },
+        '위시리스트 추가': {
+            ui: [
+                { type: '버튼', name: '찜하기', style: '하트 아이콘, 빈 하트 → 채워진 하트 토글' },
+                { type: '카운터', name: '찜 수', style: '하트 아이콘 옆 숫자' }
+            ],
+            actions: [
+                { trigger: '찜하기 클릭 (비활성)', action: '위시리스트 추가, 하트 채워짐, 카운터 +1' },
+                { trigger: '찜하기 클릭 (활성)', action: '위시리스트 삭제, 하트 비워짐, 카운터 -1' },
+                { trigger: '비로그인 상태 클릭', action: '로그인 유도 팝업' }
+            ],
+            alerts: [
+                { condition: '찜 추가 (비로그인)', title: '로그인 필요', message: '찜하기는 로그인 후 이용 가능합니다.', buttons: ['로그인 → 로그인 페이지', '취소 → 닫기'] },
+                { condition: '찜 추가 성공', title: '', message: '위시리스트에 추가되었습니다.', buttons: [] }
+            ]
+        },
+        '쿠폰 적용': {
+            ui: [
+                { type: '입력', name: '쿠폰 코드', placeholder: '쿠폰 코드 입력', style: '입력 필드 + 적용 버튼' },
+                { type: '버튼', name: '쿠폰 적용', style: '입력 필드 우측' },
+                { type: '리스트', name: '보유 쿠폰', style: '쿠폰 카드 형태, 라디오 선택' },
+                { type: '텍스트', name: '할인 금액', style: '빨간색 "-5,000원"' }
+            ],
+            actions: [
+                { trigger: '쿠폰 코드 입력 후 적용', action: '쿠폰 유효성 검증, 성공 시 할인 적용' },
+                { trigger: '보유 쿠폰 선택', action: '해당 쿠폰 적용, 할인 금액 표시' },
+                { trigger: '쿠폰 해제', action: '할인 금액 0으로 변경, 총 금액 재계산' }
+            ],
+            alerts: [
+                { condition: '쿠폰 적용 성공', title: '쿠폰 적용', message: '쿠폰이 적용되었습니다. 5,000원 할인!', buttons: ['확인 → 닫기'] },
+                { condition: '쿠폰 코드 오류', title: '적용 실패', message: '유효하지 않은 쿠폰 코드입니다.', buttons: ['확인 → 닫기'] },
+                { condition: '최소 주문금액 미달', title: '적용 불가', message: '이 쿠폰은 30,000원 이상 구매 시 사용 가능합니다.', buttons: ['확인 → 닫기'] },
+                { condition: '사용 기간 만료', title: '적용 불가', message: '사용 기간이 만료된 쿠폰입니다.', buttons: ['확인 → 닫기'] }
+            ]
+        },
+        '포인트 사용': {
+            ui: [
+                { type: '텍스트', name: '보유 포인트', style: '"보유: 10,000P"' },
+                { type: '입력', name: '사용 포인트', placeholder: '사용할 포인트', style: '숫자만 입력' },
+                { type: '버튼', name: '전액 사용', style: '텍스트 링크' },
+                { type: '텍스트', name: '최소/최대 사용', style: '회색 안내 "최소 1,000P부터 100P 단위"' }
+            ],
+            actions: [
+                { trigger: '포인트 입력', action: '결제 금액에서 차감, 총 결제금액 실시간 업데이트' },
+                { trigger: '전액 사용 클릭', action: '보유 포인트 전액 입력 (최대 사용 한도 내)' },
+                { trigger: '결제금액 초과 입력', action: '결제금액까지만 자동 조정' }
+            ],
+            alerts: [
+                { condition: '최소 사용금액 미달', title: '포인트 사용 불가', message: '포인트는 1,000P 이상부터 사용 가능합니다.', buttons: ['확인 → 닫기'] },
+                { condition: '보유 포인트 초과 입력', title: '입력 오류', message: '보유 포인트를 초과하여 입력할 수 없습니다.', buttons: ['확인 → 보유 포인트로 변경'] }
+            ]
+        },
+        '배송지 선택': {
+            ui: [
+                { type: '라디오', name: '저장된 배송지', style: '배송지 카드 리스트, 기본배송지 뱃지' },
+                { type: '버튼', name: '새 배송지 추가', style: '+ 아이콘, 텍스트 버튼' },
+                { type: '입력', name: '수령인', placeholder: '이름' },
+                { type: '입력', name: '연락처', placeholder: '010-0000-0000' },
+                { type: '버튼', name: '주소 검색', style: '우편번호 검색 팝업 연동' },
+                { type: '입력', name: '상세 주소', placeholder: '상세 주소 입력' },
+                { type: '체크박스', name: '기본 배송지 설정', style: '선택사항' }
+            ],
+            actions: [
+                { trigger: '저장된 배송지 선택', action: '해당 배송지 정보 자동 입력' },
+                { trigger: '새 배송지 추가 클릭', action: '배송지 입력 폼 표시' },
+                { trigger: '주소 검색 클릭', action: '다음 주소 검색 API 팝업' },
+                { trigger: '주소 선택 완료', action: '우편번호, 주소 자동 입력' },
+                { trigger: '저장 클릭', action: '배송지 DB 저장, 목록에 추가' }
+            ],
+            alerts: [
+                { condition: '배송지 삭제', title: '배송지 삭제', message: '해당 배송지를 삭제하시겠습니까?', buttons: ['삭제 → 배송지 삭제', '취소 → 닫기'] },
+                { condition: '배송 불가 지역', title: '배송 불가', message: '해당 지역은 배송이 불가능합니다. (도서산간 지역)', buttons: ['확인 → 닫기'] }
+            ]
+        },
+        '주문 취소': {
+            ui: [
+                { type: '버튼', name: '주문 취소', style: '회색 또는 빨간색 버튼' },
+                { type: '라디오', name: '취소 사유', options: ['단순 변심', '다른 상품으로 재주문', '배송 지연', '기타'] },
+                { type: '입력', name: '기타 사유', placeholder: '직접 입력' },
+                { type: '텍스트', name: '환불 안내', style: '환불 예정 금액, 환불 수단, 소요 기간' }
+            ],
+            actions: [
+                { trigger: '주문 취소 클릭', action: '취소 가능 여부 확인, 취소 사유 선택 화면 표시' },
+                { trigger: '취소 사유 선택 후 확인', action: '최종 확인 팝업, 확인 시 취소 처리' },
+                { trigger: '취소 완료', action: '주문 상태 "취소완료" 변경, 환불 처리 시작' }
+            ],
+            alerts: [
+                { condition: '취소 확인', title: '주문 취소', message: '주문을 취소하시겠습니까?\n\n환불 예정 금액: 50,000원\n환불 소요 기간: 3~5 영업일', buttons: ['취소하기 → 주문 취소 처리', '아니오 → 팝업 닫기'] },
+                { condition: '배송 시작 후', title: '취소 불가', message: '이미 배송이 시작되어 취소가 불가능합니다. 수령 후 반품을 신청해주세요.', buttons: ['반품 신청 → 반품 페이지', '확인 → 닫기'] },
+                { condition: '취소 완료', title: '취소 완료', message: '주문이 취소되었습니다.\n환불 금액: 50,000원\n환불 예정일: 3~5 영업일 이내', buttons: ['확인 → 주문 목록으로'] }
+            ]
+        },
+        '반품 신청': {
+            ui: [
+                { type: '버튼', name: '반품 신청', style: '주문 상세 내 버튼' },
+                { type: '체크박스', name: '반품 상품', style: '여러 상품 선택 가능' },
+                { type: '라디오', name: '반품 사유', options: ['단순 변심', '상품 불량', '오배송', '상품 상이', '기타'] },
+                { type: '업로드', name: '증빙 사진', style: '불량/오배송 시 필수' },
+                { type: '라디오', name: '수거 방법', options: ['직접 발송', '수거 요청'] },
+                { type: '텍스트', name: '환불 안내', style: '배송비 부담 주체, 환불 예정 금액' }
+            ],
+            actions: [
+                { trigger: '반품 신청 클릭', action: '반품 가능 기간 확인 (수령 후 7일)' },
+                { trigger: '반품 사유 선택', action: '배송비 부담 주체 결정 (변심: 고객, 불량: 판매자)' },
+                { trigger: '반품 신청 완료', action: '반품 접수, 수거 안내 발송' }
+            ],
+            alerts: [
+                { condition: '반품 기간 초과', title: '반품 불가', message: '반품 가능 기간(수령 후 7일)이 지났습니다.', buttons: ['확인 → 닫기'] },
+                { condition: '반품 확인', title: '반품 신청', message: '반품을 신청하시겠습니까?\n\n반품 배송비: 3,000원 (고객 부담)\n환불 예정 금액: 47,000원', buttons: ['신청하기 → 반품 접수', '취소 → 닫기'] },
+                { condition: '반품 신청 완료', title: '반품 접수 완료', message: '반품이 접수되었습니다.\n\n수거 예정일: 2024.01.20\n환불 예정일: 상품 확인 후 3~5일', buttons: ['확인 → 주문 상세로'] }
+            ]
+        },
         '상품 노출 설정': '판매 상태 (판매중/품절/숨김) • 노출 기간 설정 • 카테고리/검색 노출 여부',
         'SEO 설정': '메타 태그 (title/description) 설정 • URL 슬러그 커스텀 • 구조화 데이터 자동 생성',
         '키워드 검색': '검색어 입력 및 결과 표시 • 검색어 하이라이트 • 검색 결과 정렬 옵션',
@@ -8149,29 +8776,133 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
         '일괄 처리': '다건 주문 일괄 상태 변경 • 일괄 출고 • 엑셀 업로드'
     };
     
-    // 옵션 상세 설명 가져오기 함수
-    const getOptionDetail = (opt) => {
-        if (optionDetails[opt]) {
-            return optionDetails[opt];
+    // 상세 스펙 가져오기 함수
+    const getOptionSpec = (opt) => {
+        // optionSpecs에서 상세 스펙 찾기
+        if (optionSpecs[opt]) {
+            return optionSpecs[opt];
         }
         // 부분 매칭 시도
-        const keys = Object.keys(optionDetails);
-        const matchedKey = keys.find(key => opt.includes(key) || key.includes(opt));
-        if (matchedKey) {
-            return optionDetails[matchedKey];
+        const specKeys = Object.keys(optionSpecs);
+        const matchedSpec = specKeys.find(key => opt.includes(key) || key.includes(opt));
+        if (matchedSpec) {
+            return optionSpecs[matchedSpec];
         }
-        // 기본 설명 생성
-        return `• ${opt} 기능 화면 UI 구성<br>• ${opt} 데이터 입력/조회 처리<br>• ${opt} 결과 저장 및 알림`;
+        // optionDetails에서 간단 설명 찾기
+        if (optionDetails[opt]) {
+            return { simple: optionDetails[opt] };
+        }
+        const detailKeys = Object.keys(optionDetails);
+        const matchedDetail = detailKeys.find(key => opt.includes(key) || key.includes(opt));
+        if (matchedDetail) {
+            return { simple: optionDetails[matchedDetail] };
+        }
+        // 기본 스펙 생성
+        return {
+            ui: [
+                { type: '화면', name: `${opt} 메인`, style: '기본 레이아웃' },
+                { type: '버튼', name: '확인', style: '활성화 버튼' },
+                { type: '버튼', name: '취소', style: '비활성화 버튼' }
+            ],
+            actions: [
+                { trigger: '화면 진입', action: `${opt} 데이터 로딩 및 표시` },
+                { trigger: '확인 클릭', action: '데이터 저장 후 완료 처리' },
+                { trigger: '취소 클릭', action: '변경사항 취소 후 이전 화면 이동' }
+            ],
+            alerts: [
+                { condition: '저장 성공', title: '완료', message: `${opt} 처리가 완료되었습니다.`, buttons: ['확인 → 팝업 닫기'] },
+                { condition: '저장 실패', title: '오류', message: '처리 중 오류가 발생했습니다. 다시 시도해주세요.', buttons: ['확인 → 팝업 닫기'] }
+            ]
+        };
+    };
+    
+    // 상세 스펙을 HTML로 변환
+    const renderOptionSpec = (opt, spec, idx) => {
+        // 간단 설명만 있는 경우
+        if (spec.simple) {
+            return `
+                <div class="func-spec-item">
+                    <div class="spec-header">
+                        <span class="spec-name">${opt}</span>
+                        <span class="${idx < 3 ? 'required' : 'optional'}">${idx < 3 ? '필수' : '선택'}</span>
+                    </div>
+                    <div class="spec-simple">${spec.simple}</div>
+                </div>
+            `;
+        }
+        
+        // UI 컴포넌트 테이블
+        const uiRows = spec.ui ? spec.ui.map(u => `
+            <tr><td><span class="ui-type">${u.type}</span></td><td>${u.name}</td><td>${u.style || u.placeholder || u.options?.join(', ') || '-'}</td></tr>
+        `).join('') : '';
+        
+        // 동작 정의 테이블
+        const actionRows = spec.actions ? spec.actions.map(a => `
+            <tr><td>${a.trigger}</td><td>→</td><td>${a.action}</td></tr>
+        `).join('') : '';
+        
+        // 알럿/팝업 정의
+        const alertRows = spec.alerts ? spec.alerts.map(al => `
+            <div class="alert-spec">
+                <div class="alert-condition"><strong>조건:</strong> ${al.condition}</div>
+                <div class="alert-popup">
+                    <div class="popup-preview">
+                        <div class="popup-title">${al.title}</div>
+                        <div class="popup-message">${al.message}</div>
+                        <div class="popup-buttons">${al.buttons.map(b => `<span class="popup-btn">${b.split(' → ')[0]}</span>`).join('')}</div>
+                    </div>
+                    <div class="button-actions">
+                        ${al.buttons.map(b => {
+                            const [btn, action] = b.split(' → ');
+                            return `<div class="btn-action"><strong>${btn}</strong>: ${action || '동작 없음'}</div>`;
+                        }).join('')}
+                    </div>
+                </div>
+            </div>
+        `).join('') : '';
+        
+        return `
+            <div class="func-spec-item">
+                <div class="spec-header">
+                    <span class="spec-name">${opt}</span>
+                    <span class="${idx < 3 ? 'required' : 'optional'}">${idx < 3 ? '필수' : '선택'}</span>
+                </div>
+                
+                ${spec.ui ? `
+                <div class="spec-section">
+                    <h6>📱 UI 컴포넌트</h6>
+                    <table class="spec-table">
+                        <thead><tr><th>유형</th><th>이름</th><th>스타일/속성</th></tr></thead>
+                        <tbody>${uiRows}</tbody>
+                    </table>
+                </div>
+                ` : ''}
+                
+                ${spec.actions ? `
+                <div class="spec-section">
+                    <h6>⚡ 동작 정의</h6>
+                    <table class="spec-table action-table">
+                        <thead><tr><th>트리거</th><th></th><th>동작</th></tr></thead>
+                        <tbody>${actionRows}</tbody>
+                    </table>
+                </div>
+                ` : ''}
+                
+                ${spec.alerts && spec.alerts.length > 0 ? `
+                <div class="spec-section">
+                    <h6>💬 팝업/얼럿 메시지</h6>
+                    ${alertRows}
+                </div>
+                ` : ''}
+            </div>
+        `;
     };
     
     // 옵션에 따른 동적 기능 항목 생성
-    const optionItems = options.map((opt, idx) => `
-        <div class="func-row">
-            <span>${opt}</span>
-            <span>${getOptionDetail(opt)}</span>
-            <span class="${idx < 3 ? 'required' : 'optional'}">${idx < 3 ? '필수' : '선택'}</span>
-        </div>
-    `).join('');
+    const optionItems = options.map((opt, idx) => {
+        const spec = getOptionSpec(opt);
+        return renderOptionSpec(opt, spec, idx);
+    }).join('');
     
     // 화면 구성 요소 생성
     const screenElements = options.slice(0, 6).map(opt => `
@@ -8235,11 +8966,10 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             </div>
         </div>
 
-        <div class="func-section">
-            <h4>3. 선택된 기능 상세</h4>
-            <div class="func-table">
-                <div class="func-row header"><span>기능 항목</span><span>상세 내용</span><span>필수</span></div>
-                ${optionItems || '<div class="func-row"><span>-</span><span>선택된 옵션이 없습니다</span><span>-</span></div>'}
+        <div class="func-section func-spec-section">
+            <h4>3. 선택된 기능 상세 스펙</h4>
+            <div class="func-spec-container">
+                ${optionItems || '<div class="empty-spec">선택된 옵션이 없습니다</div>'}
             </div>
         </div>
 

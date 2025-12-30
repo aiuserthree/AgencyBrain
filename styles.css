@@ -5642,6 +5642,215 @@ input, select, textarea {
     color: var(--text-primary);
 }
 
+/* 상세 스펙 섹션 스타일 */
+.func-spec-section {
+    margin-bottom: 32px;
+}
+
+.func-spec-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.func-spec-item {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.spec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(123, 97, 255, 0.1) 100%);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.spec-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.spec-simple {
+    padding: 16px 20px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.spec-section {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.spec-section:last-child {
+    border-bottom: none;
+}
+
+.spec-section h6 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    margin-bottom: 12px;
+}
+
+.spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.spec-table thead tr {
+    background: var(--bg-card);
+}
+
+.spec-table th,
+.spec-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+
+.spec-table th {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+.spec-table td {
+    color: var(--text-primary);
+}
+
+.ui-type {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--accent-purple);
+    color: white;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.action-table td:nth-child(2) {
+    text-align: center;
+    color: var(--accent-cyan);
+    font-weight: bold;
+}
+
+/* 알럿/팝업 스펙 스타일 */
+.alert-spec {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.alert-spec:last-child {
+    margin-bottom: 0;
+}
+
+.alert-condition {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.alert-popup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.popup-preview {
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.popup-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.popup-message {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.popup-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--accent-cyan);
+    color: var(--bg-primary);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.popup-btn:nth-child(2) {
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.popup-btn:nth-child(3) {
+    background: var(--accent-pink);
+    color: white;
+}
+
+.button-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+}
+
+.btn-action {
+    padding: 10px 14px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--accent-cyan);
+}
+
+.btn-action strong {
+    color: var(--text-primary);
+}
+
+.empty-spec {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-muted);
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+}
+
+@media (max-width: 768px) {
+    .alert-popup {
+        grid-template-columns: 1fr;
+    }
+}
+
 .func-table {
     background: var(--bg-tertiary);
     border-radius: var(--border-radius);
