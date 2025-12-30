@@ -5220,6 +5220,279 @@ function initFunctionalForm() {
     const funcResultTitle = document.getElementById('funcResultTitle');
     const funcResultContent = document.getElementById('funcResultContent');
 
+    // 업종별 기능 유형 데이터
+    const industryFuncTypes = {
+        // 커머스
+        fashion: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }, { value: 'membership', name: '멤버십/등급' }] },
+            { group: '상품', items: [{ value: 'product', name: '상품 관리' }, { value: 'category', name: '카테고리' }, { value: 'search', name: '상품 검색' }, { value: 'size_guide', name: '사이즈 가이드' }, { value: 'styling', name: 'AI 코디 추천' }, { value: 'virtual_fitting', name: '가상 피팅' }] },
+            { group: '구매', items: [{ value: 'cart', name: '장바구니' }, { value: 'wishlist', name: '위시리스트' }, { value: 'order', name: '주문/구매' }, { value: 'payment', name: '결제' }] },
+            { group: '배송/CS', items: [{ value: 'delivery', name: '배송' }, { value: 'return', name: '반품/교환' }, { value: 'review', name: '리뷰/후기' }, { value: 'qna', name: 'Q&A' }] },
+            { group: '마케팅', items: [{ value: 'point', name: '포인트' }, { value: 'coupon', name: '쿠폰' }, { value: 'event', name: '이벤트' }, { value: 'notification', name: '알림' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_user', name: '회원 관리' }, { value: 'admin_order', name: '주문 관리' }, { value: 'admin_stats', name: '통계/리포트' }] }
+        ],
+        beauty: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }, { value: 'membership', name: '멤버십' }] },
+            { group: '상품', items: [{ value: 'product', name: '상품 관리' }, { value: 'search', name: '상품 검색' }, { value: 'ingredient', name: '성분 분석' }, { value: 'skin_diagnosis', name: 'AI 피부진단' }, { value: 'virtual_makeup', name: '가상 메이크업' }] },
+            { group: '구매', items: [{ value: 'cart', name: '장바구니' }, { value: 'order', name: '주문/구매' }, { value: 'payment', name: '결제' }, { value: 'subscription', name: '정기구독' }] },
+            { group: '배송/CS', items: [{ value: 'delivery', name: '배송' }, { value: 'review', name: '리뷰/후기' }, { value: 'qna', name: 'Q&A' }] },
+            { group: '콘텐츠', items: [{ value: 'beauty_tip', name: '뷰티 팁' }, { value: 'routine', name: '스킨케어 루틴' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_order', name: '주문 관리' }] }
+        ],
+        fnb: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '상품', items: [{ value: 'product', name: '상품 관리' }, { value: 'search', name: '상품 검색' }, { value: 'nutrition', name: '영양정보' }, { value: 'allergy', name: '알레르기 정보' }, { value: 'recipe', name: '레시피' }] },
+            { group: '구매', items: [{ value: 'cart', name: '장바구니' }, { value: 'order', name: '주문/구매' }, { value: 'payment', name: '결제' }, { value: 'subscription', name: '정기배송' }] },
+            { group: '배송/CS', items: [{ value: 'delivery', name: '배송' }, { value: 'fresh_delivery', name: '신선배송' }, { value: 'review', name: '리뷰' }] },
+            { group: '매장', items: [{ value: 'store_search', name: '매장 찾기' }, { value: 'pickup', name: '픽업 예약' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_order', name: '주문 관리' }, { value: 'inventory', name: '재고/유통기한 관리' }] }
+        ],
+        electronics: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '상품', items: [{ value: 'product', name: '상품 관리' }, { value: 'search', name: '상품 검색' }, { value: 'spec_compare', name: '스펙 비교' }, { value: 'compatibility', name: '호환성 체크' }] },
+            { group: '구매', items: [{ value: 'cart', name: '장바구니' }, { value: 'order', name: '주문/구매' }, { value: 'payment', name: '결제' }, { value: 'rental', name: '렌탈' }] },
+            { group: '서비스', items: [{ value: 'delivery', name: '배송' }, { value: 'installation', name: '설치 예약' }, { value: 'as_service', name: 'A/S 신청' }, { value: 'warranty', name: '보증 관리' }] },
+            { group: 'CS', items: [{ value: 'review', name: '리뷰' }, { value: 'qna', name: 'Q&A' }, { value: 'manual', name: '사용설명서' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_order', name: '주문 관리' }, { value: 'admin_as', name: 'A/S 관리' }] }
+        ],
+        furniture: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '상품', items: [{ value: 'product', name: '상품 관리' }, { value: 'search', name: '상품 검색' }, { value: '3d_viewer', name: '3D 뷰어' }, { value: 'ar_placement', name: 'AR 배치' }, { value: 'size_simulation', name: '사이즈 시뮬레이션' }] },
+            { group: '구매', items: [{ value: 'cart', name: '장바구니' }, { value: 'order', name: '주문/구매' }, { value: 'payment', name: '결제' }, { value: 'custom_order', name: '맞춤 제작' }] },
+            { group: '서비스', items: [{ value: 'delivery', name: '배송' }, { value: 'installation', name: '설치 예약' }, { value: 'interior_consult', name: '인테리어 상담' }] },
+            { group: 'CS', items: [{ value: 'review', name: '리뷰' }, { value: 'qna', name: 'Q&A' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_order', name: '주문 관리' }] }
+        ],
+        sports: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }, { value: 'membership', name: '멤버십' }] },
+            { group: '상품', items: [{ value: 'product', name: '상품 관리' }, { value: 'search', name: '상품 검색' }, { value: 'size_recommend', name: '사이즈 추천' }, { value: 'gear_guide', name: '장비 가이드' }] },
+            { group: '구매', items: [{ value: 'cart', name: '장바구니' }, { value: 'order', name: '주문/구매' }, { value: 'payment', name: '결제' }, { value: 'rental', name: '장비 대여' }] },
+            { group: '커뮤니티', items: [{ value: 'exercise_log', name: '운동 기록' }, { value: 'challenge', name: '챌린지' }, { value: 'board', name: '커뮤니티' }] },
+            { group: 'CS', items: [{ value: 'delivery', name: '배송' }, { value: 'review', name: '리뷰' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_order', name: '주문 관리' }] }
+        ],
+        kids: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }, { value: 'child_profile', name: '아이 프로필' }] },
+            { group: '상품', items: [{ value: 'product', name: '상품 관리' }, { value: 'search', name: '상품 검색' }, { value: 'age_recommend', name: '연령별 추천' }, { value: 'safety_cert', name: '안전인증 정보' }] },
+            { group: '구매', items: [{ value: 'cart', name: '장바구니' }, { value: 'order', name: '주문/구매' }, { value: 'payment', name: '결제' }, { value: 'subscription', name: '정기배송' }, { value: 'gift', name: '선물하기' }] },
+            { group: '콘텐츠', items: [{ value: 'parenting_info', name: '육아 정보' }, { value: 'growth_record', name: '성장 기록' }] },
+            { group: 'CS', items: [{ value: 'delivery', name: '배송' }, { value: 'review', name: '리뷰' }, { value: 'qna', name: 'Q&A' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_order', name: '주문 관리' }] }
+        ],
+        pets: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }, { value: 'pet_profile', name: '반려동물 프로필' }] },
+            { group: '상품', items: [{ value: 'product', name: '상품 관리' }, { value: 'search', name: '상품 검색' }, { value: 'pet_recommend', name: '맞춤 추천' }, { value: 'nutrition_info', name: '영양 정보' }] },
+            { group: '구매', items: [{ value: 'cart', name: '장바구니' }, { value: 'order', name: '주문/구매' }, { value: 'payment', name: '결제' }, { value: 'subscription', name: '정기배송' }] },
+            { group: '건강', items: [{ value: 'health_record', name: '건강 기록' }, { value: 'vet_consult', name: '수의사 상담' }, { value: 'vaccination', name: '예방접종 관리' }] },
+            { group: '커뮤니티', items: [{ value: 'board', name: '커뮤니티' }, { value: 'review', name: '리뷰' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_order', name: '주문 관리' }] }
+        ],
+        luxury: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }, { value: 'vip_membership', name: 'VIP 멤버십' }] },
+            { group: '상품', items: [{ value: 'product', name: '상품 관리' }, { value: 'search', name: '상품 검색' }, { value: 'authenticity', name: '정품 인증' }, { value: 'limited_edition', name: '한정판 알림' }] },
+            { group: '구매', items: [{ value: 'cart', name: '장바구니' }, { value: 'order', name: '주문/구매' }, { value: 'payment', name: '결제' }, { value: 'preorder', name: '사전예약' }] },
+            { group: 'VIP 서비스', items: [{ value: 'concierge', name: '컨시어지' }, { value: 'private_visit', name: '예약 방문' }, { value: 'after_care', name: '수선/관리' }] },
+            { group: 'CS', items: [{ value: 'delivery', name: '프리미엄 배송' }, { value: 'review', name: '리뷰' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_vip', name: 'VIP 관리' }] }
+        ],
+        lifestyle: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '상품', items: [{ value: 'product', name: '상품 관리' }, { value: 'search', name: '상품 검색' }, { value: 'curation', name: '큐레이션' }, { value: 'live_commerce', name: '라이브 커머스' }] },
+            { group: '구매', items: [{ value: 'cart', name: '장바구니' }, { value: 'order', name: '주문/구매' }, { value: 'payment', name: '결제' }, { value: 'subscription', name: '정기구독' }, { value: 'gift', name: '선물하기' }] },
+            { group: '마케팅', items: [{ value: 'point', name: '포인트' }, { value: 'coupon', name: '쿠폰' }, { value: 'event', name: '이벤트' }] },
+            { group: 'CS', items: [{ value: 'delivery', name: '배송' }, { value: 'review', name: '리뷰' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_order', name: '주문 관리' }] }
+        ],
+        // 서비스
+        healthcare: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'identity_verify', name: '본인인증' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '진료', items: [{ value: 'booking', name: '진료 예약' }, { value: 'doctor_search', name: '의료진 검색' }, { value: 'telemedicine', name: '화상 진료' }, { value: 'medical_record', name: '진료 기록' }, { value: 'prescription', name: '처방전 관리' }] },
+            { group: '검진', items: [{ value: 'health_checkup', name: '건강검진 예약' }, { value: 'checkup_result', name: '검진 결과' }, { value: 'ai_symptom', name: 'AI 증상 체크' }] },
+            { group: '결제', items: [{ value: 'payment', name: '진료비 결제' }, { value: 'insurance_claim', name: '보험 청구' }] },
+            { group: '콘텐츠', items: [{ value: 'health_info', name: '건강 정보' }, { value: 'medication_alarm', name: '복약 알림' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_booking', name: '예약 관리' }, { value: 'admin_patient', name: '환자 관리' }] }
+        ],
+        education: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '강좌', items: [{ value: 'course_search', name: '강좌 검색' }, { value: 'enrollment', name: '수강신청' }, { value: 'payment', name: '결제' }] },
+            { group: '학습', items: [{ value: 'online_lecture', name: '온라인 강의' }, { value: 'live_class', name: '실시간 수업' }, { value: 'assignment', name: '과제 제출' }, { value: 'quiz', name: '퀴즈/시험' }, { value: 'progress', name: '학습 진도' }] },
+            { group: '커뮤니티', items: [{ value: 'qna', name: '질문/답변' }, { value: 'study_group', name: '스터디 그룹' }, { value: 'board', name: '게시판' }] },
+            { group: '인증', items: [{ value: 'certificate', name: '수료증 발급' }, { value: 'grade', name: '성적 조회' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_course', name: '강좌 관리' }, { value: 'admin_student', name: '학생 관리' }] }
+        ],
+        travel: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '예약', items: [{ value: 'flight_booking', name: '항공권 예약' }, { value: 'hotel_booking', name: '숙소 예약' }, { value: 'package_booking', name: '패키지 예약' }, { value: 'tour_booking', name: '투어/티켓' }, { value: 'rental_car', name: '렌터카' }] },
+            { group: '결제', items: [{ value: 'payment', name: '결제' }, { value: 'insurance', name: '여행자 보험' }, { value: 'mileage', name: '마일리지' }] },
+            { group: '일정', items: [{ value: 'schedule', name: '일정 관리' }, { value: 'travel_info', name: '여행 정보' }, { value: 'exchange_rate', name: '환율 계산' }] },
+            { group: 'CS', items: [{ value: 'review', name: '리뷰' }, { value: 'qna', name: 'Q&A' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_booking', name: '예약 관리' }] }
+        ],
+        realestate: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '매물', items: [{ value: 'property_search', name: '매물 검색' }, { value: 'map_search', name: '지도 검색' }, { value: 'wishlist', name: '관심 매물' }, { value: '3d_tour', name: '3D 투어' }, { value: 'vr_tour', name: 'VR 견학' }] },
+            { group: '정보', items: [{ value: 'price_info', name: '시세 정보' }, { value: 'real_price', name: '실거래가' }, { value: 'area_info', name: '주변 정보' }] },
+            { group: '상담', items: [{ value: 'agent_consult', name: '중개사 상담' }, { value: 'visit_booking', name: '방문 예약' }, { value: 'loan_consult', name: '대출 상담' }] },
+            { group: '계약', items: [{ value: 'contract', name: '계약 관리' }, { value: 'moving', name: '이사 견적' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_property', name: '매물 관리' }] }
+        ],
+        finance: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'identity_verify', name: '본인인증' }, { value: 'security_auth', name: '보안인증' }] },
+            { group: '계좌', items: [{ value: 'account_link', name: '계좌 연결' }, { value: 'account_view', name: '계좌 조회' }, { value: 'transaction', name: '거래내역' }, { value: 'transfer', name: '이체' }] },
+            { group: '상품', items: [{ value: 'product_search', name: '상품 조회' }, { value: 'deposit', name: '예금/적금' }, { value: 'loan', name: '대출' }, { value: 'insurance', name: '보험' }, { value: 'investment', name: '투자' }] },
+            { group: '자산', items: [{ value: 'asset_management', name: '자산관리' }, { value: 'portfolio', name: '포트폴리오' }, { value: 'ai_advisor', name: '로보어드바이저' }] },
+            { group: '결제', items: [{ value: 'payment', name: '결제' }, { value: 'card', name: '카드 관리' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_customer', name: '고객 관리' }] }
+        ],
+        restaurant: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '예약', items: [{ value: 'booking', name: '예약' }, { value: 'waiting', name: '웨이팅' }, { value: 'table_select', name: '테이블 선택' }] },
+            { group: '주문', items: [{ value: 'menu', name: '메뉴 보기' }, { value: 'order', name: '주문' }, { value: 'payment', name: '결제' }, { value: 'takeout', name: '테이크아웃' }, { value: 'delivery', name: '배달 주문' }] },
+            { group: '마케팅', items: [{ value: 'point', name: '포인트' }, { value: 'coupon', name: '쿠폰' }, { value: 'subscription', name: '구독권' }] },
+            { group: 'CS', items: [{ value: 'review', name: '리뷰' }, { value: 'store_info', name: '매장 정보' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_booking', name: '예약 관리' }, { value: 'admin_order', name: '주문 관리' }] }
+        ],
+        fitness: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '예약', items: [{ value: 'class_booking', name: '수업 예약' }, { value: 'pt_booking', name: 'PT 예약' }, { value: 'schedule', name: '시간표' }] },
+            { group: '회원권', items: [{ value: 'membership_purchase', name: '회원권 구매' }, { value: 'membership_manage', name: '회원권 관리' }, { value: 'payment', name: '결제' }] },
+            { group: '운동', items: [{ value: 'exercise_log', name: '운동 기록' }, { value: 'body_check', name: '바디 체크' }, { value: 'diet', name: '식단 관리' }, { value: 'ai_coaching', name: 'AI 코칭' }] },
+            { group: '시설', items: [{ value: 'attendance', name: '출석 체크' }, { value: 'locker', name: '락커 관리' }, { value: 'realtime_status', name: '실시간 현황' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_member', name: '회원 관리' }, { value: 'admin_booking', name: '예약 관리' }] }
+        ],
+        salon: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '예약', items: [{ value: 'booking', name: '예약' }, { value: 'designer_select', name: '디자이너 선택' }, { value: 'service_select', name: '시술 선택' }] },
+            { group: '스타일', items: [{ value: 'style_search', name: '스타일 검색' }, { value: 'portfolio', name: '포트폴리오' }, { value: 'ar_simulation', name: 'AR 시뮬레이션' }, { value: 'style_recommend', name: '스타일 추천' }] },
+            { group: '결제', items: [{ value: 'payment', name: '결제' }, { value: 'point', name: '포인트' }, { value: 'prepaid', name: '선결제' }] },
+            { group: 'CS', items: [{ value: 'review', name: '리뷰' }, { value: 'notification', name: '예약 알림' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_booking', name: '예약 관리' }, { value: 'admin_designer', name: '디자이너 관리' }] }
+        ],
+        consulting: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '서비스', items: [{ value: 'service_intro', name: '서비스 소개' }, { value: 'expert_matching', name: '전문가 매칭' }, { value: 'portfolio', name: '포트폴리오' }] },
+            { group: '상담', items: [{ value: 'consultation', name: '상담 신청' }, { value: 'quote_request', name: '견적 요청' }, { value: 'video_meeting', name: '화상 회의' }] },
+            { group: '프로젝트', items: [{ value: 'project_manage', name: '프로젝트 관리' }, { value: 'document', name: '문서 관리' }, { value: 'milestone', name: '마일스톤' }, { value: 'report', name: '보고서' }] },
+            { group: '결제', items: [{ value: 'payment', name: '결제' }, { value: 'contract', name: '계약 관리' }, { value: 'settlement', name: '정산' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_project', name: '프로젝트 관리' }] }
+        ],
+        recruitment: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '채용', items: [{ value: 'job_search', name: '채용공고 검색' }, { value: 'company_info', name: '기업 정보' }, { value: 'company_review', name: '기업 리뷰' }, { value: 'salary_info', name: '연봉 정보' }] },
+            { group: '지원', items: [{ value: 'resume', name: '이력서 관리' }, { value: 'application', name: '지원하기' }, { value: 'application_status', name: '지원 현황' }] },
+            { group: '면접', items: [{ value: 'interview_schedule', name: '면접 일정' }, { value: 'video_interview', name: '화상 면접' }, { value: 'ai_resume', name: 'AI 이력서 분석' }] },
+            { group: '알림', items: [{ value: 'notification', name: '알림' }, { value: 'recommendation', name: '맞춤 추천' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_job', name: '공고 관리' }, { value: 'admin_applicant', name: '지원자 관리' }] }
+        ],
+        // 미디어/콘텐츠
+        media: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '콘텐츠', items: [{ value: 'article_search', name: '기사 검색' }, { value: 'category', name: '카테고리' }, { value: 'video_news', name: '영상 뉴스' }, { value: 'podcast', name: '팟캐스트' }] },
+            { group: '구독', items: [{ value: 'subscription', name: '구독' }, { value: 'premium', name: '프리미엄' }, { value: 'payment', name: '결제' }, { value: 'newsletter', name: '뉴스레터' }] },
+            { group: '소통', items: [{ value: 'comment', name: '댓글' }, { value: 'bookmark', name: '북마크' }, { value: 'share', name: '공유' }] },
+            { group: 'AI', items: [{ value: 'ai_summary', name: 'AI 요약' }, { value: 'personalized', name: '맞춤 뉴스' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_content', name: '콘텐츠 관리' }] }
+        ],
+        entertainment: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '콘텐츠', items: [{ value: 'content_search', name: '콘텐츠 검색' }, { value: 'music', name: '음악' }, { value: 'video', name: '영상' }, { value: 'live', name: '라이브 방송' }] },
+            { group: '구독', items: [{ value: 'subscription', name: '구독' }, { value: 'payment', name: '결제' }, { value: 'membership', name: '멤버십' }] },
+            { group: '소통', items: [{ value: 'like', name: '좋아요' }, { value: 'comment', name: '댓글' }, { value: 'playlist', name: '플레이리스트' }, { value: 'share', name: '공유' }] },
+            { group: '팬', items: [{ value: 'fan_community', name: '팬 커뮤니티' }, { value: 'vote', name: '투표' }, { value: 'goods_shop', name: '굿즈샵' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_content', name: '콘텐츠 관리' }] }
+        ],
+        ott: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'profile', name: '프로필 관리' }] },
+            { group: '콘텐츠', items: [{ value: 'content_search', name: '콘텐츠 검색' }, { value: 'watch', name: '시청' }, { value: 'download', name: '다운로드' }, { value: 'watch_history', name: '시청 기록' }] },
+            { group: '구독', items: [{ value: 'subscription', name: '구독 결제' }, { value: 'plan', name: '요금제' }, { value: 'payment', name: '결제 관리' }] },
+            { group: '개인화', items: [{ value: 'wishlist', name: '찜 목록' }, { value: 'ai_recommend', name: 'AI 추천' }, { value: 'rating', name: '평가' }] },
+            { group: '설정', items: [{ value: 'parental_control', name: '자녀 보호' }, { value: 'quality', name: '화질 설정' }, { value: 'subtitle', name: '자막 설정' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_content', name: '콘텐츠 관리' }] }
+        ],
+        gaming: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '게임', items: [{ value: 'game_search', name: '게임 검색' }, { value: 'character', name: '캐릭터 관리' }, { value: 'inventory', name: '인벤토리' }] },
+            { group: '결제', items: [{ value: 'payment', name: '결제' }, { value: 'in_app', name: '인앱 구매' }, { value: 'season_pass', name: '시즌패스' }] },
+            { group: '경쟁', items: [{ value: 'ranking', name: '랭킹' }, { value: 'achievement', name: '업적' }, { value: 'leaderboard', name: '리더보드' }] },
+            { group: '소셜', items: [{ value: 'friend', name: '친구' }, { value: 'guild', name: '길드' }, { value: 'chat', name: '채팅' }, { value: 'trade', name: '거래소' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_user', name: '유저 관리' }, { value: 'admin_report', name: '신고 관리' }] }
+        ],
+        community: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'profile', name: '프로필' }] },
+            { group: '게시글', items: [{ value: 'post', name: '게시글 작성' }, { value: 'comment', name: '댓글' }, { value: 'like', name: '좋아요' }, { value: 'hashtag', name: '해시태그' }] },
+            { group: '소셜', items: [{ value: 'follow', name: '팔로우' }, { value: 'message', name: '메시지' }, { value: 'notification', name: '알림' }] },
+            { group: '그룹', items: [{ value: 'group', name: '그룹' }, { value: 'chat_room', name: '채팅방' }, { value: 'event', name: '이벤트' }] },
+            { group: '탐색', items: [{ value: 'search', name: '검색' }, { value: 'trending', name: '트렌딩' }, { value: 'live', name: '라이브' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_content', name: '콘텐츠 관리' }, { value: 'admin_report', name: '신고 관리' }] }
+        ],
+        // 공공/기관
+        public: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'identity_verify', name: '본인인증' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '민원', items: [{ value: 'civil_application', name: '민원 신청' }, { value: 'document_issue', name: '서류 발급' }, { value: 'civil_status', name: '민원 조회' }, { value: 'e_approval', name: '전자결재' }] },
+            { group: '정보', items: [{ value: 'notice', name: '공지사항' }, { value: 'policy', name: '정책 정보' }, { value: 'agency_search', name: '기관 검색' }, { value: 'statistics', name: '통계 정보' }] },
+            { group: '참여', items: [{ value: 'participation', name: '국민 참여' }, { value: 'survey', name: '설문조사' }, { value: 'report', name: '신고/제보' }] },
+            { group: '상담', items: [{ value: 'faq', name: 'FAQ' }, { value: 'chatbot', name: '챗봇' }, { value: 'booking', name: '방문 예약' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_civil', name: '민원 관리' }] }
+        ],
+        nonprofit: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '후원', items: [{ value: 'donation', name: '후원하기' }, { value: 'regular_donation', name: '정기 후원' }, { value: 'payment', name: '결제' }, { value: 'donation_history', name: '후원 내역' }] },
+            { group: '참여', items: [{ value: 'campaign', name: '캠페인' }, { value: 'volunteer', name: '봉사 신청' }, { value: 'crowdfunding', name: '크라우드펀딩' }] },
+            { group: '소식', items: [{ value: 'news', name: '활동 소식' }, { value: 'newsletter', name: '뉴스레터' }, { value: 'transparency', name: '투명성 리포트' }] },
+            { group: '증명', items: [{ value: 'certificate', name: '증명서 발급' }, { value: 'receipt', name: '기부 영수증' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_donation', name: '후원 관리' }] }
+        ],
+        association: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }, { value: 'member_search', name: '회원 검색' }] },
+            { group: '회비', items: [{ value: 'membership_apply', name: '가입 신청' }, { value: 'fee_payment', name: '회비 납부' }, { value: 'payment', name: '결제' }] },
+            { group: '행사', items: [{ value: 'event_apply', name: '행사 신청' }, { value: 'education', name: '교육 신청' }, { value: 'schedule', name: '행사 일정' }] },
+            { group: '자료', items: [{ value: 'library', name: '자료실' }, { value: 'publication', name: '발간물' }, { value: 'notice', name: '공지사항' }] },
+            { group: '소통', items: [{ value: 'board', name: '커뮤니티' }, { value: 'vote', name: '온라인 투표' }, { value: 'newsletter', name: '뉴스레터' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_member', name: '회원 관리' }] }
+        ],
+        university: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '학사', items: [{ value: 'enrollment', name: '수강신청' }, { value: 'grade', name: '성적 조회' }, { value: 'schedule', name: '학사 일정' }, { value: 'evaluation', name: '강의 평가' }] },
+            { group: '시설', items: [{ value: 'library', name: '도서관' }, { value: 'facility_booking', name: '시설 예약' }, { value: 'dormitory', name: '기숙사' }, { value: 'cafeteria', name: '학생식당' }] },
+            { group: '증명', items: [{ value: 'certificate', name: '증명서 발급' }, { value: 'student_id', name: '학생증' }, { value: 'scholarship', name: '장학금' }] },
+            { group: '커뮤니티', items: [{ value: 'board', name: '게시판' }, { value: 'club', name: '동아리' }, { value: 'career', name: '취업 정보' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_student', name: '학생 관리' }] }
+        ],
+        // B2B
+        b2b_commerce: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'company_verify', name: '기업 인증' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '상품', items: [{ value: 'product_search', name: '상품 검색' }, { value: 'category', name: '카테고리' }, { value: 'moq', name: 'MOQ 설정' }, { value: 'sample', name: '샘플 요청' }] },
+            { group: '견적', items: [{ value: 'rfq', name: 'RFQ 요청' }, { value: 'quote', name: '견적서' }, { value: 'negotiation', name: '가격 협상' }] },
+            { group: '주문', items: [{ value: 'order', name: '주문' }, { value: 'bulk_order', name: '대량 주문' }, { value: 'payment', name: '결제' }, { value: 'tax_invoice', name: '세금계산서' }] },
+            { group: '관리', items: [{ value: 'inventory', name: '재고 관리' }, { value: 'partner', name: '거래처 관리' }, { value: 'settlement', name: '정산' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_order', name: '주문 관리' }] }
+        ],
+        saas: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '서비스', items: [{ value: 'service_intro', name: '서비스 소개' }, { value: 'pricing', name: '요금제' }, { value: 'free_trial', name: '무료 체험' }] },
+            { group: '구독', items: [{ value: 'subscription', name: '구독' }, { value: 'payment', name: '결제' }, { value: 'upgrade', name: '업그레이드' }] },
+            { group: '워크스페이스', items: [{ value: 'dashboard', name: '대시보드' }, { value: 'team', name: '팀 관리' }, { value: 'permission', name: '권한 관리' }, { value: 'workspace', name: '워크스페이스' }] },
+            { group: '연동', items: [{ value: 'api', name: 'API' }, { value: 'integration', name: '연동 설정' }, { value: 'webhook', name: '웹훅' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_customer', name: '고객 관리' }, { value: 'admin_usage', name: '사용량 분석' }] }
+        ],
+        manufacturing: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '제품', items: [{ value: 'catalog', name: '제품 카탈로그' }, { value: 'spec', name: '제품 스펙' }, { value: 'tech_doc', name: '기술 문서' }, { value: 'certification', name: '인증서' }] },
+            { group: '견적', items: [{ value: 'quote_request', name: '견적 요청' }, { value: 'quote', name: '견적서' }, { value: 'sample', name: '샘플 요청' }] },
+            { group: '생산', items: [{ value: 'order', name: '주문' }, { value: 'production', name: '생산 현황' }, { value: 'quality', name: '품질 관리' }, { value: 'oem_odm', name: 'OEM/ODM' }] },
+            { group: '물류', items: [{ value: 'logistics', name: '물류 추적' }, { value: 'inventory', name: '재고 관리' }, { value: 'export_import', name: '수출입' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_order', name: '주문 관리' }, { value: 'admin_production', name: '생산 관리' }] }
+        ],
+        logistics: [
+            { group: '회원', items: [{ value: 'signup', name: '회원가입' }, { value: 'login', name: '로그인' }, { value: 'mypage', name: '마이페이지' }] },
+            { group: '배송', items: [{ value: 'tracking', name: '배송 조회' }, { value: 'shipping_booking', name: '운송 예약' }, { value: 'realtime_tracking', name: '실시간 추적' }] },
+            { group: '견적', items: [{ value: 'quote_calc', name: '견적 산출' }, { value: 'quote', name: '견적서' }] },
+            { group: '창고', items: [{ value: 'warehouse', name: '창고 관리' }, { value: 'inbound', name: '입고 관리' }, { value: 'outbound', name: '출고 관리' }, { value: 'inventory', name: '재고 현황' }] },
+            { group: '관리', items: [{ value: 'dispatch', name: '배차 관리' }, { value: 'driver', name: '기사 관리' }, { value: 'return', name: '반품 관리' }, { value: 'settlement', name: '정산' }] },
+            { group: '관리자', items: [{ value: 'admin_dashboard', name: '관리자 대시보드' }, { value: 'admin_logistics', name: '물류 관리' }, { value: 'admin_report', name: '리포트' }] }
+        ]
+    };
+
     // 기능 유형별 상세 옵션 데이터
     const funcTypeOptions = {
         signup: ['소셜 로그인 포함', '본인인증 포함', '14세 미만 가입 제한', '이메일 인증', 'SMS 인증', '마케팅 수신 동의', '추천인 코드'],
@@ -5272,17 +5545,15 @@ function initFunctionalForm() {
         mypage: generateMypageSpec
     };
 
-    // 기능 유형명
-    const funcTypeNames = {
-        signup: '회원가입', login: '로그인', mypage: '마이페이지', membership: '회원등급/멤버십',
-        withdrawal: '회원탈퇴', product: '상품 관리', category: '카테고리 관리', search: '상품 검색',
-        cart: '장바구니', wishlist: '위시리스트', order: '주문/구매', payment: '결제',
-        delivery: '배송', return: '반품/교환', subscription: '정기구독', review: '리뷰/후기',
-        qna: 'Q&A/문의', board: '게시판', chat: '실시간 채팅', notification: '알림/푸시',
-        point: '포인트', coupon: '쿠폰', event: '이벤트/프로모션', referral: '친구추천',
-        booking: '예약', schedule: '일정관리', application: '신청서/접수', consultation: '상담신청',
-        admin_dashboard: '관리자 대시보드', admin_user: '회원 관리', admin_order: '주문 관리', admin_stats: '통계/리포트'
-    };
+    // 기능 유형명 (동적으로 수집)
+    const funcTypeNames = {};
+    Object.values(industryFuncTypes).forEach(groups => {
+        groups.forEach(group => {
+            group.items.forEach(item => {
+                funcTypeNames[item.value] = item.name;
+            });
+        });
+    });
 
     // 전체선택 체크박스
     const funcOptionSelectAll = document.getElementById('funcOptionSelectAll');
@@ -5304,17 +5575,53 @@ function initFunctionalForm() {
         salon: ['스타일 시뮬레이션', '디자이너 포트폴리오', '시술 추천', '예약 알림', '재방문 쿠폰'],
         public: ['공인인증', '실명 인증', '전자서명', '민원 추적', '증명서 발급'],
         nonprofit: ['기부 영수증', '후원 현황', '캠페인 참여', '봉사 시간', '투명성 리포트'],
-        b2b: ['기업 인증', '대량 주문', '견적서', '세금계산서', '거래처 관리'],
+        b2b_commerce: ['기업 인증', '대량 주문', '견적서', '세금계산서', '거래처 관리'],
         saas: ['팀 관리', 'API 연동', '사용량 분석', '권한 설정', '데이터 백업']
     };
+
+    // 기능 유형 select 업데이트 함수
+    function updateFuncTypeSelect() {
+        const industry = funcIndustrySelect?.value || '';
+        
+        if (!funcTypeSelect) return;
+        
+        if (!industry) {
+            funcTypeSelect.innerHTML = '<option value="">업종을 먼저 선택하세요</option>';
+            return;
+        }
+        
+        const funcTypes = industryFuncTypes[industry];
+        if (!funcTypes) {
+            funcTypeSelect.innerHTML = '<option value="">해당 업종의 기능 유형이 없습니다</option>';
+            return;
+        }
+        
+        let html = '<option value="">기능 유형을 선택하세요</option>';
+        funcTypes.forEach(group => {
+            html += `<optgroup label="${group.group}">`;
+            group.items.forEach(item => {
+                html += `<option value="${item.value}">${item.name}</option>`;
+            });
+            html += '</optgroup>';
+        });
+        
+        funcTypeSelect.innerHTML = html;
+    }
     
     // 상세 옵션 업데이트 함수
     function updateFuncOptions() {
-        const funcType = funcTypeSelect?.value || 'signup';
+        const funcType = funcTypeSelect?.value || '';
         const industry = funcIndustrySelect?.value || '';
         
+        if (!funcType) {
+            if (funcOptionsContainer) {
+                funcOptionsContainer.innerHTML = '<p class="empty-message">기능 유형을 선택하면 상세 옵션이 표시됩니다.</p>';
+            }
+            return;
+        }
+        
         // 기본 옵션
-        let options = funcTypeOptions[funcType] || funcTypeOptions['signup'];
+        let options = funcTypeOptions[funcType] || ['기본 옵션 1', '기본 옵션 2', '기본 옵션 3'];
         
         // 업종별 추가 옵션 병합
         if (industry && industrySpecificOptions[industry]) {
@@ -5356,13 +5663,17 @@ function initFunctionalForm() {
         document.querySelectorAll('input[name="func_option"]').forEach(cb => cb.checked = e.target.checked);
     });
 
+    // 업종 변경 시 기능 유형 업데이트
+    funcIndustrySelect?.addEventListener('change', () => {
+        updateFuncTypeSelect();
+        updateFuncOptions();
+    });
+
     // 기능 유형 변경 시 옵션 업데이트
     funcTypeSelect?.addEventListener('change', updateFuncOptions);
-
-    // 업종 변경 시 옵션 업데이트
-    funcIndustrySelect?.addEventListener('change', updateFuncOptions);
     
-    // 초기 옵션 생성
+    // 초기 상태
+    updateFuncTypeSelect();
     updateFuncOptions();
     
     form?.addEventListener('submit', (e) => {
