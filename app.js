@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Agency Brain - AI Knowledge Platform
  * JavaScript Application
  */
@@ -242,7 +242,7 @@ function initProposalForm() {
         ios: 'iOS Native', android: 'Android Native', custom: '자체구축'
     };
     
-    // 제안서 생성 함수 - 제안서.md 구조 기반 전문 제안서 생성
+    // 제안서 생성 함수 - 업종/기능별 동적 제안서 생성
     function generateProposal(data) {
         const { industry, industryName, target, platforms, budgetMin, budgetMax, features } = data;
         const today = new Date();
@@ -280,42 +280,267 @@ function initProposalForm() {
             qa: 1
         };
         
-        // 업종별 키워드 및 전략
-        const industryStrategies = {
-            fashion: { keyword: '스타일', value: '트렌드 선도', pain: '사이즈 불확실성', solution: 'AI 사이즈 추천', persona: '스타일에 민감한 2030 세대' },
-            beauty: { keyword: '아름다움', value: '맞춤형 뷰티', pain: '피부 타입 매칭', solution: 'AI 피부 진단', persona: '뷰티에 관심 높은 여성 고객' },
-            fnb: { keyword: '맛', value: '신선함과 편리함', pain: '배송 신선도', solution: '실시간 배송 추적', persona: '편리함을 추구하는 맞벌이 가정' },
-            electronics: { keyword: '기술', value: '스마트 라이프', pain: '스펙 비교 어려움', solution: 'AI 스펙 비교', persona: '기술에 관심 높은 얼리어답터' },
-            furniture: { keyword: '공간', value: '나만의 공간', pain: '배치 시뮬레이션', solution: 'AR 가구 배치', persona: '신혼부부 및 인테리어에 관심 있는 고객' },
-            healthcare: { keyword: '건강', value: '건강한 삶', pain: '예약 불편', solution: '스마트 예약 시스템', persona: '건강관리에 적극적인 3040 세대' },
-            education: { keyword: '성장', value: '평생 학습', pain: '학습 진도 관리', solution: 'AI 학습 분석', persona: '자기계발에 열정적인 직장인' },
-            finance: { keyword: '자산', value: '안전한 자산관리', pain: '복잡한 상품 비교', solution: 'AI 상품 추천', persona: '투자에 관심 있는 스마트 투자자' },
-            travel: { keyword: '여행', value: '특별한 경험', pain: '일정 계획 어려움', solution: 'AI 여행 플래너', persona: '새로운 경험을 추구하는 MZ세대' },
-            realestate: { keyword: '공간', value: '내 집 마련', pain: '정보 비대칭', solution: 'AI 매물 추천', persona: '내 집 마련을 꿈꾸는 2030 세대' },
-            default: { keyword: '혁신', value: '디지털 전환', pain: '사용성 개선', solution: '최적화된 UX', persona: '디지털 네이티브 세대' }
+        // ============================================
+        // 업종별 상세 데이터 (매우 상세하게)
+        // ============================================
+        const industryData = {
+            fashion: {
+                keyword: '스타일', value: '트렌드 선도', 
+                prolog: '패션은 단순한 의류를 넘어 자기표현의 수단입니다. 급변하는 트렌드와 개인화된 스타일 요구 속에서, 고객은 "나만의 스타일"을 쉽게 찾고 완성할 수 있는 플랫폼을 원합니다.',
+                marketTrends: ['글로벌 온라인 패션 시장 연 12% 성장', 'MZ세대 중심 온라인 구매 비중 70% 돌파', '지속가능 패션·리세일 시장 급성장', 'AI 스타일링·가상피팅 기술 상용화'],
+                painPoints: ['사이즈 불확실성으로 인한 반품률 30% 이상', '스타일 매칭 어려움으로 구매 결정 지연', '트렌드 정보 파편화', '재고 관리 및 시즌 대응 어려움'],
+                solutions: ['AI 체형 분석 기반 사이즈 추천', 'AR 가상 피팅룸', 'AI 코디 추천 시스템', '실시간 트렌드 큐레이션'],
+                persona: { name: '김스타일', age: 28, job: 'IT기업 마케터', desc: '트렌드에 민감하고 SNS에서 패션 정보를 적극 탐색하는 MZ세대' },
+                kpi: ['반품률 20% 감소', '전환율 25% 향상', '평균 체류시간 40% 증가', '재구매율 35% 향상'],
+                competitors: ['무신사', 'W컨셉', '29CM', 'SSF샵'],
+                techStack: ['AI 사이즈 추천 엔진', 'AR/VR 피팅 기술', '이미지 검색 AI', '개인화 추천 알고리즘']
+            },
+            beauty: {
+                keyword: '아름다움', value: '맞춤형 뷰티',
+                prolog: '뷰티 시장은 개인 맞춤화가 핵심입니다. 수많은 제품 중 "나에게 맞는 제품"을 찾는 것은 여전히 어려운 과제이며, AI 기술을 통한 피부 진단과 맞춤 추천이 새로운 표준이 되고 있습니다.',
+                marketTrends: ['K-뷰티 글로벌 시장 점유율 확대', '클린뷰티·비건 화장품 수요 급증', '피부 진단 AI 서비스 대중화', '라이브커머스 뷰티 카테고리 1위'],
+                painPoints: ['피부 타입에 맞지 않는 제품 구매', '성분 정보 이해 어려움', '색상 매칭 실패 (파운데이션, 립스틱)', '과다한 제품 수로 선택 피로도'],
+                solutions: ['AI 피부 진단 시스템', '성분 분석 및 알레르기 필터', 'AR 메이크업 시뮬레이션', '뷰티 전문가 1:1 상담'],
+                persona: { name: '이뷰티', age: 32, job: '회사원', desc: '피부 고민이 있고 성분에 관심이 많은 스킨케어 중심 소비자' },
+                kpi: ['재구매율 40% 향상', '반품률 15% 감소', '리뷰 작성률 50% 증가', '객단가 20% 상승'],
+                competitors: ['올리브영', '화해', '글로우픽', 'CJ올리브네트웍스'],
+                techStack: ['피부 분석 AI', 'AR 메이크업 기술', '성분 DB 연동', '개인화 추천 엔진']
+            },
+            fnb: {
+                keyword: '맛', value: '신선함과 편리함',
+                prolog: '바쁜 현대인에게 식품은 "편리함"과 "건강" 두 가지를 모두 충족해야 합니다. 신선식품 새벽배송, 밀키트, 정기구독 등 식품 이커머스의 패러다임이 빠르게 변화하고 있습니다.',
+                marketTrends: ['신선식품 온라인 시장 연 25% 성장', '새벽배송·당일배송 서비스 확대', '밀키트 시장 폭발적 성장', '건강·다이어트 식품 수요 증가'],
+                painPoints: ['배송 중 신선도 저하 우려', '원산지·영양정보 확인 어려움', '맛있는 음식 선택의 어려움', '구독 관리 불편'],
+                solutions: ['콜드체인 실시간 추적 시스템', '영양 성분 자동 분석', 'AI 맛 취향 분석', '유연한 정기배송 관리'],
+                persona: { name: '박바쁨', age: 35, job: '맞벌이 부부', desc: '요리 시간은 없지만 건강한 식사를 원하는 직장인 가정' },
+                kpi: ['정기구독 전환율 30% 향상', '배송 클레임 50% 감소', '재주문율 45% 향상', 'NPS 점수 20점 상승'],
+                competitors: ['마켓컬리', '쿠팡', 'SSG닷컴', '오아시스마켓'],
+                techStack: ['콜드체인 IoT', '재고 예측 AI', '레시피 추천 AI', '동적 가격 최적화']
+            },
+            electronics: {
+                keyword: '기술', value: '스마트 라이프',
+                prolog: '가전제품 구매는 높은 관여도가 요구되는 영역입니다. 복잡한 스펙 비교, 설치 서비스, A/S 등 구매 전후 여정 전체를 아우르는 통합 경험이 필요합니다.',
+                marketTrends: ['가전제품 온라인 구매 비중 55% 돌파', '스마트홈 연동 가전 수요 급증', '렌탈·구독형 가전 시장 성장', 'AI 음성인식 가전 대중화'],
+                painPoints: ['복잡한 스펙 비교의 어려움', '설치 및 폐가전 처리 불편', 'A/S 접수 및 처리 지연', '호환성 확인 어려움'],
+                solutions: ['AI 스펙 비교 도구', '설치 예약 통합 시스템', 'A/S 실시간 접수/추적', '스마트홈 호환성 체크'],
+                persona: { name: '최스마트', age: 40, job: 'IT기업 개발자', desc: '최신 기술에 관심이 많고 스마트홈 구축을 원하는 얼리어답터' },
+                kpi: ['전환율 20% 향상', 'A/S 만족도 30점 상승', '재구매율 25% 향상', '스펙 비교 도구 사용률 60%'],
+                competitors: ['삼성닷컴', 'LG전자', '하이마트', '전자랜드'],
+                techStack: ['스펙 비교 AI', 'IoT 연동 시스템', '챗봇 A/S 접수', '호환성 체크 DB']
+            },
+            furniture: {
+                keyword: '공간', value: '나만의 공간',
+                prolog: '가구는 공간을 완성하는 핵심 요소입니다. 온라인에서 가구를 구매할 때 가장 큰 고민은 "내 공간에 어울릴까?"입니다. AR 기술과 인테리어 컨설팅이 이 간극을 메우고 있습니다.',
+                marketTrends: ['온라인 가구 시장 연 18% 성장', 'AR 가구 배치 서비스 확산', '맞춤형 가구 제작 수요 증가', '친환경·지속가능 가구 선호'],
+                painPoints: ['크기·색상 매칭 불확실성', '배송/설치 일정 조율 어려움', '반품/교환 어려움', '인테리어 조언 부재'],
+                solutions: ['AR 가구 배치 시뮬레이션', '3D 룸 플래너', '전문 인테리어 상담', '원스톱 설치 서비스'],
+                persona: { name: '정인테리어', age: 33, job: '신혼부부', desc: '첫 보금자리를 꾸미는 중으로 예산 내 최적의 인테리어를 원함' },
+                kpi: ['반품률 40% 감소', 'AR 사용 후 전환율 35% 향상', '평균 주문 금액 25% 증가', '고객 만족도 40점 상승'],
+                competitors: ['한샘', '이케아', '오늘의집', '리바트'],
+                techStack: ['AR 배치 기술', '3D 모델링', '인테리어 AI 추천', '배송 최적화 시스템']
+            },
+            healthcare: {
+                keyword: '건강', value: '건강한 삶',
+                prolog: '의료 서비스의 디지털 전환은 필수가 되었습니다. 복잡한 예약 과정, 긴 대기 시간, 분산된 건강 기록 등 환자 경험의 개선이 시급하며, 비대면 진료와 건강관리 서비스가 새로운 표준이 되고 있습니다.',
+                marketTrends: ['비대면 진료 합법화 및 확대', '디지털 헬스케어 시장 폭발적 성장', '개인 건강데이터 활용 서비스 증가', 'AI 진단 보조 도구 도입'],
+                painPoints: ['예약 과정 복잡', '대기 시간 과다', '건강 기록 분산', '의료 정보 이해 어려움'],
+                solutions: ['스마트 예약 시스템', '실시간 대기현황 안내', '통합 건강기록 관리', 'AI 증상 체커'],
+                persona: { name: '박건강', age: 45, job: '자영업자', desc: '바쁜 일정으로 병원 방문이 어렵고 건강 관리를 디지털로 하고 싶은 중년' },
+                kpi: ['예약 취소율 30% 감소', '대기시간 40% 단축', '재방문율 35% 향상', '비대면 진료 이용률 50%'],
+                competitors: ['굿닥', '똑닥', '닥터나우', '강남언니'],
+                techStack: ['AI 증상 분석', '화상 진료 시스템', 'FHIR 표준 연동', '예약 최적화 AI']
+            },
+            education: {
+                keyword: '성장', value: '평생 학습',
+                prolog: '학습의 패러다임이 변화하고 있습니다. 단순한 콘텐츠 제공을 넘어, 학습자 맞춤형 커리큘럼, 실시간 피드백, 학습 데이터 분석 등 개인화된 학습 경험이 핵심 경쟁력이 되고 있습니다.',
+                marketTrends: ['글로벌 에듀테크 시장 연 16% 성장', 'AI 기반 적응형 학습 확산', '마이크로러닝 콘텐츠 선호', '기업 교육 온라인 전환 가속'],
+                painPoints: ['학습 진도 관리 어려움', '일방향 수업으로 집중력 저하', '수준별 맞춤 학습 부재', '학습 효과 측정 어려움'],
+                solutions: ['AI 학습 분석 시스템', '적응형 학습 경로', '실시간 화상 수업', '학습 성과 대시보드'],
+                persona: { name: '이공부', age: 29, job: 'IT 개발자', desc: '직장 생활과 병행하며 새로운 기술 스킬을 습득하고자 하는 직장인' },
+                kpi: ['수료율 40% 향상', '학습 시간 30% 증가', '재등록율 45% 향상', 'NPS 25점 상승'],
+                competitors: ['클래스101', '인프런', '패스트캠퍼스', '코드잇'],
+                techStack: ['적응형 학습 AI', 'LMS 시스템', '실시간 스트리밍', '학습 분석 대시보드']
+            },
+            finance: {
+                keyword: '자산', value: '안전한 자산관리',
+                prolog: '금융 서비스의 핵심은 "신뢰"입니다. 복잡한 금융 상품을 쉽게 이해하고, 나에게 맞는 상품을 찾으며, 자산 현황을 한눈에 파악할 수 있는 플랫폼이 필요합니다. AI 기반 개인화 서비스가 금융 UX의 새로운 기준이 되고 있습니다.',
+                marketTrends: ['디지털 금융 서비스 이용률 85% 돌파', 'ETF·펀드 직접 투자 증가', 'AI 로보어드바이저 대중화', '오픈뱅킹·마이데이터 확산'],
+                painPoints: ['금융 상품 비교 어려움', '투자 리스크 이해 부족', '분산된 자산 관리', '복잡한 가입 절차'],
+                solutions: ['AI 상품 추천 시스템', '리스크 시각화 대시보드', '통합 자산관리', '간편 가입 프로세스'],
+                persona: { name: '최투자', age: 38, job: '대기업 과장', desc: '여유 자금으로 투자를 시작하고 싶지만 어디서부터 시작해야 할지 모르는 직장인' },
+                kpi: ['상품 가입 전환율 30% 향상', '투자 상담 요청 50% 증가', '자산 관리 앱 DAU 40% 증가', '고객 이탈률 20% 감소'],
+                competitors: ['토스', '카카오뱅크', '삼성증권', 'KB증권'],
+                techStack: ['AI 로보어드바이저', '마이데이터 연동', '리스크 분석 엔진', '간편인증 시스템']
+            },
+            travel: {
+                keyword: '여행', value: '특별한 경험',
+                prolog: '여행은 일상에서 벗어나 특별한 경험을 추구하는 행위입니다. 수많은 정보 속에서 나만의 완벽한 여행을 계획하는 것은 여전히 어렵고 시간이 많이 드는 일입니다. AI 기반 맞춤 추천과 원스톱 예약 서비스가 새로운 여행 패러다임을 열고 있습니다.',
+                marketTrends: ['여행 예약 온라인 비중 75% 돌파', '개인 맞춤 여행 수요 증가', '로컬 경험 프로그램 인기', 'AI 여행 플래너 서비스 확산'],
+                painPoints: ['여행 계획 수립 시간 과다', '정보 신뢰성 불확실', '분산된 예약 채널', '현지 정보 부족'],
+                solutions: ['AI 여행 플래너', '통합 예약 시스템', '실시간 현지 정보', '맞춤형 일정 추천'],
+                persona: { name: '여행러', age: 30, job: '프리랜서', desc: '새로운 경험을 추구하며 SNS 공유를 즐기는 MZ세대 여행자' },
+                kpi: ['예약 전환율 35% 향상', '평균 주문 금액 20% 증가', '재예약율 40% 향상', '앱 리뷰 평점 0.5점 상승'],
+                competitors: ['여기어때', '야놀자', '트립어드바이저', '클룩'],
+                techStack: ['AI 일정 추천', '통합 예약 API', '실시간 가격 비교', '리뷰 분석 AI']
+            },
+            realestate: {
+                keyword: '공간', value: '내 집 마련',
+                prolog: '부동산은 인생에서 가장 큰 결정 중 하나입니다. 정보 비대칭이 심한 시장에서 신뢰할 수 있는 정보와 투명한 거래 플랫폼에 대한 요구가 높아지고 있습니다. 3D 투어, AI 시세 분석 등 프롭테크가 부동산 시장을 혁신하고 있습니다.',
+                marketTrends: ['프롭테크 시장 급성장', '비대면 매물 탐색 증가', 'VR/3D 투어 서비스 확산', 'AI 시세 분석 도구 대중화'],
+                painPoints: ['매물 정보 신뢰성 부족', '방문 일정 조율 어려움', '시세 정보 파악 어려움', '계약 과정 복잡성'],
+                solutions: ['3D/VR 가상 투어', 'AI 시세 분석', '실시간 중개사 매칭', '전자계약 시스템'],
+                persona: { name: '김청약', age: 32, job: '대기업 사원', desc: '결혼을 앞두고 내 집 마련을 계획 중인 예비 신혼부부' },
+                kpi: ['매물 문의 전환율 45% 향상', '중개사 연결률 60% 향상', '거래 완료율 25% 향상', '3D 투어 이용률 70%'],
+                competitors: ['직방', '다방', '네이버부동산', '호갱노노'],
+                techStack: ['3D 투어 기술', 'AI 시세 분석', '전자계약 시스템', '매물 매칭 AI']
+            },
+            restaurant: {
+                keyword: '맛집', value: '미식 경험',
+                prolog: '외식 시장에서 예약과 웨이팅은 핵심 접점입니다. 고객은 긴 대기 없이 원하는 식당에서 식사하기를 원하고, 식당은 효율적인 좌석 관리와 노쇼 방지를 원합니다.',
+                marketTrends: ['예약/웨이팅 앱 사용률 60% 돌파', '맛집 탐색 모바일 중심', '구독형 다이닝 서비스 등장', 'AI 메뉴 추천 서비스 확산'],
+                painPoints: ['예약 불가 또는 대기 시간', '노쇼로 인한 매출 손실', '메뉴 선택 어려움', '리뷰 신뢰성 문제'],
+                solutions: ['실시간 예약/웨이팅', '노쇼 방지 시스템', 'AI 메뉴 추천', '검증된 리뷰 시스템'],
+                persona: { name: '미식가', age: 35, job: '마케팅 팀장', desc: '회식과 데이트를 위해 맛집을 자주 찾는 활발한 외식 소비자' },
+                kpi: ['예약 전환율 40% 향상', '노쇼율 70% 감소', '재방문율 35% 향상', '평균 이용 금액 15% 증가'],
+                competitors: ['캐치테이블', '네이버예약', '카카오예약', '테이블링'],
+                techStack: ['실시간 좌석 관리', '노쇼 예측 AI', '메뉴 추천 엔진', '예약 최적화']
+            },
+            fitness: {
+                keyword: '운동', value: '건강한 라이프',
+                prolog: '피트니스 산업은 단순한 시설 이용을 넘어 통합 건강관리 서비스로 진화하고 있습니다. PT 예약, 운동 기록, 식단 관리까지 원스톱으로 관리할 수 있는 플랫폼에 대한 수요가 높아지고 있습니다.',
+                marketTrends: ['홈트레이닝 시장 급성장', '피트니스 앱 사용률 증가', 'AI 개인 트레이너 서비스 등장', '웨어러블 연동 서비스 확산'],
+                painPoints: ['PT 예약 불편', '운동 기록 관리 어려움', '동기 부여 부족', '일정 조율 어려움'],
+                solutions: ['스마트 PT 예약', '운동 기록 대시보드', 'AI 코칭', '커뮤니티 기능'],
+                persona: { name: '운동왕', age: 28, job: 'IT 개발자', desc: '건강 관리에 관심이 많고 꾸준한 운동을 원하는 2030 직장인' },
+                kpi: ['PT 예약률 50% 향상', '회원 유지율 30% 향상', '앱 DAU 60% 증가', '추천 등록 40% 증가'],
+                competitors: ['카카오헬스케어', '클래스패스', '마이다노', '눔'],
+                techStack: ['AI 운동 추천', '웨어러블 연동', '영상 스트리밍', '운동 분석 AI']
+            }
         };
         
-        const strategy = industryStrategies[industry] || industryStrategies.default;
+        // 기본값 설정
+        const defaultIndustry = {
+            keyword: '혁신', value: '디지털 전환',
+            prolog: '디지털 전환은 더 이상 선택이 아닌 필수입니다. 고객 경험 혁신을 통해 비즈니스 경쟁력을 확보해야 합니다.',
+            marketTrends: ['디지털 전환 가속화', '모바일 퍼스트 전략 필수화', 'AI 서비스 대중화', '개인화 서비스 요구 증가'],
+            painPoints: ['레거시 시스템 한계', '고객 접점 분산', '데이터 활용 미흡', 'UX 경쟁력 부족'],
+            solutions: ['통합 플랫폼 구축', 'AI 기반 개인화', '데이터 분석 체계 구축', 'UX 혁신'],
+            persona: { name: '이사용자', age: 35, job: '일반인', desc: '편리하고 빠른 디지털 서비스를 원하는 현대인' },
+            kpi: ['전환율 25% 향상', '사용자 만족도 30점 상승', '이탈률 20% 감소', '운영 효율 40% 향상'],
+            competitors: ['업계 리더 A', '업계 리더 B', '업계 리더 C'],
+            techStack: ['React/Next.js', 'Spring Boot', 'PostgreSQL', 'AI/ML']
+        };
         
-        // IA 구조 생성
-        const generateIA = () => {
-            const iaStructure = {
-                '메인': ['AI 검색/상담', '인기/추천 상품', '실시간 키워드', 'AI 브리핑'],
-                '상품/서비스': ['유형별', '테마별', '맞춤 추천', '상품 비교'],
-                'AI 어드바이저': ['AI 대화', '성향 분석', '맞춤 가이드'],
-                '인사이트': ['트렌드', '전문 콘텐츠', '뉴스룸', '리서치'],
-                'MY': ['투자 성향', '관심 상품', '히스토리', '상담 내역'],
-                '고객센터': ['공지사항', 'FAQ', '1:1 문의', '이벤트']
+        const ind = industryData[industry] || defaultIndustry;
+        
+        // ============================================
+        // 선택된 기능 기반 동적 IA 구조 생성
+        // ============================================
+        const generateDynamicIA = () => {
+            // 메인 카테고리
+            const iaCategories = {
+                '메인': ['AI 검색', '추천 서비스', '실시간 트렌드'],
+                '상품/서비스': [],
+                '마이페이지': ['계정 관리', '알림 설정'],
+                '고객센터': ['FAQ', '1:1 문의', '공지사항']
             };
-            return Object.entries(iaStructure).map(([main, subs]) => ({ main, sub: subs }));
+            
+            // 선택된 기능에 따라 IA 동적 구성
+            features.forEach(feature => {
+                if (feature.includes('회원') || feature.includes('로그인') || feature.includes('소셜')) {
+                    if (!iaCategories['마이페이지'].includes('로그인/회원가입')) {
+                        iaCategories['마이페이지'].unshift('로그인/회원가입');
+                    }
+                }
+                if (feature.includes('장바구니')) {
+                    iaCategories['상품/서비스'].push('장바구니');
+                }
+                if (feature.includes('결제')) {
+                    iaCategories['상품/서비스'].push('결제/주문');
+                }
+                if (feature.includes('리뷰')) {
+                    iaCategories['상품/서비스'].push('리뷰/평점');
+                }
+                if (feature.includes('검색')) {
+                    iaCategories['메인'].push('통합 검색');
+                }
+                if (feature.includes('배송')) {
+                    iaCategories['마이페이지'].push('배송 조회');
+                }
+                if (feature.includes('포인트') || feature.includes('적립')) {
+                    iaCategories['마이페이지'].push('포인트/혜택');
+                }
+                if (feature.includes('쿠폰')) {
+                    iaCategories['마이페이지'].push('쿠폰함');
+                }
+                if (feature.includes('예약')) {
+                    iaCategories['상품/서비스'].push('예약 관리');
+                }
+                if (feature.includes('구독')) {
+                    iaCategories['마이페이지'].push('구독 관리');
+                }
+                if (feature.includes('위시') || feature.includes('관심')) {
+                    iaCategories['마이페이지'].push('위시리스트');
+                }
+                if (feature.includes('AI') || feature.includes('추천')) {
+                    iaCategories['메인'].push('AI 어드바이저');
+                }
+                if (feature.includes('커뮤니티') || feature.includes('게시판')) {
+                    iaCategories['커뮤니티'] = ['자유게시판', '후기', 'Q&A'];
+                }
+            });
+            
+            // 상품/서비스 기본 메뉴
+            if (iaCategories['상품/서비스'].length === 0) {
+                iaCategories['상품/서비스'] = ['상품 목록', '상품 상세', '카테고리'];
+            }
+            
+            // 중복 제거
+            Object.keys(iaCategories).forEach(key => {
+                iaCategories[key] = [...new Set(iaCategories[key])];
+            });
+            
+            return Object.entries(iaCategories).map(([main, subs]) => ({ main, sub: subs }));
         };
+        
+        // 선택된 기능별 상세 설명 생성
+        const generateFeatureDetails = () => {
+            const featureInfo = {
+                '회원가입/로그인': { icon: '👤', desc: '이메일, 소셜 로그인 등 다양한 인증 방식 지원', priority: '필수', complexity: '중' },
+                '소셜로그인': { icon: '🔗', desc: '카카오, 네이버, 구글 등 원클릭 로그인', priority: '필수', complexity: '중' },
+                '상품검색': { icon: '🔍', desc: 'AI 기반 스마트 검색, 자동완성, 필터링', priority: '필수', complexity: '상' },
+                '장바구니': { icon: '🛒', desc: '실시간 동기화, 품절 알림, 예상 결제금액', priority: '필수', complexity: '중' },
+                '결제': { icon: '💳', desc: '다양한 PG사 연동, 간편결제, 분할결제', priority: '필수', complexity: '상' },
+                '배송조회': { icon: '🚚', desc: '실시간 배송 추적, 알림, 배송지 관리', priority: '권장', complexity: '중' },
+                '리뷰': { icon: '⭐', desc: '사진/영상 리뷰, 평점, 도움이 됐어요', priority: '권장', complexity: '중' },
+                '위시리스트': { icon: '❤️', desc: '관심상품 저장, 재입고 알림', priority: '권장', complexity: '하' },
+                '적립금/쿠폰': { icon: '🎁', desc: '포인트 적립/사용, 쿠폰 다운로드/적용', priority: '권장', complexity: '중' },
+                'AI 챗봇': { icon: '🤖', desc: '24시간 자동 응대, FAQ 기반 학습', priority: '권장', complexity: '상' },
+                '정기구독': { icon: '📦', desc: '구독 관리, 배송일 변경, 일시정지', priority: '선택', complexity: '상' },
+                '예약': { icon: '📅', desc: '실시간 예약, 캘린더 연동, 알림', priority: '권장', complexity: '상' },
+                '커뮤니티': { icon: '👥', desc: '게시판, 댓글, 좋아요, 팔로우', priority: '선택', complexity: '중' },
+                '알림': { icon: '🔔', desc: '푸시알림, 이메일, 카카오 알림톡', priority: '권장', complexity: '중' },
+                '마이페이지': { icon: '📱', desc: '개인화 대시보드, 설정 관리', priority: '필수', complexity: '중' },
+                'AI 추천': { icon: '🎯', desc: 'AI 기반 개인화 상품/콘텐츠 추천', priority: '권장', complexity: '상' },
+                '멤버십': { icon: '👑', desc: '등급별 혜택, VIP 전용 서비스', priority: '선택', complexity: '중' }
+            };
+            
+            return features.map((f, i) => {
+                const info = featureInfo[f] || { icon: '✨', desc: '사용자 경험 향상을 위한 핵심 기능', priority: '권장', complexity: '중' };
+                return { name: f, ...info, index: i + 1 };
+            });
+        };
+        
+        // 동적 IA 생성
+        const dynamicIA = generateDynamicIA();
+        const featureDetails = generateFeatureDetails();
         
         return `
             <!-- 표지 (Slide 1) -->
             <div class="proposal-cover-page">
                 <div class="cover-badge">PROPOSAL</div>
                 <h1 class="cover-title">${industryName}<br>플랫폼 구축 제안</h1>
-                <div class="cover-slogan">One Platform, Smarter ${strategy.keyword} Experience</div>
+                <div class="cover-slogan">One Platform, Smarter ${ind.keyword} Experience</div>
                 <div class="cover-subtitle">${target || '고객'} 경험을 위한 통합 플랫폼 제안서</div>
                 <table class="cover-info-table">
                     <tr><td>클라이언트</td><td>${industryName} 프로젝트</td></tr>
@@ -331,9 +556,8 @@ function initProposalForm() {
                 <div class="prolog-title">Prolog</div>
                 <div class="prolog-quote">"움직이는 과녁을 어떻게 맞출 것인가?"</div>
                 <div class="prolog-content">
-                    <p>하루가 다르게 변화하는 시장에서 고객에게 '정확히 명중하는' 커뮤니케이션을 제공하려면, 변화의 속도에 맞춰 우리 역시 끊임없이 움직여야 합니다.</p>
+                    <p>${ind.prolog}</p>
                     <p>인터넷·모바일·AI 기술의 고도화, 데이터 분석 기반 서비스의 확산, 그리고 정보를 적극적으로 탐색하는 스마트 고객의 등장은 ${industryName} 분야의 디지털 채널에 대한 기대 수준을 한층 높여 놓았습니다.</p>
-                    <p>이러한 환경 변화 속에서 기존의 정보 나열 중심 플랫폼으로는 더 이상 고객의 UX 요구나 비즈니스 전략을 충족시키기 어렵습니다.</p>
                     <p><strong>따라서 '데이터 기반 · 모바일 퍼스트 · 개인화 서비스'를 핵심으로 하는 새로운 디지털 플랫폼으로의 전환이 필요합니다.</strong></p>
                 </div>
             </div>
@@ -349,43 +573,47 @@ function initProposalForm() {
                             <div class="toc-sub">• 제안배경 • 프로젝트 목표</div>
                         </div>
                         <div class="toc-group">
-                            <div class="toc-item"><span class="toc-num">02</span><span class="toc-title">트렌드 분석</span></div>
-                            <div class="toc-sub">• 주요고객층 분석 • UIUX 트렌드 • 시사점</div>
+                            <div class="toc-item"><span class="toc-num">02</span><span class="toc-title">시장 트렌드</span></div>
+                            <div class="toc-sub">• ${industryName} 시장 동향 • 고객 분석</div>
                         </div>
                         <div class="toc-group">
                             <div class="toc-item"><span class="toc-num">03</span><span class="toc-title">현황 분석</span></div>
-                            <div class="toc-sub">• UIUX 관점 • 콘텐츠 관점 • 개선 방향</div>
+                            <div class="toc-sub">• Pain Point • 경쟁사 분석</div>
                         </div>
                     </div>
                     <div class="toc-column">
                         <div class="toc-category">TOBE</div>
                         <div class="toc-group">
-                            <div class="toc-item"><span class="toc-num">04</span><span class="toc-title">리뉴얼 전략</span></div>
-                            <div class="toc-sub">• 개선 전략 • 콘텐츠 개선 • 개인화 서비스</div>
+                            <div class="toc-item"><span class="toc-num">04</span><span class="toc-title">솔루션 전략</span></div>
+                            <div class="toc-sub">• 핵심 솔루션 • 기대효과</div>
                         </div>
                         <div class="toc-group">
-                            <div class="toc-item"><span class="toc-num">05</span><span class="toc-title">UX & 시스템 구축</span></div>
-                            <div class="toc-sub">• 디자인 컨셉 • 디자인 시스템 • IA • 개발 방안</div>
+                            <div class="toc-item"><span class="toc-num">05</span><span class="toc-title">IA & 디자인</span></div>
+                            <div class="toc-sub">• 정보구조 • 디자인 시스템</div>
                         </div>
                         <div class="toc-group">
-                            <div class="toc-item"><span class="toc-num">06</span><span class="toc-title">AI 기능 기획</span></div>
-                            <div class="toc-sub">• AI 서비스 목표 • 시나리오 정의 • 개발 프로세스</div>
+                            <div class="toc-item"><span class="toc-num">06</span><span class="toc-title">주요 기능 상세</span></div>
+                            <div class="toc-sub">• 기능 목록 (${features.length}개) • 화면 설계</div>
+                        </div>
+                        <div class="toc-group">
+                            <div class="toc-item"><span class="toc-num">07</span><span class="toc-title">기술 및 AI</span></div>
+                            <div class="toc-sub">• 기술 스택 • AI 기능</div>
                         </div>
                     </div>
                     <div class="toc-column">
                         <div class="toc-category">PLAN</div>
                         <div class="toc-group">
-                            <div class="toc-item"><span class="toc-num">07</span><span class="toc-title">수행 계획</span></div>
-                            <div class="toc-sub">• 추진 조직 • 수행일정 • 인원투입 계획</div>
+                            <div class="toc-item"><span class="toc-num">08</span><span class="toc-title">수행 계획</span></div>
+                            <div class="toc-sub">• 추진 조직 • 수행일정</div>
                         </div>
                         <div class="toc-group">
-                            <div class="toc-item"><span class="toc-num">08</span><span class="toc-title">품질 관리</span></div>
-                            <div class="toc-sub">• 사업관리 • 산출물 관리 • 보고 방안</div>
+                            <div class="toc-item"><span class="toc-num">09</span><span class="toc-title">견적 및 투자</span></div>
+                            <div class="toc-sub">• 상세 비용 • ROI 분석</div>
                         </div>
                         <div class="toc-category" style="margin-top:20px">WE ARE</div>
                         <div class="toc-group">
-                            <div class="toc-item"><span class="toc-num">09</span><span class="toc-title">회사 소개</span></div>
-                            <div class="toc-sub">• 제안사 현황 • 수행사례</div>
+                            <div class="toc-item"><span class="toc-num">10</span><span class="toc-title">회사 소개</span></div>
+                            <div class="toc-sub">• 역량 • 수행사례</div>
                         </div>
                     </div>
                 </div>
@@ -396,7 +624,7 @@ function initProposalForm() {
                 <span class="divider-label">ASIS</span>
                 <div class="divider-sections">
                     <span>01 프로젝트 개요</span>
-                    <span>02 트렌드 분석</span>
+                    <span>02 시장 트렌드</span>
                     <span>03 현황 분석</span>
                 </div>
             </div>
@@ -410,42 +638,38 @@ function initProposalForm() {
                 
                 <h3>제안배경</h3>
                 <div class="background-box">
-                    <div class="background-title">기술 혁신, 고객 행동 변화, 데이터 기반 의사결정 확산이라는 변화 속에서 디지털 채널의 역할에 대한 재정의가 필요</div>
+                    <div class="background-title">${ind.prolog}</div>
                 </div>
                 
                 <div class="background-grid">
                     <div class="background-item">
                         <div class="bg-icon">🌐</div>
-                        <div class="bg-title">인터넷·모바일·AI의 고도화</div>
+                        <div class="bg-title">${industryName} 시장 변화</div>
                         <ul class="bg-list">
-                            <li>${industryName} 시장의 급격한 성장</li>
-                            <li>금융 서비스의 접점은 모바일로 이동</li>
-                            <li>AI 기반 추천·검색이 기본 도구가 됨</li>
+                            ${ind.marketTrends.slice(0, 3).map(t => `<li>${t}</li>`).join('')}
                         </ul>
                     </div>
                     <div class="background-item">
                         <div class="bg-icon">👥</div>
-                        <div class="bg-title">스마트 고객의 등장</div>
+                        <div class="bg-title">타겟 고객 특성</div>
                         <ul class="bg-list">
-                            <li>직접 데이터를 비교·분석하는 고객</li>
-                            <li>성과/위험/비용을 스스로 판단</li>
-                            <li>앱/유튜브/SNS에서 정보 소비</li>
+                            <li>${ind.persona.desc}</li>
+                            <li>주요 연령대: ${ind.persona.age}세 전후</li>
+                            <li>디지털 채널 선호도 높음</li>
                         </ul>
                     </div>
                     <div class="background-item">
                         <div class="bg-icon">📊</div>
-                        <div class="bg-title">데이터 분석과 맞춤 서비스 시대</div>
+                        <div class="bg-title">핵심 과제</div>
                         <ul class="bg-list">
-                            <li>고객 행동 데이터 분석 필수화</li>
-                            <li>클릭 패턴, 관심 분야 분석</li>
-                            <li>AI 기반 개인화 서비스 기대</li>
+                            ${ind.painPoints.slice(0, 3).map(p => `<li>${p}</li>`).join('')}
                         </ul>
                     </div>
                 </div>
                 
                 <div class="insight-highlight">
                     <div class="insight-label">인사이트</div>
-                    <p>이 환경에서 고객 접점인 플랫폼은 <strong>브랜드 신뢰, 서비스 이해, 고객 확보, 교육, 영향력 강화</strong>의 핵심 매체로 기능해야 함</p>
+                    <p>${ind.prolog} <strong>${ind.solutions[0]}</strong>를 통해 차별화된 고객 경험을 제공해야 합니다.</p>
                 </div>
             </div>
             
@@ -457,247 +681,112 @@ function initProposalForm() {
                 </div>
                 
                 <div class="objective-intro">
-                    ${industryName} 플랫폼을 이용하는 ${target || '고객'}들에게 일관된 사용자 경험을 제공하고, <strong>'모바일 퍼스트' 전략</strong>에 기반한 최적화된 웹 플랫폼을 구축.
+                    ${industryName} 플랫폼을 이용하는 ${target || '고객'}들에게 <strong>${ind.value}</strong>를 제공하고, 업계 최고 수준의 디지털 경험을 구현합니다.
                 </div>
                 
                 <div class="objective-grid">
+                    ${ind.kpi.map((kpi, i) => `
                     <div class="objective-card">
-                        <div class="obj-icon">🎯</div>
-                        <div class="obj-title">디지털/모바일 최적화 경험</div>
-                        <div class="obj-desc">모바일 최적화된 UI/UX 제공으로 다양한 디바이스에서 이용할 수 있도록 구축</div>
+                        <div class="obj-icon">${['🎯', '📈', '⏱️', '💎'][i]}</div>
+                        <div class="obj-title">${kpi}</div>
+                        <div class="obj-desc">데이터 기반 측정 및 개선</div>
                     </div>
-                    <div class="objective-card">
-                        <div class="obj-icon">👤</div>
-                        <div class="obj-title">개인화된 경험 및 편의성</div>
-                        <div class="obj-desc">목적이나 성향에 따라 원하는 정보를 쉽게 찾을 수 있는 개인화 서비스 제공</div>
-                    </div>
-                    <div class="objective-card">
-                        <div class="obj-icon">💬</div>
-                        <div class="obj-title">유연한 소통 및 고객 참여</div>
-                        <div class="obj-desc">고객 행동에 따른 양방향 소통 기능 강화 (질의응답/CTA 요소)</div>
-                    </div>
-                    <div class="objective-card">
-                        <div class="obj-icon">🤝</div>
-                        <div class="obj-title">브랜드 비전 공유 및 신뢰 구축</div>
-                        <div class="obj-desc">신뢰할 수 있는 파트너로서의 정보 공유 및 제공</div>
-                    </div>
+                    `).join('')}
                 </div>
                 
                 <div class="agenda-section">
-                    <h4>주요 Agenda</h4>
+                    <h4>핵심 솔루션</h4>
                     <div class="agenda-grid">
+                        ${ind.solutions.map((sol, i) => `
                         <div class="agenda-item">
-                            <div class="agenda-title">콘텐츠 개선</div>
+                            <div class="agenda-title">${sol}</div>
                             <ul>
-                                <li>정보통합 및 구조개선</li>
-                                <li>고객관점의 친절한 설명 제시</li>
+                                <li>${ind.painPoints[i] ? ind.painPoints[i] + ' 해결' : '사용자 경험 개선'}</li>
                             </ul>
                         </div>
-                        <div class="agenda-item">
-                            <div class="agenda-title">UX/UI 개선</div>
-                            <ul>
-                                <li>네비게이션 최적화</li>
-                                <li>시각적요소/가독성 강화</li>
-                                <li>AI 기반 맞춤 서비스 제공</li>
-                            </ul>
-                        </div>
-                        <div class="agenda-item">
-                            <div class="agenda-title">인프라 및 관리 시스템</div>
-                            <ul>
-                                <li>콘텐츠 관리기능 강화</li>
-                                <li>유연한 시스템 구축</li>
-                                <li>플랫폼 고도화</li>
-                            </ul>
-                        </div>
+                        `).join('')}
                     </div>
                 </div>
                 
                 <div class="keywords-box">
-                    <span class="keyword-tag"># 편리하고 직관적인 사용자 경험</span>
-                    <span class="keyword-tag"># 다양한 디바이스에 최적화</span>
-                    <span class="keyword-tag"># 유연한 커뮤니케이션</span>
-                    <span class="keyword-tag"># 고객 참여 유도</span>
+                    <span class="keyword-tag"># ${ind.keyword}</span>
+                    <span class="keyword-tag"># ${ind.value}</span>
+                    <span class="keyword-tag"># 모바일 퍼스트</span>
+                    <span class="keyword-tag"># AI 개인화</span>
                 </div>
             </div>
             
-            <!-- 02. 트렌드 분석 - 주요고객층 (Slide 7) -->
+            <!-- 02. 시장 트렌드 (Slide 7) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">02</span>
-                    <h2>트렌드 분석</h2>
+                    <h2>${industryName} 시장 트렌드</h2>
                 </div>
                 
-                <h3>주요 고객층 분석</h3>
-                <div class="trend-intro">모바일 네이티브 세대의 서비스 접근, 정보 소비의 소셜화, 신뢰감 있는 시각화 정보의 중요성 확대</div>
+                <h3>시장 동향</h3>
+                <div class="trend-intro">${industryName} 시장은 디지털 전환의 가속화와 함께 빠르게 변화하고 있습니다</div>
                 
-                <div class="customer-analysis-grid">
-                    <div class="customer-card">
-                        <div class="customer-icon">📱</div>
-                        <div class="customer-title">모바일 메인 채널화</div>
-                        <ul>
-                            <li>고객의 80% 이상이 모바일에서 서비스 탐색</li>
-                            <li>모바일은 짧고 직관적인 정보 선호</li>
-                        </ul>
-                    </div>
-                    <div class="customer-card">
-                        <div class="customer-icon">👥</div>
-                        <div class="customer-title">저변 확대</div>
-                        <ul>
-                            <li>중고액 보유 중장년층에서 소액 중심 젊은층으로 확대</li>
-                            <li>디지털 리터러시 격차 존재</li>
-                        </ul>
-                    </div>
-                    <div class="customer-card">
-                        <div class="customer-icon">🔍</div>
-                        <div class="customer-title">다양한 정보 채널</div>
-                        <ul>
-                            <li>앱, 웹, 유튜브, SNS, 커뮤니티 등 다양한 채널</li>
-                            <li>직접 검색보다 추천 알고리즘 활용 증가</li>
-                        </ul>
-                    </div>
-                    <div class="customer-card">
-                        <div class="customer-icon">📊</div>
-                        <div class="customer-title">핵심 요약형 콘텐츠 선호</div>
-                        <ul>
-                            <li>AI요약·테마 기반 큐레이션 형태 선호</li>
-                            <li>바로 읽을 수 있는 카드형, 대시보드형 콘텐츠</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="insight-highlight">
-                    <div class="insight-label">고객분석 시사점</div>
-                    <p>고객층의 연령, 정보 이해도, 탐색 채널이 세분화되면서, <strong>하나의 플랫폼 안에서 다층 고객을 균형 있게 포용하는 통합형 경험 설계</strong>가 중요</p>
-                </div>
-            </div>
-            
-            <!-- 02. 트렌드 분석 - UIUX 트렌드 (Slide 8-10) -->
-            <div class="proposal-section">
-                <div class="section-header">
-                    <span class="section-num">02</span>
-                    <h2>UIUX 트렌드</h2>
-                </div>
-                
-                <h3>국내외 주요 플랫폼 UIUX TREND</h3>
-                <div class="trend-intro">비주얼 중심의 고객친화적 패턴으로 사이트에 방문한 유저의 주목을 끌도록 유도하며 콘텐츠와 상품의 자연스러운 연계 구성이 특징적</div>
-                
-                <div class="trend-grid">
+                <div class="market-trend-grid">
+                    ${ind.marketTrends.map((trend, i) => `
                     <div class="trend-card">
-                        <div class="trend-badge">탐색기반 고객친화 UX</div>
-                        <ul>
-                            <li>상품과 콘텐츠 메뉴의 복합 구성</li>
-                            <li>원하는 메뉴 바로가기</li>
-                            <li>메인 검색 바 강조</li>
-                            <li>쉽고 친절한 고객관점 UX Writing</li>
-                        </ul>
+                        <div class="trend-num">${String(i + 1).padStart(2, '0')}</div>
+                        <div class="trend-content">${trend}</div>
                     </div>
-                    <div class="trend-card">
-                        <div class="trend-badge">부드러운 신뢰감 제고 UI</div>
-                        <ul>
-                            <li>브랜드 메인 컬러+ 파스텔톤 믹스</li>
-                            <li>모바일 고려한 라운드형 카드배너</li>
-                            <li>3D 아이콘 활용한 직관적 비주얼</li>
-                            <li>캐주얼하고 친근한 톤앤매너</li>
-                        </ul>
-                    </div>
-                    <div class="trend-card">
-                        <div class="trend-badge">행동기반 UX</div>
-                        <ul>
-                            <li>방문 목적별 메뉴 단순화</li>
-                            <li>메뉴 중심 빠른 이동 지원</li>
-                            <li>직관적이고 안내/권유/제안형 UX Writing</li>
-                        </ul>
-                    </div>
-                    <div class="trend-card">
-                        <div class="trend-badge">브랜드 강조 UI</div>
-                        <ul>
-                            <li>브랜드 메인컬러 포인트</li>
-                            <li>모던하고 미니멀한 UI</li>
-                            <li>신뢰도/안정성 제고 콘텐츠</li>
-                        </ul>
-                    </div>
+                    `).join('')}
                 </div>
                 
-                <div class="trend-summary">
-                    <h4>웹사이트 UX 방향</h4>
-                    <div class="trend-summary-grid">
-                        <div class="summary-item">
-                            <div class="summary-icon">✨</div>
-                            <div class="summary-text">보여주는 신뢰에서, <strong>경험하게 하는 신뢰</strong>로</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-icon">💬</div>
-                            <div class="summary-text">정보 설명이 아닌, <strong>대화 (자연어 중심)</strong></div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-icon">🎯</div>
-                            <div class="summary-text"><strong>행동을 유도</strong>하는 콘텐츠와 정보 배치</div>
-                        </div>
+                <h3>페르소나 분석</h3>
+                <div class="persona-card">
+                    <div class="persona-avatar">👤</div>
+                    <div class="persona-info">
+                        <div class="persona-name">${ind.persona.name}</div>
+                        <div class="persona-meta">${ind.persona.age}세 | ${ind.persona.job}</div>
+                        <div class="persona-desc">${ind.persona.desc}</div>
+                    </div>
+                    <div class="persona-needs">
+                        <div class="needs-title">주요 니즈</div>
+                        <ul>
+                            ${ind.painPoints.slice(0, 3).map(p => `<li>${p} 해결</li>`).join('')}
+                        </ul>
                     </div>
                 </div>
             </div>
             
-            <!-- 03. 현황 분석 (Slide 12-16) -->
+            <!-- 03. 현황 분석 - Pain Point (Slide 8) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">03</span>
                     <h2>현황 분석</h2>
                 </div>
                 
-                <h3>ASIS 분석 - UIUX 관점</h3>
-                <div class="asis-issues">
-                    <div class="asis-issue">
-                        <div class="issue-num">1</div>
-                        <div class="issue-content">
-                            <div class="issue-title">브랜드 콘셉트 파악이 힘들고 통일성 낮은 UI</div>
-                            <div class="issue-desc">배너 애니메이션, 컬러, 폰트 등 UI 부분의 통일성이 떨어지고 분산되어 있는 일방적 정보 전달 구조</div>
+                <h3>Pain Point 분석</h3>
+                <div class="pain-point-grid">
+                    ${ind.painPoints.map((pain, i) => `
+                    <div class="pain-card">
+                        <div class="pain-icon">😰</div>
+                        <div class="pain-title">${pain}</div>
+                        <div class="pain-solution">
+                            <span class="solution-arrow">→</span>
+                            <span class="solution-text">${ind.solutions[i] || 'UX 개선으로 해결'}</span>
                         </div>
                     </div>
-                    <div class="asis-issue">
-                        <div class="issue-num">2</div>
-                        <div class="issue-content">
-                            <div class="issue-title">사용자가 정보를 파악하기 어려운 구조</div>
-                            <div class="issue-desc">카테고리 연결 버튼, 바로가기 버튼, 배너 등 요소가 너무 많아 정보 파악이 어려움</div>
-                        </div>
-                    </div>
-                    <div class="asis-issue">
-                        <div class="issue-num">3</div>
-                        <div class="issue-content">
-                            <div class="issue-title">여러 메뉴가 다양한 형식으로 분산</div>
-                            <div class="issue-desc">메뉴 구조가 분산되어 플랫폼 구조를 한 눈에 파악하기 어려움</div>
-                        </div>
-                    </div>
-                    <div class="asis-issue">
-                        <div class="issue-num">4</div>
-                        <div class="issue-content">
-                            <div class="issue-title">개인화 서비스 및 데이터 축적 불가</div>
-                            <div class="issue-desc">로그인 시스템의 부재로 개인화 서비스와 고객 데이터 축적이 어려움</div>
-                        </div>
-                    </div>
+                    `).join('')}
                 </div>
                 
-                <h3>주요 개선 포인트와 방향</h3>
-                <div class="improvement-grid">
-                    <div class="improvement-card">
-                        <div class="improve-icon">📊</div>
-                        <div class="improve-title">직관적으로 볼 수 있는 구조</div>
-                        <div class="improve-desc">직관적이고 유연한 정보 구조 배치로 고객이 보고 싶은 정보를 쉽게 찾을 수 있는 메뉴 및 화면 구성</div>
+                <h3>경쟁사 분석</h3>
+                <div class="competitor-grid">
+                    ${ind.competitors.map((comp, i) => `
+                    <div class="competitor-card">
+                        <div class="comp-rank">${i + 1}</div>
+                        <div class="comp-name">${comp}</div>
+                        <div class="comp-status">${i === 0 ? '시장 선도' : i === 1 ? '빠른 성장' : '경쟁 심화'}</div>
                     </div>
-                    <div class="improvement-card">
-                        <div class="improve-icon">🎨</div>
-                        <div class="improve-title">비주얼 디자인 콘텐츠 구성</div>
-                        <div class="improve-desc">초보 고객도 쉽게 이해할 수 있는 디자인 요소와 인터렉션의 경험적 콘텐츠 구성</div>
-                    </div>
-                    <div class="improvement-card">
-                        <div class="improve-icon">📱</div>
-                        <div class="improve-title">접근성 향상 사용자 경험</div>
-                        <div class="improve-desc">반응형, 모바일 기반 설계와 디자인으로 고객의 접근성을 높이는 방향의 개선</div>
-                    </div>
+                    `).join('')}
                 </div>
                 
-                <div class="insight-highlight">
-                    <div class="insight-label">UX 개선방향</div>
-                    <p>모바일을 기반으로 하여 정보 구조, 비주얼 요소, 사용자 여정 개선을 통해 <strong>고객이 필요한 정보와 인사이트를 한 곳에서 모두 제공할 수 있는 AI 어시스턴트 플랫폼</strong>으로 전환</p>
+                <div class="insight-box">
+                    <h4>💡 차별화 포인트</h4>
+                    <p>경쟁사 대비 <strong>${ind.solutions[0]}</strong>을 통한 차별화된 사용자 경험 제공이 핵심입니다.</p>
                 </div>
             </div>
             
@@ -705,425 +794,290 @@ function initProposalForm() {
             <div class="proposal-divider tobe">
                 <span class="divider-label">TOBE</span>
                 <div class="divider-sections">
-                    <span>04 리뉴얼 전략</span>
-                    <span>05 UX & 시스템 구축</span>
-                    <span>06 AI 기능 기획</span>
+                    <span>04 솔루션 전략</span>
+                    <span>05 IA & 디자인</span>
+                    <span>06 주요 기능</span>
+                    <span>07 기술 & AI</span>
                 </div>
             </div>
             
-            <!-- 04. 리뉴얼 전략 (Slide 18-21) -->
+            <!-- 04. 솔루션 전략 (Slide 10) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">04</span>
-                    <h2>리뉴얼 전략</h2>
+                    <h2>솔루션 전략</h2>
                 </div>
                 
-                <div class="strategy-quote">"고객 경험 개선(AI 어시스턴트 플랫폼)을 목표로 차별화된 서비스를 제공하는 플랫폼 구현"</div>
-                
-                <div class="strategy-pillars">
-                    <div class="pillar">
-                        <div class="pillar-num">1</div>
-                        <div class="pillar-title">고객 유입 확대</div>
-                        <div class="pillar-desc">자연 검색과 AI 검색에 최적화된 콘텐츠 및 구조 설계로 신규 방문자 유입 강화</div>
-                        <ul class="pillar-list">
-                            <li>콘텐츠형 페이지 신설</li>
-                            <li>SEO/AIO 기반 키워드 전략</li>
-                            <li>검색 유입 성과 측정 설계</li>
-                        </ul>
-                    </div>
-                    <div class="pillar">
-                        <div class="pillar-num">2</div>
-                        <div class="pillar-title">고객 중심 서비스 강화</div>
-                        <div class="pillar-desc">정보 통합으로 이용자의 정보 접근성과 비교 분석 편의성 제공</div>
-                        <ul class="pillar-list">
-                            <li>상품 비교 기능 추가</li>
-                            <li>목적/테마별 정보제공 설계</li>
-                            <li>상세페이지 UI 표준화</li>
-                        </ul>
-                    </div>
-                    <div class="pillar">
-                        <div class="pillar-num">3</div>
-                        <div class="pillar-title">효율적 고객 관리</div>
-                        <div class="pillar-desc">관리자 시스템 고도화를 통해 고객 데이터를 마케팅 전략에 실질 활용</div>
-                        <ul class="pillar-list">
-                            <li>고객 행동 대시보드 구축</li>
-                            <li>성향별 콘텐츠 반응 분석</li>
-                            <li>고객 세그먼트별 리포트</li>
-                        </ul>
-                    </div>
+                <div class="strategy-vision">
+                    <div class="vision-keyword">${ind.keyword}</div>
+                    <div class="vision-slogan">One Platform, Smarter ${ind.keyword} Experience</div>
                 </div>
                 
-                <h3>콘텐츠 개선 - 신뢰와 데이터를 기반으로 콘텐츠 최적화</h3>
-                <div class="content-strategy-grid">
-                    <div class="content-card">
-                        <div class="content-title">SEO/AIO 기반 콘텐츠 최적화</div>
-                        <ul>
-                            <li>키워드 기반 블로그, 뉴스룸, 리포트 코너 구축</li>
-                            <li>메타태그, 제목 구조, 이미지 ALT 등 기술적 SEO</li>
-                            <li>FAQ, 가이드, 용어사전 등 '질문 기반 콘텐츠' 확보</li>
-                        </ul>
+                <h3>핵심 솔루션</h3>
+                <div class="solution-grid">
+                    ${ind.solutions.map((sol, i) => `
+                    <div class="solution-card">
+                        <div class="sol-num">${String(i + 1).padStart(2, '0')}</div>
+                        <div class="sol-content">
+                            <div class="sol-title">${sol}</div>
+                            <div class="sol-desc">${ind.painPoints[i] ? ind.painPoints[i] + ' 문제를 해결합니다' : '사용자 경험을 혁신합니다'}</div>
+                        </div>
                     </div>
-                    <div class="content-card">
-                        <div class="content-title">시의성 있는 콘텐츠 제공</div>
-                        <ul>
-                            <li>주요 이벤트·정책에 맞춘 타이밍 콘텐츠</li>
-                            <li>분기별, 월별 인사이트</li>
-                            <li>뉴스 + 분석 콘텐츠 결합</li>
-                        </ul>
-                    </div>
-                    <div class="content-card">
-                        <div class="content-title">고객 여정에 따른 콘텐츠 배치</div>
-                        <ul>
-                            <li>인지 단계: 트렌드, 이슈 요약</li>
-                            <li>고려 단계: 비교, 사례, 영상 콘텐츠</li>
-                            <li>전환 단계: 1:1 문의, 간편 가입 UX</li>
-                        </ul>
-                    </div>
+                    `).join('')}
                 </div>
                 
-                <h3>개인화 서비스 - AI 기술 활용</h3>
-                <div class="personalization-grid">
-                    <div class="personal-card">
-                        <div class="personal-icon">🤖</div>
-                        <div class="personal-title">자연어 기반 AI 검색/상담</div>
-                        <div class="personal-desc">질문하듯 입력하면 관련 정보를 자연어로 응답, 대화형 응대</div>
+                <h3>기대효과</h3>
+                <div class="benefit-grid">
+                    ${ind.kpi.map((kpi, i) => `
+                    <div class="benefit-card">
+                        <div class="benefit-icon">${['📈', '⏱️', '💰', '❤️'][i % 4]}</div>
+                        <div class="benefit-text">${kpi}</div>
                     </div>
-                    <div class="personal-card">
-                        <div class="personal-icon">📊</div>
-                        <div class="personal-title">AI 기반 개인화 마이페이지</div>
-                        <div class="personal-desc">관심사, 이력 등을 실시간 반영한 맞춤 대시보드 시각화</div>
-                    </div>
-                    <div class="personal-card">
-                        <div class="personal-icon">📚</div>
-                        <div class="personal-title">사용자 관심별 콘텐츠 큐레이션</div>
-                        <div class="personal-desc">검색/열람 이력과 관심사 분석을 통한 맞춤 콘텐츠 제공</div>
-                    </div>
+                    `).join('')}
                 </div>
             </div>
             
-            <!-- 05. UX & 시스템 구축 - 디자인 컨셉 (Slide 22-28) -->
+            <!-- 05. IA 정보구조 (Slide 11) - 동적 IA -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">05</span>
-                    <h2>UX & 시스템 구축</h2>
+                    <h2>정보구조 (IA)</h2>
                 </div>
                 
-                <h3>디자인 전략 및 컨셉</h3>
-                <div class="design-concept-main">
-                    <div class="concept-slogan">Connected Confidence.</div>
-                    <div class="concept-subtitle">데이터와 사람, 브랜드와 경험이 하나로 연결되는 신뢰</div>
-                    <p class="concept-desc">복잡한 정보를 명료하게 해석하고, 그 데이터를 사용자의 여정 속에 자연스럽게 연결합니다.<br>진짜 신뢰는 '이해되는 경험'에서 완성됩니다.</p>
-                </div>
-                
-                <div class="design-approach">
-                    <div class="approach-title">Proactive UX for Confidence</div>
-                    <div class="approach-subtitle">정보가 고객에게 먼저 다가와 신뢰와 확신으로 이어지는 UX 경험</div>
-                    
-                    <div class="approach-grid">
-                        <div class="approach-card">
-                            <div class="approach-label">Design</div>
-                            <div class="approach-name">Readable Design.</div>
-                            <div class="approach-desc">정보가 '보이는' 디자인이 아닌 '읽히는' 디자인<br>쉽게 해석하고 이해할 수 있도록 구조화</div>
-                        </div>
-                        <div class="approach-card">
-                            <div class="approach-label">Contents</div>
-                            <div class="approach-name">Desirable Contents.</div>
-                            <div class="approach-desc">고객의 눈높이에서 이해하기 쉽게<br>잘 정리 및 선별된 호감 콘텐츠</div>
-                        </div>
-                        <div class="approach-card">
-                            <div class="approach-label">Development</div>
-                            <div class="approach-name">Connected Dev.</div>
-                            <div class="approach-desc">데이터+서비스+고객 관리가<br>유기적으로 통합된 관리시스템</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3>디자인 시스템 - UI & Visual</h3>
-                <div class="design-system-grid">
-                    <div class="design-system-card">
-                        <div class="ds-title">Readable</div>
-                        <div class="ds-subtitle">금융정보를 읽히는 구조로 바꾸는 UX</div>
-                        <ul>
-                            <li><strong>데이터 시각화</strong> - 복잡한 데이터를 한눈에 읽히도록 구조화</li>
-                            <li><strong>여백중심, 아이콘 의미보조</strong> - 핵심 정보만 또렷하게</li>
-                            <li><strong>카드중심 UI</strong> - 반복되는 구조로 읽는 리듬 형성</li>
-                        </ul>
-                    </div>
-                    <div class="design-system-card">
-                        <div class="ds-title">Proactive</div>
-                        <div class="ds-subtitle">사용자보다 먼저 정보가 다가오는 능동적 UX</div>
-                        <ul>
-                            <li><strong>AI 기능</strong> - 시선을 먼저 끌어주는 자연어 기반 검색</li>
-                            <li><strong>Guided motion</strong> - 부드러운 움직임으로 제안하는 느낌</li>
-                            <li><strong>개인화</strong> - 이용패턴이 누적될수록 정교화</li>
-                        </ul>
-                    </div>
-                    <div class="design-system-card">
-                        <div class="ds-title">Connected</div>
-                        <div class="ds-subtitle">데이터+서비스+UI가 유기적으로 통합된 UX</div>
-                        <ul>
-                            <li><strong>통합된 카드패턴</strong> - 모든 콘텐츠를 같은 체계 안에서 인지</li>
-                            <li><strong>구조적 연속성</strong> - 화면이 바뀌어도 한 흐름 유지</li>
-                            <li><strong>브랜드 아이덴티티</strong> - 일관된 톤앤매너 적용</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 05. IA 구조 (Slide 29-31) -->
-            <div class="proposal-section">
-                <div class="section-header">
-                    <span class="section-num">05</span>
-                    <h2>IA (Information Architecture)</h2>
-                </div>
-                
-                <h3>변경 프론트 IA</h3>
-                <div class="ia-intro">상품, AI 어드바이저, 인사이트, 고객지원 등의 공통메뉴를 통합하고, AI를 중심으로 고객 여정 전반을 리딩하는 단일하고 능동적인 흐름으로 연결되도록 재설계</div>
+                <div class="ia-intro">선택된 <strong>${features.length}개</strong>의 주요 기능을 기반으로 최적화된 정보구조를 제안합니다</div>
                 
                 <div class="ia-diagram-new">
-                    <div class="ia-root">
-                        <span>🏠 ${industryName} 플랫폼</span>
-                    </div>
-                    <div class="ia-branches">
-                        ${generateIA().map(menu => `
-                            <div class="ia-branch">
-                                <div class="ia-main">${menu.main}</div>
-                                <div class="ia-subs">
-                                    ${menu.sub.map(sub => `<div class="ia-sub">${sub}</div>`).join('')}
-                                </div>
+                    <div class="ia-root-new">${industryName}</div>
+                    <div class="ia-branches-new">
+                        ${dynamicIA.map(ia => `
+                        <div class="ia-branch-new">
+                            <div class="ia-main-new">${ia.main}</div>
+                            <div class="ia-subs-new">
+                                ${ia.sub.map(s => `<div class="ia-sub-new">${s}</div>`).join('')}
                             </div>
+                        </div>
                         `).join('')}
                     </div>
                 </div>
                 
-                <h3>주요 IA 구성의도</h3>
-                <div class="ia-purpose-grid">
-                    <div class="ia-purpose-card">
-                        <div class="purpose-menu">메인</div>
-                        <div class="purpose-goal">방문 목적에 빠르게 대응하며, AI 기반 뉴스브리핑과 시장 상황 중심의 입체적 콘텐츠 홈</div>
-                        <div class="purpose-effect">AI 기반 문장형 검색 도입으로 탐색 시간 단축, 콘텐츠 소비와 재방문 유도</div>
-                    </div>
-                    <div class="ia-purpose-card">
-                        <div class="purpose-menu">AI 어드바이저</div>
-                        <div class="purpose-goal">AI 분석과 대화형 인터랙션을 통해 고객의 여정 전반을 지원하는 개인 AI 어드바이저</div>
-                        <div class="purpose-effect">능동적이고 개인화된 정보 제공으로 서비스 차별화</div>
-                    </div>
-                    <div class="ia-purpose-card">
-                        <div class="purpose-menu">MY</div>
-                        <div class="purpose-goal">고객 프로필과 히스토리 확인 및 최적의 포트폴리오를 제공받는 개인 관리 공간</div>
-                        <div class="purpose-effect">고객의 히스토리와 관심 요인 기반 개인화된 경험 지속 강화</div>
-                    </div>
-                </div>
-                
                 <div class="ia-note">
-                    <p>* 상세 IA는 킥오프 미팅 이후 요구사항 분석을 통해 확정됩니다.</p>
+                    <strong>📌 주요 특징:</strong> ${features.slice(0, 5).join(', ')}${features.length > 5 ? ' 외 ' + (features.length - 5) + '개' : ''}의 기능이 반영된 구조
                 </div>
             </div>
             
-            <!-- 05. 개발 방안 (Slide 33-39) -->
+            <!-- 05. 디자인 시스템 (Slide 12) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">05</span>
-                    <h2>개발 방안</h2>
+                    <h2>디자인 시스템</h2>
                 </div>
                 
-                <h3>개발 표준화 및 품질고도화 체계 구축</h3>
-                <div class="dev-strategy-grid">
-                    <div class="dev-card">
-                        <div class="dev-title">PC/Mobile 최적화 및 컴포넌트 기반 개발</div>
-                        <ul>
-                            <li>Mobile First 접근: 320px부터 시작하는 점진적 확장 설계</li>
-                            <li>Atomic Design 패턴: Atoms > Molecules > Organisms</li>
-                            <li>코드 스플리팅을 통한 번들 사이즈 최소화</li>
-                            <li>목표: Mobile LCP 2.5초 이하, FID 100ms 이하</li>
-                        </ul>
-                    </div>
-                    <div class="dev-card">
-                        <div class="dev-title">SEO·AI 검색 친화 태그 설계</div>
-                        <ul>
-                            <li>시맨틱 마크업 HTML5 태그 적극 활용</li>
-                            <li>구조화된 데이터: JSON-LD 스키마 적용</li>
-                            <li>메타 태그 최적화: OG태그, 메타 정보</li>
-                            <li>FAQ 스키마 적용으로 AI 어시스턴트 답변 최적화</li>
-                        </ul>
-                    </div>
-                    <div class="dev-card">
-                        <div class="dev-title">웹 접근성 및 브라우저 호환성</div>
-                        <ul>
-                            <li>웹 접근성 표준(KWCAG/WCAG) 준수 구조 설계</li>
-                            <li>주요 브라우저·OS 환경 크로스브라우징 검증</li>
-                            <li>체계적 QA 프로세스를 통한 오류 최소화</li>
-                        </ul>
-                    </div>
+                <div class="design-direction">
+                    <div class="design-keyword">${ind.value}</div>
+                    <div class="design-desc">${industryName} 플랫폼의 브랜드 가치를 시각적으로 표현하는 디자인 시스템</div>
                 </div>
                 
-                <h3>기술 스택</h3>
-                <table class="tech-stack-table">
-                    <thead>
-                        <tr>
-                            <th>영역</th>
-                            <th>적용 기술</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Front-end</td><td>React / Next.js</td></tr>
-                        <tr><td>Back-end</td><td>Java / Spring Boot</td></tr>
-                        <tr><td>Database</td><td>PostgreSQL / PGVector</td></tr>
-                        <tr><td>Graph DB</td><td>Neo4j</td></tr>
-                        <tr><td>AI</td><td>Python / LangGraph / LangChain</td></tr>
-                        <tr><td>배포</td><td>Cloud (AWS/Azure/GCP)</td></tr>
-                        <tr><td>보안</td><td>Spring Security / JWT</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- 06. AI 기능 기획 (Slide 40-56) -->
-            <div class="proposal-section">
-                <div class="section-header">
-                    <span class="section-num">06</span>
-                    <h2>AI 기능 기획 및 개발</h2>
-                </div>
-                
-                <div class="ai-service-goal">
-                    <div class="ai-quote">"${strategy.keyword}에 대해 궁금한 게 생길 때,<br>플랫폼에 와서 그냥 말하듯이 물어보면,<br>나에게 맞는 설명과 추천을 한 번에 보여주는 서비스"</div>
-                    
-                    <div class="ai-core-goal">
-                        <h4>핵심 목표</h4>
-                        <p>고객이 원하는 방식으로 질문하면, AI가 개인별 맞춤 답변과 함께 관련 콘텐츠를 한 화면에 통합하여 제공.<br>자연어 통합검색과 개인별 추천을 결합해 상담과 전환까지 자연스럽게 연결하는 지능형 플랫폼 경험 구현.</p>
+                <div class="design-principles">
+                    <div class="principle-card">
+                        <div class="principle-num">01</div>
+                        <div class="principle-title">명확성</div>
+                        <div class="principle-desc">직관적인 네비게이션과 정보 계층</div>
+                    </div>
+                    <div class="principle-card">
+                        <div class="principle-num">02</div>
+                        <div class="principle-title">일관성</div>
+                        <div class="principle-desc">통일된 컴포넌트와 스타일 가이드</div>
+                    </div>
+                    <div class="principle-card">
+                        <div class="principle-num">03</div>
+                        <div class="principle-title">접근성</div>
+                        <div class="principle-desc">WCAG 2.1 AA 수준 준수</div>
+                    </div>
+                    <div class="principle-card">
+                        <div class="principle-num">04</div>
+                        <div class="principle-title">반응성</div>
+                        <div class="principle-desc">${platforms.join(', ')} 최적화</div>
                     </div>
                 </div>
                 
-                <h3>AI 시나리오 정의</h3>
-                <div class="ai-scenario-grid">
-                    <div class="scenario-card">
-                        <div class="scenario-persona">
-                            <div class="persona-avatar">👤</div>
-                            <div class="persona-info">
-                                <div class="persona-name">초보 고객 A (30대)</div>
-                                <div class="persona-desc">${strategy.persona}</div>
-                            </div>
-                        </div>
-                        <div class="scenario-journey">
-                            <div class="journey-step">
-                                <div class="step-num">1</div>
-                                <div class="step-content">첫 방문 - 자연어 검색창에 질문</div>
-                            </div>
-                            <div class="journey-step">
-                                <div class="step-num">2</div>
-                                <div class="step-content">통합검색으로 쉬운 설명 + 추천 상품 확인</div>
-                            </div>
-                            <div class="journey-step">
-                                <div class="step-num">3</div>
-                                <div class="step-content">행동 패턴 분석 후 맞춤형 AI 리포트 제공</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="scenario-card">
-                        <div class="scenario-persona">
-                            <div class="persona-avatar">👨‍💼</div>
-                            <div class="persona-info">
-                                <div class="persona-name">전문 고객 B (40대)</div>
-                                <div class="persona-desc">10년+ 경험, 구체적인 조건 검색</div>
-                            </div>
-                        </div>
-                        <div class="scenario-journey">
-                            <div class="journey-step">
-                                <div class="step-num">1</div>
-                                <div class="step-content">명확한 조건으로 정교한 질문 입력</div>
-                            </div>
-                            <div class="journey-step">
-                                <div class="step-num">2</div>
-                                <div class="step-content">조건검색 + 상세 비교 결과 제공</div>
-                            </div>
-                            <div class="journey-step">
-                                <div class="step-num">3</div>
-                                <div class="step-content">AI 포트폴리오 리포트 자동 생성</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3>단계별 개발 프로세스</h3>
-                <div class="ai-dev-process">
-                    <div class="process-step">
-                        <div class="process-num">Step 1</div>
-                        <div class="process-title">데이터 표준화</div>
-                        <div class="process-desc">흩어진 데이터를 한 곳에, 같은 틀로 정리</div>
-                    </div>
-                    <div class="process-arrow">→</div>
-                    <div class="process-step">
-                        <div class="process-num">Step 2</div>
-                        <div class="process-title">온톨로지 설계</div>
-                        <div class="process-desc">체계적인 분류 체계로 자연어 질문을 조건으로 변환</div>
-                    </div>
-                    <div class="process-arrow">→</div>
-                    <div class="process-step">
-                        <div class="process-num">Step 3</div>
-                        <div class="process-title">검색 인덱스 + 벡터 인덱스</div>
-                        <div class="process-desc">후보 상품과 적합 이유를 동시에 답변</div>
-                    </div>
-                    <div class="process-arrow">→</div>
-                    <div class="process-step">
-                        <div class="process-num">Step 4</div>
-                        <div class="process-title">그래프 DB</div>
-                        <div class="process-desc">관계를 이해하는 두 번째 뇌</div>
+                <div class="color-system">
+                    <h4>컬러 시스템</h4>
+                    <div class="color-palette-new">
+                        <div class="color-chip" style="background: #3B82F6"><span>Primary</span></div>
+                        <div class="color-chip" style="background: #10B981"><span>Success</span></div>
+                        <div class="color-chip" style="background: #F59E0B"><span>Warning</span></div>
+                        <div class="color-chip" style="background: #EF4444"><span>Error</span></div>
+                        <div class="color-chip" style="background: #1F2937"><span>Text</span></div>
+                        <div class="color-chip" style="background: #F3F4F6; color: #374151"><span>BG</span></div>
                     </div>
                 </div>
             </div>
             
-            <!-- 06. 주요 기능 상세 -->
+            <!-- 06. 주요 기능 상세 - 기능 목록 (Slide 13) -->
             <div class="proposal-section">
                 <div class="section-header">
                     <span class="section-num">06</span>
                     <h2>주요 기능 상세</h2>
                 </div>
                 
-                <div class="feature-detail-grid">
-                    ${features.slice(0, 8).map((f, i) => `
-                        <div class="feature-detail-card">
-                            <div class="feature-detail-header">
-                                <span class="feature-detail-icon">${getFeatureIcon(f)}</span>
-                                <span class="feature-detail-num">F${String(i + 1).padStart(2, '0')}</span>
-                            </div>
-                            <div class="feature-detail-title">${f}</div>
-                            <div class="feature-detail-desc">${getFeatureDescription(f)}</div>
-                            <div class="feature-detail-points">
-                                <span class="point">• 사용자 편의성 향상</span>
-                                <span class="point">• 전환율 개선</span>
-                            </div>
-                        </div>
-                    `).join('')}
+                <div class="feature-summary">
+                    <div class="summary-total">총 <strong>${features.length}</strong>개의 핵심 기능</div>
+                    <div class="summary-platforms">플랫폼: ${platforms.join(' / ')}</div>
                 </div>
                 
-                ${features.length > 8 ? `
-                <div class="more-features">
-                    <h4>추가 기능</h4>
-                    <div class="more-features-list">
-                        ${features.slice(8).map(f => `<span class="more-feature-tag">${f}</span>`).join('')}
+                <div class="feature-detail-grid">
+                    ${featureDetails.map((f, i) => `
+                    <div class="feature-detail-card">
+                        <div class="feature-detail-header">
+                            <span class="feature-detail-icon">${f.icon}</span>
+                            <span class="feature-detail-num">F${String(i + 1).padStart(2, '0')}</span>
+                        </div>
+                        <div class="feature-detail-title">${f.name}</div>
+                        <div class="feature-detail-desc">${f.desc}</div>
+                        <div class="feature-detail-meta">
+                            <span class="priority ${f.priority === '필수' ? 'required' : ''}">${f.priority}</span>
+                            <span class="complexity">복잡도: ${f.complexity}</span>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            <!-- 06. 주요 기능 상세 - 기능별 화면 (Slide 14-15) -->
+            ${features.slice(0, 4).map((feature, idx) => `
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">06</span>
+                    <h2>기능 상세 - ${feature}</h2>
+                </div>
+                
+                <div class="feature-screen">
+                    <div class="screen-left">
+                        <h3>기능 개요</h3>
+                        <div class="feature-overview">
+                            <p>${featureDetails[idx]?.desc || '사용자 경험 향상을 위한 핵심 기능입니다.'}</p>
+                        </div>
+                        
+                        <h4>주요 화면</h4>
+                        <ul class="screen-list">
+                            <li>${feature} 메인 화면</li>
+                            <li>${feature} 상세 화면</li>
+                            <li>${feature} 결과 화면</li>
+                        </ul>
+                        
+                        <h4>사용자 플로우</h4>
+                        <div class="user-flow">
+                            <span class="flow-step">진입</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-step">선택</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-step">확인</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-step">완료</span>
+                        </div>
+                    </div>
+                    <div class="screen-right">
+                        <div class="screen-mockup">
+                            <div class="mockup-header">${feature}</div>
+                            <div class="mockup-content">
+                                <div class="mockup-placeholder">
+                                    <span class="mockup-icon">${featureDetails[idx]?.icon || '📱'}</span>
+                                    <span class="mockup-text">화면 시안</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                ` : ''}
+            </div>
+            `).join('')}
             
+            <!-- 07. 기술 스택 (Slide 16) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">07</span>
+                    <h2>기술 스택</h2>
+                </div>
+                
+                <h3>개발 환경</h3>
+                <div class="tech-stack-grid">
+                    <div class="tech-category">
+                        <div class="tech-title">Frontend</div>
+                        <div class="tech-items">
+                            <span class="tech-item">React / Next.js</span>
+                            <span class="tech-item">TypeScript</span>
+                            <span class="tech-item">Tailwind CSS</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <div class="tech-title">Backend</div>
+                        <div class="tech-items">
+                            <span class="tech-item">Node.js / NestJS</span>
+                            <span class="tech-item">PostgreSQL</span>
+                            <span class="tech-item">Redis</span>
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <div class="tech-title">AI / ML</div>
+                        <div class="tech-items">
+                            ${ind.techStack.map(t => `<span class="tech-item">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="tech-category">
+                        <div class="tech-title">Infra</div>
+                        <div class="tech-items">
+                            <span class="tech-item">AWS / GCP</span>
+                            <span class="tech-item">Docker / K8s</span>
+                            <span class="tech-item">CI/CD Pipeline</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>AI 기능 계획</h3>
+                <div class="ai-feature-grid">
+                    ${ind.solutions.filter(s => s.includes('AI') || s.includes('추천') || s.includes('분석')).slice(0, 3).map((sol, i) => `
+                    <div class="ai-feature-card">
+                        <div class="ai-icon">🤖</div>
+                        <div class="ai-title">${sol}</div>
+                        <div class="ai-desc">${industryName} 고객 맞춤형 AI 서비스</div>
+                    </div>
+                    `).join('') || `
+                    <div class="ai-feature-card">
+                        <div class="ai-icon">🤖</div>
+                        <div class="ai-title">AI 추천 시스템</div>
+                        <div class="ai-desc">개인화된 상품/콘텐츠 추천</div>
+                    </div>
+                    <div class="ai-feature-card">
+                        <div class="ai-icon">💬</div>
+                        <div class="ai-title">AI 챗봇</div>
+                        <div class="ai-desc">24시간 자동 고객 응대</div>
+                    </div>
+                    <div class="ai-feature-card">
+                        <div class="ai-icon">📊</div>
+                        <div class="ai-title">데이터 분석</div>
+                        <div class="ai-desc">고객 행동 분석 및 인사이트</div>
+                    </div>
+                    `}
+                </div>
             </div>
             
             <!-- PLAN 구분선 -->
             <div class="proposal-divider plan">
                 <span class="divider-label">PLAN</span>
                 <div class="divider-sections">
-                    <span>07 수행 계획</span>
-                    <span>08 품질 관리</span>
+                    <span>08 수행 계획</span>
+                    <span>09 견적 및 투자</span>
                 </div>
             </div>
             
-            <!-- 07. 수행 계획 - 추진조직 (Slide 58) -->
+            <!-- 08. 수행 계획 - 추진조직 (Slide 18) -->
             <div class="proposal-section">
                 <div class="section-header">
-                    <span class="section-num">07</span>
+                    <span class="section-num">08</span>
                     <h2>수행 계획</h2>
                 </div>
                 
                 <h3>추진조직 및 R&R</h3>
-                <div class="org-intro">통합 PM 및 프로젝트 영역별 전문 PM 중심의 인력 구성으로 체계적인 일정 관리와 효율적인 통합 프로젝트 수행</div>
+                <div class="org-intro">통합 PM 및 영역별 전문 PM 중심의 인력 구성으로 체계적인 프로젝트 수행</div>
                 
                 <div class="org-chart-new">
                     <div class="org-level org-top">
@@ -1174,57 +1128,44 @@ function initProposalForm() {
                 </div>
             </div>
             
-            <!-- 07. 수행 계획 - 프로젝트 일정 (Slide 59) -->
+            <!-- 08. 수행 계획 - 프로젝트 일정 (Slide 19) -->
             <div class="proposal-section">
                 <div class="section-header">
-                    <span class="section-num">07</span>
+                    <span class="section-num">08</span>
                     <h2>프로젝트 수행일정</h2>
                 </div>
                 
-                <div class="schedule-intro">프로젝트는 분석 및 설계 2개월, 개발 ${estimatedMonths - 2}개월을 포함하여 총 <strong>${estimatedMonths}개월</strong>간 수행되며, 안정적으로 새로운 플랫폼으로 전환 / 오픈할 수 있도록 계획</div>
+                <div class="schedule-intro">프로젝트는 분석/설계 2개월, 개발 ${estimatedMonths - 2}개월을 포함하여 총 <strong>${estimatedMonths}개월</strong>간 수행됩니다</div>
                 
                 <table class="schedule-table">
                     <thead>
                         <tr>
                             <th>단계</th>
                             <th>상세업무</th>
-                            <th>주요 산출물</th>
+                            <th>산출물</th>
                             ${Array.from({length: estimatedMonths}, (_, i) => `<th>M+${String(i + 1).padStart(2, '0')}</th>`).join('')}
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td rowspan="2">요구분석/정의</td>
-                            <td>환경/요구사항수집</td>
-                            <td>환경분석, 벤치마킹, 요구사항정의</td>
+                            <td>요구분석</td>
+                            <td>환경분석, 요구사항 정의</td>
+                            <td>요구사항정의서</td>
                             <td class="gantt-cell active"></td>
                             ${Array.from({length: estimatedMonths - 1}, () => `<td class="gantt-cell"></td>`).join('')}
                         </tr>
                         <tr>
-                            <td>IA 정의</td>
-                            <td>IA 구조 확정</td>
+                            <td>IA/UX</td>
+                            <td>정보구조, UX 전략</td>
+                            <td>IA, 스토리보드</td>
                             <td class="gantt-cell active"></td>
-                            ${Array.from({length: estimatedMonths - 1}, () => `<td class="gantt-cell"></td>`).join('')}
-                        </tr>
-                        <tr>
-                            <td rowspan="2">프로토타입</td>
-                            <td>UX 디자인방향 도출</td>
-                            <td>UX 디자인 컨셉 정의</td>
-                            <td class="gantt-cell active"></td>
-                            <td class="gantt-cell active"></td>
-                            ${Array.from({length: estimatedMonths - 2}, () => `<td class="gantt-cell"></td>`).join('')}
-                        </tr>
-                        <tr>
-                            <td>프로토타입 제작</td>
-                            <td>메인 및 본문 2종</td>
-                            <td class="gantt-cell"></td>
                             <td class="gantt-cell active"></td>
                             ${Array.from({length: estimatedMonths - 2}, () => `<td class="gantt-cell"></td>`).join('')}
                         </tr>
                         <tr>
                             <td>디자인</td>
-                            <td>전체 프론트 디자인</td>
-                            <td>피그마 파일 및 디자인 가이드</td>
+                            <td>UI 디자인, 시스템</td>
+                            <td>Figma, 가이드</td>
                             <td class="gantt-cell"></td>
                             <td class="gantt-cell active"></td>
                             <td class="gantt-cell active"></td>
@@ -1232,18 +1173,18 @@ function initProposalForm() {
                         </tr>
                         <tr>
                             <td>개발</td>
-                            <td>Front/Back-end 개발</td>
-                            <td>개발 환경 설정, 전체 소스 개발</td>
+                            <td>Frontend/Backend</td>
+                            <td>소스코드</td>
                             <td class="gantt-cell"></td>
                             <td class="gantt-cell"></td>
                             <td class="gantt-cell active"></td>
-                            ${Array.from({length: estimatedMonths - 4}, (_, i) => `<td class="gantt-cell active"></td>`).join('')}
+                            ${Array.from({length: estimatedMonths - 4}, () => `<td class="gantt-cell active"></td>`).join('')}
                             <td class="gantt-cell"></td>
                         </tr>
                         <tr>
                             <td>테스트</td>
                             <td>통합/사용자 테스트</td>
-                            <td>기획/디자인 통합테스트</td>
+                            <td>테스트 리포트</td>
                             ${Array.from({length: estimatedMonths - 2}, () => `<td class="gantt-cell"></td>`).join('')}
                             <td class="gantt-cell active"></td>
                             <td class="gantt-cell active"></td>
@@ -1251,322 +1192,18 @@ function initProposalForm() {
                         <tr>
                             <td>오픈</td>
                             <td>운영서버 이관</td>
-                            <td>운영서버 이관 / 오픈</td>
+                            <td>최종 산출물</td>
                             ${Array.from({length: estimatedMonths - 1}, () => `<td class="gantt-cell"></td>`).join('')}
                             <td class="gantt-cell active milestone"></td>
                         </tr>
                     </tbody>
                 </table>
-                
-                <div class="schedule-milestones">
-                    <div class="milestone-item">
-                        <span class="milestone-marker">◆</span>
-                        <span class="milestone-label">중간보고</span>
-                        <span class="milestone-time">M+02</span>
-                    </div>
-                    <div class="milestone-item">
-                        <span class="milestone-marker complete">◆</span>
-                        <span class="milestone-label">완료보고</span>
-                        <span class="milestone-time">M+${String(estimatedMonths).padStart(2, '0')}</span>
-                    </div>
-                </div>
             </div>
             
-            <!-- 07. 인원투입 계획 (Slide 60) -->
-            <div class="proposal-section">
-                <div class="section-header">
-                    <span class="section-num">07</span>
-                    <h2>인원투입 계획</h2>
-                </div>
-                
-                <div class="mm-summary">
-                    <div class="mm-intro">프로젝트 수행 팀은 홈페이지 구축 <strong>${totalMM.uiux + totalMM.frontend + totalMM.backend} MM</strong> + AI서비스 구축 <strong>${totalMM.ai} MM</strong> = 총 <strong>${totalMM.total} MM</strong> 투입 예상</div>
-                </div>
-                
-                <table class="mm-table">
-                    <thead>
-                        <tr>
-                            <th>Role</th>
-                            <th>담당분야</th>
-                            <th>Task</th>
-                            ${Array.from({length: estimatedMonths}, (_, i) => `<th>M+${String(i + 1).padStart(2, '0')}</th>`).join('')}
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>통합 PM</td>
-                            <td>Web / AI</td>
-                            <td>일정관리, 통합관리, 요건 분석/설계</td>
-                            ${Array.from({length: estimatedMonths}, () => `<td>1</td>`).join('')}
-                            <td><strong>${estimatedMonths}</strong></td>
-                        </tr>
-                        <tr>
-                            <td>UI Planner</td>
-                            <td>Web site</td>
-                            <td>요건/기능분석, UI 설계</td>
-                            ${Array.from({length: estimatedMonths}, () => `<td>1</td>`).join('')}
-                            <td><strong>${estimatedMonths}</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Designer</td>
-                            <td>Web site</td>
-                            <td>UI/UX 프로토타입/콘텐츠 디자인</td>
-                            ${Array.from({length: estimatedMonths}, (_, i) => `<td>${i < 2 ? 1 : teamSize.designer}</td>`).join('')}
-                            <td><strong>${2 + (estimatedMonths - 2) * teamSize.designer}</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Publisher</td>
-                            <td>Web site</td>
-                            <td>UI/UX 개발</td>
-                            ${Array.from({length: estimatedMonths}, (_, i) => `<td>${i < 1 ? 0 : teamSize.publisher}</td>`).join('')}
-                            <td><strong>${(estimatedMonths - 1) * teamSize.publisher}</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Developer</td>
-                            <td>Web site</td>
-                            <td>Front/Back-end 개발</td>
-                            ${Array.from({length: estimatedMonths}, (_, i) => `<td>${i < 2 ? 0 : teamSize.frontDev + teamSize.backDev}</td>`).join('')}
-                            <td><strong>${(estimatedMonths - 2) * (teamSize.frontDev + teamSize.backDev)}</strong></td>
-                        </tr>
-                        <tr>
-                            <td>AI Developer</td>
-                            <td>AI</td>
-                            <td>AI 분석 설계 / 개발</td>
-                            ${Array.from({length: estimatedMonths}, () => `<td>${teamSize.aiDev}</td>`).join('')}
-                            <td><strong>${estimatedMonths * teamSize.aiDev}</strong></td>
-                        </tr>
-                        <tr>
-                            <td>QA</td>
-                            <td>Web / AI</td>
-                            <td>테스트 및 검증</td>
-                            ${Array.from({length: estimatedMonths}, (_, i) => `<td>${i >= estimatedMonths - 2 ? 1 : 0}</td>`).join('')}
-                            <td><strong>2</strong></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3" class="total-label">Total MM</td>
-                            ${Array.from({length: estimatedMonths}, (_, i) => {
-                                let mm = 2; // PM + Planner
-                                mm += (i < 2 ? 1 : teamSize.designer);
-                                mm += (i < 1 ? 0 : teamSize.publisher);
-                                mm += (i < 2 ? 0 : teamSize.frontDev + teamSize.backDev);
-                                mm += teamSize.aiDev;
-                                mm += (i >= estimatedMonths - 2 ? 1 : 0);
-                                return `<td><strong>${mm}</strong></td>`;
-                            }).join('')}
-                            <td class="total-amount"><strong>${totalMM.total}</strong></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-            
-            <!-- 08. 품질 관리 (Slide 64-69) -->
-            <div class="proposal-section">
-                <div class="section-header">
-                    <span class="section-num">08</span>
-                    <h2>품질 및 성과관리</h2>
-                </div>
-                
-                <h3>사업관리 방안</h3>
-                <div class="quality-grid">
-                    <div class="quality-card">
-                        <div class="quality-icon">📅</div>
-                        <div class="quality-title">일정 관리 및 커뮤니케이션</div>
-                        <ul>
-                            <li>WBS 작성 및 변경관리</li>
-                            <li>일정 이슈 사전 모니터링 및 조치</li>
-                            <li>협업 Tool 활용 커뮤니케이션</li>
-                        </ul>
-                    </div>
-                    <div class="quality-card">
-                        <div class="quality-icon">📋</div>
-                        <div class="quality-title">SLA기반 산출물 및 R&R관리</div>
-                        <ul>
-                            <li>SLA 산출물 표준화 계획 및 통제</li>
-                            <li>SLA 표준 및 절차매뉴얼 수립</li>
-                            <li>SLA 평가기준 및 실적 보고</li>
-                        </ul>
-                    </div>
-                    <div class="quality-card">
-                        <div class="quality-icon">👥</div>
-                        <div class="quality-title">우수인력 관리</div>
-                        <ul>
-                            <li>인적자원 총괄 관리</li>
-                            <li>적정 투입인원 검증</li>
-                            <li>우수 인력 유지 방안</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <h3>업무 보고체계</h3>
-                <table class="report-table">
-                    <thead>
-                        <tr>
-                            <th>구분</th>
-                            <th>시기</th>
-                            <th>내용</th>
-                            <th>보고서</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>착수보고</td>
-                            <td>계약 후 1개월 내</td>
-                            <td>사업추진일정, 조직 및 역할, 사업범위, 추진 방안</td>
-                            <td>착수 보고서</td>
-                        </tr>
-                        <tr>
-                            <td>주간보고</td>
-                            <td>1회/주</td>
-                            <td>주간 진행내용, 진척상황, 협의 내용, 협조사항</td>
-                            <td>주간업무 보고서</td>
-                        </tr>
-                        <tr>
-                            <td>월간보고</td>
-                            <td>1회/월</td>
-                            <td>월간 진행내용, 이슈/위험요소, 의사결정 요청사항</td>
-                            <td>월간업무 보고서</td>
-                        </tr>
-                        <tr>
-                            <td>수시보고</td>
-                            <td>수시</td>
-                            <td>긴급 변경 및 이슈, 위험 발생시</td>
-                            <td>이슈보고서</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <h3>긴급이슈 대응 프로세스</h3>
-                <div class="emergency-process">
-                    <div class="emergency-badge">🚨 365일 24시간 긴급업무 대응</div>
-                    <div class="emergency-flow">
-                        <div class="flow-step">
-                            <div class="flow-num">1</div>
-                            <div class="flow-content">비상연락망 가동<br><span class="flow-time">30분 내 업무분장</span></div>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-step">
-                            <div class="flow-num">2</div>
-                            <div class="flow-content">원격관리 툴 통한<br>커뮤니케이션</div>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-step">
-                            <div class="flow-num">3</div>
-                            <div class="flow-content">작업물 백업 및<br>관리</div>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-step">
-                            <div class="flow-num">4</div>
-                            <div class="flow-content">완료보고 및 검수의뢰<br><span class="flow-time">1-3시간 내 완료</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- WE ARE 구분선 -->
-            <div class="proposal-divider weare">
-                <span class="divider-label">WE ARE</span>
-                <div class="divider-sections">
-                    <span>09 회사 소개</span>
-                </div>
-            </div>
-            
-            <!-- 09. 회사 소개 -->
-            <div class="proposal-section">
-                <div class="section-header">
-                    <span class="section-num">09</span>
-                    <h2>회사 소개</h2>
-                </div>
-                
-                <div class="company-intro-new">
-                    <h3>Agency Brain</h3>
-                    <p>디지털 에이전시로서 다년간의 프로젝트 경험과 전문 인력을 바탕으로 최상의 결과물을 제공합니다.</p>
-                </div>
-                
-                <div class="capability-grid">
-                    <div class="capability-card">
-                        <div class="capability-number">100+</div>
-                        <div class="capability-label">프로젝트 수행</div>
-                    </div>
-                    <div class="capability-card">
-                        <div class="capability-number">50+</div>
-                        <div class="capability-label">전문 인력</div>
-                    </div>
-                    <div class="capability-card">
-                        <div class="capability-number">95%</div>
-                        <div class="capability-label">고객 만족도</div>
-                    </div>
-                    <div class="capability-card">
-                        <div class="capability-number">10+</div>
-                        <div class="capability-label">수상 경력</div>
-                    </div>
-                </div>
-                
-                <h3>주요 수행사례</h3>
-                <div class="portfolio-grid">
-                    <div class="portfolio-card">
-                        <div class="portfolio-image" style="background: linear-gradient(135deg, #667eea, #764ba2)">
-                            <span>금융 프로젝트</span>
-                        </div>
-                        <div class="portfolio-info">
-                            <div class="portfolio-title">${industryName} A사 플랫폼</div>
-                            <div class="portfolio-desc">UX/UI 기획, 디자인, 개발</div>
-                            <div class="portfolio-tags"><span>웹/앱</span><span>AI</span></div>
-                        </div>
-                    </div>
-                    <div class="portfolio-card">
-                        <div class="portfolio-image" style="background: linear-gradient(135deg, #f093fb, #f5576c)">
-                            <span>커머스 프로젝트</span>
-                        </div>
-                        <div class="portfolio-info">
-                            <div class="portfolio-title">B사 자사몰 구축</div>
-                            <div class="portfolio-desc">반응형 웹, 관리자 시스템</div>
-                            <div class="portfolio-tags"><span>e-Commerce</span></div>
-                        </div>
-                    </div>
-                    <div class="portfolio-card">
-                        <div class="portfolio-image" style="background: linear-gradient(135deg, #4facfe, #00f2fe)">
-                            <span>AI 프로젝트</span>
-                        </div>
-                        <div class="portfolio-info">
-                            <div class="portfolio-title">C사 AI 어시스턴트</div>
-                            <div class="portfolio-desc">AI 챗봇, 추천 시스템</div>
-                            <div class="portfolio-tags"><span>AI/ML</span><span>LLM</span></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3>운영 및 유지보수 계획</h3>
-                <div class="maintenance-grid">
-                    <div class="maintenance-item">
-                        <div class="maint-icon">🛡️</div>
-                        <div class="maint-title">안정화 지원</div>
-                        <div class="maint-desc">시스템 검수 완료 후 참여 인력 안정화 지원</div>
-                    </div>
-                    <div class="maintenance-item">
-                        <div class="maint-icon">⚡</div>
-                        <div class="maint-title">신속한 장애조치</div>
-                        <div class="maint-desc">장애 발생 시 최단시간 내 도착 및 조치</div>
-                    </div>
-                    <div class="maintenance-item">
-                        <div class="maint-icon">🔧</div>
-                        <div class="maint-title">무상 하자보수</div>
-                        <div class="maint-desc">검수 후 1년간 무상 하자 보수 지원</div>
-                    </div>
-                    <div class="maintenance-item">
-                        <div class="maint-icon">📈</div>
-                        <div class="maint-title">유상 유지보수</div>
-                        <div class="maint-desc">무상 하자 보수 이외 건에 대해 별도 계약</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 견적 섹션 -->
+            <!-- 09. 견적 및 투자 (Slide 20) -->
             <div class="proposal-section estimate-section">
                 <div class="section-header">
-                    <span class="section-num">💰</span>
+                    <span class="section-num">09</span>
                     <h2>투자 비용</h2>
                 </div>
                 
@@ -1600,13 +1237,13 @@ function initProposalForm() {
                         </tr>
                         <tr>
                             <td>백엔드 개발</td>
-                            <td>서버 개발, DB 설계, API, 관리자 시스템</td>
+                            <td>서버 개발, DB 설계, API, 관리자</td>
                             <td>${teamSize.backDev}명 × ${estimatedMonths - 2}개월</td>
                             <td class="amount">${Math.round(avgBudget * 0.17).toLocaleString()}</td>
                         </tr>
                         <tr>
                             <td>AI 개발</td>
-                            <td>AI 기획, 자연어 검색, 개인화 추천, 그래프 DB</td>
+                            <td>${ind.techStack.slice(0, 3).join(', ')}</td>
                             <td>${teamSize.aiPlanner + teamSize.aiDev}명 × ${estimatedMonths}개월</td>
                             <td class="amount">${Math.round(avgBudget * 0.22).toLocaleString()}</td>
                         </tr>
@@ -1628,13 +1265,56 @@ function initProposalForm() {
                 <div class="estimate-note">
                     <p>※ 본 견적은 제안 시점의 예상 견적이며, 상세 요구사항 확정 후 변동될 수 있습니다.</p>
                     <p>※ 서버 호스팅, 외부 API 라이선스, 클라우드 비용 등 별도 비용은 포함되지 않았습니다.</p>
-                    <p>※ 투입 인원의 정규직 비율은 100%입니다.</p>
                 </div>
             </div>
             
-            <!-- 마무리 (Slide 70) -->
+            <!-- WE ARE 구분선 -->
+            <div class="proposal-divider weare">
+                <span class="divider-label">WE ARE</span>
+                <div class="divider-sections">
+                    <span>10 회사 소개</span>
+                </div>
+            </div>
+            
+            <!-- 10. 회사 소개 (Slide 21) -->
+            <div class="proposal-section">
+                <div class="section-header">
+                    <span class="section-num">10</span>
+                    <h2>회사 소개</h2>
+                </div>
+                
+                <div class="company-intro-new">
+                    <h3>Agency Brain</h3>
+                    <p>디지털 에이전시로서 다년간의 프로젝트 경험과 전문 인력을 바탕으로 최상의 결과물을 제공합니다.</p>
+                </div>
+                
+                <div class="capability-grid">
+                    <div class="capability-card"><div class="capability-number">100+</div><div class="capability-label">프로젝트 수행</div></div>
+                    <div class="capability-card"><div class="capability-number">50+</div><div class="capability-label">전문 인력</div></div>
+                    <div class="capability-card"><div class="capability-number">95%</div><div class="capability-label">고객 만족도</div></div>
+                    <div class="capability-card"><div class="capability-number">10+</div><div class="capability-label">수상 경력</div></div>
+                </div>
+                
+                <h3>유사 프로젝트 수행 경험</h3>
+                <div class="portfolio-grid">
+                    ${ind.competitors.slice(0, 3).map((comp, i) => `
+                    <div class="portfolio-card">
+                        <div class="portfolio-image" style="background: linear-gradient(135deg, ${['#667eea, #764ba2', '#f093fb, #f5576c', '#4facfe, #00f2fe'][i]})">
+                            <span>${industryName} 프로젝트</span>
+                        </div>
+                        <div class="portfolio-info">
+                            <div class="portfolio-title">${industryName} ${String.fromCharCode(65 + i)}사 플랫폼</div>
+                            <div class="portfolio-desc">UX/UI 기획, 디자인, 개발</div>
+                            <div class="portfolio-tags"><span>${platforms[0] || 'Web'}</span><span>AI</span></div>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            <!-- 마무리 (Slide 22) -->
             <div class="proposal-ending">
-                <div class="ending-badge">One Platform, Smarter ${strategy.keyword} Experience</div>
+                <div class="ending-badge">One Platform, Smarter ${ind.keyword} Experience</div>
                 <div class="ending-message">
                     <h2>감사합니다</h2>
                     <p>함께 성장할 기회를 기대합니다</p>
