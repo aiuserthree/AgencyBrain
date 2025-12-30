@@ -554,11 +554,11 @@ function initProposalForm() {
             <!-- Prolog (Slide 2) -->
             <div class="proposal-prolog">
                 <div class="prolog-title">Prolog</div>
-                <div class="prolog-quote">"움직이는 과녁을 어떻게 맞출 것인가?"</div>
+                <div class="prolog-quote">"${ind.keyword}의 미래, 어떻게 준비할 것인가?"</div>
                 <div class="prolog-content">
-                    <p>${ind.prolog}</p>
-                    <p>인터넷·모바일·AI 기술의 고도화, 데이터 분석 기반 서비스의 확산, 그리고 정보를 적극적으로 탐색하는 스마트 고객의 등장은 ${industryName} 분야의 디지털 채널에 대한 기대 수준을 한층 높여 놓았습니다.</p>
-                    <p><strong>따라서 '데이터 기반 · 모바일 퍼스트 · 개인화 서비스'를 핵심으로 하는 새로운 디지털 플랫폼으로의 전환이 필요합니다.</strong></p>
+                    <p>${industryName} 시장은 급격한 변화의 중심에 있습니다. ${ind.marketTrends[0]}, ${ind.marketTrends[1]} 등 시장 환경이 빠르게 변화하고 있습니다.</p>
+                    <p>이러한 변화 속에서 고객은 더 나은 경험, 더 빠른 서비스, 더 정확한 정보를 요구하고 있습니다. 기존의 방식으로는 이러한 기대에 부응하기 어렵습니다.</p>
+                    <p><strong>지금은 '${ind.value}'를 핵심으로 하는 새로운 디지털 플랫폼으로의 전환이 필요한 시점입니다.</strong></p>
                 </div>
             </div>
             
@@ -638,7 +638,7 @@ function initProposalForm() {
                 
                 <h3>제안배경</h3>
                 <div class="background-box">
-                    <div class="background-title">${ind.prolog}</div>
+                    <div class="background-title">${ind.persona.desc}의 니즈를 충족하고, ${ind.painPoints[0]}를 해결하기 위한 차세대 플랫폼이 필요합니다.</div>
                 </div>
                 
                 <div class="background-grid">
@@ -669,7 +669,7 @@ function initProposalForm() {
                 
                 <div class="insight-highlight">
                     <div class="insight-label">인사이트</div>
-                    <p>${ind.prolog} <strong>${ind.solutions[0]}</strong>를 통해 차별화된 고객 경험을 제공해야 합니다.</p>
+                    <p>결론적으로, <strong>${ind.solutions[0]}</strong>와 <strong>${ind.solutions[1] || '통합 플랫폼 구축'}</strong>을 통해 ${ind.kpi[0]}를 달성하고, ${target || '고객'}에게 차별화된 ${ind.value}를 제공해야 합니다.</p>
                 </div>
             </div>
             
