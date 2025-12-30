@@ -9561,6 +9561,183 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             </div>
         </div>
 
+        <div class="func-section common-ui-section">
+            <h4>2.5 공통 UI 요소 및 사용자 행위 정의</h4>
+            
+            <div class="common-ui-group">
+                <h5>🔝 상단 헤더 (GNB - Global Navigation Bar)</h5>
+                <table class="common-ui-table">
+                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
+                    <tbody>
+                        <tr><td rowspan="3"><strong>로고</strong></td><td>클릭</td><td>메인 페이지로 이동</td><td>메인 페이지</td></tr>
+                        <tr><td>호버</td><td>커서 포인터로 변경</td><td>-</td></tr>
+                        <tr><td>롱프레스 (모바일)</td><td>홈 화면 바로가기 추가 안내</td><td>바로가기 추가 팝업</td></tr>
+                        <tr><td rowspan="4"><strong>검색창</strong></td><td>클릭/포커스</td><td>검색창 활성화, 최근 검색어/인기 검색어 표시</td><td>검색 드롭다운</td></tr>
+                        <tr><td>텍스트 입력</td><td>자동완성 목록 표시 (2자 이상, 300ms 디바운스)</td><td>자동완성 드롭다운</td></tr>
+                        <tr><td>Enter 또는 검색 버튼 클릭</td><td>검색 실행, 검색 결과 페이지 이동</td><td>검색 결과 페이지</td></tr>
+                        <tr><td>X(클리어) 버튼 클릭</td><td>입력 내용 삭제, 검색창 초기화</td><td>빈 검색창</td></tr>
+                        <tr><td rowspan="3"><strong>알림 아이콘</strong></td><td>클릭</td><td>알림 목록 패널 표시/숨김</td><td>알림 패널</td></tr>
+                        <tr><td>신규 알림 있을 때</td><td>빨간 뱃지(숫자) 표시</td><td>-</td></tr>
+                        <tr><td>알림 항목 클릭</td><td>해당 상세 페이지로 이동, 알림 읽음 처리</td><td>상세 페이지</td></tr>
+                        <tr><td rowspan="3"><strong>장바구니 아이콘</strong></td><td>클릭</td><td>장바구니 페이지 이동</td><td>장바구니 페이지</td></tr>
+                        <tr><td>호버</td><td>미니 장바구니 팝업 표시</td><td>미니 장바구니</td></tr>
+                        <tr><td>상품 있을 때</td><td>수량 뱃지 표시</td><td>-</td></tr>
+                        <tr><td rowspan="4"><strong>마이페이지/프로필</strong></td><td>클릭 (로그인)</td><td>마이페이지 드롭다운 또는 페이지 이동</td><td>마이페이지</td></tr>
+                        <tr><td>클릭 (비로그인)</td><td>로그인 페이지 이동</td><td>로그인 페이지</td></tr>
+                        <tr><td>호버</td><td>드롭다운 메뉴 표시 (주문내역, 찜목록, 설정 등)</td><td>드롭다운 메뉴</td></tr>
+                        <tr><td>로그아웃 클릭</td><td>로그아웃 확인 팝업 → 확인 시 로그아웃 처리</td><td>메인 페이지</td></tr>
+                        <tr><td rowspan="2"><strong>메뉴/카테고리</strong></td><td>호버</td><td>서브 메뉴/카테고리 드롭다운 표시</td><td>드롭다운 메뉴</td></tr>
+                        <tr><td>클릭</td><td>해당 카테고리/메뉴 페이지 이동</td><td>카테고리 페이지</td></tr>
+                        <tr><td rowspan="2"><strong>햄버거 메뉴 (모바일)</strong></td><td>클릭</td><td>사이드 메뉴 슬라이드 표시</td><td>사이드 메뉴</td></tr>
+                        <tr><td>외부 영역 클릭</td><td>사이드 메뉴 닫기</td><td>원래 화면</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="common-ui-group">
+                <h5>🔻 하단 푸터</h5>
+                <table class="common-ui-table">
+                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>회사 정보 링크</strong></td><td>클릭</td><td>회사 소개 페이지 이동</td><td>회사소개 페이지</td></tr>
+                        <tr><td><strong>이용약관 링크</strong></td><td>클릭</td><td>이용약관 팝업 또는 페이지 이동</td><td>약관 페이지</td></tr>
+                        <tr><td><strong>개인정보처리방침 링크</strong></td><td>클릭</td><td>개인정보처리방침 페이지 이동</td><td>개인정보 페이지</td></tr>
+                        <tr><td><strong>고객센터 링크</strong></td><td>클릭</td><td>고객센터/FAQ 페이지 이동</td><td>고객센터 페이지</td></tr>
+                        <tr><td><strong>전화번호 (모바일)</strong></td><td>탭</td><td>전화 앱 실행, 해당 번호 다이얼</td><td>전화 앱</td></tr>
+                        <tr><td><strong>SNS 아이콘</strong></td><td>클릭</td><td>해당 SNS 페이지 새 탭에서 열기</td><td>SNS 페이지 (새 탭)</td></tr>
+                        <tr><td><strong>앱 다운로드 링크</strong></td><td>클릭</td><td>앱스토어/플레이스토어 이동</td><td>스토어 페이지</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="common-ui-group">
+                <h5>📝 입력 필드 (Input Field)</h5>
+                <table class="common-ui-table">
+                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
+                    <tbody>
+                        <tr><td rowspan="8"><strong>텍스트 입력</strong></td><td>포커스 (클릭/탭)</td><td>테두리 색상 변경 (활성화), placeholder 텍스트 유지 또는 상단 이동</td><td>활성화 상태</td></tr>
+                        <tr><td>텍스트 입력</td><td>입력값 표시, 실시간 유효성 검사 (설정된 경우)</td><td>입력 중 상태</td></tr>
+                        <tr><td>유효성 검사 통과</td><td>녹색 체크 아이콘 표시, 테두리 녹색</td><td>유효 상태</td></tr>
+                        <tr><td>유효성 검사 실패</td><td>빨간 테두리, 필드 하단 에러 메시지 표시</td><td>에러 상태</td></tr>
+                        <tr><td>포커스 아웃 (blur)</td><td>최종 유효성 검사 실행, 테두리 원래 색상</td><td>비활성화 상태</td></tr>
+                        <tr><td>비밀번호 보기/숨기기 토글</td><td>입력값 표시/마스킹 전환</td><td>텍스트/마스킹</td></tr>
+                        <tr><td>X(클리어) 버튼 클릭</td><td>입력값 전체 삭제</td><td>빈 필드</td></tr>
+                        <tr><td>복사/붙여넣기</td><td>클립보드 내용 입력, 유효성 검사 실행</td><td>입력 상태</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="common-ui-group">
+                <h5>🔘 버튼 (Button)</h5>
+                <table class="common-ui-table">
+                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
+                    <tbody>
+                        <tr><td rowspan="6"><strong>기본 버튼</strong></td><td>호버</td><td>배경색 변화, 그림자 효과</td><td>호버 상태</td></tr>
+                        <tr><td>클릭 (활성화)</td><td>해당 기능 실행, 로딩 스피너 표시</td><td>로딩 상태</td></tr>
+                        <tr><td>클릭 (비활성화)</td><td>반응 없음, 커서 not-allowed</td><td>변화 없음</td></tr>
+                        <tr><td>처리 중 재클릭</td><td>무시 (중복 요청 방지)</td><td>로딩 상태 유지</td></tr>
+                        <tr><td>처리 성공</td><td>성공 메시지/토스트 표시, 다음 화면 이동</td><td>결과 화면</td></tr>
+                        <tr><td>처리 실패</td><td>에러 팝업/토스트 표시, 버튼 원래 상태 복구</td><td>에러 상태</td></tr>
+                        <tr><td rowspan="3"><strong>토글 버튼</strong></td><td>클릭 (OFF → ON)</td><td>활성화 상태로 전환, 설정값 저장</td><td>ON 상태</td></tr>
+                        <tr><td>클릭 (ON → OFF)</td><td>비활성화 상태로 전환, 설정값 저장</td><td>OFF 상태</td></tr>
+                        <tr><td>전환 실패</td><td>에러 토스트, 원래 상태 유지</td><td>원래 상태</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="common-ui-group">
+                <h5>☑️ 선택 요소 (Select/Checkbox/Radio)</h5>
+                <table class="common-ui-table">
+                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
+                    <tbody>
+                        <tr><td rowspan="4"><strong>체크박스</strong></td><td>클릭 (미선택)</td><td>체크 표시, 관련 값 업데이트</td><td>선택 상태</td></tr>
+                        <tr><td>클릭 (선택됨)</td><td>체크 해제, 관련 값 업데이트</td><td>미선택 상태</td></tr>
+                        <tr><td>전체선택 클릭</td><td>모든 하위 항목 체크/해제</td><td>전체 선택/해제</td></tr>
+                        <tr><td>일부 선택 시 전체선택</td><td>전체선택 체크박스 indeterminate 표시</td><td>부분 선택 표시</td></tr>
+                        <tr><td rowspan="2"><strong>라디오 버튼</strong></td><td>클릭 (미선택)</td><td>해당 옵션 선택, 기존 선택 해제</td><td>선택 상태</td></tr>
+                        <tr><td>선택된 항목 클릭</td><td>반응 없음 (선택 유지)</td><td>변화 없음</td></tr>
+                        <tr><td rowspan="4"><strong>셀렉트박스</strong></td><td>클릭</td><td>드롭다운 목록 표시</td><td>드롭다운 열림</td></tr>
+                        <tr><td>옵션 클릭</td><td>해당 옵션 선택, 드롭다운 닫힘</td><td>선택 완료</td></tr>
+                        <tr><td>외부 영역 클릭</td><td>드롭다운 닫힘, 기존 선택 유지</td><td>드롭다운 닫힘</td></tr>
+                        <tr><td>검색 입력 (검색형)</td><td>입력값으로 옵션 필터링</td><td>필터된 목록</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="common-ui-group">
+                <h5>📜 스크롤 및 페이지네이션</h5>
+                <table class="common-ui-table">
+                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
+                    <tbody>
+                        <tr><td rowspan="3"><strong>스크롤</strong></td><td>아래로 스크롤</td><td>다음 콘텐츠 표시, 헤더 축소/숨김 (설정시)</td><td>스크롤 상태</td></tr>
+                        <tr><td>위로 스크롤</td><td>이전 콘텐츠 표시, 헤더 표시</td><td>상단 이동</td></tr>
+                        <tr><td>스크롤 끝 도달 (무한스크롤)</td><td>다음 페이지 데이터 로딩, 로딩 스피너 표시</td><td>추가 데이터 로드</td></tr>
+                        <tr><td rowspan="4"><strong>페이지네이션</strong></td><td>페이지 번호 클릭</td><td>해당 페이지 데이터 로딩, 목록 갱신</td><td>해당 페이지</td></tr>
+                        <tr><td>이전/다음 화살표 클릭</td><td>이전/다음 페이지로 이동</td><td>이전/다음 페이지</td></tr>
+                        <tr><td>처음/끝 버튼 클릭</td><td>첫 페이지/마지막 페이지로 이동</td><td>첫/끝 페이지</td></tr>
+                        <tr><td>페이지당 개수 변경</td><td>표시 개수 변경, 1페이지로 이동, 목록 갱신</td><td>갱신된 목록</td></tr>
+                        <tr><td rowspan="2"><strong>TOP 버튼</strong></td><td>클릭</td><td>페이지 최상단으로 스크롤</td><td>페이지 상단</td></tr>
+                        <tr><td>화면 상단에서</td><td>버튼 숨김</td><td>버튼 비표시</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="common-ui-group">
+                <h5>💬 팝업/모달/토스트</h5>
+                <table class="common-ui-table">
+                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
+                    <tbody>
+                        <tr><td rowspan="5"><strong>모달 팝업</strong></td><td>트리거 클릭 (버튼 등)</td><td>모달 오픈, 배경 딤 처리, 스크롤 잠금</td><td>모달 표시</td></tr>
+                        <tr><td>X(닫기) 버튼 클릭</td><td>모달 닫힘, 배경 딤 해제</td><td>원래 화면</td></tr>
+                        <tr><td>배경 영역 클릭</td><td>모달 닫힘 (설정에 따라)</td><td>원래 화면</td></tr>
+                        <tr><td>ESC 키</td><td>모달 닫힘</td><td>원래 화면</td></tr>
+                        <tr><td>확인/취소 버튼</td><td>해당 액션 실행 후 모달 닫힘</td><td>결과에 따른 화면</td></tr>
+                        <tr><td rowspan="3"><strong>바텀시트</strong></td><td>트리거 클릭</td><td>하단에서 슬라이드업, 배경 딤</td><td>바텀시트 표시</td></tr>
+                        <tr><td>아래로 드래그</td><td>바텀시트 닫힘</td><td>원래 화면</td></tr>
+                        <tr><td>핸들 영역 탭</td><td>바텀시트 확장/축소</td><td>확장/축소 상태</td></tr>
+                        <tr><td rowspan="2"><strong>토스트 메시지</strong></td><td>표시됨</td><td>3초 후 자동 사라짐</td><td>원래 화면</td></tr>
+                        <tr><td>토스트 클릭</td><td>즉시 사라짐 또는 상세 페이지 이동</td><td>원래 화면/상세</td></tr>
+                        <tr><td rowspan="3"><strong>확인 팝업 (Alert)</strong></td><td>확인 버튼 클릭</td><td>팝업 닫힘, 해당 액션 실행</td><td>결과 화면</td></tr>
+                        <tr><td>취소 버튼 클릭</td><td>팝업 닫힘, 액션 취소</td><td>원래 화면</td></tr>
+                        <tr><td>배경/X 클릭</td><td>팝업 닫힘, 액션 취소</td><td>원래 화면</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="common-ui-group">
+                <h5>⏳ 로딩 및 에러 상태</h5>
+                <table class="common-ui-table">
+                    <thead><tr><th>UI 요소</th><th>상황</th><th>시스템 반응</th><th>사용자 행위</th></tr></thead>
+                    <tbody>
+                        <tr><td rowspan="3"><strong>로딩 상태</strong></td><td>페이지 로딩</td><td>전체 화면 로딩 스피너 또는 스켈레톤 UI</td><td>대기</td></tr>
+                        <tr><td>부분 로딩</td><td>해당 영역만 로딩 스피너</td><td>다른 영역 이용 가능</td></tr>
+                        <tr><td>버튼 로딩</td><td>버튼 내 스피너, 버튼 비활성화</td><td>대기</td></tr>
+                        <tr><td rowspan="4"><strong>에러 상태</strong></td><td>네트워크 오류</td><td>"인터넷 연결을 확인해주세요" 메시지 + 재시도 버튼</td><td>재시도 클릭</td></tr>
+                        <tr><td>서버 오류 (500)</td><td>"일시적인 오류가 발생했습니다" 메시지 + 재시도 버튼</td><td>재시도 클릭</td></tr>
+                        <tr><td>권한 오류 (403)</td><td>"접근 권한이 없습니다" 메시지 + 돌아가기 버튼</td><td>돌아가기 클릭</td></tr>
+                        <tr><td>페이지 없음 (404)</td><td>"페이지를 찾을 수 없습니다" 메시지 + 메인으로 버튼</td><td>메인으로 클릭</td></tr>
+                        <tr><td rowspan="2"><strong>빈 상태</strong></td><td>검색 결과 없음</td><td>"검색 결과가 없습니다" + 다른 검색어 추천</td><td>다시 검색</td></tr>
+                        <tr><td>목록 데이터 없음</td><td>"아직 내역이 없습니다" + 관련 액션 버튼</td><td>액션 버튼 클릭</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="common-ui-group">
+                <h5>📱 모바일 전용 인터랙션</h5>
+                <table class="common-ui-table">
+                    <thead><tr><th>제스처</th><th>적용 영역</th><th>시스템 반응</th><th>결과</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>풀투리프레시</strong></td><td>목록 최상단</td><td>데이터 새로고침, 로딩 인디케이터</td><td>갱신된 목록</td></tr>
+                        <tr><td><strong>스와이프 (좌→우)</strong></td><td>목록 아이템</td><td>수정/삭제 버튼 표시</td><td>액션 버튼 노출</td></tr>
+                        <tr><td><strong>스와이프 (우→좌)</strong></td><td>페이지</td><td>이전 페이지로 이동 (iOS)</td><td>이전 페이지</td></tr>
+                        <tr><td><strong>핀치 줌</strong></td><td>이미지/지도</td><td>확대/축소</td><td>확대/축소된 뷰</td></tr>
+                        <tr><td><strong>더블탭</strong></td><td>이미지</td><td>확대 또는 좋아요</td><td>확대/좋아요</td></tr>
+                        <tr><td><strong>롱프레스</strong></td><td>목록 아이템</td><td>컨텍스트 메뉴 표시 또는 다중 선택 모드</td><td>메뉴/선택 모드</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="func-section func-spec-section">
             <h4>3. 선택된 기능 상세 스펙</h4>
             <div class="func-spec-container">

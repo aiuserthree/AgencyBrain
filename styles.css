@@ -6079,6 +6079,108 @@ input, select, textarea {
     }
 }
 
+/* 공통 UI 요소 섹션 스타일 */
+.common-ui-section {
+    margin-top: 24px;
+}
+
+.common-ui-group {
+    margin-bottom: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.common-ui-group h5 {
+    padding: 14px 20px;
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(123, 97, 255, 0.1) 100%);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.common-ui-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.common-ui-table thead {
+    background: var(--bg-tertiary);
+}
+
+.common-ui-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.common-ui-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    vertical-align: top;
+    line-height: 1.5;
+}
+
+.common-ui-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.common-ui-table tbody tr:hover {
+    background: rgba(0, 217, 255, 0.03);
+}
+
+.common-ui-table td:first-child {
+    font-weight: 500;
+    color: var(--accent-cyan);
+    min-width: 120px;
+}
+
+.common-ui-table td:nth-child(2) {
+    color: var(--text-secondary);
+    min-width: 150px;
+}
+
+.common-ui-table td:nth-child(3) {
+    color: var(--text-primary);
+}
+
+.common-ui-table td:last-child {
+    color: var(--accent-purple);
+    font-weight: 500;
+    min-width: 100px;
+}
+
+.common-ui-table strong {
+    color: var(--text-primary);
+}
+
+.common-ui-table td[rowspan] {
+    background: rgba(0, 217, 255, 0.05);
+    border-right: 2px solid var(--accent-cyan);
+}
+
+@media (max-width: 1024px) {
+    .common-ui-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .common-ui-table th,
+    .common-ui-table td {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+        min-width: auto;
+    }
+}
+
 @media (max-width: 768px) {
     .alert-popup {
         grid-template-columns: 1fr;
