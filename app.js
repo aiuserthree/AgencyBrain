@@ -7808,10 +7808,215 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
     const industryName = industryNames[industry] || '일반';
     const docId = `FD-${funcType.toUpperCase().substring(0, 3)}-001`;
     
-    // 기능 유형별 상세 정보
+    // 기능 유형별 상세 정보 (페이지 UI 요소 + 행위 + 결과 + 기본값 포함)
     const funcTypeInfo = {
         // 상품/서비스
-        size_guide: { category: '상품', icon: '📏', purpose: '상품별 사이즈 정보를 제공하여 구매 결정을 돕는 기능', steps: ['상품 상세 진입', '사이즈 가이드 클릭', '사이즈표 확인', '내 사이즈 선택', '추천 결과 확인'] },
+        size_guide: { 
+            category: '상품', icon: '📏', purpose: '상품별 사이즈 정보를 제공하여 구매 결정을 돕는 기능', 
+            steps: ['상품 상세 진입', '사이즈 가이드 클릭', '사이즈표 확인', '내 사이즈 선택', '추천 결과 확인'],
+            pageUI: [
+                { element: '사이즈표 탭 (의류/신발)', type: '탭', defaultVal: '의류 탭 선택', actions: [
+                    { action: '의류 탭 클릭', result: '의류 사이즈표 표시 (S/M/L/XL 기준)', nextState: '의류 탭 활성화' },
+                    { action: '신발 탭 클릭', result: '신발 사이즈표 표시 (230~290mm)', nextState: '신발 탭 활성화' }
+                ]},
+                { element: '부위별 치수표', type: '테이블', defaultVal: '전체 치수 표시', actions: [
+                    { action: '행 호버', result: '해당 사이즈 행 하이라이트', nextState: '강조 표시' },
+                    { action: '사이즈 클릭', result: '내 사이즈로 선택, 체크 표시', nextState: '선택됨' }
+                ]},
+                { element: '내 사이즈 입력', type: '입력필드', defaultVal: '빈 값', actions: [
+                    { action: '키 입력 (cm)', result: '숫자만 허용, 100~250 범위 검사', nextState: '입력됨' },
+                    { action: '몸무게 입력 (kg)', result: '숫자만 허용, 20~200 범위 검사', nextState: '입력됨' },
+                    { action: '추천받기 버튼 클릭', result: '입력값 기반 사이즈 추천, 결과 표시', nextState: '추천 결과 표시' }
+                ]},
+                { element: '추천 사이즈 결과', type: '카드', defaultVal: '숨김', actions: [
+                    { action: '결과 표시 시', result: '"고객님께 추천드리는 사이즈는 M입니다" + 상세 설명', nextState: '결과 카드 표시' },
+                    { action: '다시 측정 클릭', result: '입력값 초기화, 입력 폼으로 복귀', nextState: '입력 폼' }
+                ]},
+                { element: '측정 방법 안내', type: '아코디언', defaultVal: '접힘', actions: [
+                    { action: '펼치기 클릭', result: '측정 방법 이미지+텍스트 가이드 표시', nextState: '펼침' },
+                    { action: '접기 클릭', result: '가이드 내용 숨김', nextState: '접힘' }
+                ]}
+            ]
+        },
+        install_booking: { 
+            category: '예약', icon: '🔧', purpose: '제품 설치 일정을 예약하는 기능', 
+            steps: ['설치예약 시작', '제품 확인', '날짜/시간 선택', '설치 정보 입력', '예약 완료'],
+            pageUI: [
+                { element: '설치 제품 정보', type: '카드', defaultVal: '주문 상품 자동 표시', actions: [
+                    { action: '페이지 진입', result: '주문한 제품명, 이미지, 수량 자동 표시', nextState: '제품 정보 표시' },
+                    { action: '제품 변경 클릭', result: '설치 가능 제품 목록 모달', nextState: '제품 선택 모달' }
+                ]},
+                { element: '설치 희망일 캘린더', type: '캘린더', defaultVal: '오늘+3일 후 선택', actions: [
+                    { action: '날짜 클릭 (가능일)', result: '해당 날짜 선택, 파란색 하이라이트, 시간대 로딩', nextState: '날짜 선택됨' },
+                    { action: '날짜 클릭 (불가일)', result: '"해당 날짜는 예약이 마감되었습니다" 토스트', nextState: '변화 없음' },
+                    { action: '날짜 클릭 (과거)', result: '클릭 무시, 회색 비활성화 유지', nextState: '변화 없음' },
+                    { action: '이전/다음 월 버튼', result: '해당 월 캘린더 표시, 예약 가능일 로딩', nextState: '월 변경' }
+                ]},
+                { element: '설치 시간대 선택', type: '버튼그룹', defaultVal: '선택 없음', actions: [
+                    { action: '오전 (9-12시) 클릭', result: '오전 선택, 버튼 활성화 스타일', nextState: '오전 선택됨' },
+                    { action: '오후 (13-18시) 클릭', result: '오후 선택, 버튼 활성화 스타일', nextState: '오후 선택됨' },
+                    { action: '마감된 시간대 클릭', result: '"해당 시간대는 마감되었습니다" 토스트', nextState: '변화 없음' }
+                ]},
+                { element: '설치 주소', type: '입력필드+버튼', defaultVal: '회원 기본 주소 자동 입력', actions: [
+                    { action: '주소 검색 버튼 클릭', result: '다음 주소 API 팝업 오픈', nextState: '주소 검색 팝업' },
+                    { action: '주소 선택 완료', result: '우편번호+기본주소 자동 입력, 팝업 닫힘', nextState: '주소 입력됨' },
+                    { action: '상세주소 입력', result: '텍스트 입력, 최대 100자', nextState: '상세주소 입력됨' }
+                ]},
+                { element: '연락처', type: '입력필드', defaultVal: '회원 휴대폰 자동 입력', actions: [
+                    { action: '숫자 입력', result: '자동 하이픈 추가 (010-0000-0000)', nextState: '입력 중' },
+                    { action: '11자리 입력 완료', result: '녹색 체크 표시, 유효성 통과', nextState: '유효함' },
+                    { action: '잘못된 형식 입력', result: '빨간 테두리, "올바른 휴대폰 번호를 입력해주세요"', nextState: '에러' }
+                ]},
+                { element: '설치 요청사항', type: '텍스트영역', defaultVal: '빈 값 (선택사항)', actions: [
+                    { action: '텍스트 입력', result: '글자수 카운트 (0/200)', nextState: '입력 중' },
+                    { action: '200자 초과 입력', result: '추가 입력 불가, "최대 200자까지 입력 가능합니다"', nextState: '최대 도달' }
+                ]},
+                { element: '출입 방법', type: '라디오', defaultVal: '자유출입 선택', actions: [
+                    { action: '자유출입 선택', result: '비밀번호 입력 필드 숨김', nextState: '자유출입' },
+                    { action: '공동현관 비밀번호 선택', result: '비밀번호 입력 필드 표시', nextState: '비밀번호 입력 필요' },
+                    { action: '경비실 호출 선택', result: '비밀번호 입력 필드 숨김', nextState: '경비실 호출' }
+                ]},
+                { element: '예약하기 버튼', type: '버튼', defaultVal: '비활성화 (필수값 미입력)', actions: [
+                    { action: '필수값 모두 입력', result: '버튼 활성화 (파란색)', nextState: '활성화' },
+                    { action: '버튼 클릭 (활성화)', result: '로딩 스피너, API 호출', nextState: '처리 중' },
+                    { action: '예약 성공', result: '"설치 예약이 완료되었습니다" 팝업, 예약번호 표시', nextState: '예약 완료 화면' },
+                    { action: '예약 실패', result: '"예약에 실패했습니다. 다시 시도해주세요" 팝업', nextState: '에러 표시' }
+                ]}
+            ]
+        },
+        booking: { 
+            category: '예약', icon: '📅', purpose: '서비스/시설을 예약하는 기능', 
+            steps: ['예약 시작', '날짜/시간 선택', '옵션 선택', '정보 입력', '예약 완료'],
+            pageUI: [
+                { element: '서비스 선택 카드', type: '카드리스트', defaultVal: '첫 번째 서비스 선택', actions: [
+                    { action: '서비스 카드 클릭', result: '해당 서비스 선택, 테두리 강조, 가격/소요시간 표시', nextState: '서비스 선택됨' },
+                    { action: '상세보기 클릭', result: '서비스 상세 설명 모달', nextState: '상세 모달' }
+                ]},
+                { element: '예약 캘린더', type: '캘린더', defaultVal: '오늘 날짜 하이라이트', actions: [
+                    { action: '예약가능일 클릭', result: '날짜 선택, 시간 슬롯 로딩', nextState: '날짜 선택됨' },
+                    { action: '휴무일 클릭', result: '"휴무일입니다" 토스트 메시지', nextState: '변화 없음' }
+                ]},
+                { element: '시간 슬롯', type: '버튼그리드', defaultVal: '선택 없음, 예약가능 시간만 활성화', actions: [
+                    { action: '가능 시간 클릭', result: '시간 선택, 버튼 활성화 스타일', nextState: '시간 선택됨' },
+                    { action: '마감 시간 클릭', result: '클릭 불가, "마감" 표시 유지', nextState: '변화 없음' }
+                ]},
+                { element: '예약자 정보', type: '폼', defaultVal: '로그인 회원 정보 자동 입력', actions: [
+                    { action: '이름 입력', result: '한글/영문만 허용, 2-20자', nextState: '입력됨' },
+                    { action: '연락처 입력', result: '숫자만, 자동 하이픈, 11자리 검증', nextState: '입력됨' }
+                ]},
+                { element: '예약 요청사항', type: '텍스트영역', defaultVal: '빈 값', actions: [
+                    { action: '텍스트 입력', result: '최대 500자, 글자수 표시', nextState: '입력됨' }
+                ]},
+                { element: '예약하기 버튼', type: '버튼', defaultVal: '비활성화', actions: [
+                    { action: '필수항목 완료 시', result: '버튼 활성화', nextState: '활성화' },
+                    { action: '클릭', result: '예약 확인 팝업 → 확인 시 예약 처리', nextState: '예약 완료' }
+                ]}
+            ]
+        },
+        payment: { 
+            category: '결제', icon: '💳', purpose: '상품/서비스 대금을 결제하는 기능', 
+            steps: ['결제 수단 선택', '정보 입력', '결제 진행', '결제 완료', '영수증 발급'],
+            pageUI: [
+                { element: '주문 상품 요약', type: '카드', defaultVal: '장바구니 상품 목록 표시', actions: [
+                    { action: '펼치기/접기', result: '상품 목록 상세 표시/숨김', nextState: '펼침/접힘' },
+                    { action: '상품명 클릭', result: '상품 상세 페이지 새 탭', nextState: '상세 페이지' }
+                ]},
+                { element: '배송지 정보', type: '라디오+폼', defaultVal: '기본 배송지 선택', actions: [
+                    { action: '저장된 배송지 선택', result: '해당 주소 정보 표시', nextState: '배송지 선택됨' },
+                    { action: '새 배송지 추가', result: '배송지 입력 폼 표시', nextState: '입력 폼 표시' },
+                    { action: '주소 검색', result: '다음 주소 API 팝업', nextState: '주소 검색 팝업' }
+                ]},
+                { element: '결제 수단 선택', type: '라디오', defaultVal: '신용카드 선택', actions: [
+                    { action: '신용카드 선택', result: '카드 정보 입력 폼 표시', nextState: '카드 입력 폼' },
+                    { action: '간편결제 선택', result: '카카오페이/네이버페이 등 버튼 표시', nextState: '간편결제 버튼' },
+                    { action: '무통장입금 선택', result: '입금 은행 선택, 입금자명 입력 폼', nextState: '무통장 폼' }
+                ]},
+                { element: '카드 번호 입력', type: '입력필드', defaultVal: '빈 값', actions: [
+                    { action: '숫자 입력', result: '4자리마다 자동 하이픈, 카드사 로고 표시', nextState: '입력 중' },
+                    { action: '16자리 완료', result: '유효성 검사 (Luhn), 통과 시 녹색 체크', nextState: '유효함' }
+                ]},
+                { element: '유효기간', type: '입력필드', defaultVal: 'MM/YY 플레이스홀더', actions: [
+                    { action: 'MM 입력', result: '01-12 범위 검사', nextState: '월 입력됨' },
+                    { action: 'YY 입력', result: '현재 년도 이후 검사', nextState: '년 입력됨' }
+                ]},
+                { element: 'CVC', type: '입력필드', defaultVal: '빈 값, 마스킹', actions: [
+                    { action: '숫자 입력', result: '3자리 (AMEX 4자리), 마스킹 표시', nextState: '입력됨' }
+                ]},
+                { element: '할부 선택', type: '셀렉트', defaultVal: '일시불', actions: [
+                    { action: '드롭다운 클릭', result: '일시불~12개월 옵션 표시', nextState: '드롭다운 열림' },
+                    { action: '할부 선택', result: '월별 결제금액 계산 표시', nextState: '할부 선택됨' }
+                ]},
+                { element: '쿠폰 적용', type: '입력+버튼', defaultVal: '적용된 쿠폰 없음', actions: [
+                    { action: '쿠폰 코드 입력', result: '영문+숫자 입력', nextState: '입력 중' },
+                    { action: '적용 버튼 클릭', result: '쿠폰 유효성 검사 → 할인금액 표시 또는 에러', nextState: '적용됨/에러' },
+                    { action: '쿠폰 선택 버튼', result: '보유 쿠폰 목록 모달', nextState: '쿠폰 목록 모달' }
+                ]},
+                { element: '포인트 사용', type: '입력+버튼', defaultVal: '0P 사용', actions: [
+                    { action: '포인트 입력', result: '숫자만, 보유 포인트 한도 내', nextState: '입력됨' },
+                    { action: '전액사용 클릭', result: '보유 포인트 전액 입력', nextState: '전액 적용' }
+                ]},
+                { element: '최종 결제금액', type: '텍스트', defaultVal: '상품금액 - 할인 + 배송비', actions: [
+                    { action: '할인/포인트 변경 시', result: '실시간 금액 재계산', nextState: '금액 업데이트' }
+                ]},
+                { element: '결제하기 버튼', type: '버튼', defaultVal: '비활성화', actions: [
+                    { action: '필수 동의 + 정보 입력 완료', result: '버튼 활성화', nextState: '활성화' },
+                    { action: '클릭', result: '결제 진행, 3DS 인증 팝업 (카드)', nextState: '결제 처리 중' },
+                    { action: '결제 성공', result: '주문 완료 페이지 이동, 주문번호 표시', nextState: '결제 완료' },
+                    { action: '결제 실패', result: '에러 팝업, 사유 표시, 재시도 버튼', nextState: '결제 실패' }
+                ]}
+            ]
+        },
+        cart: { 
+            category: '쇼핑', icon: '🛒', purpose: '장바구니에 담긴 상품을 관리하는 기능', 
+            steps: ['장바구니 진입', '상품 확인', '수량/옵션 변경', '상품 선택', '주문하기'],
+            pageUI: [
+                { element: '전체선택 체크박스', type: '체크박스', defaultVal: '전체 선택됨', actions: [
+                    { action: '체크 (미선택 → 선택)', result: '모든 상품 체크, 총 금액 업데이트', nextState: '전체 선택' },
+                    { action: '해제 (선택 → 미선택)', result: '모든 상품 해제, 총 금액 0원', nextState: '전체 해제' }
+                ]},
+                { element: '상품 체크박스', type: '체크박스', defaultVal: '선택됨', actions: [
+                    { action: '체크/해제', result: '해당 상품 선택/해제, 총 금액 재계산', nextState: '선택/해제' },
+                    { action: '일부만 선택 시', result: '전체선택 체크박스 indeterminate 상태', nextState: '부분 선택' }
+                ]},
+                { element: '상품 이미지', type: '이미지', defaultVal: '상품 대표 이미지', actions: [
+                    { action: '클릭', result: '상품 상세 페이지 이동', nextState: '상품 상세' }
+                ]},
+                { element: '수량 스테퍼', type: '스테퍼', defaultVal: '담은 수량', actions: [
+                    { action: '- 버튼 클릭', result: '수량 1 감소 (최소 1), 금액 재계산', nextState: '수량 감소' },
+                    { action: '+ 버튼 클릭', result: '수량 1 증가, 재고 체크, 금액 재계산', nextState: '수량 증가' },
+                    { action: '재고 초과 시', result: '"재고가 부족합니다" 토스트, 수량 유지', nextState: '에러' }
+                ]},
+                { element: '옵션 변경', type: '링크', defaultVal: '현재 옵션 표시', actions: [
+                    { action: '클릭', result: '옵션 변경 바텀시트 표시', nextState: '옵션 변경 모달' },
+                    { action: '옵션 선택 후 변경', result: '옵션 업데이트, 가격 변동 시 금액 재계산', nextState: '옵션 변경됨' }
+                ]},
+                { element: '삭제 버튼', type: '버튼', defaultVal: 'X 아이콘', actions: [
+                    { action: '클릭', result: '"상품을 삭제하시겠습니까?" 확인 팝업', nextState: '삭제 확인' },
+                    { action: '확인', result: '상품 삭제, 목록 업데이트, 금액 재계산', nextState: '삭제됨' },
+                    { action: '취소', result: '팝업 닫힘, 변화 없음', nextState: '변화 없음' }
+                ]},
+                { element: '선택 삭제 버튼', type: '버튼', defaultVal: '상단 버튼', actions: [
+                    { action: '클릭 (선택 상품 있을 때)', result: '"선택한 N개 상품을 삭제하시겠습니까?" 팝업', nextState: '삭제 확인' },
+                    { action: '클릭 (선택 없을 때)', result: '"삭제할 상품을 선택해주세요" 토스트', nextState: '토스트' }
+                ]},
+                { element: '품절 상품 삭제', type: '버튼', defaultVal: '품절 상품 있을 때만 표시', actions: [
+                    { action: '클릭', result: '품절 상품 일괄 삭제', nextState: '품절 삭제됨' }
+                ]},
+                { element: '배송비 안내', type: '텍스트', defaultVal: '배송비 계산 표시', actions: [
+                    { action: '무료배송 조건 미달', result: '"N원 더 구매 시 무료배송" 표시', nextState: '조건 안내' },
+                    { action: '무료배송 조건 충족', result: '"무료배송" 표시', nextState: '무료배송' }
+                ]},
+                { element: '총 결제금액', type: '텍스트', defaultVal: '선택 상품 합계', actions: [
+                    { action: '상품 선택/수량 변경 시', result: '실시간 금액 재계산', nextState: '금액 업데이트' }
+                ]},
+                { element: '주문하기 버튼', type: '버튼', defaultVal: '선택 상품 없으면 비활성화', actions: [
+                    { action: '클릭 (로그인)', result: '주문서 작성 페이지 이동', nextState: '주문서 페이지' },
+                    { action: '클릭 (비로그인)', result: '"로그인이 필요합니다" 팝업, 로그인/비회원 주문 선택', nextState: '로그인 유도' },
+                    { action: '품절 상품 포함 시', result: '"품절 상품은 주문할 수 없습니다" 팝업', nextState: '에러 팝업' }
+                ]}
+            ]
+        },
+        // 기존 정보 유지
         styling: { category: '상품', icon: '👗', purpose: 'AI 기반으로 고객에게 맞춤 스타일링을 추천하는 기능', steps: ['스타일 분석 시작', '취향 선택', '체형 정보 입력', 'AI 분석 진행', '추천 코디 확인'] },
         virtual_fitting: { category: '상품', icon: '🪞', purpose: '가상으로 의류를 피팅해볼 수 있는 AR 기능', steps: ['가상피팅 시작', '사진 업로드/촬영', '상품 선택', 'AR 피팅 실행', '결과 저장/공유'] },
         skin_diagnosis: { category: '진단', icon: '🔬', purpose: 'AI를 활용하여 피부 상태를 분석하고 맞춤 제품을 추천하는 기능', steps: ['진단 시작', '피부 촬영', 'AI 분석 진행', '결과 확인', '맞춤 제품 추천'] },
@@ -7821,32 +8026,20 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
         compatibility: { category: '상품', icon: '🔗', purpose: '기기 간 호환성을 확인하는 기능', steps: ['호환성 체크 시작', '기기 선택', '호환 제품 검색', '결과 확인', '구매로 이동'] },
         '3d_viewer': { category: '상품', icon: '🎨', purpose: '상품을 3D로 360도 살펴볼 수 있는 기능', steps: ['3D 뷰어 실행', '상품 로딩', '회전/확대', '세부 확인', '색상 변경'] },
         ar_placement: { category: '체험', icon: '📱', purpose: 'AR로 가구/제품을 실제 공간에 배치해볼 수 있는 기능', steps: ['AR 배치 시작', '카메라 활성화', '공간 인식', '상품 배치', '저장/공유'] },
-        
-        // 예약/신청
-        booking: { category: '예약', icon: '📅', purpose: '서비스/시설을 예약하는 기능', steps: ['예약 시작', '날짜/시간 선택', '옵션 선택', '정보 입력', '예약 완료'] },
         class_booking: { category: '예약', icon: '🏃', purpose: '운동/수업을 예약하는 기능', steps: ['수업 선택', '일정 확인', '시간 선택', '예약 확인', '예약 완료'] },
         pt_booking: { category: '예약', icon: '💪', purpose: 'PT 세션을 예약하는 기능', steps: ['트레이너 선택', '가능 시간 확인', '시간 선택', '예약 정보 확인', '예약 완료'] },
         consultation: { category: '상담', icon: '💬', purpose: '전문가 상담을 신청하는 기능', steps: ['상담 유형 선택', '희망 일시 선택', '상담 내용 입력', '신청 완료', '확인 알림'] },
         telemedicine: { category: '진료', icon: '🩺', purpose: '화상으로 비대면 진료를 받는 기능', steps: ['진료 신청', '증상 입력', '대기실 입장', '화상 진료', '처방전 발급'] },
         visit_booking: { category: '예약', icon: '🏠', purpose: '매물/시설 방문을 예약하는 기능', steps: ['매물 선택', '방문 희망일 선택', '연락처 입력', '예약 확인', '방문 완료'] },
-        
-        // 건강/운동
         exercise_log: { category: '기록', icon: '📝', purpose: '운동 내역을 기록하고 관리하는 기능', steps: ['운동 기록 시작', '운동 종류 선택', '시간/강도 입력', '완료 기록', '통계 확인'] },
         body_check: { category: '측정', icon: '📏', purpose: '신체 측정 데이터를 기록하고 변화를 추적하는 기능', steps: ['측정 시작', '측정 항목 선택', '데이터 입력', '결과 저장', '변화 그래프 확인'] },
         health_record: { category: '기록', icon: '🏥', purpose: '건강 기록을 관리하는 기능', steps: ['기록 추가', '항목 선택', '데이터 입력', '저장', '히스토리 확인'] },
         medical_record: { category: '의료', icon: '📋', purpose: '진료 기록을 조회하고 관리하는 기능', steps: ['기록 조회', '기간 선택', '진료 내역 확인', '상세 보기', '내보내기'] },
-        
-        // 콘텐츠/미디어
         online_lecture: { category: '학습', icon: '🎓', purpose: '온라인 강의를 수강하는 기능', steps: ['강의 선택', '강의 시작', '영상 시청', '진도 저장', '완료 처리'] },
         live_class: { category: '학습', icon: '📺', purpose: '실시간 화상 수업에 참여하는 기능', steps: ['수업 입장', '카메라/마이크 설정', '수업 참여', '질문/채팅', '수업 종료'] },
         watch: { category: '콘텐츠', icon: '🎬', purpose: '영상 콘텐츠를 시청하는 기능', steps: ['콘텐츠 선택', '재생 시작', '시청', '평가/리뷰', '관련 추천'] },
-        
-        // 결제/정산
-        payment: { category: '결제', icon: '💳', purpose: '상품/서비스 대금을 결제하는 기능', steps: ['결제 수단 선택', '정보 입력', '결제 진행', '결제 완료', '영수증 발급'] },
         subscription: { category: '구독', icon: '🔄', purpose: '정기 구독을 신청/관리하는 기능', steps: ['구독 상품 선택', '주기 설정', '결제 정보 입력', '구독 시작', '관리 페이지'] },
         settlement: { category: '정산', icon: '💰', purpose: '거래 대금을 정산하는 기능', steps: ['정산 내역 확인', '기간 선택', '상세 내역', '정산 요청', '완료 확인'] },
-        
-        // 관리자
         admin_dashboard: { category: '관리자', icon: '📊', purpose: '서비스 현황을 모니터링하는 대시보드', steps: ['대시보드 접속', '주요 지표 확인', '상세 분석', '리포트 생성', '알림 확인'] },
         admin_user: { category: '관리자', icon: '👥', purpose: '회원 정보를 관리하는 기능', steps: ['회원 검색', '상세 정보 확인', '정보 수정', '등급/권한 변경', '저장'] },
         admin_order: { category: '관리자', icon: '📦', purpose: '주문을 관리하는 기능', steps: ['주문 목록 확인', '주문 상세', '상태 변경', '배송 처리', '완료 처리'] },
@@ -9561,182 +9754,46 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             </div>
         </div>
 
-        <div class="func-section common-ui-section">
-            <h4>2.5 공통 UI 요소 및 사용자 행위 정의</h4>
+        ${info.pageUI ? `
+        <div class="func-section page-ui-section">
+            <h4>2.5 📋 ${funcName} 페이지 UI 요소별 행위/결과 정의</h4>
+            <p class="section-desc">이 페이지에서 사용되는 모든 UI 요소와 각 요소에서 발생할 수 있는 사용자 행위, 시스템 반응, 결과 상태를 정의합니다.</p>
             
-            <div class="common-ui-group">
-                <h5>🔝 상단 헤더 (GNB - Global Navigation Bar)</h5>
-                <table class="common-ui-table">
-                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
+            ${info.pageUI.map((ui, idx) => `
+            <div class="page-ui-group">
+                <div class="page-ui-header">
+                    <span class="ui-number">${idx + 1}</span>
+                    <div class="ui-info">
+                        <strong>${ui.element}</strong>
+                        <span class="ui-type-badge">${ui.type}</span>
+                    </div>
+                    <div class="ui-default">
+                        <span class="default-label">기본값:</span>
+                        <span class="default-value">${ui.defaultVal}</span>
+                    </div>
+                </div>
+                <table class="page-ui-table">
+                    <thead>
+                        <tr>
+                            <th width="25%">사용자 행위</th>
+                            <th width="45%">시스템 반응 (결과)</th>
+                            <th width="30%">다음 상태</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr><td rowspan="3"><strong>로고</strong></td><td>클릭</td><td>메인 페이지로 이동</td><td>메인 페이지</td></tr>
-                        <tr><td>호버</td><td>커서 포인터로 변경</td><td>-</td></tr>
-                        <tr><td>롱프레스 (모바일)</td><td>홈 화면 바로가기 추가 안내</td><td>바로가기 추가 팝업</td></tr>
-                        <tr><td rowspan="4"><strong>검색창</strong></td><td>클릭/포커스</td><td>검색창 활성화, 최근 검색어/인기 검색어 표시</td><td>검색 드롭다운</td></tr>
-                        <tr><td>텍스트 입력</td><td>자동완성 목록 표시 (2자 이상, 300ms 디바운스)</td><td>자동완성 드롭다운</td></tr>
-                        <tr><td>Enter 또는 검색 버튼 클릭</td><td>검색 실행, 검색 결과 페이지 이동</td><td>검색 결과 페이지</td></tr>
-                        <tr><td>X(클리어) 버튼 클릭</td><td>입력 내용 삭제, 검색창 초기화</td><td>빈 검색창</td></tr>
-                        <tr><td rowspan="3"><strong>알림 아이콘</strong></td><td>클릭</td><td>알림 목록 패널 표시/숨김</td><td>알림 패널</td></tr>
-                        <tr><td>신규 알림 있을 때</td><td>빨간 뱃지(숫자) 표시</td><td>-</td></tr>
-                        <tr><td>알림 항목 클릭</td><td>해당 상세 페이지로 이동, 알림 읽음 처리</td><td>상세 페이지</td></tr>
-                        <tr><td rowspan="3"><strong>장바구니 아이콘</strong></td><td>클릭</td><td>장바구니 페이지 이동</td><td>장바구니 페이지</td></tr>
-                        <tr><td>호버</td><td>미니 장바구니 팝업 표시</td><td>미니 장바구니</td></tr>
-                        <tr><td>상품 있을 때</td><td>수량 뱃지 표시</td><td>-</td></tr>
-                        <tr><td rowspan="4"><strong>마이페이지/프로필</strong></td><td>클릭 (로그인)</td><td>마이페이지 드롭다운 또는 페이지 이동</td><td>마이페이지</td></tr>
-                        <tr><td>클릭 (비로그인)</td><td>로그인 페이지 이동</td><td>로그인 페이지</td></tr>
-                        <tr><td>호버</td><td>드롭다운 메뉴 표시 (주문내역, 찜목록, 설정 등)</td><td>드롭다운 메뉴</td></tr>
-                        <tr><td>로그아웃 클릭</td><td>로그아웃 확인 팝업 → 확인 시 로그아웃 처리</td><td>메인 페이지</td></tr>
-                        <tr><td rowspan="2"><strong>메뉴/카테고리</strong></td><td>호버</td><td>서브 메뉴/카테고리 드롭다운 표시</td><td>드롭다운 메뉴</td></tr>
-                        <tr><td>클릭</td><td>해당 카테고리/메뉴 페이지 이동</td><td>카테고리 페이지</td></tr>
-                        <tr><td rowspan="2"><strong>햄버거 메뉴 (모바일)</strong></td><td>클릭</td><td>사이드 메뉴 슬라이드 표시</td><td>사이드 메뉴</td></tr>
-                        <tr><td>외부 영역 클릭</td><td>사이드 메뉴 닫기</td><td>원래 화면</td></tr>
+                        ${ui.actions.map(act => `
+                        <tr>
+                            <td><strong>${act.action}</strong></td>
+                            <td>${act.result}</td>
+                            <td><span class="next-state">${act.nextState}</span></td>
+                        </tr>
+                        `).join('')}
                     </tbody>
                 </table>
             </div>
-            
-            <div class="common-ui-group">
-                <h5>🔻 하단 푸터</h5>
-                <table class="common-ui-table">
-                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>회사 정보 링크</strong></td><td>클릭</td><td>회사 소개 페이지 이동</td><td>회사소개 페이지</td></tr>
-                        <tr><td><strong>이용약관 링크</strong></td><td>클릭</td><td>이용약관 팝업 또는 페이지 이동</td><td>약관 페이지</td></tr>
-                        <tr><td><strong>개인정보처리방침 링크</strong></td><td>클릭</td><td>개인정보처리방침 페이지 이동</td><td>개인정보 페이지</td></tr>
-                        <tr><td><strong>고객센터 링크</strong></td><td>클릭</td><td>고객센터/FAQ 페이지 이동</td><td>고객센터 페이지</td></tr>
-                        <tr><td><strong>전화번호 (모바일)</strong></td><td>탭</td><td>전화 앱 실행, 해당 번호 다이얼</td><td>전화 앱</td></tr>
-                        <tr><td><strong>SNS 아이콘</strong></td><td>클릭</td><td>해당 SNS 페이지 새 탭에서 열기</td><td>SNS 페이지 (새 탭)</td></tr>
-                        <tr><td><strong>앱 다운로드 링크</strong></td><td>클릭</td><td>앱스토어/플레이스토어 이동</td><td>스토어 페이지</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="common-ui-group">
-                <h5>📝 입력 필드 (Input Field)</h5>
-                <table class="common-ui-table">
-                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
-                    <tbody>
-                        <tr><td rowspan="8"><strong>텍스트 입력</strong></td><td>포커스 (클릭/탭)</td><td>테두리 색상 변경 (활성화), placeholder 텍스트 유지 또는 상단 이동</td><td>활성화 상태</td></tr>
-                        <tr><td>텍스트 입력</td><td>입력값 표시, 실시간 유효성 검사 (설정된 경우)</td><td>입력 중 상태</td></tr>
-                        <tr><td>유효성 검사 통과</td><td>녹색 체크 아이콘 표시, 테두리 녹색</td><td>유효 상태</td></tr>
-                        <tr><td>유효성 검사 실패</td><td>빨간 테두리, 필드 하단 에러 메시지 표시</td><td>에러 상태</td></tr>
-                        <tr><td>포커스 아웃 (blur)</td><td>최종 유효성 검사 실행, 테두리 원래 색상</td><td>비활성화 상태</td></tr>
-                        <tr><td>비밀번호 보기/숨기기 토글</td><td>입력값 표시/마스킹 전환</td><td>텍스트/마스킹</td></tr>
-                        <tr><td>X(클리어) 버튼 클릭</td><td>입력값 전체 삭제</td><td>빈 필드</td></tr>
-                        <tr><td>복사/붙여넣기</td><td>클립보드 내용 입력, 유효성 검사 실행</td><td>입력 상태</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="common-ui-group">
-                <h5>🔘 버튼 (Button)</h5>
-                <table class="common-ui-table">
-                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
-                    <tbody>
-                        <tr><td rowspan="6"><strong>기본 버튼</strong></td><td>호버</td><td>배경색 변화, 그림자 효과</td><td>호버 상태</td></tr>
-                        <tr><td>클릭 (활성화)</td><td>해당 기능 실행, 로딩 스피너 표시</td><td>로딩 상태</td></tr>
-                        <tr><td>클릭 (비활성화)</td><td>반응 없음, 커서 not-allowed</td><td>변화 없음</td></tr>
-                        <tr><td>처리 중 재클릭</td><td>무시 (중복 요청 방지)</td><td>로딩 상태 유지</td></tr>
-                        <tr><td>처리 성공</td><td>성공 메시지/토스트 표시, 다음 화면 이동</td><td>결과 화면</td></tr>
-                        <tr><td>처리 실패</td><td>에러 팝업/토스트 표시, 버튼 원래 상태 복구</td><td>에러 상태</td></tr>
-                        <tr><td rowspan="3"><strong>토글 버튼</strong></td><td>클릭 (OFF → ON)</td><td>활성화 상태로 전환, 설정값 저장</td><td>ON 상태</td></tr>
-                        <tr><td>클릭 (ON → OFF)</td><td>비활성화 상태로 전환, 설정값 저장</td><td>OFF 상태</td></tr>
-                        <tr><td>전환 실패</td><td>에러 토스트, 원래 상태 유지</td><td>원래 상태</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="common-ui-group">
-                <h5>☑️ 선택 요소 (Select/Checkbox/Radio)</h5>
-                <table class="common-ui-table">
-                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
-                    <tbody>
-                        <tr><td rowspan="4"><strong>체크박스</strong></td><td>클릭 (미선택)</td><td>체크 표시, 관련 값 업데이트</td><td>선택 상태</td></tr>
-                        <tr><td>클릭 (선택됨)</td><td>체크 해제, 관련 값 업데이트</td><td>미선택 상태</td></tr>
-                        <tr><td>전체선택 클릭</td><td>모든 하위 항목 체크/해제</td><td>전체 선택/해제</td></tr>
-                        <tr><td>일부 선택 시 전체선택</td><td>전체선택 체크박스 indeterminate 표시</td><td>부분 선택 표시</td></tr>
-                        <tr><td rowspan="2"><strong>라디오 버튼</strong></td><td>클릭 (미선택)</td><td>해당 옵션 선택, 기존 선택 해제</td><td>선택 상태</td></tr>
-                        <tr><td>선택된 항목 클릭</td><td>반응 없음 (선택 유지)</td><td>변화 없음</td></tr>
-                        <tr><td rowspan="4"><strong>셀렉트박스</strong></td><td>클릭</td><td>드롭다운 목록 표시</td><td>드롭다운 열림</td></tr>
-                        <tr><td>옵션 클릭</td><td>해당 옵션 선택, 드롭다운 닫힘</td><td>선택 완료</td></tr>
-                        <tr><td>외부 영역 클릭</td><td>드롭다운 닫힘, 기존 선택 유지</td><td>드롭다운 닫힘</td></tr>
-                        <tr><td>검색 입력 (검색형)</td><td>입력값으로 옵션 필터링</td><td>필터된 목록</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="common-ui-group">
-                <h5>📜 스크롤 및 페이지네이션</h5>
-                <table class="common-ui-table">
-                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
-                    <tbody>
-                        <tr><td rowspan="3"><strong>스크롤</strong></td><td>아래로 스크롤</td><td>다음 콘텐츠 표시, 헤더 축소/숨김 (설정시)</td><td>스크롤 상태</td></tr>
-                        <tr><td>위로 스크롤</td><td>이전 콘텐츠 표시, 헤더 표시</td><td>상단 이동</td></tr>
-                        <tr><td>스크롤 끝 도달 (무한스크롤)</td><td>다음 페이지 데이터 로딩, 로딩 스피너 표시</td><td>추가 데이터 로드</td></tr>
-                        <tr><td rowspan="4"><strong>페이지네이션</strong></td><td>페이지 번호 클릭</td><td>해당 페이지 데이터 로딩, 목록 갱신</td><td>해당 페이지</td></tr>
-                        <tr><td>이전/다음 화살표 클릭</td><td>이전/다음 페이지로 이동</td><td>이전/다음 페이지</td></tr>
-                        <tr><td>처음/끝 버튼 클릭</td><td>첫 페이지/마지막 페이지로 이동</td><td>첫/끝 페이지</td></tr>
-                        <tr><td>페이지당 개수 변경</td><td>표시 개수 변경, 1페이지로 이동, 목록 갱신</td><td>갱신된 목록</td></tr>
-                        <tr><td rowspan="2"><strong>TOP 버튼</strong></td><td>클릭</td><td>페이지 최상단으로 스크롤</td><td>페이지 상단</td></tr>
-                        <tr><td>화면 상단에서</td><td>버튼 숨김</td><td>버튼 비표시</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="common-ui-group">
-                <h5>💬 팝업/모달/토스트</h5>
-                <table class="common-ui-table">
-                    <thead><tr><th>UI 요소</th><th>사용자 행위</th><th>시스템 반응</th><th>결과 화면</th></tr></thead>
-                    <tbody>
-                        <tr><td rowspan="5"><strong>모달 팝업</strong></td><td>트리거 클릭 (버튼 등)</td><td>모달 오픈, 배경 딤 처리, 스크롤 잠금</td><td>모달 표시</td></tr>
-                        <tr><td>X(닫기) 버튼 클릭</td><td>모달 닫힘, 배경 딤 해제</td><td>원래 화면</td></tr>
-                        <tr><td>배경 영역 클릭</td><td>모달 닫힘 (설정에 따라)</td><td>원래 화면</td></tr>
-                        <tr><td>ESC 키</td><td>모달 닫힘</td><td>원래 화면</td></tr>
-                        <tr><td>확인/취소 버튼</td><td>해당 액션 실행 후 모달 닫힘</td><td>결과에 따른 화면</td></tr>
-                        <tr><td rowspan="3"><strong>바텀시트</strong></td><td>트리거 클릭</td><td>하단에서 슬라이드업, 배경 딤</td><td>바텀시트 표시</td></tr>
-                        <tr><td>아래로 드래그</td><td>바텀시트 닫힘</td><td>원래 화면</td></tr>
-                        <tr><td>핸들 영역 탭</td><td>바텀시트 확장/축소</td><td>확장/축소 상태</td></tr>
-                        <tr><td rowspan="2"><strong>토스트 메시지</strong></td><td>표시됨</td><td>3초 후 자동 사라짐</td><td>원래 화면</td></tr>
-                        <tr><td>토스트 클릭</td><td>즉시 사라짐 또는 상세 페이지 이동</td><td>원래 화면/상세</td></tr>
-                        <tr><td rowspan="3"><strong>확인 팝업 (Alert)</strong></td><td>확인 버튼 클릭</td><td>팝업 닫힘, 해당 액션 실행</td><td>결과 화면</td></tr>
-                        <tr><td>취소 버튼 클릭</td><td>팝업 닫힘, 액션 취소</td><td>원래 화면</td></tr>
-                        <tr><td>배경/X 클릭</td><td>팝업 닫힘, 액션 취소</td><td>원래 화면</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="common-ui-group">
-                <h5>⏳ 로딩 및 에러 상태</h5>
-                <table class="common-ui-table">
-                    <thead><tr><th>UI 요소</th><th>상황</th><th>시스템 반응</th><th>사용자 행위</th></tr></thead>
-                    <tbody>
-                        <tr><td rowspan="3"><strong>로딩 상태</strong></td><td>페이지 로딩</td><td>전체 화면 로딩 스피너 또는 스켈레톤 UI</td><td>대기</td></tr>
-                        <tr><td>부분 로딩</td><td>해당 영역만 로딩 스피너</td><td>다른 영역 이용 가능</td></tr>
-                        <tr><td>버튼 로딩</td><td>버튼 내 스피너, 버튼 비활성화</td><td>대기</td></tr>
-                        <tr><td rowspan="4"><strong>에러 상태</strong></td><td>네트워크 오류</td><td>"인터넷 연결을 확인해주세요" 메시지 + 재시도 버튼</td><td>재시도 클릭</td></tr>
-                        <tr><td>서버 오류 (500)</td><td>"일시적인 오류가 발생했습니다" 메시지 + 재시도 버튼</td><td>재시도 클릭</td></tr>
-                        <tr><td>권한 오류 (403)</td><td>"접근 권한이 없습니다" 메시지 + 돌아가기 버튼</td><td>돌아가기 클릭</td></tr>
-                        <tr><td>페이지 없음 (404)</td><td>"페이지를 찾을 수 없습니다" 메시지 + 메인으로 버튼</td><td>메인으로 클릭</td></tr>
-                        <tr><td rowspan="2"><strong>빈 상태</strong></td><td>검색 결과 없음</td><td>"검색 결과가 없습니다" + 다른 검색어 추천</td><td>다시 검색</td></tr>
-                        <tr><td>목록 데이터 없음</td><td>"아직 내역이 없습니다" + 관련 액션 버튼</td><td>액션 버튼 클릭</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="common-ui-group">
-                <h5>📱 모바일 전용 인터랙션</h5>
-                <table class="common-ui-table">
-                    <thead><tr><th>제스처</th><th>적용 영역</th><th>시스템 반응</th><th>결과</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>풀투리프레시</strong></td><td>목록 최상단</td><td>데이터 새로고침, 로딩 인디케이터</td><td>갱신된 목록</td></tr>
-                        <tr><td><strong>스와이프 (좌→우)</strong></td><td>목록 아이템</td><td>수정/삭제 버튼 표시</td><td>액션 버튼 노출</td></tr>
-                        <tr><td><strong>스와이프 (우→좌)</strong></td><td>페이지</td><td>이전 페이지로 이동 (iOS)</td><td>이전 페이지</td></tr>
-                        <tr><td><strong>핀치 줌</strong></td><td>이미지/지도</td><td>확대/축소</td><td>확대/축소된 뷰</td></tr>
-                        <tr><td><strong>더블탭</strong></td><td>이미지</td><td>확대 또는 좋아요</td><td>확대/좋아요</td></tr>
-                        <tr><td><strong>롱프레스</strong></td><td>목록 아이템</td><td>컨텍스트 메뉴 표시 또는 다중 선택 모드</td><td>메뉴/선택 모드</td></tr>
-                    </tbody>
-                </table>
-            </div>
+            `).join('')}
         </div>
+        ` : ''}
 
         <div class="func-section func-spec-section">
             <h4>3. 선택된 기능 상세 스펙</h4>
