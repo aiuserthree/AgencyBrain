@@ -4093,6 +4093,233 @@ input, select, textarea {
     }
 }
 
+/* Enhanced Functional Specification Styles */
+.func-doc-header {
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-tertiary) 100%);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.doc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.meta-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+.meta-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-cyan);
+}
+
+.func-overview {
+    padding: 16px;
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    border-left: 3px solid var(--accent-cyan);
+}
+
+.func-overview p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.func-overview p:last-child {
+    margin-bottom: 0;
+}
+
+.func-table.detail .func-row {
+    grid-template-columns: 120px repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.func-table.detail .func-row span {
+    text-align: left !important;
+}
+
+.screen-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.screen-item {
+    padding: 16px;
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.screen-item h5 {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.screen-elements {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.screen-elements .element {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    padding: 6px 10px;
+    background: var(--bg-card);
+    border-radius: 4px;
+    line-height: 1.5;
+}
+
+.el-type {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--accent-purple);
+    background: rgba(123, 97, 255, 0.15);
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-right: 8px;
+}
+
+.func-calc {
+    padding: 16px;
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+}
+
+.calc-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border-color);
+    font-size: 0.9rem;
+}
+
+.calc-row:last-child {
+    border-bottom: none;
+}
+
+.calc-row.discount .calc-value {
+    color: var(--accent-pink);
+}
+
+.calc-row.highlight {
+    background: rgba(0, 217, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 8px 0;
+    border-bottom: none;
+}
+
+.calc-row.highlight .calc-value {
+    color: var(--accent-cyan);
+    font-weight: 600;
+}
+
+.calc-row.total {
+    border-top: 2px solid var(--border-color);
+    padding-top: 12px;
+    margin-top: 8px;
+    font-weight: 600;
+}
+
+.calc-row.total .calc-value {
+    color: var(--accent-green);
+    font-size: 1.1rem;
+}
+
+.func-process {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.process-step {
+    padding: 16px;
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.process-step h5 {
+    font-size: 0.85rem;
+    color: var(--accent-cyan);
+    margin-bottom: 8px;
+}
+
+.process-step p,
+.process-step ul {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.process-step ul {
+    padding-left: 16px;
+    margin-top: 8px;
+}
+
+.func-flow-diagram {
+    overflow-x: auto;
+}
+
+.func-flow-diagram pre {
+    line-height: 1.4;
+}
+
+.analysis-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.analysis-content p {
+    margin: 0;
+}
+
+.journey-step small {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* Functional spec responsive */
+@media (max-width: 768px) {
+    .doc-meta {
+        gap: 16px;
+    }
+    
+    .func-table.detail .func-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .func-process {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ============================================
    Visual Reference Page
    ============================================ */

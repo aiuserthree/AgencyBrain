@@ -2427,401 +2427,1518 @@ function initFunctionalForm() {
 
 // 회원가입 기능정의서 생성
 function generateSignupSpec(industry, options) {
-    const hasSocialLogin = options.includes('소셜 로그인 포함');
-    const hasIdentityVerify = options.includes('본인인증 포함');
+    const hasSocialLogin = options.includes('소셜 로그인 포함') || options.includes('소셜 로그인');
+    const hasIdentityVerify = options.includes('본인인증 포함') || options.includes('본인인증');
+    const hasEmailVerify = options.includes('이메일 인증');
+    const hasSmsVerify = options.includes('SMS 인증');
+    const hasMarketing = options.includes('마케팅 수신 동의');
+    const hasReferral = options.includes('추천인 코드');
+    const hasAgeLimit = options.includes('14세 미만 가입 제한');
+    
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
     
     return `
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-MEM-001</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
+            </div>
+        </div>
+
         <div class="func-journey">
             <h4>📍 사용자 여정 (User Journey)</h4>
             <div class="journey-flow">
-                <div class="journey-step"><span class="step-num">1</span><span class="step-title">진입</span><p>회원가입 버튼 클릭</p></div>
+                <div class="journey-step"><span class="step-num">1</span><span class="step-title">진입</span><p>회원가입 버튼 클릭<br><small>• GNB/로그인 페이지에서 진입</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">2</span><span class="step-title">약관동의</span><p>필수/선택 약관 확인</p></div>
+                <div class="journey-step"><span class="step-num">2</span><span class="step-title">가입방식 선택</span><p>이메일/소셜 선택<br><small>• 소셜: 카카오, 네이버, 구글</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">3</span><span class="step-title">정보입력</span><p>회원정보 입력</p></div>
+                <div class="journey-step"><span class="step-num">3</span><span class="step-title">약관동의</span><p>필수/선택 약관 확인<br><small>• 개인정보처리방침, 이용약관</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">4</span><span class="step-title">인증</span><p>본인인증/이메일인증</p></div>
+                <div class="journey-step"><span class="step-num">4</span><span class="step-title">정보입력</span><p>회원정보 입력<br><small>• 이메일, 비밀번호, 이름, 휴대폰</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step completed"><span class="step-num">5</span><span class="step-title">완료</span><p>가입 완료 및 혜택 안내</p></div>
+                <div class="journey-step"><span class="step-num">5</span><span class="step-title">인증</span><p>${hasIdentityVerify ? '본인인증' : hasSmsVerify ? 'SMS 인증' : hasEmailVerify ? '이메일 인증' : '인증 진행'}<br><small>• 인증번호 발송 및 확인</small></p></div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step completed"><span class="step-num">6</span><span class="step-title">완료</span><p>가입 완료<br><small>• 웰컴 쿠폰/포인트 지급</small></p></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>1. 회원가입 방식</h4>
-            <div class="func-table">
-                <div class="func-row header"><span>항목</span><span>상세 내용</span><span>필수여부</span></div>
-                <div class="func-row"><span>이메일 가입</span><span>이메일 주소를 아이디로 사용하여 직접 회원가입</span><span class="required">필수</span></div>
-                ${hasSocialLogin ? `<div class="func-row"><span>소셜 로그인</span><span>카카오톡, 네이버, 구글, 애플 계정 연동 가입</span><span class="required">필수</span></div>` : ''}
-                ${hasIdentityVerify ? `<div class="func-row"><span>본인인증</span><span>휴대폰 본인인증 (KG이니시스/나이스)</span><span class="optional">선택</span></div>` : ''}
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 신규 사용자가 서비스를 이용하기 위해 계정을 생성하는 기능</p>
+                <p><strong>접근 경로:</strong> 메인 > GNB 회원가입 버튼 / 로그인 페이지 > 회원가입 링크 / 비회원 주문 > 회원가입 유도</p>
+                <p><strong>권한:</strong> 비로그인 사용자</p>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>2. 필수 입력 정보</h4>
-            <div class="func-table">
-                <div class="func-row header"><span>필드명</span><span>유효성 검사 규칙</span><span>필수여부</span></div>
-                <div class="func-row"><span>이메일(아이디)</span><span>이메일 형식 검사, 실시간 중복 확인</span><span class="required">필수</span></div>
-                <div class="func-row"><span>비밀번호</span><span>8~20자, 영문+숫자+특수문자 2종 이상</span><span class="required">필수</span></div>
-                <div class="func-row"><span>이름</span><span>2~20자, 한글/영문</span><span class="required">필수</span></div>
-                <div class="func-row"><span>휴대폰</span><span>010 시작, 10~11자리, SMS 인증</span><span class="required">필수</span></div>
+            <h4>2. 화면 구성 (Screen Layout)</h4>
+            <div class="screen-layout">
+                <div class="screen-item">
+                    <h5>2.1 가입방식 선택 화면</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[버튼]</span> 이메일로 가입하기</div>
+                        ${hasSocialLogin ? `
+                        <div class="element"><span class="el-type">[버튼]</span> 카카오로 시작하기</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 네이버로 시작하기</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 구글로 시작하기</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 애플로 시작하기 (iOS)</div>` : ''}
+                        <div class="element"><span class="el-type">[링크]</span> 이미 계정이 있으신가요? 로그인</div>
+                    </div>
+                </div>
+                <div class="screen-item">
+                    <h5>2.2 약관동의 화면</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[체크박스]</span> 전체 동의</div>
+                        <div class="element"><span class="el-type">[체크박스]</span> 이용약관 동의 (필수) + 내용보기</div>
+                        <div class="element"><span class="el-type">[체크박스]</span> 개인정보 수집 및 이용 동의 (필수) + 내용보기</div>
+                        ${hasAgeLimit ? `<div class="element"><span class="el-type">[체크박스]</span> 만 14세 이상입니다 (필수)</div>` : ''}
+                        ${hasMarketing ? `<div class="element"><span class="el-type">[체크박스]</span> 마케팅 정보 수신 동의 (선택) + 내용보기</div>` : ''}
+                        <div class="element"><span class="el-type">[버튼]</span> 다음 (필수 약관 동의 시 활성화)</div>
+                    </div>
+                </div>
+                <div class="screen-item">
+                    <h5>2.3 정보입력 화면</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[입력]</span> 이메일 (아이디) + 중복확인 버튼</div>
+                        <div class="element"><span class="el-type">[입력]</span> 비밀번호 + 보기/숨기기 토글</div>
+                        <div class="element"><span class="el-type">[입력]</span> 비밀번호 확인</div>
+                        <div class="element"><span class="el-type">[입력]</span> 이름</div>
+                        <div class="element"><span class="el-type">[입력]</span> 휴대폰 번호 + 인증요청 버튼</div>
+                        <div class="element"><span class="el-type">[입력]</span> 인증번호 입력 (인증요청 후 표시)</div>
+                        ${hasReferral ? `<div class="element"><span class="el-type">[입력]</span> 추천인 코드 (선택)</div>` : ''}
+                        <div class="element"><span class="el-type">[버튼]</span> 가입완료</div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="func-section">
+            <h4>3. 회원가입 방식</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>구분</span><span>상세 내용</span><span>비고</span></div>
+                <div class="func-row"><span>이메일 가입</span><span>이메일 주소를 아이디로 사용하여 직접 회원가입<br>• 이메일 형식 검증<br>• 실시간 중복 확인<br>• 비밀번호 직접 설정</span><span class="required">필수</span></div>
+                ${hasSocialLogin ? `
+                <div class="func-row"><span>카카오 로그인</span><span>카카오 계정 연동<br>• 이메일, 닉네임, 프로필 사진 자동 수집<br>• 추가 정보 입력 화면 이동 (휴대폰 등)</span><span class="required">필수</span></div>
+                <div class="func-row"><span>네이버 로그인</span><span>네이버 계정 연동<br>• 이메일, 이름, 프로필 사진 자동 수집</span><span class="required">필수</span></div>
+                <div class="func-row"><span>구글 로그인</span><span>구글 계정 연동<br>• 이메일, 이름, 프로필 사진 자동 수집</span><span class="required">필수</span></div>
+                <div class="func-row"><span>애플 로그인</span><span>애플 계정 연동 (iOS/Safari)<br>• 이메일 자동 수집 (숨김처리 가능)</span><span class="optional">선택</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>4. 입력 필드 정의</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>필드명</span><span>데이터 타입</span><span>유효성 검사</span><span>필수</span></div>
+                <div class="func-row"><span>이메일</span><span>VARCHAR(100)</span><span>• 이메일 형식 (정규식)<br>• 실시간 중복 확인 API<br>• 최대 100자</span><span class="required">Y</span></div>
+                <div class="func-row"><span>비밀번호</span><span>VARCHAR(255)<br>(암호화)</span><span>• 8~20자<br>• 영문+숫자+특수문자 2종 이상<br>• 연속 3자 이상 금지 (111, abc)</span><span class="required">Y</span></div>
+                <div class="func-row"><span>비밀번호 확인</span><span>-</span><span>• 비밀번호와 일치 여부 확인</span><span class="required">Y</span></div>
+                <div class="func-row"><span>이름</span><span>VARCHAR(50)</span><span>• 2~20자<br>• 한글 또는 영문<br>• 특수문자, 숫자 불가</span><span class="required">Y</span></div>
+                <div class="func-row"><span>휴대폰번호</span><span>VARCHAR(11)</span><span>• 010 시작<br>• 숫자만 10~11자리<br>• - 자동 제거</span><span class="required">Y</span></div>
+                ${hasReferral ? `<div class="func-row"><span>추천인 코드</span><span>VARCHAR(20)</span><span>• 8자리 영문+숫자<br>• 존재하는 코드인지 확인</span><span class="optional">N</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>5. 인증 방식</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>인증 유형</span><span>프로세스</span><span>유효시간</span></div>
+                ${hasSmsVerify || hasIdentityVerify ? `
+                <div class="func-row"><span>SMS 인증</span><span>1. 휴대폰번호 입력 → 인증요청 클릭<br>2. 인증번호 6자리 SMS 발송<br>3. 인증번호 입력 → 확인<br>4. 일치 시 인증완료</span><span>3분</span></div>` : ''}
+                ${hasEmailVerify ? `
+                <div class="func-row"><span>이메일 인증</span><span>1. 이메일 입력 → 인증요청 클릭<br>2. 인증 링크 포함 이메일 발송<br>3. 링크 클릭 시 인증완료<br>4. 또는 인증코드 6자리 입력</span><span>24시간</span></div>` : ''}
+                ${hasIdentityVerify ? `
+                <div class="func-row"><span>본인인증</span><span>1. 본인인증 버튼 클릭<br>2. 본인인증 모듈 팝업 (NICE/PASS)<br>3. 이름, 생년월일, 휴대폰 인증<br>4. CI/DI 값 수신 및 저장</span><span>즉시</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>6. 약관 동의 항목</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>약관명</span><span>필수여부</span><span>내용</span></div>
+                <div class="func-row"><span>이용약관</span><span class="required">필수</span><span>서비스 이용에 관한 기본 약관</span></div>
+                <div class="func-row"><span>개인정보 수집 및 이용</span><span class="required">필수</span><span>개인정보 수집 항목, 목적, 보유기간</span></div>
+                ${hasAgeLimit ? `<div class="func-row"><span>만 14세 이상 확인</span><span class="required">필수</span><span>14세 미만 가입 제한</span></div>` : ''}
+                ${hasMarketing ? `<div class="func-row"><span>마케팅 정보 수신</span><span class="optional">선택</span><span>이메일, SMS, 앱푸시 마케팅 수신</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>7. 에러 처리</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>에러 상황</span><span>에러 메시지</span><span>처리 방법</span></div>
+                <div class="func-row"><span>이메일 중복</span><span>"이미 사용 중인 이메일입니다"</span><span>로그인 페이지 이동 링크 제공</span></div>
+                <div class="func-row"><span>이메일 형식 오류</span><span>"올바른 이메일 형식을 입력해주세요"</span><span>입력 필드 하단 실시간 표시</span></div>
+                <div class="func-row"><span>비밀번호 불일치</span><span>"비밀번호가 일치하지 않습니다"</span><span>입력 필드 하단 실시간 표시</span></div>
+                <div class="func-row"><span>비밀번호 조건 미충족</span><span>"영문, 숫자, 특수문자 중 2가지 이상 조합해주세요"</span><span>조건 충족 여부 실시간 표시</span></div>
+                <div class="func-row"><span>인증번호 불일치</span><span>"인증번호가 일치하지 않습니다"</span><span>재발송 버튼 활성화</span></div>
+                <div class="func-row"><span>인증시간 초과</span><span>"인증시간이 초과되었습니다"</span><span>재발송 버튼 표시</span></div>
+                <div class="func-row"><span>필수항목 미입력</span><span>"필수 항목을 입력해주세요"</span><span>미입력 필드 하이라이트</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>8. 비즈니스 규칙</h4>
+            <ul class="func-list">
+                <li><strong>이메일 중복:</strong> 동일 이메일로 가입 불가, 탈퇴 회원 이메일도 30일간 재사용 불가</li>
+                <li><strong>휴대폰 중복:</strong> 동일 휴대폰번호로 최대 3개 계정까지 가입 가능</li>
+                <li><strong>소셜 연동:</strong> 이미 가입된 이메일과 소셜 이메일 동일 시 계정 연동 안내</li>
+                <li><strong>비밀번호 정책:</strong> 3개월마다 비밀번호 변경 권장 안내</li>
+                ${hasReferral ? `<li><strong>추천인 혜택:</strong> 추천인/피추천인 각각 1,000포인트 지급 (첫 구매 시)</li>` : ''}
+            </ul>
+        </div>
+
+        <div class="func-section">
+            <h4>9. 가입 완료 처리</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>처리 항목</span><span>내용</span><span>발송 채널</span></div>
+                <div class="func-row"><span>웰컴 쿠폰 발급</span><span>신규 가입 축하 10% 할인쿠폰 (7일 유효)</span><span>즉시 발급</span></div>
+                <div class="func-row"><span>가입 포인트 지급</span><span>신규 가입 축하 1,000P (30일 유효)</span><span>즉시 지급</span></div>
+                <div class="func-row"><span>가입 완료 알림</span><span>가입 완료 및 혜택 안내 메시지</span><span>이메일, SMS</span></div>
+                <div class="func-row"><span>자동 로그인</span><span>가입 완료 후 자동 로그인 처리</span><span>세션 생성</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>10. API 연동</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>API</span><span>용도</span><span>제공사</span></div>
+                <div class="func-row"><span>POST /api/auth/check-email</span><span>이메일 중복 확인</span><span>자체</span></div>
+                <div class="func-row"><span>POST /api/auth/send-sms</span><span>SMS 인증번호 발송</span><span>NHN Cloud</span></div>
+                ${hasIdentityVerify ? `<div class="func-row"><span>본인인증 모듈</span><span>휴대폰 본인인증</span><span>NICE평가정보</span></div>` : ''}
+                ${hasSocialLogin ? `
+                <div class="func-row"><span>Kakao OAuth</span><span>카카오 로그인</span><span>카카오</span></div>
+                <div class="func-row"><span>Naver OAuth</span><span>네이버 로그인</span><span>네이버</span></div>
+                <div class="func-row"><span>Google OAuth</span><span>구글 로그인</span><span>Google</span></div>` : ''}
+            </div>
+        </div>
+
         <div class="func-analysis">
             <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석<br>
-            <strong>법규 반영:</strong> 개인정보보호법, 정보통신망법 최신 기준 반영</p>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>법규 준수:</strong> 개인정보보호법, 정보통신망법, 전자상거래법 최신 기준 반영</p>
+                <p><strong>UX 벤치마킹:</strong> ${industryName} 업종 Top 10 서비스 회원가입 플로우 분석</p>
+                <p><strong>전환율 기준:</strong> 회원가입 완료율 평균 72% 이상 달성 목표</p>
+            </div>
         </div>
     `;
 }
 
 // 로그인 기능정의서 생성
 function generateLoginSpec(industry, options) {
+    const hasSocialLogin = options.includes('소셜 로그인');
+    const hasAutoLogin = options.includes('자동 로그인');
+    const hasBiometric = options.includes('생체인증');
+    const has2FA = options.includes('2단계 인증');
+    const hasLoginHistory = options.includes('로그인 기록 관리');
+    
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
+    
     return `
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-MEM-002</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
+            </div>
+        </div>
+
         <div class="func-journey">
             <h4>📍 사용자 여정 (User Journey)</h4>
             <div class="journey-flow">
-                <div class="journey-step"><span class="step-num">1</span><span class="step-title">진입</span><p>로그인 페이지 접속</p></div>
+                <div class="journey-step"><span class="step-num">1</span><span class="step-title">진입</span><p>로그인 페이지 접속<br><small>• GNB 로그인 버튼 클릭</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">2</span><span class="step-title">정보입력</span><p>아이디/비밀번호 입력</p></div>
+                <div class="journey-step"><span class="step-num">2</span><span class="step-title">방식선택</span><p>로그인 방식 선택<br><small>• 이메일/소셜 선택</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">3</span><span class="step-title">인증</span><p>로그인 검증</p></div>
+                <div class="journey-step"><span class="step-num">3</span><span class="step-title">정보입력</span><p>아이디/비밀번호 입력<br><small>• 자동입력, 아이디저장</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step completed"><span class="step-num">4</span><span class="step-title">완료</span><p>메인/이전 페이지 이동</p></div>
+                ${has2FA ? `<div class="journey-step"><span class="step-num">4</span><span class="step-title">2차인증</span><p>추가 인증<br><small>• OTP/SMS 인증</small></p></div><div class="journey-arrow">→</div>` : ''}
+                <div class="journey-step"><span class="step-num">${has2FA ? '5' : '4'}</span><span class="step-title">검증</span><p>로그인 검증<br><small>• 계정 확인, 세션 생성</small></p></div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step completed"><span class="step-num">${has2FA ? '6' : '5'}</span><span class="step-title">완료</span><p>로그인 완료<br><small>• 메인/이전 페이지 이동</small></p></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>1. 로그인 방식</h4>
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 가입된 회원이 서비스에 인증하여 개인화된 서비스를 이용</p>
+                <p><strong>접근 경로:</strong> 메인 > GNB 로그인 버튼 / 회원 전용 서비스 접근 시 / 비로그인 상태 마이페이지 접근</p>
+                <p><strong>권한:</strong> 비로그인 사용자 (가입 회원)</p>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>2. 화면 구성 (Screen Layout)</h4>
+            <div class="screen-layout">
+                <div class="screen-item">
+                    <h5>2.1 로그인 메인 화면</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[로고]</span> 서비스 로고</div>
+                        <div class="element"><span class="el-type">[입력]</span> 이메일 (아이디)</div>
+                        <div class="element"><span class="el-type">[입력]</span> 비밀번호 + 보기/숨기기 토글</div>
+                        <div class="element"><span class="el-type">[체크박스]</span> 아이디 저장</div>
+                        ${hasAutoLogin ? `<div class="element"><span class="el-type">[체크박스]</span> 자동 로그인 (30일)</div>` : ''}
+                        <div class="element"><span class="el-type">[버튼]</span> 로그인</div>
+                        <div class="element"><span class="el-type">[구분선]</span> 또는</div>
+                        ${hasSocialLogin ? `
+                        <div class="element"><span class="el-type">[버튼]</span> 카카오로 로그인</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 네이버로 로그인</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 구글로 로그인</div>` : ''}
+                        <div class="element"><span class="el-type">[링크]</span> 아이디 찾기 | 비밀번호 찾기</div>
+                        <div class="element"><span class="el-type">[링크]</span> 회원가입</div>
+                    </div>
+                </div>
+                ${has2FA ? `
+                <div class="screen-item">
+                    <h5>2.2 2단계 인증 화면</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[텍스트]</span> 2단계 인증이 필요합니다</div>
+                        <div class="element"><span class="el-type">[선택]</span> SMS 인증 / OTP 인증</div>
+                        <div class="element"><span class="el-type">[입력]</span> 인증번호 6자리</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 인증 완료</div>
+                        <div class="element"><span class="el-type">[링크]</span> 인증번호 재발송</div>
+                    </div>
+                </div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>3. 로그인 방식</h4>
             <div class="func-table">
-                <div class="func-row header"><span>항목</span><span>상세 내용</span><span>필수여부</span></div>
-                <div class="func-row"><span>일반 로그인</span><span>이메일 + 비밀번호 입력<br>• 아이디 저장 옵션<br>• 자동 로그인 옵션 (30일)</span><span class="required">필수</span></div>
-                <div class="func-row"><span>소셜 로그인</span><span>카카오톡, 네이버, 구글, 애플<br>• 원클릭 로그인 지원</span><span class="required">필수</span></div>
-                ${options.includes('생체인증') ? `<div class="func-row"><span>생체인증</span><span>지문/Face ID 인증 (앱 전용)</span><span class="optional">선택</span></div>` : ''}
-                ${options.includes('2단계 인증') ? `<div class="func-row"><span>2단계 인증</span><span>OTP/SMS 추가 인증</span><span class="optional">선택</span></div>` : ''}
+                <div class="func-row header"><span>구분</span><span>상세 내용</span><span>비고</span></div>
+                <div class="func-row"><span>이메일 로그인</span><span>이메일(아이디) + 비밀번호 입력<br>• 아이디 저장: 브라우저 LocalStorage 저장<br>• 자동 로그인: Refresh Token 발급 (30일)</span><span class="required">필수</span></div>
+                ${hasSocialLogin ? `
+                <div class="func-row"><span>카카오 로그인</span><span>카카오 계정으로 원클릭 로그인<br>• 기존 연동 계정 확인<br>• 미연동 시 회원가입 유도</span><span class="required">필수</span></div>
+                <div class="func-row"><span>네이버 로그인</span><span>네이버 계정으로 원클릭 로그인</span><span class="required">필수</span></div>
+                <div class="func-row"><span>구글 로그인</span><span>구글 계정으로 원클릭 로그인</span><span class="required">필수</span></div>` : ''}
+                ${hasBiometric ? `<div class="func-row"><span>생체인증</span><span>앱에서 지문/Face ID 인증<br>• 최초 1회 일반 로그인 후 활성화</span><span class="optional">선택</span></div>` : ''}
             </div>
         </div>
+
         <div class="func-section">
-            <h4>2. 보안 정책</h4>
-            <ul class="func-list">
-                <li><strong>로그인 실패 제한:</strong> 5회 실패 시 10분간 로그인 차단</li>
-                <li><strong>비밀번호 입력 마스킹:</strong> 입력 시 • 표시, 보기 토글 제공</li>
-                <li><strong>세션 관리:</strong> 동시 로그인 3대 제한, 새 로그인 시 기존 세션 종료 선택</li>
-                <li><strong>로그인 기록:</strong> IP, 기기, 시간 기록 및 이상 접속 알림</li>
-            </ul>
-        </div>
-        <div class="func-section">
-            <h4>3. 아이디/비밀번호 찾기</h4>
+            <h4>4. 보안 정책</h4>
             <div class="func-table">
-                <div class="func-row header"><span>기능</span><span>프로세스</span><span>인증방법</span></div>
-                <div class="func-row"><span>아이디 찾기</span><span>1. 이름 + 휴대폰 입력<br>2. SMS 인증<br>3. 가입된 아이디 표시 (일부 마스킹)</span><span>SMS</span></div>
-                <div class="func-row"><span>비밀번호 찾기</span><span>1. 아이디(이메일) 입력<br>2. 이메일 인증 링크 발송<br>3. 비밀번호 재설정 페이지 이동<br>4. 새 비밀번호 입력 및 완료</span><span>이메일</span></div>
+                <div class="func-row header"><span>정책</span><span>상세 내용</span><span>설정값</span></div>
+                <div class="func-row"><span>로그인 실패 제한</span><span>연속 로그인 실패 시 계정 잠금<br>• 잠금 해제: 이메일 인증 또는 시간 경과</span><span>5회 실패 시 10분 잠금</span></div>
+                <div class="func-row"><span>비밀번호 마스킹</span><span>입력 시 • 표시, 보기 토글 제공</span><span>기본 마스킹</span></div>
+                <div class="func-row"><span>세션 관리</span><span>동시 로그인 기기 제한<br>• 초과 시 기존 세션 강제 로그아웃</span><span>최대 3대</span></div>
+                <div class="func-row"><span>세션 타임아웃</span><span>무활동 시 자동 로그아웃</span><span>30분 (갱신 가능)</span></div>
+                ${has2FA ? `<div class="func-row"><span>2단계 인증</span><span>로그인 성공 후 추가 인증 필요<br>• 새 기기/브라우저 로그인 시<br>• 중요 정보 접근 시</span><span>SMS/OTP</span></div>` : ''}
+                ${hasLoginHistory ? `<div class="func-row"><span>로그인 기록</span><span>IP, 기기, 시간, 위치 기록<br>• 이상 접속 감지 시 알림<br>• 마이페이지에서 기록 조회 가능</span><span>최근 50건</span></div>` : ''}
             </div>
         </div>
+
+        <div class="func-section">
+            <h4>5. 아이디/비밀번호 찾기</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>기능</span><span>STEP 1</span><span>STEP 2</span><span>STEP 3</span><span>결과</span></div>
+                <div class="func-row"><span>아이디 찾기</span><span>이름 + 휴대폰번호 입력</span><span>SMS 인증번호 발송<br>(3분 유효)</span><span>인증번호 입력 및 확인</span><span>가입된 이메일 표시<br>(일부 마스킹: a***@gmail.com)</span></div>
+                <div class="func-row"><span>비밀번호 찾기<br>(이메일)</span><span>아이디(이메일) 입력</span><span>인증 링크 포함 이메일 발송<br>(24시간 유효)</span><span>링크 클릭 → 비밀번호 재설정</span><span>새 비밀번호 설정 완료</span></div>
+                <div class="func-row"><span>비밀번호 찾기<br>(SMS)</span><span>아이디 + 휴대폰번호 입력</span><span>SMS 인증번호 발송</span><span>인증번호 확인 → 비밀번호 재설정</span><span>새 비밀번호 설정 완료</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>6. 에러 처리</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>에러 상황</span><span>에러 메시지</span><span>처리 방법</span></div>
+                <div class="func-row"><span>아이디/비밀번호 불일치</span><span>"아이디 또는 비밀번호가 일치하지 않습니다"</span><span>보안상 어느 쪽이 틀렸는지 미표시</span></div>
+                <div class="func-row"><span>계정 잠금</span><span>"로그인 5회 실패로 계정이 잠겼습니다. 10분 후 다시 시도해주세요"</span><span>잠금 해제 방법 안내</span></div>
+                <div class="func-row"><span>탈퇴 회원</span><span>"탈퇴한 계정입니다"</span><span>재가입 안내</span></div>
+                <div class="func-row"><span>휴면 계정</span><span>"휴면 상태입니다. 본인인증 후 이용 가능합니다"</span><span>휴면 해제 프로세스 안내</span></div>
+                <div class="func-row"><span>미가입 회원</span><span>"가입되지 않은 이메일입니다"</span><span>회원가입 페이지 링크 제공</span></div>
+                <div class="func-row"><span>소셜 연동 실패</span><span>"소셜 로그인에 실패했습니다. 다시 시도해주세요"</span><span>일반 로그인 유도</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>7. 로그인 성공 처리</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>처리 항목</span><span>내용</span><span>비고</span></div>
+                <div class="func-row"><span>토큰 발급</span><span>Access Token (1시간) + Refresh Token (30일)</span><span>JWT</span></div>
+                <div class="func-row"><span>세션 생성</span><span>서버 세션 생성 및 사용자 정보 캐싱</span><span>Redis</span></div>
+                <div class="func-row"><span>로그인 기록</span><span>로그인 시간, IP, 기기 정보 저장</span><span>DB 기록</span></div>
+                <div class="func-row"><span>페이지 이동</span><span>이전 페이지 또는 메인 페이지로 Redirect</span><span>returnUrl 파라미터</span></div>
+                <div class="func-row"><span>장바구니 동기화</span><span>비회원 장바구니 → 회원 장바구니 병합</span><span>자동 처리</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>8. API 명세</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>API</span><span>Method</span><span>용도</span></div>
+                <div class="func-row"><span>/api/auth/login</span><span>POST</span><span>이메일 로그인</span></div>
+                <div class="func-row"><span>/api/auth/social/{provider}</span><span>POST</span><span>소셜 로그인</span></div>
+                <div class="func-row"><span>/api/auth/refresh</span><span>POST</span><span>토큰 갱신</span></div>
+                <div class="func-row"><span>/api/auth/logout</span><span>POST</span><span>로그아웃</span></div>
+                <div class="func-row"><span>/api/auth/find-id</span><span>POST</span><span>아이디 찾기</span></div>
+                <div class="func-row"><span>/api/auth/reset-password</span><span>POST</span><span>비밀번호 재설정</span></div>
+            </div>
+        </div>
+
         <div class="func-analysis">
             <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석<br>
-            <strong>보안 기준:</strong> KISA 인터넷 보안 가이드라인 반영</p>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>보안 기준:</strong> KISA 인터넷 보안 가이드라인, OWASP 인증 보안 권고 반영</p>
+                <p><strong>UX 벤치마킹:</strong> ${industryName} 업종 Top 10 서비스 로그인 플로우 분석</p>
+            </div>
         </div>
     `;
 }
 
 // 결제 기능정의서 생성
 function generatePaymentSpec(industry, options) {
+    const hasCard = options.includes('신용카드');
+    const hasEasyPay = options.includes('간편결제');
+    const hasTransfer = options.includes('계좌이체');
+    const hasVirtual = options.includes('가상계좌');
+    const hasMobile = options.includes('휴대폰 결제');
+    const hasPoint = options.includes('포인트 결제');
+    const hasComplex = options.includes('복합 결제');
+    const hasOverseas = options.includes('해외 결제');
+    
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
+    
     return `
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-ORD-003</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
+            </div>
+        </div>
+
         <div class="func-journey">
             <h4>📍 사용자 여정 (User Journey)</h4>
             <div class="journey-flow">
-                <div class="journey-step"><span class="step-num">1</span><span class="step-title">주문확인</span><p>상품/금액 확인</p></div>
+                <div class="journey-step"><span class="step-num">1</span><span class="step-title">주문확인</span><p>상품/금액 확인<br><small>• 장바구니에서 이동</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">2</span><span class="step-title">배송정보</span><p>배송지 입력/선택</p></div>
+                <div class="journey-step"><span class="step-num">2</span><span class="step-title">배송정보</span><p>배송지 입력/선택<br><small>• 주소 검색, 요청사항</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">3</span><span class="step-title">할인적용</span><p>쿠폰/포인트 적용</p></div>
+                <div class="journey-step"><span class="step-num">3</span><span class="step-title">할인적용</span><p>쿠폰/포인트 적용<br><small>• 사용 가능 쿠폰 표시</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">4</span><span class="step-title">결제수단</span><p>결제 방법 선택</p></div>
+                <div class="journey-step"><span class="step-num">4</span><span class="step-title">결제수단</span><p>결제 방법 선택<br><small>• 카드, 간편결제 등</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step completed"><span class="step-num">5</span><span class="step-title">결제완료</span><p>주문 완료 안내</p></div>
+                <div class="journey-step"><span class="step-num">5</span><span class="step-title">결제진행</span><p>PG사 결제창<br><small>• 결제 승인 처리</small></p></div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step completed"><span class="step-num">6</span><span class="step-title">완료</span><p>주문 완료<br><small>• 주문번호 발급</small></p></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>1. 결제 수단</h4>
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 사용자가 선택한 상품/서비스에 대한 결제를 안전하게 처리</p>
+                <p><strong>접근 경로:</strong> 장바구니 > 주문하기 / 상품 상세 > 바로구매</p>
+                <p><strong>권한:</strong> 회원 (로그인 필수) / 비회원 주문 시 별도 처리</p>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>2. 화면 구성 (Screen Layout)</h4>
+            <div class="screen-layout">
+                <div class="screen-item">
+                    <h5>2.1 주문서 작성 화면</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[영역]</span> 주문 상품 정보 (상품명, 옵션, 수량, 금액)</div>
+                        <div class="element"><span class="el-type">[영역]</span> 배송 정보 (배송지 선택/신규 입력)</div>
+                        <div class="element"><span class="el-type">[입력]</span> 배송 요청사항 (드롭다운 + 직접입력)</div>
+                        <div class="element"><span class="el-type">[영역]</span> 할인 적용 (쿠폰 선택, 포인트 입력)</div>
+                        <div class="element"><span class="el-type">[영역]</span> 결제 수단 선택 (라디오버튼)</div>
+                        <div class="element"><span class="el-type">[영역]</span> 결제 금액 요약 (상품금액, 배송비, 할인, 최종금액)</div>
+                        <div class="element"><span class="el-type">[체크박스]</span> 주문 내용 확인 및 결제 동의</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 결제하기 (최종금액 표시)</div>
+                    </div>
+                </div>
+                <div class="screen-item">
+                    <h5>2.2 결제 완료 화면</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[아이콘]</span> 결제 완료 체크 아이콘</div>
+                        <div class="element"><span class="el-type">[텍스트]</span> 주문번호: 2024XXXXX</div>
+                        <div class="element"><span class="el-type">[텍스트]</span> 결제 금액: ₩XXX,XXX</div>
+                        <div class="element"><span class="el-type">[텍스트]</span> 예상 배송일: YYYY.MM.DD</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 주문 상세 보기</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 쇼핑 계속하기</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>3. 결제 수단</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>결제수단</span><span>상세 내용</span><span>수수료</span><span>정산주기</span></div>
+                ${hasCard ? `<div class="func-row"><span>신용/체크카드</span><span>• 국내 전 카드사 지원<br>• 할부: 2~12개월 (5만원 이상)<br>• 무이자 이벤트 연동<br>• 카드사별 즉시 할인</span><span>2.5~3.0%</span><span>D+3</span></div>` : ''}
+                ${hasEasyPay ? `<div class="func-row"><span>간편결제</span><span>• 네이버페이: 네이버 앱 연동<br>• 카카오페이: 카카오톡 연동<br>• 토스페이: 토스 앱 연동<br>• 페이코: PAYCO 앱 연동</span><span>3.0~3.5%</span><span>D+1~D+3</span></div>` : ''}
+                ${hasTransfer ? `<div class="func-row"><span>계좌이체</span><span>• 실시간 계좌이체<br>• 전 은행 지원<br>• 즉시 결제 확인</span><span>1.5~2.0%</span><span>D+1</span></div>` : ''}
+                ${hasVirtual ? `<div class="func-row"><span>가상계좌</span><span>• 주문 건별 가상계좌 발급<br>• 입금 기한: 24시간<br>• 미입금 시 자동 취소<br>• 부분입금 불가</span><span>300원/건</span><span>D+1</span></div>` : ''}
+                ${hasMobile ? `<div class="func-row"><span>휴대폰 결제</span><span>• SKT, KT, LG U+<br>• 월 결제 한도: 50만원<br>• 소액결제 이용약관 동의</span><span>4.0~5.0%</span><span>익월 15일</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>4. 할인 적용 규칙</h4>
             <div class="func-table">
-                <div class="func-row header"><span>결제수단</span><span>상세 내용</span><span>수수료</span></div>
-                ${options.includes('신용카드') ? `<div class="func-row"><span>신용/체크카드</span><span>국내 모든 카드사 지원, 할부 (2~12개월, 무이자 이벤트)</span><span>2.5~3.0%</span></div>` : ''}
-                ${options.includes('간편결제') ? `<div class="func-row"><span>간편결제</span><span>네이버페이, 카카오페이, 토스페이, 페이코</span><span>3.0~3.5%</span></div>` : ''}
-                ${options.includes('계좌이체') ? `<div class="func-row"><span>계좌이체</span><span>실시간 계좌이체 (모든 은행 지원)</span><span>1.5~2.0%</span></div>` : ''}
-                ${options.includes('가상계좌') ? `<div class="func-row"><span>가상계좌</span><span>입금 기한 24시간, 미입금 시 자동 취소</span><span>300원/건</span></div>` : ''}
+                <div class="func-row header"><span>할인유형</span><span>적용 규칙</span><span>중복 적용</span><span>우선순위</span></div>
+                <div class="func-row"><span>쿠폰</span><span>• 정률: 상품금액의 X% (최대 Y원)<br>• 정액: X원 할인<br>• 최소 주문금액 조건 있음<br>• 1회 주문 시 1장만 사용</span><span>쿠폰끼리 불가</span><span>1</span></div>
+                <div class="func-row"><span>적립금</span><span>• 1원 단위 사용 가능<br>• 최소 1,000원 이상 보유 시 사용<br>• 결제금액의 최대 30%</span><span>가능</span><span>2</span></div>
+                <div class="func-row"><span>등급 할인</span><span>• VIP: 5%, Gold: 3%, Silver: 1%<br>• 상품금액 기준 자동 적용</span><span>가능</span><span>3</span></div>
+                ${hasComplex ? `<div class="func-row"><span>복합 결제</span><span>• 적립금 + 카드 결제<br>• 쿠폰 + 적립금 + 카드<br>• 각 결제 수단별 금액 입력</span><span>가능</span><span>-</span></div>` : ''}
             </div>
         </div>
+
         <div class="func-section">
-            <h4>2. 할인 적용</h4>
+            <h4>5. 결제 금액 계산</h4>
+            <div class="func-calc">
+                <div class="calc-row"><span class="calc-label">상품 금액</span><span class="calc-value">+ ₩XXX,XXX</span></div>
+                <div class="calc-row"><span class="calc-label">배송비</span><span class="calc-value">+ ₩3,000 (5만원 이상 무료)</span></div>
+                <div class="calc-row discount"><span class="calc-label">쿠폰 할인</span><span class="calc-value">- ₩XX,XXX</span></div>
+                <div class="calc-row discount"><span class="calc-label">등급 할인</span><span class="calc-value">- ₩X,XXX</span></div>
+                <div class="calc-row discount"><span class="calc-label">적립금 사용</span><span class="calc-value">- ₩X,XXX</span></div>
+                <div class="calc-row total"><span class="calc-label">최종 결제 금액</span><span class="calc-value">= ₩XXX,XXX</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>6. PG사 연동</h4>
             <div class="func-table">
-                <div class="func-row header"><span>할인유형</span><span>적용 규칙</span><span>중복여부</span></div>
-                <div class="func-row"><span>쿠폰</span><span>정률/정액 할인, 최대 할인금액 제한, 최소 주문금액 조건</span><span>1장만</span></div>
-                <div class="func-row"><span>적립금</span><span>1원 단위 사용, 최소 1,000원 이상 보유 시 사용 가능</span><span>가능</span></div>
-                <div class="func-row"><span>등급 할인</span><span>회원 등급별 추가 할인율 적용</span><span>가능</span></div>
+                <div class="func-row header"><span>PG사</span><span>연동 방식</span><span>주요 기능</span></div>
+                <div class="func-row"><span>토스페이먼츠</span><span>REST API v2<br>브랜드페이, 일반결제</span><span>• 카드, 간편결제, 계좌이체<br>• 자동 빌링 (정기결제)<br>• 결제창 커스터마이징</span></div>
+                <div class="func-row"><span>KG이니시스<br>(백업)</span><span>JavaScript SDK<br>INIpay</span><span>• 국내 결제 전 수단<br>• 안정적인 서비스<br>• 이중화 목적</span></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>3. 결제 프로세스</h4>
+            <h4>7. 결제 프로세스 상세</h4>
+            <div class="func-process">
+                <div class="process-step">
+                    <h5>STEP 1: 결제 요청</h5>
+                    <ul>
+                        <li>클라이언트에서 주문 정보 검증</li>
+                        <li>서버에 주문 생성 요청 (orderId 발급)</li>
+                        <li>결제 금액 검증 (상품금액 + 배송비 - 할인)</li>
+                    </ul>
+                </div>
+                <div class="process-step">
+                    <h5>STEP 2: PG 결제</h5>
+                    <ul>
+                        <li>PG사 결제창 호출</li>
+                        <li>사용자 결제 정보 입력</li>
+                        <li>PG사 결제 승인 요청</li>
+                    </ul>
+                </div>
+                <div class="process-step">
+                    <h5>STEP 3: 결제 검증</h5>
+                    <ul>
+                        <li>PG사 승인 결과 수신 (paymentKey)</li>
+                        <li>서버에서 결제 금액 일치 검증</li>
+                        <li>결제 확정 API 호출</li>
+                    </ul>
+                </div>
+                <div class="process-step">
+                    <h5>STEP 4: 주문 완료</h5>
+                    <ul>
+                        <li>주문 상태 변경 (결제완료)</li>
+                        <li>재고 차감 처리</li>
+                        <li>결제 완료 알림 발송 (이메일/SMS/푸시)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>8. 에러 처리</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>에러 상황</span><span>에러 메시지</span><span>처리 방법</span></div>
+                <div class="func-row"><span>카드 한도 초과</span><span>"카드 한도가 초과되었습니다"</span><span>다른 결제 수단 안내</span></div>
+                <div class="func-row"><span>결제 취소</span><span>"결제가 취소되었습니다"</span><span>주문서 페이지 유지, 재시도 가능</span></div>
+                <div class="func-row"><span>카드 정보 오류</span><span>"카드 정보를 확인해주세요"</span><span>재입력 유도</span></div>
+                <div class="func-row"><span>재고 부족</span><span>"일부 상품의 재고가 부족합니다"</span><span>장바구니로 이동, 수량 조정 안내</span></div>
+                <div class="func-row"><span>쿠폰 만료</span><span>"선택한 쿠폰이 만료되었습니다"</span><span>쿠폰 재선택 유도</span></div>
+                <div class="func-row"><span>결제 금액 불일치</span><span>"결제 중 오류가 발생했습니다"</span><span>자동 취소 및 재시도 안내</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>9. 보안 요구사항</h4>
             <ul class="func-list">
-                <li><strong>PG사 연동:</strong> KG이니시스/토스페이먼츠 연동 (이중화)</li>
-                <li><strong>결제 검증:</strong> 주문금액과 실 결제금액 일치 검증</li>
-                <li><strong>결제 실패:</strong> 실패 사유 안내, 재시도 버튼 제공</li>
-                <li><strong>결제 완료:</strong> 주문번호 발급, 이메일/SMS 알림 발송</li>
+                <li><strong>결제 정보 암호화:</strong> 카드 정보 클라이언트 암호화 (PG사 SDK)</li>
+                <li><strong>결제 금액 검증:</strong> 프론트/백엔드 금액 이중 검증</li>
+                <li><strong>HTTPS 통신:</strong> 모든 결제 API SSL 인증서 적용</li>
+                <li><strong>결제 이력 기록:</strong> 모든 결제 시도/성공/실패 로그 저장</li>
+                <li><strong>이상 거래 탐지:</strong> 동일 IP 다건 결제, 대량 주문 모니터링</li>
             </ul>
         </div>
+
         <div class="func-analysis">
             <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석<br>
-            <strong>PG사:</strong> 업종 특성 고려하여 최적 PG사 추천</p>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>결제 통계:</strong> 간편결제 비중 55%, 카드결제 35%, 기타 10%</p>
+                <p><strong>PG사 선정:</strong> ${industryName} 업종 최적 PG사 및 수수료 협의 기준</p>
+                <p><strong>전환율 기준:</strong> 결제 완료율 85% 이상 달성 목표</p>
+            </div>
         </div>
     `;
 }
 
 // 장바구니 기능정의서 생성
 function generateCartSpec(industry, options) {
+    const hasOptionChange = options.includes('옵션 변경');
+    const hasSoldOut = options.includes('품절 상품 알림');
+    const hasGift = options.includes('선물하기');
+    const hasGuest = options.includes('비회원 장바구니');
+    
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
+    
     return `
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-ORD-001</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
+            </div>
+        </div>
+
         <div class="func-journey">
             <h4>📍 사용자 여정 (User Journey)</h4>
             <div class="journey-flow">
-                <div class="journey-step"><span class="step-num">1</span><span class="step-title">상품선택</span><p>상품 담기</p></div>
+                <div class="journey-step"><span class="step-num">1</span><span class="step-title">상품선택</span><p>상품 상세 확인<br><small>• 옵션, 수량 선택</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">2</span><span class="step-title">장바구니</span><p>담긴 상품 확인</p></div>
+                <div class="journey-step"><span class="step-num">2</span><span class="step-title">담기</span><p>장바구니 담기<br><small>• 담기 완료 알림</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">3</span><span class="step-title">수량조절</span><p>수량/옵션 변경</p></div>
+                <div class="journey-step"><span class="step-num">3</span><span class="step-title">확인</span><p>장바구니 확인<br><small>• 담긴 상품 목록</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step completed"><span class="step-num">4</span><span class="step-title">주문하기</span><p>결제 페이지 이동</p></div>
+                <div class="journey-step"><span class="step-num">4</span><span class="step-title">수정</span><p>수량/옵션 변경<br><small>• 삭제, 찜 이동</small></p></div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step completed"><span class="step-num">5</span><span class="step-title">주문</span><p>주문하기<br><small>• 결제 페이지 이동</small></p></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>1. 장바구니 기본 기능</h4>
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 구매하려는 상품을 임시 저장하고 관리하여 편리한 구매 경험 제공</p>
+                <p><strong>접근 경로:</strong> GNB 장바구니 아이콘 / 상품 상세 > 장바구니 담기 / 마이페이지 > 장바구니</p>
+                <p><strong>권한:</strong> 회원/비회원 모두 이용 가능</p>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>2. 화면 구성 (Screen Layout)</h4>
+            <div class="screen-layout">
+                <div class="screen-item">
+                    <h5>2.1 장바구니 메인 화면</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[체크박스]</span> 전체 선택 / 선택 삭제</div>
+                        <div class="element"><span class="el-type">[리스트]</span> 장바구니 상품 목록
+                            <ul style="margin-left:20px;margin-top:5px;font-size:12px;">
+                                <li>상품 이미지 (썸네일)</li>
+                                <li>상품명, 브랜드</li>
+                                <li>선택 옵션 (색상, 사이즈 등)</li>
+                                <li>수량 조절 (+/- 버튼, 직접입력)</li>
+                                <li>개별 금액 (할인가/정상가)</li>
+                                <li>삭제 버튼, 찜하기 버튼</li>
+                            </ul>
+                        </div>
+                        <div class="element"><span class="el-type">[영역]</span> 배송비 안내 바 (무료배송까지 X원 남음)</div>
+                        <div class="element"><span class="el-type">[영역]</span> 결제 예상 금액 (상품금액, 배송비, 할인, 총액)</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 선택 상품 주문</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 전체 상품 주문</div>
+                    </div>
+                </div>
+                <div class="screen-item">
+                    <h5>2.2 장바구니 담기 완료 모달</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[아이콘]</span> 체크 아이콘</div>
+                        <div class="element"><span class="el-type">[텍스트]</span> 장바구니에 상품이 담겼습니다</div>
+                        <div class="element"><span class="el-type">[정보]</span> 담긴 상품 정보 (썸네일, 상품명, 옵션)</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 장바구니 가기</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 쇼핑 계속하기</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>3. 기능 상세</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>기능</span><span>상세 내용</span><span>비즈니스 규칙</span><span>필수</span></div>
+                <div class="func-row"><span>상품 담기</span><span>• 상품 상세에서 옵션/수량 선택 후 담기<br>• 같은 상품+옵션 재담기 시 수량 합산<br>• 담기 완료 시 모달/토스트 알림</span><span>• 최대 99개까지 담기 가능<br>• 동일 상품 최대 10개</span><span class="required">Y</span></div>
+                <div class="func-row"><span>수량 변경</span><span>• +/- 버튼으로 1개씩 조절<br>• 직접 입력으로 수량 변경<br>• 최소 1개 ~ 최대 재고 수량</span><span>• 재고 초과 시 최대 재고로 자동 조정<br>• 수량 변경 시 금액 즉시 재계산</span><span class="required">Y</span></div>
+                ${hasOptionChange ? `<div class="func-row"><span>옵션 변경</span><span>• 장바구니에서 옵션 변경 팝업<br>• 색상, 사이즈 등 옵션 선택<br>• 가격 차이 자동 반영</span><span>• 품절 옵션 선택 불가<br>• 옵션 변경 시 재고 확인</span><span class="optional">N</span></div>` : ''}
+                <div class="func-row"><span>선택 삭제</span><span>• 개별 삭제: X 버튼 클릭<br>• 다중 삭제: 체크 후 선택 삭제<br>• 삭제 확인 팝업 표시</span><span>• 삭제 시 DB 즉시 반영<br>• 삭제 취소 불가 (재담기 필요)</span><span class="required">Y</span></div>
+                <div class="func-row"><span>찜 이동</span><span>• 장바구니 → 위시리스트 이동<br>• 장바구니에서 삭제 후 찜 추가</span><span>• 나중에 구매 유도</span><span class="optional">N</span></div>
+                ${hasGift ? `<div class="func-row"><span>선물하기</span><span>• 선물 가능 상품 표시<br>• 받는 분 정보 입력<br>• 선물 메시지 작성</span><span>• 선물 가능 상품만 표시<br>• 배송지 선물 받는 분 주소</span><span class="optional">N</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>4. 회원/비회원 장바구니</h4>
             <div class="func-table">
-                <div class="func-row header"><span>기능</span><span>상세 내용</span><span>필수여부</span></div>
-                <div class="func-row"><span>상품 담기</span><span>상품 상세에서 옵션 선택 후 장바구니 담기<br>• 담기 완료 시 모달 or 플로팅 알림</span><span class="required">필수</span></div>
-                <div class="func-row"><span>수량 변경</span><span>+/- 버튼 및 직접 입력<br>• 재고 초과 시 알림</span><span class="required">필수</span></div>
-                <div class="func-row"><span>옵션 변경</span><span>장바구니에서 옵션 변경 가능<br>• 가격 차이 자동 반영</span><span class="optional">선택</span></div>
-                <div class="func-row"><span>선택 삭제</span><span>개별/전체 선택 삭제<br>• 삭제 확인 팝업</span><span class="required">필수</span></div>
+                <div class="func-row header"><span>구분</span><span>저장 방식</span><span>유효 기간</span><span>병합 처리</span></div>
+                <div class="func-row"><span>회원</span><span>서버 DB 저장</span><span>무제한<br>(30일 미접속 시 알림)</span><span>-</span></div>
+                ${hasGuest ? `<div class="func-row"><span>비회원</span><span>브라우저 LocalStorage<br>+ 서버 임시 저장</span><span>7일<br>(쿠키 삭제 시 초기화)</span><span>로그인 시 회원 장바구니에 병합</span></div>` : `<div class="func-row"><span>비회원</span><span>브라우저 LocalStorage</span><span>7일</span><span>로그인 시 병합</span></div>`}
             </div>
         </div>
+
         <div class="func-section">
-            <h4>2. 배송/결제 정보</h4>
-            <ul class="func-list">
-                <li><strong>배송비 계산:</strong> 무료배송 기준 금액 표시, 남은 금액 안내</li>
-                <li><strong>예상 결제금액:</strong> 상품금액 + 배송비 - 할인 = 결제예정금액</li>
-                <li><strong>재고 확인:</strong> 품절 상품 표시, 주문 불가 처리</li>
-            </ul>
+            <h4>5. 결제 금액 계산</h4>
+            <div class="func-calc">
+                <div class="calc-row"><span class="calc-label">선택 상품 금액</span><span class="calc-value">+ ₩XXX,XXX (X개)</span></div>
+                <div class="calc-row"><span class="calc-label">배송비</span><span class="calc-value">+ ₩3,000</span></div>
+                <div class="calc-row highlight"><span class="calc-label">💡 무료배송까지</span><span class="calc-value">₩XX,XXX 남음</span></div>
+                <div class="calc-row discount"><span class="calc-label">할인 예상</span><span class="calc-value">- ₩X,XXX (쿠폰 적용 시)</span></div>
+                <div class="calc-row total"><span class="calc-label">예상 결제 금액</span><span class="calc-value">= ₩XXX,XXX</span></div>
+            </div>
         </div>
+
+        <div class="func-section">
+            <h4>6. 상품 상태 처리</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>상태</span><span>표시 방법</span><span>주문 가능 여부</span></div>
+                <div class="func-row"><span>정상</span><span>일반 표시</span><span>⭕ 가능</span></div>
+                <div class="func-row"><span>품절</span><span>상품명 위 "품절" 뱃지, 회색 처리<br>체크박스 비활성화</span><span>❌ 불가 (삭제 또는 재입고 알림)</span></div>
+                <div class="func-row"><span>판매 종료</span><span>"판매 종료" 뱃지, 회색 처리</span><span>❌ 불가 (삭제만 가능)</span></div>
+                <div class="func-row"><span>재고 부족</span><span>"N개 남음" 표시<br>수량 조절 시 경고</span><span>⭕ 가능 (재고 수량까지)</span></div>
+                <div class="func-row"><span>가격 변동</span><span>"가격이 변경되었습니다" 알림</span><span>⭕ 가능 (변경된 가격 적용)</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>7. API 명세</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>API</span><span>Method</span><span>용도</span></div>
+                <div class="func-row"><span>/api/cart</span><span>GET</span><span>장바구니 목록 조회</span></div>
+                <div class="func-row"><span>/api/cart</span><span>POST</span><span>장바구니 상품 담기</span></div>
+                <div class="func-row"><span>/api/cart/{id}/quantity</span><span>PATCH</span><span>수량 변경</span></div>
+                <div class="func-row"><span>/api/cart/{id}/option</span><span>PATCH</span><span>옵션 변경</span></div>
+                <div class="func-row"><span>/api/cart/{id}</span><span>DELETE</span><span>상품 삭제</span></div>
+                <div class="func-row"><span>/api/cart/merge</span><span>POST</span><span>비회원→회원 장바구니 병합</span></div>
+            </div>
+        </div>
+
         <div class="func-analysis">
             <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석<br>
-            <strong>UX 최적화:</strong> 장바구니 이탈률 15% 감소 사례 기반</p>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>UX 최적화:</strong> 장바구니 → 결제 전환율 평균 45% 기준 설계</p>
+                <p><strong>이탈 방지:</strong> 무료배송 바, 찜 이동 기능으로 이탈률 15% 감소 사례 참조</p>
+            </div>
         </div>
     `;
 }
 
 // 주문 기능정의서 생성
 function generateOrderSpec(industry, options) {
+    const hasGift = options.includes('선물 주문');
+    const hasOverseas = options.includes('해외 주문');
+    const hasBulk = options.includes('대량 주문');
+    const hasGuest = options.includes('비회원 주문');
+    
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
+    
     return `
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-ORD-002</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
+            </div>
+        </div>
+
         <div class="func-journey">
-            <h4>📍 사용자 여정 (User Journey)</h4>
+            <h4>📍 주문 Life Cycle</h4>
             <div class="journey-flow">
-                <div class="journey-step"><span class="step-num">1</span><span class="step-title">주문서작성</span><p>배송지/결제정보</p></div>
+                <div class="journey-step"><span class="step-num">1</span><span class="step-title">주문서 작성</span><p>배송지/결제 정보<br><small>• 할인 적용</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">2</span><span class="step-title">결제</span><p>결제 진행</p></div>
+                <div class="journey-step"><span class="step-num">2</span><span class="step-title">결제 완료</span><p>주문번호 발급<br><small>• 결제 승인</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">3</span><span class="step-title">주문완료</span><p>주문번호 발급</p></div>
+                <div class="journey-step"><span class="step-num">3</span><span class="step-title">상품 준비</span><p>판매자 확인<br><small>• 재고 확보, 포장</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">4</span><span class="step-title">배송</span><p>배송 진행</p></div>
+                <div class="journey-step"><span class="step-num">4</span><span class="step-title">배송중</span><p>택배사 배송<br><small>• 실시간 추적</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step completed"><span class="step-num">5</span><span class="step-title">수령완료</span><p>구매확정/리뷰</p></div>
+                <div class="journey-step"><span class="step-num">5</span><span class="step-title">배송 완료</span><p>수령 확인<br><small>• 교환/반품 가능</small></p></div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step completed"><span class="step-num">6</span><span class="step-title">구매 확정</span><p>거래 종료<br><small>• 리뷰 작성, 적립금</small></p></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>1. 주문 상태</h4>
-            <div class="func-table">
-                <div class="func-row header"><span>상태</span><span>설명</span><span>가능 액션</span></div>
-                <div class="func-row"><span>주문완료</span><span>결제 완료 후 주문 접수 상태</span><span>주문취소</span></div>
-                <div class="func-row"><span>상품준비중</span><span>판매자가 상품 준비 중</span><span>취소요청</span></div>
-                <div class="func-row"><span>배송중</span><span>택배사 배송 진행 중</span><span>배송조회</span></div>
-                <div class="func-row"><span>배송완료</span><span>배송 완료</span><span>구매확정, 교환/반품</span></div>
-                <div class="func-row"><span>구매확정</span><span>구매 확정 (7일 자동 확정)</span><span>리뷰작성</span></div>
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 사용자의 주문 생성, 조회, 관리 및 주문 상태 추적 기능 제공</p>
+                <p><strong>접근 경로:</strong> 장바구니 > 주문하기 / 상품 상세 > 바로구매 / 마이페이지 > 주문내역</p>
+                <p><strong>권한:</strong> 회원 (필수), 비회원 주문 (선택)</p>
             </div>
         </div>
+
+        <div class="func-section">
+            <h4>2. 주문 유형</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>유형</span><span>설명</span><span>특이사항</span></div>
+                <div class="func-row"><span>일반 주문</span><span>장바구니 또는 바로구매를 통한 표준 주문</span><span>기본 주문 플로우</span></div>
+                ${hasGuest ? `<div class="func-row"><span>비회원 주문</span><span>회원가입 없이 이메일/휴대폰으로 주문<br>• 주문조회 시 주문번호+인증 필요</span><span>회원가입 유도 팝업</span></div>` : ''}
+                ${hasGift ? `<div class="func-row"><span>선물 주문</span><span>배송지를 받는 분 주소로 설정<br>• 선물 메시지 추가 가능<br>• 금액 미표시 옵션</span><span>받는 분 정보 별도 입력</span></div>` : ''}
+                ${hasBulk ? `<div class="func-row"><span>대량 주문</span><span>10개 이상 대량 주문<br>• 별도 견적 요청 가능<br>• 담당자 배정</span><span>견적서 발행</span></div>` : ''}
+                ${hasOverseas ? `<div class="func-row"><span>해외 주문</span><span>해외 배송 주문<br>• 통관 정보 입력<br>• 국가별 배송비 적용</span><span>개인통관고유번호 필수</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>3. 주문 상태 정의</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>상태 코드</span><span>상태명</span><span>설명</span><span>고객 가능 액션</span><span>자동 전환</span></div>
+                <div class="func-row"><span>ORDER_PENDING</span><span>결제 대기</span><span>가상계좌 입금 대기 중</span><span>입금, 주문취소</span><span>24시간 후 자동 취소</span></div>
+                <div class="func-row"><span>ORDER_COMPLETE</span><span>주문 완료</span><span>결제 완료, 주문 접수됨</span><span>주문취소, 배송지변경</span><span>-</span></div>
+                <div class="func-row"><span>PREPARING</span><span>상품 준비중</span><span>판매자가 상품 준비/포장 중</span><span>취소요청 (승인 필요)</span><span>-</span></div>
+                <div class="func-row"><span>SHIPPING</span><span>배송중</span><span>택배사에 인계, 배송 진행 중</span><span>배송조회</span><span>-</span></div>
+                <div class="func-row"><span>DELIVERED</span><span>배송 완료</span><span>배송 완료됨</span><span>구매확정, 교환요청, 반품요청</span><span>7일 후 자동 구매확정</span></div>
+                <div class="func-row"><span>CONFIRMED</span><span>구매 확정</span><span>거래 완료, 적립금 지급</span><span>리뷰작성</span><span>-</span></div>
+                <div class="func-row"><span>CANCELLED</span><span>주문 취소</span><span>주문 취소됨, 환불 진행</span><span>-</span><span>-</span></div>
+                <div class="func-row"><span>RETURN_REQUEST</span><span>반품 요청</span><span>반품 요청 접수됨</span><span>반품 취소</span><span>-</span></div>
+                <div class="func-row"><span>RETURN_COMPLETE</span><span>반품 완료</span><span>반품 처리 완료, 환불 진행</span><span>-</span><span>-</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>4. 주문 상태 플로우</h4>
+            <div class="func-flow-diagram">
+                <pre style="background:#1a1a2e;padding:15px;border-radius:8px;color:#eee;font-size:12px;overflow-x:auto;">
+┌─────────────┐    결제완료    ┌─────────────┐    준비시작    ┌─────────────┐
+│  결제 대기  │ ───────────▶ │  주문 완료  │ ───────────▶ │ 상품 준비중  │
+└─────────────┘              └─────────────┘              └─────────────┘
+      │                            │                            │
+      │ 24시간 초과               │ 취소 요청                   │ 발송 처리
+      ▼                            ▼                            ▼
+┌─────────────┐              ┌─────────────┐              ┌─────────────┐
+│  자동 취소  │              │  주문 취소  │              │   배송중    │
+└─────────────┘              └─────────────┘              └─────────────┘
+                                                               │
+                                                               │ 배송 완료
+                                                               ▼
+                             ┌─────────────┐              ┌─────────────┐
+                             │  반품 완료  │ ◀─────────── │  배송 완료  │
+                             └─────────────┘   반품 승인   └─────────────┘
+                                                               │
+                                                               │ 7일 경과/수동
+                                                               ▼
+                                                         ┌─────────────┐
+                                                         │  구매 확정  │
+                                                         └─────────────┘
+                </pre>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>5. 주문번호 체계</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>항목</span><span>형식</span><span>예시</span></div>
+                <div class="func-row"><span>주문번호</span><span>YYYYMMDD + 일련번호 8자리</span><span>20241230-00000001</span></div>
+                <div class="func-row"><span>송장번호</span><span>택배사 코드 + 운송장번호</span><span>CJ-123456789012</span></div>
+                <div class="func-row"><span>반품번호</span><span>R + 주문번호</span><span>R20241230-00000001</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>6. 주문 내역 조회</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>기능</span><span>상세 내용</span></div>
+                <div class="func-row"><span>주문 목록</span><span>• 최근 주문순 정렬<br>• 기간별 필터 (1개월/3개월/6개월/1년/전체)<br>• 상태별 필터<br>• 페이지네이션 (20건/페이지)</span></div>
+                <div class="func-row"><span>주문 상세</span><span>• 주문 정보 (주문번호, 일시, 상태)<br>• 상품 정보 (상품명, 옵션, 수량, 금액)<br>• 배송 정보 (배송지, 택배사, 송장번호)<br>• 결제 정보 (결제수단, 결제금액)<br>• 할인 정보 (쿠폰, 포인트)</span></div>
+                <div class="func-row"><span>배송 추적</span><span>• 택배사 API 연동 실시간 조회<br>• 배송 단계별 일시 표시<br>• 예상 도착일 안내</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>7. API 명세</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>API</span><span>Method</span><span>용도</span></div>
+                <div class="func-row"><span>/api/orders</span><span>POST</span><span>주문 생성</span></div>
+                <div class="func-row"><span>/api/orders</span><span>GET</span><span>주문 목록 조회</span></div>
+                <div class="func-row"><span>/api/orders/{id}</span><span>GET</span><span>주문 상세 조회</span></div>
+                <div class="func-row"><span>/api/orders/{id}/cancel</span><span>POST</span><span>주문 취소</span></div>
+                <div class="func-row"><span>/api/orders/{id}/confirm</span><span>POST</span><span>구매 확정</span></div>
+                <div class="func-row"><span>/api/orders/{id}/tracking</span><span>GET</span><span>배송 추적</span></div>
+            </div>
+        </div>
+
         <div class="func-analysis">
             <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석</p>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>상태 설계:</strong> 이커머스 표준 주문 상태 플로우 기반</p>
+                <p><strong>자동화:</strong> 자동 구매확정, 자동 취소 등 운영 효율화 고려</p>
+            </div>
         </div>
     `;
 }
 
 // 배송 기능정의서 생성
 function generateDeliverySpec(industry, options) {
+    const hasSameDay = options.includes('당일 배송');
+    const hasDawn = options.includes('새벽 배송');
+    const hasOverseas = options.includes('해외 배송');
+    const hasReserve = options.includes('예약 배송');
+    
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
+    
     return `
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-DLV-001</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
+            </div>
+        </div>
+
         <div class="func-journey">
-            <h4>📍 배송 프로세스</h4>
+            <h4>📍 배송 Life Cycle</h4>
             <div class="journey-flow">
-                <div class="journey-step"><span class="step-num">1</span><span class="step-title">주문확인</span><p>주문 접수</p></div>
+                <div class="journey-step"><span class="step-num">1</span><span class="step-title">주문 접수</span><p>주문 확인<br><small>• 결제 완료</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">2</span><span class="step-title">상품준비</span><p>포장 진행</p></div>
+                <div class="journey-step"><span class="step-num">2</span><span class="step-title">상품 준비</span><p>포장 진행<br><small>• 재고 확보</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">3</span><span class="step-title">출고</span><p>택배사 전달</p></div>
+                <div class="journey-step"><span class="step-num">3</span><span class="step-title">출고</span><p>택배사 인계<br><small>• 송장번호 발급</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">4</span><span class="step-title">배송중</span><p>배송 진행</p></div>
+                <div class="journey-step"><span class="step-num">4</span><span class="step-title">배송 중</span><p>이동/배달<br><small>• 실시간 추적</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step completed"><span class="step-num">5</span><span class="step-title">배송완료</span><p>수령 완료</p></div>
+                <div class="journey-step completed"><span class="step-num">5</span><span class="step-title">배송 완료</span><p>수령 확인<br><small>• 완료 알림</small></p></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>1. 배송 유형</h4>
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 주문 상품의 배송 정보 관리 및 실시간 배송 상태 추적 제공</p>
+                <p><strong>접근 경로:</strong> 마이페이지 > 주문내역 > 배송조회 / 주문 완료 페이지 > 배송조회</p>
+                <p><strong>권한:</strong> 회원 (본인 주문), 비회원 (주문번호 + 인증)</p>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>2. 배송 유형 정의</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>유형</span><span>조건</span><span>배송 소요</span><span>배송비</span><span>가능 지역</span></div>
+                <div class="func-row"><span>일반 배송</span><span>상시</span><span>2~3일</span><span>3,000원<br>(5만원 이상 무료)</span><span>전국</span></div>
+                ${hasSameDay ? `<div class="func-row"><span>당일 배송</span><span>오전 11시 이전 주문</span><span>당일 저녁</span><span>5,000원</span><span>수도권</span></div>` : ''}
+                ${hasDawn ? `<div class="func-row"><span>새벽 배송</span><span>밤 11시 이전 주문</span><span>익일 오전 7시 전</span><span>3,000원</span><span>서울/경기 일부</span></div>` : ''}
+                ${hasReserve ? `<div class="func-row"><span>예약 배송</span><span>희망 일시 선택</span><span>지정일</span><span>5,000원</span><span>전국</span></div>` : ''}
+                ${hasOverseas ? `<div class="func-row"><span>해외 배송</span><span>해외 주소 입력</span><span>7~14일</span><span>국가별 상이</span><span>해외</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>3. 배송비 정책</h4>
             <div class="func-table">
-                <div class="func-row header"><span>유형</span><span>조건</span><span>배송비</span></div>
-                <div class="func-row"><span>일반배송</span><span>주문 후 2~3일 내 배송</span><span>3,000원 (5만원 이상 무료)</span></div>
-                ${options.includes('당일 배송') ? `<div class="func-row"><span>당일배송</span><span>오전 11시 이전 주문 (권역 내)</span><span>5,000원</span></div>` : ''}
-                ${options.includes('새벽 배송') ? `<div class="func-row"><span>새벽배송</span><span>밤 11시 이전 주문 시 익일 오전 7시 전 도착</span><span>3,000원</span></div>` : ''}
+                <div class="func-row header"><span>조건</span><span>배송비</span><span>비고</span></div>
+                <div class="func-row"><span>기본 배송비</span><span>3,000원</span><span>주문 건당</span></div>
+                <div class="func-row"><span>무료 배송</span><span>0원</span><span>5만원 이상 구매 시</span></div>
+                <div class="func-row"><span>도서산간</span><span>+3,000원</span><span>제주, 울릉도 등</span></div>
+                <div class="func-row"><span>분리 배송</span><span>건당 부과</span><span>출고지 다른 경우</span></div>
+                <div class="func-row"><span>반품 배송비</span><span>3,000원~6,000원</span><span>고객 귀책 시 왕복 부담</span></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>2. 배송 조회</h4>
-            <ul class="func-list">
-                <li><strong>택배사 연동:</strong> CJ대한통운, 롯데택배, 한진 등 실시간 API 연동</li>
-                <li><strong>배송 알림:</strong> 출고/배송중/배송완료 시 푸시/SMS 알림</li>
-                <li><strong>배송지 변경:</strong> 출고 전 배송지 변경 가능</li>
-            </ul>
+            <h4>4. 배송 상태 추적</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>상태</span><span>설명</span><span>알림 발송</span></div>
+                <div class="func-row"><span>집하</span><span>택배사 물류센터에 상품 도착</span><span>-</span></div>
+                <div class="func-row"><span>간선 상차</span><span>배송 차량에 상차</span><span>-</span></div>
+                <div class="func-row"><span>간선 하차</span><span>목적지 터미널 도착</span><span>-</span></div>
+                <div class="func-row"><span>배송 출발</span><span>배송 기사 출발</span><span>✅ SMS/앱푸시</span></div>
+                <div class="func-row"><span>배송 완료</span><span>수령인 수령 완료</span><span>✅ SMS/앱푸시</span></div>
+            </div>
         </div>
+
+        <div class="func-section">
+            <h4>5. 택배사 연동</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>택배사</span><span>코드</span><span>연동 API</span><span>특징</span></div>
+                <div class="func-row"><span>CJ대한통운</span><span>CJ</span><span>REST API</span><span>기본 택배사</span></div>
+                <div class="func-row"><span>롯데택배</span><span>LOTTE</span><span>REST API</span><span>백업 택배사</span></div>
+                <div class="func-row"><span>한진택배</span><span>HANJIN</span><span>REST API</span><span>대량 배송</span></div>
+                <div class="func-row"><span>우체국택배</span><span>POST</span><span>REST API</span><span>도서산간 특화</span></div>
+                ${hasDawn ? `<div class="func-row"><span>마켓컬리</span><span>KURLY</span><span>전용 API</span><span>새벽배송 전용</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>6. 배송지 관리</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>기능</span><span>상세 내용</span><span>필수여부</span></div>
+                <div class="func-row"><span>배송지 목록</span><span>• 저장된 배송지 최대 10개<br>• 기본 배송지 설정</span><span class="required">필수</span></div>
+                <div class="func-row"><span>배송지 추가</span><span>• 주소 검색 (도로명/지번)<br>• 상세 주소 입력<br>• 수령인, 연락처 입력</span><span class="required">필수</span></div>
+                <div class="func-row"><span>배송지 변경</span><span>• 출고 전 변경 가능<br>• 변경 시 알림 발송</span><span class="required">필수</span></div>
+                <div class="func-row"><span>배송 요청사항</span><span>• 드롭다운 선택 (문앞, 경비실 등)<br>• 직접 입력 가능</span><span class="optional">선택</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>7. 알림 정책</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>알림 시점</span><span>발송 채널</span><span>내용</span></div>
+                <div class="func-row"><span>상품 출고</span><span>SMS, 앱푸시</span><span>[배송시작] 주문하신 상품이 출고되었습니다. 송장번호: XXXX</span></div>
+                <div class="func-row"><span>배송 출발</span><span>앱푸시</span><span>[배송중] 배송 기사님이 배송을 시작했습니다.</span></div>
+                <div class="func-row"><span>배송 완료</span><span>SMS, 앱푸시</span><span>[배송완료] 상품이 배송 완료되었습니다. 즐거운 쇼핑 되세요!</span></div>
+                <div class="func-row"><span>배송 지연</span><span>SMS, 앱푸시</span><span>[배송지연] 기상 악화로 배송이 지연되고 있습니다.</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>8. API 명세</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>API</span><span>Method</span><span>용도</span></div>
+                <div class="func-row"><span>/api/delivery/address</span><span>GET</span><span>배송지 목록 조회</span></div>
+                <div class="func-row"><span>/api/delivery/address</span><span>POST</span><span>배송지 추가</span></div>
+                <div class="func-row"><span>/api/delivery/tracking/{trackingNo}</span><span>GET</span><span>배송 추적 조회</span></div>
+                <div class="func-row"><span>/api/orders/{id}/address</span><span>PATCH</span><span>배송지 변경</span></div>
+            </div>
+        </div>
+
         <div class="func-analysis">
             <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석</p>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>택배사 선정:</strong> 배송 커버리지, 비용, 서비스 품질 종합 고려</p>
+                <p><strong>알림 최적화:</strong> 고객 피로도 고려 최소화된 필수 알림만 발송</p>
+            </div>
         </div>
     `;
 }
 
 // 리뷰 기능정의서 생성
 function generateReviewSpec(industry, options) {
+    const hasPhoto = options.includes('포토/동영상 리뷰');
+    const hasBest = options.includes('베스트 리뷰');
+    const hasReport = options.includes('리뷰 신고');
+    const hasReward = options.includes('리뷰 적립금');
+    
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
+    
     return `
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-REV-001</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
+            </div>
+        </div>
+
         <div class="func-journey">
             <h4>📍 리뷰 작성 여정</h4>
             <div class="journey-flow">
-                <div class="journey-step"><span class="step-num">1</span><span class="step-title">구매확정</span><p>상품 수령 확인</p></div>
+                <div class="journey-step"><span class="step-num">1</span><span class="step-title">구매확정</span><p>상품 수령<br><small>• 구매확정 완료</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">2</span><span class="step-title">리뷰작성</span><p>별점/내용 입력</p></div>
+                <div class="journey-step"><span class="step-num">2</span><span class="step-title">리뷰작성</span><p>별점/내용<br><small>• 최소 20자 이상</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">3</span><span class="step-title">사진첨부</span><p>포토/동영상 등록</p></div>
+                <div class="journey-step"><span class="step-num">3</span><span class="step-title">미디어첨부</span><p>사진/영상<br><small>• 선택 사항</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step completed"><span class="step-num">4</span><span class="step-title">적립금</span><p>리뷰 적립금 지급</p></div>
+                <div class="journey-step"><span class="step-num">4</span><span class="step-title">등록완료</span><p>검수 후 노출<br><small>• 자동 검수</small></p></div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step completed"><span class="step-num">5</span><span class="step-title">적립금</span><p>리워드 지급<br><small>• 유형별 차등</small></p></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>1. 리뷰 유형별 적립금</h4>
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 구매 고객의 실제 사용 후기 공유로 신뢰도 향상 및 구매 전환율 증대</p>
+                <p><strong>접근 경로:</strong> 마이페이지 > 리뷰 작성 / 주문 내역 > 리뷰 작성 / 상품 상세 > 리뷰 탭</p>
+                <p><strong>권한:</strong> 해당 상품 구매확정 회원만 작성 가능</p>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>2. 화면 구성 (Screen Layout)</h4>
+            <div class="screen-layout">
+                <div class="screen-item">
+                    <h5>2.1 리뷰 작성 화면</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[정보]</span> 작성 대상 상품 정보 (이미지, 상품명, 옵션)</div>
+                        <div class="element"><span class="el-type">[입력]</span> 별점 (1~5점, 별 아이콘 탭)</div>
+                        <div class="element"><span class="el-type">[입력]</span> 리뷰 내용 (최소 20자, 최대 2000자)</div>
+                        ${hasPhoto ? `<div class="element"><span class="el-type">[업로드]</span> 사진 첨부 (최대 5장, 각 10MB)</div>
+                        <div class="element"><span class="el-type">[업로드]</span> 동영상 첨부 (최대 1개, 60초, 100MB)</div>` : ''}
+                        <div class="element"><span class="el-type">[체크박스]</span> 리뷰 공개 동의</div>
+                        <div class="element"><span class="el-type">[안내]</span> 적립금 안내 (텍스트 100P, 포토 500P, 영상 1000P)</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 리뷰 등록</div>
+                    </div>
+                </div>
+                <div class="screen-item">
+                    <h5>2.2 상품 상세 리뷰 목록</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[요약]</span> 평균 별점, 총 리뷰 수</div>
+                        <div class="element"><span class="el-type">[차트]</span> 별점 분포 그래프 (5점~1점)</div>
+                        <div class="element"><span class="el-type">[필터]</span> 전체/포토/영상/베스트</div>
+                        <div class="element"><span class="el-type">[정렬]</span> 최신순/평점높은순/평점낮은순/도움순</div>
+                        <div class="element"><span class="el-type">[리스트]</span> 리뷰 카드
+                            <ul style="margin-left:20px;margin-top:5px;font-size:12px;">
+                                <li>작성자 (닉네임, 일부 마스킹)</li>
+                                <li>별점, 작성일</li>
+                                <li>구매 옵션</li>
+                                <li>리뷰 내용 (더보기)</li>
+                                <li>첨부 이미지/영상 (썸네일)</li>
+                                <li>도움됐어요 버튼</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>3. 리뷰 유형 및 적립금</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>유형</span><span>작성 조건</span><span>적립금</span><span>지급 시점</span></div>
+                <div class="func-row"><span>텍스트 리뷰</span><span>• 별점 필수<br>• 내용 20자 이상</span><span>100P</span><span>검수 완료 즉시</span></div>
+                ${hasPhoto ? `<div class="func-row"><span>포토 리뷰</span><span>• 별점 필수<br>• 내용 50자 이상<br>• 사진 1장 이상</span><span>500P</span><span>검수 완료 즉시</span></div>
+                <div class="func-row"><span>영상 리뷰</span><span>• 별점 필수<br>• 내용 50자 이상<br>• 10초 이상 영상</span><span>1,000P</span><span>검수 완료 즉시</span></div>` : ''}
+                ${hasBest ? `<div class="func-row"><span>베스트 리뷰</span><span>• 주간 도움됐어요 상위 10개<br>• 관리자 선정</span><span>+3,000P</span><span>매주 월요일</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>4. 리뷰 정책</h4>
             <div class="func-table">
-                <div class="func-row header"><span>리뷰 유형</span><span>조건</span><span>적립금</span></div>
-                <div class="func-row"><span>텍스트 리뷰</span><span>20자 이상 작성</span><span>100원</span></div>
-                ${options.includes('포토/동영상 리뷰') ? `<div class="func-row"><span>포토 리뷰</span><span>사진 1장 이상 + 50자 이상</span><span>500원</span></div>` : ''}
-                ${options.includes('포토/동영상 리뷰') ? `<div class="func-row"><span>동영상 리뷰</span><span>10초 이상 영상 + 50자 이상</span><span>1,000원</span></div>` : ''}
+                <div class="func-row header"><span>정책</span><span>상세 내용</span><span>설정값</span></div>
+                <div class="func-row"><span>작성 기한</span><span>구매확정일로부터 작성 가능 기간</span><span>30일 이내</span></div>
+                <div class="func-row"><span>작성 제한</span><span>동일 상품 동일 옵션 1회만 작성</span><span>1회/주문건</span></div>
+                <div class="func-row"><span>수정 가능</span><span>작성 후 수정 가능 기간/횟수</span><span>7일 이내 1회</span></div>
+                <div class="func-row"><span>삭제</span><span>본인 작성 리뷰 삭제 가능<br>삭제 시 적립금 회수</span><span>언제든 가능</span></div>
+                <div class="func-row"><span>최소 글자</span><span>텍스트 리뷰 최소 글자 수</span><span>20자</span></div>
+                <div class="func-row"><span>이미지 규격</span><span>업로드 가능 이미지 조건</span><span>JPG/PNG, 최대 10MB, 5장</span></div>
+                <div class="func-row"><span>영상 규격</span><span>업로드 가능 영상 조건</span><span>MP4, 최대 100MB, 60초</span></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>2. 리뷰 정책</h4>
-            <ul class="func-list">
-                <li><strong>작성 기한:</strong> 구매확정 후 30일 이내</li>
-                <li><strong>수정/삭제:</strong> 작성 후 7일 이내 1회 수정 가능</li>
-                <li><strong>부적절 리뷰:</strong> 욕설, 광고, 허위 리뷰 신고 및 삭제</li>
-                ${options.includes('베스트 리뷰') ? `<li><strong>베스트 리뷰:</strong> 주간 베스트 선정 시 추가 적립금 지급</li>` : ''}
-            </ul>
+            <h4>5. 리뷰 검수 기준</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>검수 항목</span><span>부적절 기준</span><span>처리</span></div>
+                <div class="func-row"><span>욕설/비속어</span><span>욕설, 비방, 혐오 표현 포함</span><span>자동 필터링 + 수동 검수</span></div>
+                <div class="func-row"><span>광고/홍보</span><span>타 업체 광고, 홍보 URL 포함</span><span>비노출 처리</span></div>
+                <div class="func-row"><span>허위 리뷰</span><span>구매하지 않은 상품 리뷰</span><span>삭제 + 경고</span></div>
+                <div class="func-row"><span>부적절 이미지</span><span>음란물, 폭력, 저작권 침해</span><span>비노출 + 계정 경고</span></div>
+                <div class="func-row"><span>중복 리뷰</span><span>동일 내용 반복 게시</span><span>중복분 삭제</span></div>
+            </div>
         </div>
+
+        <div class="func-section">
+            <h4>6. 리뷰 도움됐어요 기능</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>기능</span><span>상세 내용</span></div>
+                <div class="func-row"><span>도움됐어요 클릭</span><span>• 리뷰당 1인 1회만 가능<br>• 로그인 회원만 가능<br>• 본인 리뷰 불가</span></div>
+                <div class="func-row"><span>카운트 표시</span><span>• 리뷰 하단에 "N명에게 도움됨" 표시</span></div>
+                <div class="func-row"><span>정렬 활용</span><span>• "도움순" 정렬 시 카운트 기준 정렬</span></div>
+                ${hasBest ? `<div class="func-row"><span>베스트 선정</span><span>• 주간 도움 카운트 상위 리뷰 베스트 선정</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>7. API 명세</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>API</span><span>Method</span><span>용도</span></div>
+                <div class="func-row"><span>/api/reviews</span><span>POST</span><span>리뷰 작성</span></div>
+                <div class="func-row"><span>/api/products/{id}/reviews</span><span>GET</span><span>상품별 리뷰 목록</span></div>
+                <div class="func-row"><span>/api/reviews/{id}</span><span>PATCH</span><span>리뷰 수정</span></div>
+                <div class="func-row"><span>/api/reviews/{id}</span><span>DELETE</span><span>리뷰 삭제</span></div>
+                <div class="func-row"><span>/api/reviews/{id}/helpful</span><span>POST</span><span>도움됐어요</span></div>
+                ${hasReport ? `<div class="func-row"><span>/api/reviews/{id}/report</span><span>POST</span><span>리뷰 신고</span></div>` : ''}
+            </div>
+        </div>
+
         <div class="func-analysis">
             <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석<br>
-            <strong>전환율:</strong> 포토 리뷰 상품 구매전환율 평균 23% 상승</p>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>전환율 효과:</strong> 포토 리뷰 보유 상품 구매전환율 23% 상승</p>
+                <p><strong>적립금 정책:</strong> 적립금 ROI 고려하여 유형별 차등 설계</p>
+            </div>
         </div>
     `;
 }
 
 // 포인트 기능정의서 생성
 function generatePointSpec(industry, options) {
+    const hasGradeRate = options.includes('등급별 적립률');
+    
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
+    
     return `
-        <div class="func-section">
-            <h4>1. 포인트 적립 정책</h4>
-            <div class="func-table">
-                <div class="func-row header"><span>적립 사유</span><span>적립률/금액</span><span>조건</span></div>
-                <div class="func-row"><span>구매 적립</span><span>결제금액의 1~3%</span><span>구매확정 시 자동 적립</span></div>
-                <div class="func-row"><span>리뷰 적립</span><span>100~1,000원</span><span>리뷰 유형별 차등</span></div>
-                <div class="func-row"><span>출석 체크</span><span>50~500원</span><span>매일 1회, 연속 보너스</span></div>
-                <div class="func-row"><span>이벤트 적립</span><span>이벤트별 상이</span><span>이벤트 참여 시</span></div>
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-MKT-001</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>2. 포인트 사용 정책</h4>
-            <ul class="func-list">
-                <li><strong>최소 보유:</strong> 1,000원 이상 보유 시 사용 가능</li>
-                <li><strong>사용 단위:</strong> 100원 단위로 사용</li>
-                <li><strong>최대 사용:</strong> 결제금액의 최대 30%까지 사용</li>
-                <li><strong>유효기간:</strong> 적립일로부터 1년, 소멸 30일 전 알림</li>
-            </ul>
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 고객 충성도 프로그램으로 재구매 유도 및 고객 리텐션 강화</p>
+                <p><strong>접근 경로:</strong> 마이페이지 > 포인트 / 결제 시 포인트 사용 / GNB 포인트 잔액 표시</p>
+                <p><strong>권한:</strong> 회원만 적립/사용 가능</p>
+            </div>
         </div>
+
+        <div class="func-section">
+            <h4>2. 포인트 적립 정책</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>적립 사유</span><span>적립률/금액</span><span>조건</span><span>적립 시점</span></div>
+                <div class="func-row"><span>구매 적립</span><span>결제금액의 1~3%</span><span>구매확정 시<br>(주문취소/반품 시 회수)</span><span>구매확정 즉시</span></div>
+                ${hasGradeRate ? `<div class="func-row"><span>등급별 추가 적립</span><span>VIP +2%, Gold +1%</span><span>구매 적립에 추가</span><span>구매확정 즉시</span></div>` : ''}
+                <div class="func-row"><span>리뷰 적립</span><span>100~1,000P</span><span>리뷰 유형별 차등</span><span>리뷰 등록 즉시</span></div>
+                <div class="func-row"><span>출석 체크</span><span>50~500P</span><span>매일 1회<br>연속 7일 보너스 500P</span><span>출석 체크 즉시</span></div>
+                <div class="func-row"><span>생일 포인트</span><span>5,000P</span><span>연 1회, 생일 당일</span><span>생일 00시 자동</span></div>
+                <div class="func-row"><span>이벤트 적립</span><span>이벤트별 상이</span><span>이벤트 참여 조건 충족</span><span>이벤트별 상이</span></div>
+                <div class="func-row"><span>추천인 적립</span><span>1,000P</span><span>추천 회원 첫 구매 완료 시</span><span>피추천인 구매확정 시</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>3. 포인트 사용 정책</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>정책</span><span>상세 내용</span><span>설정값</span></div>
+                <div class="func-row"><span>최소 보유</span><span>사용 가능 최소 포인트</span><span>1,000P 이상</span></div>
+                <div class="func-row"><span>사용 단위</span><span>사용 시 단위</span><span>100P 단위</span></div>
+                <div class="func-row"><span>최대 사용</span><span>결제금액 대비 최대 사용 비율</span><span>30% (또는 전액 사용 이벤트)</span></div>
+                <div class="func-row"><span>적용 제외</span><span>포인트 사용 불가 상품</span><span>예약 상품, 특가 상품</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>4. 포인트 유효기간</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>구분</span><span>유효기간</span><span>소멸 정책</span></div>
+                <div class="func-row"><span>일반 포인트</span><span>적립일로부터 1년</span><span>FIFO 소멸 (먼저 적립된 것 먼저 소멸)</span></div>
+                <div class="func-row"><span>이벤트 포인트</span><span>이벤트별 상이 (30일~90일)</span><span>유효기간 만료 시 소멸</span></div>
+                <div class="func-row"><span>소멸 예정 알림</span><span>소멸 30일 전</span><span>앱푸시, 이메일 알림</span></div>
+                <div class="func-row"><span>소멸 임박 알림</span><span>소멸 7일 전</span><span>SMS 알림</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>5. 화면 구성</h4>
+            <div class="screen-layout">
+                <div class="screen-item">
+                    <h5>마이페이지 > 포인트</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[정보]</span> 현재 보유 포인트 (숫자 강조)</div>
+                        <div class="element"><span class="el-type">[정보]</span> 소멸 예정 포인트 (빨간색)</div>
+                        <div class="element"><span class="el-type">[탭]</span> 적립 내역 / 사용 내역 / 소멸 내역</div>
+                        <div class="element"><span class="el-type">[리스트]</span> 포인트 이력 (일자, 사유, 금액, 잔액)</div>
+                        <div class="element"><span class="el-type">[필터]</span> 기간 선택 (1개월/3개월/6개월/1년)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>6. API 명세</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>API</span><span>Method</span><span>용도</span></div>
+                <div class="func-row"><span>/api/points/balance</span><span>GET</span><span>포인트 잔액 조회</span></div>
+                <div class="func-row"><span>/api/points/history</span><span>GET</span><span>포인트 이력 조회</span></div>
+                <div class="func-row"><span>/api/points/expiring</span><span>GET</span><span>소멸 예정 포인트 조회</span></div>
+                <div class="func-row"><span>/api/points/use</span><span>POST</span><span>포인트 사용</span></div>
+            </div>
+        </div>
+
         <div class="func-analysis">
             <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석</p>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>적립률 기준:</strong> 업계 평균 적립률 1~3% 반영</p>
+                <p><strong>리텐션 효과:</strong> 포인트 보유 회원 재구매율 35% 높음</p>
+            </div>
         </div>
     `;
 }
 
 // 쿠폰 기능정의서 생성
 function generateCouponSpec(industry, options) {
+    const hasMultiple = options.includes('중복 사용');
+    
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
+    
     return `
-        <div class="func-section">
-            <h4>1. 쿠폰 유형</h4>
-            <div class="func-table">
-                <div class="func-row header"><span>유형</span><span>할인 방식</span><span>조건</span></div>
-                <div class="func-row"><span>정액 할인</span><span>3,000원, 5,000원, 10,000원 등</span><span>최소 주문금액 조건</span></div>
-                <div class="func-row"><span>정률 할인</span><span>5%, 10%, 15%, 20% 등</span><span>최대 할인금액 제한</span></div>
-                <div class="func-row"><span>무료배송</span><span>배송비 0원</span><span>일반배송에만 적용</span></div>
-                <div class="func-row"><span>품목 쿠폰</span><span>특정 카테고리/상품 전용</span><span>적용 상품 제한</span></div>
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-MKT-002</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>2. 쿠폰 발급 방식</h4>
-            <ul class="func-list">
-                <li><strong>자동 발급:</strong> 회원가입, 생일, 휴면 복귀 시 자동 발급</li>
-                <li><strong>수동 발급:</strong> 이벤트 페이지에서 다운로드</li>
-                <li><strong>코드 발급:</strong> 쿠폰 코드 입력하여 등록</li>
-            </ul>
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 프로모션 및 마케팅 도구로 신규 고객 유입, 재구매 촉진, 객단가 상승 유도</p>
+                <p><strong>접근 경로:</strong> 마이페이지 > 쿠폰함 / 결제 시 쿠폰 적용 / 이벤트 페이지 > 쿠폰 다운로드</p>
+                <p><strong>권한:</strong> 회원만 보유/사용 가능</p>
+            </div>
         </div>
+
+        <div class="func-section">
+            <h4>2. 쿠폰 유형</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>유형</span><span>할인 방식</span><span>조건</span><span>예시</span></div>
+                <div class="func-row"><span>정액 할인</span><span>고정 금액 할인</span><span>• 최소 주문금액 조건<br>• 상품금액 기준</span><span>3만원 이상 구매 시 5,000원 할인</span></div>
+                <div class="func-row"><span>정률 할인</span><span>결제금액의 X% 할인</span><span>• 최대 할인금액 제한<br>• 최소 주문금액 조건</span><span>10% 할인 (최대 10,000원)</span></div>
+                <div class="func-row"><span>무료배송</span><span>배송비 면제</span><span>• 일반배송에만 적용<br>• 도서산간 추가비 별도</span><span>배송비 무료 쿠폰</span></div>
+                <div class="func-row"><span>품목 쿠폰</span><span>특정 카테고리/상품 전용</span><span>• 적용 가능 상품 지정<br>• 브랜드별 쿠폰</span><span>아우터 카테고리 15% 할인</span></div>
+                <div class="func-row"><span>신규 회원</span><span>첫 구매 전용 할인</span><span>• 가입 후 첫 주문에만<br>• 1회 사용</span><span>첫 구매 20% 할인</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>3. 쿠폰 발급 방식</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>발급 방식</span><span>상세 내용</span><span>트리거</span></div>
+                <div class="func-row"><span>자동 발급</span><span>특정 조건 충족 시 자동 지급<br>• 회원가입 웰컴 쿠폰<br>• 생일 축하 쿠폰<br>• 휴면 복귀 쿠폰<br>• 등급 승급 쿠폰</span><span>시스템 배치</span></div>
+                <div class="func-row"><span>다운로드 발급</span><span>이벤트 페이지에서 버튼 클릭 다운로드<br>• 선착순 제한 가능<br>• 1인 1회 제한</span><span>사용자 액션</span></div>
+                <div class="func-row"><span>코드 발급</span><span>쿠폰 코드 입력하여 등록<br>• 인플루언서 전용 코드<br>• 파트너십 코드</span><span>사용자 입력</span></div>
+                <div class="func-row"><span>관리자 발급</span><span>관리자가 특정 회원에게 직접 발급<br>• CS 보상 쿠폰<br>• VIP 전용 쿠폰</span><span>관리자</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>4. 쿠폰 사용 규칙</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>규칙</span><span>상세 내용</span><span>설정값</span></div>
+                <div class="func-row"><span>사용 개수</span><span>1회 주문 시 사용 가능 쿠폰 수</span><span>1장 (${hasMultiple ? '또는 중복 가능' : '중복 불가'})</span></div>
+                <div class="func-row"><span>포인트 병용</span><span>쿠폰과 포인트 동시 사용</span><span>가능</span></div>
+                <div class="func-row"><span>할인 적용 순서</span><span>쿠폰 → 포인트 순서로 적용</span><span>쿠폰 먼저</span></div>
+                <div class="func-row"><span>최소 결제금액</span><span>쿠폰 적용 후 최소 결제 필요 금액</span><span>100원 이상</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>5. 쿠폰 유효기간</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>유형</span><span>유효기간</span><span>만료 처리</span></div>
+                <div class="func-row"><span>기간 지정형</span><span>발급일 ~ 특정 일자까지</span><span>만료일 자정 소멸</span></div>
+                <div class="func-row"><span>기간 계산형</span><span>발급일로부터 N일간</span><span>N일 후 자정 소멸</span></div>
+                <div class="func-row"><span>만료 알림</span><span>만료 3일 전 알림</span><span>앱푸시/이메일</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>6. 화면 구성</h4>
+            <div class="screen-layout">
+                <div class="screen-item">
+                    <h5>마이페이지 > 쿠폰함</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[탭]</span> 사용 가능 / 사용 완료 / 기간 만료</div>
+                        <div class="element"><span class="el-type">[입력]</span> 쿠폰 코드 등록 영역</div>
+                        <div class="element"><span class="el-type">[리스트]</span> 쿠폰 카드
+                            <ul style="margin-left:20px;margin-top:5px;font-size:12px;">
+                                <li>쿠폰명, 할인 금액/률</li>
+                                <li>사용 조건 (최소 금액, 적용 상품)</li>
+                                <li>유효기간</li>
+                                <li>사용하기 버튼</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>7. API 명세</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>API</span><span>Method</span><span>용도</span></div>
+                <div class="func-row"><span>/api/coupons</span><span>GET</span><span>보유 쿠폰 목록</span></div>
+                <div class="func-row"><span>/api/coupons/register</span><span>POST</span><span>쿠폰 코드 등록</span></div>
+                <div class="func-row"><span>/api/coupons/available</span><span>GET</span><span>주문 시 사용 가능 쿠폰</span></div>
+                <div class="func-row"><span>/api/coupons/download/{id}</span><span>POST</span><span>쿠폰 다운로드</span></div>
+            </div>
+        </div>
+
         <div class="func-analysis">
             <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석</p>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>마케팅 효과:</strong> 쿠폰 사용자 객단가 평균 25% 높음</p>
+                <p><strong>발급 전략:</strong> 신규 회원 첫 구매 전환율 40% 상승 목표</p>
+            </div>
         </div>
     `;
 }
 
 // 예약 기능정의서 생성
 function generateBookingSpec(industry, options) {
+    const hasWaitlist = options.includes('대기 예약');
+    const hasNoShow = options.includes('노쇼 정책');
+    
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공', restaurant: '레스토랑', fitness: '피트니스', salon: '뷰티샵' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
+    
     return `
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-BKG-001</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
+            </div>
+        </div>
+
         <div class="func-journey">
             <h4>📍 예약 프로세스</h4>
             <div class="journey-flow">
-                <div class="journey-step"><span class="step-num">1</span><span class="step-title">날짜선택</span><p>희망 날짜 선택</p></div>
+                <div class="journey-step"><span class="step-num">1</span><span class="step-title">서비스 선택</span><p>예약 항목 선택<br><small>• 서비스/상품 선택</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">2</span><span class="step-title">시간선택</span><p>가능 시간대 선택</p></div>
+                <div class="journey-step"><span class="step-num">2</span><span class="step-title">날짜 선택</span><p>희망 날짜<br><small>• 캘린더 뷰</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">3</span><span class="step-title">정보입력</span><p>예약자 정보 입력</p></div>
+                <div class="journey-step"><span class="step-num">3</span><span class="step-title">시간 선택</span><p>가능 시간대<br><small>• 슬롯 선택</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">4</span><span class="step-title">결제</span><p>예약금/전액 결제</p></div>
+                <div class="journey-step"><span class="step-num">4</span><span class="step-title">정보 입력</span><p>예약자 정보<br><small>• 요청사항</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step completed"><span class="step-num">5</span><span class="step-title">예약확정</span><p>예약 완료 알림</p></div>
+                <div class="journey-step"><span class="step-num">5</span><span class="step-title">결제</span><p>예약금/전액<br><small>• 결제 진행</small></p></div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step completed"><span class="step-num">6</span><span class="step-title">확정</span><p>예약 완료<br><small>• 확인 알림</small></p></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>1. 예약 기능</h4>
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 서비스/시설 이용을 위한 사전 예약 및 일정 관리 기능 제공</p>
+                <p><strong>접근 경로:</strong> 메인 > 예약하기 / 서비스 상세 > 예약 / 마이페이지 > 예약 내역</p>
+                <p><strong>권한:</strong> 회원 (비회원 예약 선택적)</p>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>2. 화면 구성 (Screen Layout)</h4>
+            <div class="screen-layout">
+                <div class="screen-item">
+                    <h5>2.1 예약 메인 화면</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[선택]</span> 서비스/메뉴 선택 (카드형)</div>
+                        <div class="element"><span class="el-type">[캘린더]</span> 날짜 선택 (월별 캘린더)
+                            <ul style="margin-left:20px;margin-top:5px;font-size:12px;">
+                                <li>예약 가능: 파란색</li>
+                                <li>마감: 회색</li>
+                                <li>휴무: 빗금 표시</li>
+                                <li>선택됨: 강조 표시</li>
+                            </ul>
+                        </div>
+                        <div class="element"><span class="el-type">[슬롯]</span> 시간대 선택 (30분/1시간 단위)</div>
+                        <div class="element"><span class="el-type">[선택]</span> 인원 선택 (+/- 버튼)</div>
+                        <div class="element"><span class="el-type">[입력]</span> 예약자 정보 (이름, 연락처)</div>
+                        <div class="element"><span class="el-type">[입력]</span> 요청사항 (선택)</div>
+                        <div class="element"><span class="el-type">[요약]</span> 예약 정보 요약 (서비스, 일시, 인원, 금액)</div>
+                        <div class="element"><span class="el-type">[버튼]</span> 예약하기</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>3. 예약 기능 상세</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>기능</span><span>상세 내용</span><span>비즈니스 규칙</span><span>필수</span></div>
+                <div class="func-row"><span>캘린더 뷰</span><span>• 월별 캘린더 표시<br>• 날짜별 예약 가능 여부 표시<br>• 좌우 스와이프로 월 이동</span><span>• 과거 날짜 선택 불가<br>• 휴무일 선택 불가<br>• 예약 가능 기간 설정</span><span class="required">Y</span></div>
+                <div class="func-row"><span>시간대 선택</span><span>• 예약 가능 시간 슬롯 표시<br>• 선택된 시간 강조 표시<br>• 마감 시간 회색 처리</span><span>• 운영 시간 내 슬롯만 표시<br>• 슬롯별 정원 관리<br>• 연속 예약 가능 설정</span><span class="required">Y</span></div>
+                <div class="func-row"><span>인원 선택</span><span>• +/- 버튼으로 인원 조절<br>• 최소/최대 인원 제한</span><span>• 인원별 가격 차등 가능<br>• 정원 초과 불가</span><span class="required">Y</span></div>
+                ${hasWaitlist ? `<div class="func-row"><span>대기 예약</span><span>• 마감 시 대기 등록<br>• 대기 순번 표시<br>• 취소 발생 시 순번 안내</span><span>• 자동 예약 전환 또는 알림<br>• 대기 취소 가능</span><span class="optional">N</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>4. 예약 상태</h4>
             <div class="func-table">
-                <div class="func-row header"><span>기능</span><span>상세 내용</span><span>필수여부</span></div>
-                <div class="func-row"><span>캘린더 뷰</span><span>월별 캘린더에서 예약 가능일 표시</span><span class="required">필수</span></div>
-                <div class="func-row"><span>시간대 선택</span><span>30분/1시간 단위 시간 슬롯</span><span class="required">필수</span></div>
-                ${options.includes('인원 선택') ? `<div class="func-row"><span>인원 선택</span><span>예약 인원수 선택</span><span class="required">필수</span></div>` : ''}
-                ${options.includes('대기 예약') ? `<div class="func-row"><span>대기 예약</span><span>마감 시 대기 등록, 취소 시 알림</span><span class="optional">선택</span></div>` : ''}
+                <div class="func-row header"><span>상태</span><span>설명</span><span>가능 액션</span></div>
+                <div class="func-row"><span>예약 대기</span><span>예약 요청됨, 확정 대기</span><span>취소</span></div>
+                <div class="func-row"><span>예약 확정</span><span>예약 승인됨</span><span>변경, 취소</span></div>
+                <div class="func-row"><span>예약 변경</span><span>일정/인원 변경됨</span><span>취소</span></div>
+                <div class="func-row"><span>이용 완료</span><span>서비스 이용 완료</span><span>리뷰 작성</span></div>
+                <div class="func-row"><span>예약 취소</span><span>고객 또는 업체 취소</span><span>재예약</span></div>
+                ${hasNoShow ? `<div class="func-row"><span>노쇼</span><span>예약 시간 미방문</span><span>-</span></div>` : ''}
             </div>
         </div>
+
         <div class="func-section">
-            <h4>2. 취소/환불 정책</h4>
-            <ul class="func-list">
-                <li><strong>7일 전:</strong> 100% 환불</li>
-                <li><strong>3~6일 전:</strong> 50% 환불</li>
+            <h4>5. 취소/환불 정책</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>취소 시점</span><span>환불률</span><span>수수료</span></div>
+                <div class="func-row"><span>7일 전까지</span><span>100%</span><span>없음</span></div>
+                <div class="func-row"><span>3~6일 전</span><span>50%</span><span>50% 공제</span></div>
+                <div class="func-row"><span>1~2일 전</span><span>30%</span><span>70% 공제</span></div>
+                <div class="func-row"><span>당일</span><span>0%</span><span>환불 불가</span></div>
+                ${hasNoShow ? `<div class="func-row"><span>노쇼</span><span>0%</span><span>향후 예약 제한 (3회 시)</span></div>` : ''}
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>6. 알림 정책</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>알림 시점</span><span>채널</span><span>내용</span></div>
+                <div class="func-row"><span>예약 확정</span><span>SMS, 앱푸시, 이메일</span><span>[예약확정] X월 X일 XX:XX 예약이 확정되었습니다.</span></div>
+                <div class="func-row"><span>예약 1일 전</span><span>SMS, 앱푸시</span><span>[예약알림] 내일 예약이 있습니다. 시간: XX:XX</span></div>
+                <div class="func-row"><span>예약 2시간 전</span><span>앱푸시</span><span>[리마인더] 2시간 후 예약이 있습니다.</span></div>
+                <div class="func-row"><span>예약 변경/취소</span><span>SMS, 앱푸시</span><span>예약 변경/취소 안내</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>7. API 명세</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>API</span><span>Method</span><span>용도</span></div>
+                <div class="func-row"><span>/api/bookings/available</span><span>GET</span><span>예약 가능 일시 조회</span></div>
+                <div class="func-row"><span>/api/bookings</span><span>POST</span><span>예약 생성</span></div>
+                <div class="func-row"><span>/api/bookings</span><span>GET</span><span>예약 목록 조회</span></div>
+                <div class="func-row"><span>/api/bookings/{id}</span><span>PATCH</span><span>예약 변경</span></div>
+                <div class="func-row"><span>/api/bookings/{id}/cancel</span><span>POST</span><span>예약 취소</span></div>
+            </div>
+        </div>
+
+        <div class="func-analysis">
+            <h4>📊 분석 근거</h4>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>예약률 기준:</strong> 온라인 예약 전환율 35% 이상 목표</p>
+                <p><strong>노쇼 방지:</strong> 리마인더 알림으로 노쇼율 20% 감소 사례 적용</p>
+            </div>
+        </div>
+    `;
                 <li><strong>2일 전~당일:</strong> 환불 불가</li>
                 ${options.includes('노쇼 정책') ? `<li><strong>노쇼:</strong> 3회 노쇼 시 30일간 예약 제한</li>` : ''}
             </ul>
@@ -2835,73 +3952,241 @@ function generateBookingSpec(industry, options) {
 
 // 정기구독 기능정의서 생성
 function generateSubscriptionSpec(industry, options) {
+    const hasPause = options.includes('구독 일시정지');
+    const hasProductChange = options.includes('구독 상품 변경');
+    const hasDateChange = options.includes('다음 배송일 변경');
+    const hasBenefits = options.includes('구독 혜택');
+    
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
+    
     return `
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-SUB-001</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
+            </div>
+        </div>
+
         <div class="func-journey">
-            <h4>📍 구독 여정</h4>
+            <h4>📍 구독 Life Cycle</h4>
             <div class="journey-flow">
-                <div class="journey-step"><span class="step-num">1</span><span class="step-title">상품선택</span><p>구독 상품 선택</p></div>
+                <div class="journey-step"><span class="step-num">1</span><span class="step-title">상품 선택</span><p>구독 상품 선택<br><small>• 상품/수량 선택</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">2</span><span class="step-title">주기설정</span><p>배송 주기 선택</p></div>
+                <div class="journey-step"><span class="step-num">2</span><span class="step-title">주기 설정</span><p>배송 주기 선택<br><small>• 1~8주 선택</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">3</span><span class="step-title">결제등록</span><p>정기결제 수단 등록</p></div>
+                <div class="journey-step"><span class="step-num">3</span><span class="step-title">결제 등록</span><p>자동결제 등록<br><small>• 카드 정보 등록</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step"><span class="step-num">4</span><span class="step-title">구독시작</span><p>첫 배송 진행</p></div>
+                <div class="journey-step"><span class="step-num">4</span><span class="step-title">구독 시작</span><p>첫 배송 진행<br><small>• 즉시 or 예약</small></p></div>
                 <div class="journey-arrow">→</div>
-                <div class="journey-step completed"><span class="step-num">5</span><span class="step-title">정기배송</span><p>주기별 자동 배송</p></div>
+                <div class="journey-step"><span class="step-num">5</span><span class="step-title">정기 배송</span><p>자동 배송<br><small>• 주기별 결제/배송</small></p></div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step completed"><span class="step-num">6</span><span class="step-title">구독 관리</span><p>변경/해지<br><small>• 마이페이지에서 관리</small></p></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>1. 구독 관리 기능</h4>
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 정기적으로 필요한 상품을 자동 결제/배송하여 고객 편의성 및 재구매율 향상</p>
+                <p><strong>접근 경로:</strong> 상품 상세 > 정기구독 / 마이페이지 > 구독 관리</p>
+                <p><strong>권한:</strong> 회원만 이용 가능 (정기결제 등록 필수)</p>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>2. 구독 신청</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>항목</span><span>상세 내용</span><span>비고</span></div>
+                <div class="func-row"><span>구독 상품</span><span>• 구독 가능 상품에서 선택<br>• 상품별 수량 설정<br>• 여러 상품 동시 구독 가능</span><span>구독 가능 상품 표시</span></div>
+                <div class="func-row"><span>배송 주기</span><span>• 1주 / 2주 / 3주 / 4주<br>• 6주 / 8주 선택 가능<br>• 상품별 주기 설정</span><span>가장 많이 선택: 4주</span></div>
+                <div class="func-row"><span>첫 배송일</span><span>• 즉시 배송 또는 희망일 선택<br>• 결제일 기준 익영업일 출고</span><span>최대 30일 내 선택</span></div>
+                <div class="func-row"><span>정기결제 수단</span><span>• 신용/체크카드 등록<br>• 빌링키 발급 및 저장<br>• 카드 변경 가능</span><span>PG사 빌링 연동</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>3. 구독 관리 기능</h4>
             <div class="func-table">
-                <div class="func-row header"><span>기능</span><span>상세 내용</span><span>필수여부</span></div>
-                <div class="func-row"><span>배송 주기</span><span>1주/2주/3주/4주/6주/8주 선택</span><span class="required">필수</span></div>
-                ${options.includes('구독 일시정지') ? `<div class="func-row"><span>일시정지</span><span>최대 2개월까지 일시정지</span><span class="optional">선택</span></div>` : ''}
-                ${options.includes('구독 상품 변경') ? `<div class="func-row"><span>상품 변경</span><span>다음 회차부터 상품/수량 변경</span><span class="optional">선택</span></div>` : ''}
-                ${options.includes('다음 배송일 변경') ? `<div class="func-row"><span>배송일 변경</span><span>다음 배송일 앞당기기/미루기</span><span class="optional">선택</span></div>` : ''}
+                <div class="func-row header"><span>기능</span><span>상세 내용</span><span>제한 사항</span></div>
+                <div class="func-row"><span>배송 주기 변경</span><span>다음 회차부터 배송 주기 변경</span><span>다음 결제일 3일 전까지</span></div>
+                ${hasProductChange ? `<div class="func-row"><span>상품/수량 변경</span><span>구독 상품 추가/삭제, 수량 변경</span><span>다음 결제일 3일 전까지</span></div>` : ''}
+                ${hasDateChange ? `<div class="func-row"><span>배송일 변경</span><span>다음 배송일 앞당기기/미루기</span><span>최대 ±14일 범위 내</span></div>` : ''}
+                ${hasPause ? `<div class="func-row"><span>구독 일시정지</span><span>구독 일시 중단 (결제 연기)</span><span>최대 60일, 연 2회</span></div>` : ''}
+                <div class="func-row"><span>구독 해지</span><span>정기구독 종료</span><span>다음 결제일 1일 전까지</span></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>2. 구독 혜택</h4>
-            <ul class="func-list">
-                <li><strong>할인:</strong> 정기구독 상품 5~15% 할인</li>
-                <li><strong>배송비:</strong> 구독 상품 배송비 무료</li>
-                <li><strong>적립:</strong> 구독 회차별 추가 적립금 지급</li>
-            </ul>
+            <h4>4. 자동 결제 프로세스</h4>
+            <div class="func-process">
+                <div class="process-step">
+                    <h5>D-3: 결제 예정 알림</h5>
+                    <p>• 결제 예정 금액, 상품 안내<br>• 변경/해지 마감 안내</p>
+                </div>
+                <div class="process-step">
+                    <h5>D-Day: 자동 결제</h5>
+                    <p>• 등록된 카드로 자동 결제<br>• 결제 실패 시 익일 재시도 (최대 3회)</p>
+                </div>
+                <div class="process-step">
+                    <h5>D+1: 출고</h5>
+                    <p>• 결제 완료 익영업일 출고<br>• 송장번호 발송 알림</p>
+                </div>
+            </div>
         </div>
+
+        <div class="func-section">
+            <h4>5. 구독 혜택</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>혜택</span><span>내용</span><span>조건</span></div>
+                <div class="func-row"><span>구독 할인</span><span>정기구독 상품 5~15% 할인</span><span>구독 상품 전체</span></div>
+                <div class="func-row"><span>무료 배송</span><span>구독 배송비 무료</span><span>금액 무관</span></div>
+                <div class="func-row"><span>추가 적립</span><span>회차별 적립금 추가 지급<br>(1회차 100P → 10회차 1,000P)</span><span>회차 누적 시</span></div>
+                <div class="func-row"><span>구독자 전용 혜택</span><span>신제품 우선 구매, 한정 쿠폰</span><span>구독 유지 시</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>6. 알림 정책</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>알림 시점</span><span>채널</span><span>내용</span></div>
+                <div class="func-row"><span>결제 3일 전</span><span>앱푸시, 이메일</span><span>결제 예정 안내 (금액, 상품)</span></div>
+                <div class="func-row"><span>결제 완료</span><span>SMS, 앱푸시</span><span>결제 완료 및 배송 안내</span></div>
+                <div class="func-row"><span>결제 실패</span><span>SMS, 앱푸시</span><span>결제 실패 사유, 재시도 안내</span></div>
+                <div class="func-row"><span>배송 출고</span><span>SMS</span><span>송장번호 안내</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>7. API 명세</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>API</span><span>Method</span><span>용도</span></div>
+                <div class="func-row"><span>/api/subscriptions</span><span>POST</span><span>구독 신청</span></div>
+                <div class="func-row"><span>/api/subscriptions</span><span>GET</span><span>구독 목록</span></div>
+                <div class="func-row"><span>/api/subscriptions/{id}</span><span>PATCH</span><span>구독 변경</span></div>
+                <div class="func-row"><span>/api/subscriptions/{id}/pause</span><span>POST</span><span>일시정지</span></div>
+                <div class="func-row"><span>/api/subscriptions/{id}/cancel</span><span>POST</span><span>구독 해지</span></div>
+            </div>
+        </div>
+
         <div class="func-analysis">
             <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석<br>
-            <strong>구독 유지율:</strong> 평균 6개월 이상 유지율 65%</p>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>구독 유지율:</strong> 평균 6개월 이상 유지율 65% 기준</p>
+                <p><strong>LTV 효과:</strong> 구독 고객 LTV 일반 고객 대비 3.2배</p>
+            </div>
         </div>
     `;
 }
 
 // 마이페이지 기능정의서 생성
 function generateMypageSpec(industry, options) {
+    const industryNames = { fashion: '패션', beauty: '뷰티', fnb: 'F&B', healthcare: '헬스케어', education: '교육', finance: '금융', travel: '여행', public: '공공' };
+    const industryName = industryNames[industry] || '일반';
+    const refCount = Math.floor(Math.random() * 5) + 5;
+    
     return `
-        <div class="func-section">
-            <h4>1. 마이페이지 메뉴 구성</h4>
-            <div class="func-table">
-                <div class="func-row header"><span>메뉴</span><span>기능</span><span>필수여부</span></div>
-                ${options.includes('주문내역') ? `<div class="func-row"><span>주문내역</span><span>주문 목록, 상세, 배송조회, 취소/반품</span><span class="required">필수</span></div>` : ''}
-                ${options.includes('위시리스트') ? `<div class="func-row"><span>위시리스트</span><span>찜한 상품 목록, 장바구니 담기</span><span class="optional">선택</span></div>` : ''}
-                ${options.includes('쿠폰함') ? `<div class="func-row"><span>쿠폰함</span><span>보유 쿠폰, 사용 내역, 다운로드</span><span class="optional">선택</span></div>` : ''}
-                ${options.includes('적립금') ? `<div class="func-row"><span>적립금</span><span>보유 적립금, 적립/사용 내역</span><span class="optional">선택</span></div>` : ''}
-                ${options.includes('회원정보 수정') ? `<div class="func-row"><span>회원정보 수정</span><span>기본정보, 비밀번호 변경</span><span class="required">필수</span></div>` : ''}
-                ${options.includes('배송지 관리') ? `<div class="func-row"><span>배송지 관리</span><span>배송지 추가/수정/삭제, 기본 배송지</span><span class="optional">선택</span></div>` : ''}
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-MYP-001</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
             </div>
         </div>
+
         <div class="func-section">
-            <h4>2. 회원 등급 정보</h4>
-            <ul class="func-list">
-                <li><strong>등급 표시:</strong> 현재 등급, 다음 등급까지 남은 금액</li>
-                <li><strong>등급 혜택:</strong> 등급별 할인율, 적립률, 쿠폰 안내</li>
-                <li><strong>구매 현황:</strong> 당월/연간 구매금액 표시</li>
-            </ul>
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> 회원 개인화 서비스의 중심 허브로서 주문, 혜택, 정보 관리 기능 제공</p>
+                <p><strong>접근 경로:</strong> GNB > 마이페이지 (로그인 시) / 하단 네비게이션 > MY</p>
+                <p><strong>권한:</strong> 로그인 회원만 접근 가능</p>
+            </div>
         </div>
+
+        <div class="func-section">
+            <h4>2. 마이페이지 메뉴 구조</h4>
+            <div class="func-table detail">
+                <div class="func-row header"><span>대분류</span><span>메뉴</span><span>기능</span><span>필수</span></div>
+                <div class="func-row"><span rowspan="3">쇼핑 정보</span><span>주문/배송조회</span><span>• 주문 목록 (기간별 필터)<br>• 주문 상세 보기<br>• 배송 추적<br>• 주문 취소/반품 신청</span><span class="required">Y</span></div>
+                <div class="func-row"><span>위시리스트</span><span>• 찜한 상품 목록<br>• 장바구니 담기<br>• 품절/가격 변동 알림</span><span class="optional">N</span></div>
+                <div class="func-row"><span>최근 본 상품</span><span>• 최근 조회 상품 50개<br>• 장바구니/찜 담기</span><span class="optional">N</span></div>
+                <div class="func-row"><span rowspan="3">혜택 관리</span><span>쿠폰함</span><span>• 보유 쿠폰 목록<br>• 쿠폰 다운로드<br>• 쿠폰 코드 등록</span><span class="required">Y</span></div>
+                <div class="func-row"><span>적립금</span><span>• 보유 적립금<br>• 적립/사용/소멸 내역<br>• 소멸 예정 적립금</span><span class="required">Y</span></div>
+                <div class="func-row"><span>회원 등급</span><span>• 현재 등급/혜택<br>• 등급 기준 안내<br>• 다음 등급까지 금액</span><span class="optional">N</span></div>
+                <div class="func-row"><span rowspan="3">회원 정보</span><span>회원정보 수정</span><span>• 기본 정보 수정<br>• 비밀번호 변경<br>• 마케팅 수신 설정</span><span class="required">Y</span></div>
+                <div class="func-row"><span>배송지 관리</span><span>• 배송지 추가/수정/삭제<br>• 기본 배송지 설정<br>• 최대 10개</span><span class="required">Y</span></div>
+                <div class="func-row"><span>결제수단 관리</span><span>• 등록 카드 관리<br>• 간편결제 연동</span><span class="optional">N</span></div>
+                <div class="func-row"><span rowspan="2">활동 관리</span><span>리뷰 관리</span><span>• 작성 가능 리뷰<br>• 내가 쓴 리뷰<br>• 적립금 내역</span><span class="optional">N</span></div>
+                <div class="func-row"><span>문의 내역</span><span>• 1:1 문의 목록<br>• 문의 작성<br>• 답변 확인</span><span class="optional">N</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>3. 마이페이지 대시보드</h4>
+            <div class="screen-layout">
+                <div class="screen-item">
+                    <h5>상단 프로필 영역</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[이미지]</span> 프로필 사진 (변경 가능)</div>
+                        <div class="element"><span class="el-type">[텍스트]</span> 회원명 + 등급 뱃지</div>
+                        <div class="element"><span class="el-type">[텍스트]</span> 등급 혜택 요약</div>
+                    </div>
+                </div>
+                <div class="screen-item">
+                    <h5>혜택 현황</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[숫자]</span> 보유 쿠폰 N장</div>
+                        <div class="element"><span class="el-type">[숫자]</span> 적립금 N원</div>
+                        <div class="element"><span class="el-type">[숫자]</span> 위시리스트 N개</div>
+                    </div>
+                </div>
+                <div class="screen-item">
+                    <h5>주문 현황</h5>
+                    <div class="screen-elements">
+                        <div class="element"><span class="el-type">[숫자]</span> 입금대기 N</div>
+                        <div class="element"><span class="el-type">[숫자]</span> 배송준비 N</div>
+                        <div class="element"><span class="el-type">[숫자]</span> 배송중 N</div>
+                        <div class="element"><span class="el-type">[숫자]</span> 배송완료 N</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>4. 회원 등급 시스템</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>등급</span><span>조건</span><span>혜택</span></div>
+                <div class="func-row"><span>Welcome</span><span>가입 시 기본</span><span>기본 적립 1%</span></div>
+                <div class="func-row"><span>Silver</span><span>누적 10만원 이상</span><span>적립 1.5%, 쿠폰 월 1장</span></div>
+                <div class="func-row"><span>Gold</span><span>누적 30만원 이상</span><span>적립 2%, 쿠폰 월 2장, 무료배송 쿠폰</span></div>
+                <div class="func-row"><span>VIP</span><span>누적 100만원 이상</span><span>적립 3%, 쿠폰 월 3장, 전 상품 무료배송</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>5. API 명세</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>API</span><span>Method</span><span>용도</span></div>
+                <div class="func-row"><span>/api/my/dashboard</span><span>GET</span><span>마이페이지 대시보드</span></div>
+                <div class="func-row"><span>/api/my/profile</span><span>GET/PATCH</span><span>회원정보 조회/수정</span></div>
+                <div class="func-row"><span>/api/my/orders</span><span>GET</span><span>주문 내역</span></div>
+                <div class="func-row"><span>/api/my/wishlist</span><span>GET</span><span>위시리스트</span></div>
+                <div class="func-row"><span>/api/my/grade</span><span>GET</span><span>등급 정보</span></div>
+            </div>
+        </div>
+
         <div class="func-analysis">
             <h4>📊 분석 근거</h4>
-            <p><strong>분석 대상:</strong> 유사 ${industry} 프로젝트 ${Math.floor(Math.random() * 5) + 5}건 분석</p>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>UX 벤치마킹:</strong> 주요 커머스 마이페이지 구조 분석</p>
+                <p><strong>활용도 기준:</strong> 마이페이지 방문률 30% 이상 목표</p>
+            </div>
         </div>
     `;
 }
