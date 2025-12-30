@@ -3207,17 +3207,168 @@ function initEstimateForm() {
     form?.addEventListener('submit', (e) => {
         e.preventDefault();
         
+        // 선택된 값 가져오기
+        const industry = industrySelect?.value || 'default';
+        const selectedPlatforms = Array.from(document.querySelectorAll('input[name="est_platform"]:checked')).map(cb => cb.value);
+        const selectedFeatures = Array.from(document.querySelectorAll('input[name="est_feature"]:checked')).map(cb => cb.value);
+        
+        // 업종별 복잡도 계수
+        const industryComplexity = {
+            fashion: 1.2, beauty: 1.1, fnb: 1.0, electronics: 1.3, furniture: 1.2, 
+            healthcare: 1.4, education: 1.3, finance: 1.5, travel: 1.3, realestate: 1.2,
+            restaurant: 1.0, fitness: 1.1, salon: 1.0, media: 1.2, entertainment: 1.3,
+            ott: 1.4, community: 1.1, public: 1.3, nonprofit: 1.1, association: 1.1,
+            b2b_commerce: 1.4, saas: 1.5, manufacturing: 1.3, default: 1.2
+        };
+        const complexity = industryComplexity[industry] || 1.2;
+        
+        // 플랫폼별 비용
+        const platformCosts = {
+            shopify: 1800, cafe24: 1450, magento: 2700, woocommerce: 1600,
+            godo: 1450, makeshop: 1400, wordpress: 1500, webflow: 1300,
+            react: 3200, vue: 3100, flutter: 3500, reactnative: 3300,
+            ios: 4100, android: 3700, custom: 3800
+        };
+        
+        // 기능별 비용
+        const featureCosts = {
+            '회원가입/로그인': 450, '소셜로그인': 250, '본인인증': 400, '상품검색': 480,
+            '장바구니': 390, '결제': 680, '배송조회': 290, '리뷰': 430, '위시리스트': 250,
+            '정기배송': 580, '정기구독': 580, '사이즈가이드': 200, '코디추천': 350,
+            'AI 피부진단': 1200, '멤버십': 450, '맞춤추천': 600, 'AI추천': 1050,
+            '영양정보': 200, '레시피': 300, '매장찾기': 350, 'A/S신청': 380,
+            '스펙비교': 420, '설치예약': 350, '3D뷰어': 800, 'AR배치': 1500,
+            '인테리어상담': 450, '운동기록': 350, '챌린지': 400, '육아정보': 300,
+            '성장기록': 350, '안전인증': 200, '건강기록': 380, '수의사상담': 550,
+            'VIP인증': 350, 'VIP서비스': 600, '정품인증': 450, '컨시어지': 700,
+            '예약방문': 380, '진료예약': 480, '의료진검색': 350, '진료기록': 450,
+            '처방전': 400, '화상진료': 800, '건강검진': 450, '강좌검색': 380,
+            '수강신청': 420, '온라인강의': 850, '실시간수업': 950, '과제제출': 350,
+            '성적조회': 300, '수료증': 250, '계좌연결': 600, '상품조회': 380,
+            '신청/가입': 450, '자산관리': 750, '거래내역': 400, '이체': 650,
+            '보안인증': 500, '여행상품검색': 450, '항공예약': 600, '호텔예약': 550,
+            '일정관리': 400, '마일리지': 350, '보험': 500, '매물검색': 500,
+            '지도검색': 450, '방문예약': 380, '중개사상담': 450, '시세정보': 350,
+            '3D투어': 900, '계약관리': 550, '메뉴검색': 300, '예약': 480,
+            '웨이팅': 400, '포인트': 380, '테이크아웃': 350, '수업예약': 420,
+            '회원권관리': 450, 'PT예약': 380, '출석체크': 250, '락커관리': 300,
+            '스타일검색': 350, '디자이너선택': 300, '포트폴리오': 350,
+            '기사검색': 320, '구독': 450, '댓글': 250, '북마크': 180,
+            '공유': 150, '맞춤뉴스': 500, '프리미엄': 550, '콘텐츠검색': 380,
+            '시청/청취': 600, '시청': 550, '구독결제': 500, '좋아요': 180,
+            '플레이리스트': 350, '프로필관리': 300, '찜목록': 250, '다운로드': 400,
+            '추천': 550, '게시글작성': 350, '팔로우': 280, '메시지': 500,
+            '알림': 350, '검색': 300, '신고': 250, '민원신청': 500,
+            '서류발급': 450, '공지사항': 200, '챗봇': 900, 'FAQ': 200,
+            '후원하기': 450, '정기후원': 500, '캠페인': 400, '봉사신청': 380,
+            '증명서발급': 350, '뉴스레터': 280, '회원가입신청': 350,
+            '회비납부': 400, '행사신청': 350, '자료실': 300, '온라인투표': 500,
+            '기업인증': 450, 'RFQ요청': 500, '견적서': 450, '주문': 480,
+            '재고관리': 550, '정산': 500, '서비스소개': 250, '요금제': 300,
+            '무료체험': 350, '대시보드': 600, '팀관리': 450, 'API': 700,
+            '제품카탈로그': 400, '견적요청': 450, '생산현황': 500, '품질관리': 450,
+            '물류추적': 500, '커뮤니티': 550, '반응형': 300, '관리자페이지': 800,
+            default: 350
+        };
+        
+        // 견적 계산
+        let platformTotal = 0;
+        selectedPlatforms.forEach(p => {
+            platformTotal += platformCosts[p] || 1500;
+        });
+        
+        let featureTotal = 0;
+        selectedFeatures.forEach(f => {
+            featureTotal += featureCosts[f] || featureCosts.default;
+        });
+        
+        // 총 견적 (복잡도 적용)
+        const baseEstimate = Math.round((platformTotal + featureTotal) * complexity);
+        const minEstimate = Math.round(baseEstimate * 0.85);
+        const maxEstimate = Math.round(baseEstimate * 1.15);
+        
+        // 예상 기간 계산
+        const featureCount = selectedFeatures.length;
+        const platformCount = selectedPlatforms.length;
+        const baseWeeks = Math.max(6, Math.ceil(featureCount / 2) + platformCount);
+        const minWeeks = Math.max(4, baseWeeks - 1);
+        const maxWeeks = baseWeeks + 2;
+        
+        // UI 업데이트
         if (resultCard) {
             resultCard.style.animation = 'none';
             resultCard.offsetHeight;
             resultCard.style.animation = 'fadeIn 0.5s ease';
             
+            // 견적 금액 업데이트
+            const valueEl = resultCard.querySelector('.main-estimate .value');
+            const rangeEl = resultCard.querySelector('.main-estimate .range');
+            if (valueEl) valueEl.textContent = baseEstimate.toLocaleString();
+            if (rangeEl) rangeEl.textContent = `범위: ${minEstimate.toLocaleString()} ~ ${maxEstimate.toLocaleString()} 만원 (±15%)`;
+            
+            // 게이지 업데이트
             const gaugeFill = resultCard.querySelector('.gauge-fill');
             const gaugeMarker = resultCard.querySelector('.gauge-marker');
+            const gaugeMin = resultCard.querySelector('.gauge-min');
+            const gaugeValue = resultCard.querySelector('.gauge-value');
+            const gaugeMax = resultCard.querySelector('.gauge-max');
             
             if (gaugeFill && gaugeMarker) {
                 gaugeFill.style.transition = 'width 1s ease';
                 gaugeMarker.style.transition = 'left 1s ease';
+                
+                // 게이지 범위 설정 (0~10000 기준)
+                const gaugeMinVal = Math.max(0, baseEstimate - 2000);
+                const gaugeMaxVal = baseEstimate + 2000;
+                const gaugePercent = Math.min(100, Math.max(0, ((baseEstimate - gaugeMinVal) / (gaugeMaxVal - gaugeMinVal)) * 100));
+                
+                gaugeFill.style.width = `${gaugePercent}%`;
+                gaugeMarker.style.left = `${gaugePercent}%`;
+                
+                if (gaugeMin) gaugeMin.textContent = gaugeMinVal.toLocaleString();
+                if (gaugeValue) gaugeValue.textContent = baseEstimate.toLocaleString();
+                if (gaugeMax) gaugeMax.textContent = gaugeMaxVal.toLocaleString();
+            }
+            
+            // 산출 근거 업데이트
+            const analysisItems = resultCard.querySelectorAll('.analysis-item');
+            analysisItems.forEach(item => {
+                const label = item.querySelector('.label')?.textContent;
+                const valueSpan = item.querySelector('.value');
+                if (!valueSpan) return;
+                
+                if (label?.includes('분석 프로젝트')) {
+                    valueSpan.textContent = `${industry !== 'default' ? '업종별' : '일반'} 기준 분석`;
+                } else if (label?.includes('평균 견적')) {
+                    valueSpan.textContent = `${baseEstimate.toLocaleString()}만원`;
+                } else if (label?.includes('예상 공수')) {
+                    valueSpan.textContent = `${baseWeeks}주 (범위: ${minWeeks}~${maxWeeks}주)`;
+                }
+            });
+            
+            // 리스크 업데이트
+            const riskItems = resultCard.querySelector('.risk-items');
+            if (riskItems) {
+                let riskHTML = '';
+                if (selectedPlatforms.includes('ios') || selectedPlatforms.includes('android')) {
+                    riskHTML += `<div class="risk-item"><span class="risk-icon">📱</span><span class="risk-text">앱스토어 심사</span><span class="risk-buffer">1~2주 버퍼 권장</span></div>`;
+                }
+                if (selectedFeatures.includes('결제')) {
+                    riskHTML += `<div class="risk-item"><span class="risk-icon">💳</span><span class="risk-text">PG 연동</span><span class="risk-buffer">1주 버퍼 권장</span></div>`;
+                }
+                if (selectedFeatures.some(f => f.includes('AI'))) {
+                    riskHTML += `<div class="risk-item"><span class="risk-icon">🤖</span><span class="risk-text">AI 모델 학습</span><span class="risk-buffer">2주 버퍼 권장</span></div>`;
+                }
+                if (complexity >= 1.4) {
+                    riskHTML += `<div class="risk-item"><span class="risk-icon">⚠️</span><span class="risk-text">높은 업종 복잡도</span><span class="risk-buffer">추가 검토 필요</span></div>`;
+                }
+                if (selectedPlatforms.length === 0) {
+                    riskHTML += `<div class="risk-item"><span class="risk-icon">🔧</span><span class="risk-text">플랫폼 미선택</span><span class="risk-buffer">플랫폼 선택 필요</span></div>`;
+                }
+                if (!riskHTML) {
+                    riskHTML = `<div class="risk-item"><span class="risk-icon">✅</span><span class="risk-text">특별한 리스크 없음</span><span class="risk-buffer">표준 일정 적용</span></div>`;
+                }
+                riskItems.innerHTML = riskHTML;
             }
         }
     });
