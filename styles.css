@@ -5965,6 +5965,120 @@ input, select, textarea {
     }
 }
 
+/* 필수/선택 항목 테이블 스타일 */
+.fields-section {
+    margin-bottom: 20px;
+}
+
+.fields-group {
+    margin-bottom: 20px;
+}
+
+.fields-group:last-child {
+    margin-bottom: 0;
+}
+
+.fields-group-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.required-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.optional-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    color: white;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.fields-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    background: var(--bg-card);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.fields-table thead {
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(123, 97, 255, 0.1) 100%);
+}
+
+.fields-table th {
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.fields-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    vertical-align: top;
+}
+
+.fields-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.fields-table tbody tr:hover {
+    background: rgba(0, 217, 255, 0.05);
+}
+
+.required-fields .fields-table tbody tr td:first-child {
+    border-left: 3px solid #ef4444;
+}
+
+.optional-fields .fields-table tbody tr td:first-child {
+    border-left: 3px solid #6b7280;
+}
+
+.field-type {
+    display: inline-block;
+    padding: 2px 6px;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: var(--accent-cyan);
+    font-family: 'Fira Code', monospace;
+}
+
+@media (max-width: 768px) {
+    .fields-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .fields-table th,
+    .fields-table td {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+}
+
 @media (max-width: 768px) {
     .alert-popup {
         grid-template-columns: 1fr;

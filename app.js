@@ -7859,10 +7859,22 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
     const info = funcTypeInfo[funcType] || funcTypeInfo.default;
     const refCount = Math.floor(Math.random() * 5) + 5;
     
-    // 옵션별 상세 스펙 데이터 (UI 컴포넌트, 동작, 메시지 포함)
+    // 옵션별 상세 스펙 데이터 (UI 컴포넌트, 동작, 메시지, 필수/선택 항목 포함)
     const optionSpecs = {
         // 회원/인증
         '소셜 로그인 포함': {
+            fields: {
+                required: [
+                    { name: '이메일', type: 'text', format: 'example@email.com', validation: '이메일 형식', source: '소셜 계정에서 자동 수집' },
+                    { name: '서비스 이용약관 동의', type: 'checkbox', format: '체크', validation: '필수 체크', source: '사용자 직접 체크' }
+                ],
+                optional: [
+                    { name: '닉네임', type: 'text', format: '2~20자', validation: '중복 검사', source: '소셜 계정 닉네임 또는 직접 입력' },
+                    { name: '프로필 이미지', type: 'file', format: 'JPG/PNG', validation: '5MB 이하', source: '소셜 계정 프로필 또는 직접 업로드' },
+                    { name: '휴대폰 번호', type: 'tel', format: '010-0000-0000', validation: 'SMS 인증', source: '직접 입력' },
+                    { name: '마케팅 수신 동의', type: 'checkbox', format: '체크', validation: '없음', source: '사용자 직접 체크' }
+                ]
+            },
             ui: [
                 { type: '버튼', name: '카카오로 시작하기', style: '노란색 배경, 카카오 로고' },
                 { type: '버튼', name: '네이버로 시작하기', style: '녹색 배경, 네이버 로고' },
@@ -7881,6 +7893,10 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             ]
         },
         '소셜 로그인': {
+            fields: {
+                required: [],
+                optional: []
+            },
             ui: [
                 { type: '버튼', name: '카카오 로그인', style: '노란색 #FEE500, 44px 높이' },
                 { type: '버튼', name: '네이버 로그인', style: '녹색 #03C75A, 44px 높이' },
@@ -7896,6 +7912,19 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             ]
         },
         '본인인증 포함': {
+            fields: {
+                required: [
+                    { name: '이름', type: 'text', format: '한글 2~10자', validation: '한글만 허용', source: '본인인증 결과 자동 입력' },
+                    { name: '생년월일', type: 'date', format: 'YYYY.MM.DD', validation: '유효한 날짜', source: '본인인증 결과 자동 입력' },
+                    { name: '성별', type: 'radio', format: '남/여', validation: '필수 선택', source: '본인인증 결과 자동 입력' },
+                    { name: '휴대폰 번호', type: 'tel', format: '010-0000-0000', validation: '본인인증 완료', source: '본인인증 시 입력' },
+                    { name: 'CI (연계정보)', type: 'hidden', format: '88자 암호화', validation: '중복 검사', source: '본인인증 결과 자동 수신' },
+                    { name: 'DI (중복가입확인정보)', type: 'hidden', format: '64자 암호화', validation: '저장', source: '본인인증 결과 자동 수신' }
+                ],
+                optional: [
+                    { name: '내/외국인 구분', type: 'radio', format: '내국인/외국인', validation: '없음', source: '본인인증 결과' }
+                ]
+            },
             ui: [
                 { type: '버튼', name: '휴대폰 본인인증', style: '기본 버튼, 인증 아이콘' },
                 { type: '팝업', name: 'NICE/PASS 인증 모듈', style: '500x600px 팝업창' },
@@ -7942,6 +7971,13 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             ]
         },
         '이메일 인증': {
+            fields: {
+                required: [
+                    { name: '이메일 주소', type: 'email', format: 'example@email.com', validation: '@ 포함, 도메인 형식 체크', source: '직접 입력' },
+                    { name: '인증번호', type: 'number', format: '6자리 숫자', validation: '서버 발송 코드와 일치', source: '이메일 수신 후 입력' }
+                ],
+                optional: []
+            },
             ui: [
                 { type: '입력', name: '이메일 주소', placeholder: 'example@email.com', validation: '이메일 형식' },
                 { type: '버튼', name: '인증메일 발송', style: '입력 필드 우측, 클릭 후 "재발송"으로 변경' },
@@ -7962,6 +7998,13 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             ]
         },
         'SMS 인증': {
+            fields: {
+                required: [
+                    { name: '휴대폰 번호', type: 'tel', format: '010-0000-0000', validation: '숫자 11자리, 하이픈 자동 추가', source: '직접 입력' },
+                    { name: '인증번호', type: 'number', format: '6자리 숫자', validation: '서버 발송 코드와 일치, 3분 유효', source: 'SMS 수신 후 입력' }
+                ],
+                optional: []
+            },
             ui: [
                 { type: '입력', name: '휴대폰 번호', placeholder: '010-0000-0000', validation: '숫자만, 자동 하이픈' },
                 { type: '버튼', name: '인증번호 받기', style: '입력 필드 우측' },
@@ -8155,6 +8198,19 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             ]
         },
         '신용카드': {
+            fields: {
+                required: [
+                    { name: '카드 번호', type: 'number', format: '0000-0000-0000-0000 (16자리)', validation: 'Luhn 알고리즘, 카드사 BIN 체크', source: '직접 입력' },
+                    { name: '유효기간', type: 'text', format: 'MM/YY', validation: '현재 날짜 이후', source: '직접 입력' },
+                    { name: 'CVC/CVV', type: 'password', format: '3자리 (AMEX 4자리)', validation: '숫자만', source: '직접 입력 (마스킹)' },
+                    { name: '카드 비밀번호', type: 'password', format: '앞 2자리', validation: '숫자 2자리', source: '직접 입력 (일부 PG)' }
+                ],
+                optional: [
+                    { name: '할부 개월', type: 'select', format: '일시불/2~12개월', validation: '5만원 이상 시 할부 가능', source: '드롭다운 선택' },
+                    { name: '카드 등록', type: 'checkbox', format: '체크', validation: '없음', source: '사용자 선택 (다음 결제 간편 사용)' },
+                    { name: '카드 별칭', type: 'text', format: '최대 10자', validation: '없음', source: '카드 등록 시 입력' }
+                ]
+            },
             ui: [
                 { type: '라디오', name: '카드 선택', options: '등록된 카드 목록 + 새 카드 추가' },
                 { type: '입력', name: '카드 번호', placeholder: '0000-0000-0000-0000' },
@@ -8176,6 +8232,12 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             ]
         },
         '간편결제': {
+            fields: {
+                required: [],
+                optional: [
+                    { name: '결제 수단 선택', type: 'radio', format: '카카오페이/네이버페이/토스/페이코', validation: '1개 필수 선택', source: '버튼 클릭' }
+                ]
+            },
             ui: [
                 { type: '버튼', name: '카카오페이', style: '노란색, 카카오페이 로고' },
                 { type: '버튼', name: '네이버페이', style: '녹색, 네이버페이 로고' },
@@ -8214,6 +8276,16 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             ]
         },
         '날짜/시간 선택': {
+            fields: {
+                required: [
+                    { name: '예약 날짜', type: 'date', format: 'YYYY.MM.DD', validation: '오늘 이후, 예약 가능일만', source: '캘린더에서 선택' },
+                    { name: '예약 시간', type: 'time', format: 'HH:MM (30분 단위)', validation: '영업시간 내, 예약 가능 시간만', source: '시간 버튼 선택' }
+                ],
+                optional: [
+                    { name: '예약 종료 시간', type: 'time', format: 'HH:MM', validation: '시작 시간 이후', source: '시간 버튼 선택 (시간대 예약 시)' },
+                    { name: '반복 예약', type: 'select', format: '매주/격주/매월', validation: '없음', source: '드롭다운 선택 (정기 예약 시)' }
+                ]
+            },
             ui: [
                 { type: '캘린더', name: '날짜 선택', style: '월간 캘린더, 예약 불가일 회색 처리' },
                 { type: '그리드', name: '시간 선택', style: '30분 단위 버튼, 마감 시간 비활성화' },
@@ -8231,6 +8303,17 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             ]
         },
         '인원 선택': {
+            fields: {
+                required: [
+                    { name: '성인 인원', type: 'number', format: '1~99', validation: '최소 1명 필수', source: '스테퍼로 선택' }
+                ],
+                optional: [
+                    { name: '아동 인원', type: 'number', format: '0~99', validation: '만 12세 이하', source: '스테퍼로 선택 (기본값 0)' },
+                    { name: '유아 인원', type: 'number', format: '0~99', validation: '만 2세 이하, 성인 동반 필수', source: '스테퍼로 선택 (기본값 0)' },
+                    { name: '경로우대 인원', type: 'number', format: '0~99', validation: '만 65세 이상', source: '스테퍼로 선택' },
+                    { name: '장애인 인원', type: 'number', format: '0~99', validation: '복지카드 필요', source: '스테퍼로 선택' }
+                ]
+            },
             ui: [
                 { type: '스테퍼', name: '성인', style: '- 숫자 + 버튼, 기본값 1' },
                 { type: '스테퍼', name: '아동', style: '- 숫자 + 버튼, 기본값 0' },
@@ -8452,6 +8535,21 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
             ]
         },
         '배송지 선택': {
+            fields: {
+                required: [
+                    { name: '수령인', type: 'text', format: '한글/영문 2~20자', validation: '특수문자 불가', source: '직접 입력' },
+                    { name: '연락처', type: 'tel', format: '010-0000-0000', validation: '숫자 10~11자리', source: '직접 입력' },
+                    { name: '우편번호', type: 'number', format: '5자리 숫자', validation: '유효한 우편번호', source: '주소 검색 API 자동 입력' },
+                    { name: '기본 주소', type: 'text', format: '시/도, 구/군, 동/읍/면', validation: '주소 검색 결과', source: '주소 검색 API 자동 입력' },
+                    { name: '상세 주소', type: 'text', format: '아파트명, 동/호수 등', validation: '최대 100자', source: '직접 입력' }
+                ],
+                optional: [
+                    { name: '배송지명', type: 'text', format: '집, 회사 등', validation: '최대 10자', source: '직접 입력' },
+                    { name: '배송 요청사항', type: 'select', format: '문 앞에 놓아주세요 등', validation: '없음', source: '드롭다운 선택 또는 직접 입력' },
+                    { name: '출입 방법', type: 'text', format: '공동현관 비밀번호 등', validation: '없음', source: '직접 입력' },
+                    { name: '기본 배송지 설정', type: 'checkbox', format: '체크', validation: '없음', source: '사용자 선택' }
+                ]
+            },
             ui: [
                 { type: '라디오', name: '저장된 배송지', style: '배송지 카드 리스트, 기본배송지 뱃지' },
                 { type: '버튼', name: '새 배송지 추가', style: '+ 아이콘, 텍스트 버튼' },
@@ -9299,6 +9397,72 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
                     <span class="spec-name">${opt}</span>
                     <span class="${idx < 3 ? 'required' : 'optional'}">${idx < 3 ? '필수' : '선택'}</span>
                 </div>
+                
+                ${spec.fields ? `
+                <div class="spec-section fields-section">
+                    <h6>📋 입력 항목 정의</h6>
+                    
+                    ${spec.fields.required && spec.fields.required.length > 0 ? `
+                    <div class="fields-group required-fields">
+                        <div class="fields-group-title">
+                            <span class="required-badge">필수</span> 필수 입력 항목
+                        </div>
+                        <table class="fields-table">
+                            <thead>
+                                <tr>
+                                    <th>항목명</th>
+                                    <th>타입</th>
+                                    <th>입력 형식</th>
+                                    <th>유효성 검사</th>
+                                    <th>데이터 소스</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${spec.fields.required.map(f => `
+                                    <tr>
+                                        <td><strong>${f.name}</strong></td>
+                                        <td><span class="field-type">${f.type}</span></td>
+                                        <td>${f.format}</td>
+                                        <td>${f.validation}</td>
+                                        <td>${f.source}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    ` : ''}
+                    
+                    ${spec.fields.optional && spec.fields.optional.length > 0 ? `
+                    <div class="fields-group optional-fields">
+                        <div class="fields-group-title">
+                            <span class="optional-badge">선택</span> 선택 입력 항목
+                        </div>
+                        <table class="fields-table">
+                            <thead>
+                                <tr>
+                                    <th>항목명</th>
+                                    <th>타입</th>
+                                    <th>입력 형식</th>
+                                    <th>유효성 검사</th>
+                                    <th>데이터 소스</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${spec.fields.optional.map(f => `
+                                    <tr>
+                                        <td>${f.name}</td>
+                                        <td><span class="field-type">${f.type}</span></td>
+                                        <td>${f.format}</td>
+                                        <td>${f.validation}</td>
+                                        <td>${f.source}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    ` : ''}
+                </div>
+                ` : ''}
                 
                 ${spec.ui ? `
                 <div class="spec-section">
