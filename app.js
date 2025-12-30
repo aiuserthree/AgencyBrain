@@ -3330,45 +3330,88 @@ function initEstimateForm() {
                 if (gaugeMax) gaugeMax.textContent = gaugeMaxVal.toLocaleString();
             }
             
+            // 게이지 라벨 업데이트
+            const gaugeLabels = resultCard.querySelectorAll('.gauge-labels span');
+            if (gaugeLabels.length >= 3) {
+                const gaugeMinVal = Math.max(0, baseEstimate - 2000);
+                const gaugeMaxVal = baseEstimate + 2000;
+                gaugeLabels[0].textContent = gaugeMinVal.toLocaleString();
+                gaugeLabels[1].textContent = baseEstimate.toLocaleString();
+                gaugeLabels[2].textContent = gaugeMaxVal.toLocaleString();
+            }
+            
             // 산출 근거 업데이트
-            const analysisItems = resultCard.querySelectorAll('.analysis-item');
-            analysisItems.forEach(item => {
-                const label = item.querySelector('.label')?.textContent;
-                const valueSpan = item.querySelector('.value');
+            const breakdownItems = resultCard.querySelectorAll('.breakdown-item');
+            const industryNames = {
+                fashion: '패션', beauty: '뷰티', fnb: 'F&B', electronics: '가전',
+                furniture: '가구', healthcare: '의료', education: '교육', finance: '금융',
+                travel: '여행', realestate: '부동산', restaurant: '음식점', fitness: '피트니스',
+                salon: '뷰티샵', media: '미디어', entertainment: '엔터테인먼트', ott: 'OTT',
+                community: '커뮤니티', public: '공공기관', nonprofit: '비영리', association: '협회',
+                b2b_commerce: 'B2B커머스', saas: 'SaaS', manufacturing: '제조'
+            };
+            const indName = industryNames[industry] || '일반';
+            
+            breakdownItems.forEach((item, idx) => {
+                const valueSpan = item.querySelector('.breakdown-value');
                 if (!valueSpan) return;
                 
-                if (label?.includes('분석 프로젝트')) {
-                    valueSpan.textContent = `${industry !== 'default' ? '업종별' : '일반'} 기준 분석`;
-                } else if (label?.includes('평균 견적')) {
+                if (idx === 0) {
+                    valueSpan.textContent = `${indName} 업종 유사 프로젝트 분석`;
+                } else if (idx === 1) {
                     valueSpan.textContent = `${baseEstimate.toLocaleString()}만원`;
-                } else if (label?.includes('예상 공수')) {
+                } else if (idx === 2) {
                     valueSpan.textContent = `${baseWeeks}주 (범위: ${minWeeks}~${maxWeeks}주)`;
                 }
             });
             
             // 리스크 업데이트
-            const riskItems = resultCard.querySelector('.risk-items');
-            if (riskItems) {
-                let riskHTML = '';
+            const riskContainer = resultCard.querySelector('.estimate-risk');
+            if (riskContainer) {
+                let riskHTML = '<h4>⚠️ 리스크 요인</h4>';
+                const riskList = [];
+                
                 if (selectedPlatforms.includes('ios') || selectedPlatforms.includes('android')) {
-                    riskHTML += `<div class="risk-item"><span class="risk-icon">📱</span><span class="risk-text">앱스토어 심사</span><span class="risk-buffer">1~2주 버퍼 권장</span></div>`;
+                    riskList.push({ icon: '📱', title: '앱스토어 심사', desc: '1~2주 버퍼 권장' });
                 }
                 if (selectedFeatures.includes('결제')) {
-                    riskHTML += `<div class="risk-item"><span class="risk-icon">💳</span><span class="risk-text">PG 연동</span><span class="risk-buffer">1주 버퍼 권장</span></div>`;
+                    riskList.push({ icon: '💳', title: 'PG 연동', desc: '1주 버퍼 권장' });
                 }
                 if (selectedFeatures.some(f => f.includes('AI'))) {
-                    riskHTML += `<div class="risk-item"><span class="risk-icon">🤖</span><span class="risk-text">AI 모델 학습</span><span class="risk-buffer">2주 버퍼 권장</span></div>`;
+                    riskList.push({ icon: '🤖', title: 'AI 모델 연동', desc: '2주 버퍼 권장' });
+                }
+                if (selectedFeatures.includes('본인인증') || selectedFeatures.includes('보안인증')) {
+                    riskList.push({ icon: '🔐', title: '인증 연동', desc: '1주 버퍼 권장' });
+                }
+                if (selectedFeatures.includes('계좌연결') || selectedFeatures.includes('이체')) {
+                    riskList.push({ icon: '🏦', title: '금융 API 연동', desc: '2주 버퍼 권장' });
                 }
                 if (complexity >= 1.4) {
-                    riskHTML += `<div class="risk-item"><span class="risk-icon">⚠️</span><span class="risk-text">높은 업종 복잡도</span><span class="risk-buffer">추가 검토 필요</span></div>`;
+                    riskList.push({ icon: '⚠️', title: `높은 업종 복잡도 (${complexity}x)`, desc: '추가 검토 필요' });
                 }
-                if (selectedPlatforms.length === 0) {
-                    riskHTML += `<div class="risk-item"><span class="risk-icon">🔧</span><span class="risk-text">플랫폼 미선택</span><span class="risk-buffer">플랫폼 선택 필요</span></div>`;
+                if (selectedPlatforms.includes('magento')) {
+                    riskList.push({ icon: '🔧', title: 'Magento 커스터마이징', desc: '2주 버퍼 권장' });
                 }
-                if (!riskHTML) {
-                    riskHTML = `<div class="risk-item"><span class="risk-icon">✅</span><span class="risk-text">특별한 리스크 없음</span><span class="risk-buffer">표준 일정 적용</span></div>`;
+                if (selectedPlatforms.includes('shopify')) {
+                    riskList.push({ icon: '🔌', title: 'Shopify API 연동', desc: '1주 버퍼 권장' });
                 }
-                riskItems.innerHTML = riskHTML;
+                
+                if (riskList.length === 0) {
+                    riskList.push({ icon: '✅', title: '특별한 리스크 없음', desc: '표준 일정 적용' });
+                }
+                
+                riskList.forEach(risk => {
+                    riskHTML += `
+                        <div class="risk-item">
+                            <span class="risk-icon">${risk.icon}</span>
+                            <div class="risk-content">
+                                <span class="risk-title">${risk.title}</span>
+                                <span class="risk-desc">${risk.desc}</span>
+                            </div>
+                        </div>`;
+                });
+                
+                riskContainer.innerHTML = riskHTML;
             }
         }
     });
