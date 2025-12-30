@@ -971,13 +971,9 @@ input, select, textarea {
     gap: 24px;
 }
 
-.proposal-form-card {
-    height: fit-content;
-}
-
+.proposal-form-card,
 .proposal-result-card {
-    min-height: 800px;
-    max-height: calc(100vh - 120px);
+    height: calc(100vh - 180px);
     overflow-y: auto;
 }
 
