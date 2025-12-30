@@ -8780,22 +8780,23 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
     const getOptionSpec = (opt) => {
         // optionSpecs에서 상세 스펙 찾기
         if (optionSpecs[opt]) {
-            return optionSpecs[opt];
+            const value = optionSpecs[opt];
+            // 문자열인 경우 simple 형태로 변환
+            if (typeof value === 'string') {
+                return { simple: value };
+            }
+            return value;
         }
         // 부분 매칭 시도
         const specKeys = Object.keys(optionSpecs);
         const matchedSpec = specKeys.find(key => opt.includes(key) || key.includes(opt));
         if (matchedSpec) {
-            return optionSpecs[matchedSpec];
-        }
-        // optionDetails에서 간단 설명 찾기
-        if (optionDetails[opt]) {
-            return { simple: optionDetails[opt] };
-        }
-        const detailKeys = Object.keys(optionDetails);
-        const matchedDetail = detailKeys.find(key => opt.includes(key) || key.includes(opt));
-        if (matchedDetail) {
-            return { simple: optionDetails[matchedDetail] };
+            const value = optionSpecs[matchedSpec];
+            // 문자열인 경우 simple 형태로 변환
+            if (typeof value === 'string') {
+                return { simple: value };
+            }
+            return value;
         }
         // 기본 스펙 생성
         return {
