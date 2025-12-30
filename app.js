@@ -4060,9 +4060,6 @@ function initIAForm() {
     // 업종 선택 시 주요 기능 업데이트
     industrySelect?.addEventListener('change', updateIAFeatures);
     
-    // 사이트 유형 선택 시 주요 기능 업데이트
-    siteTypeSelect?.addEventListener('change', updateIAFeatures);
-    
     // 초기 기능 체크박스 생성
     updateIAFeatures();
     
