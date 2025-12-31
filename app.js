@@ -5759,24 +5759,105 @@ function initFunctionalForm() {
         limited_edition: ['한정판', '출시 알림', '응모', '당첨 확인', '구매', '재판매 방지'],
         concierge: ['컨시어지', '요청하기', '상담 내역', '선호도 관리', '특별 서비스'],
         private_visit: ['예약 방문', '매장 선택', '일시 선택', '요청사항', '확인', '알림'],
-        after_care: ['수선/관리', '서비스 종류', '접수', '진행 조회', '완료 알림', '수령']
+        after_care: ['수선/관리', '서비스 종류', '접수', '진행 조회', '완료 알림', '수령'],
+        
+        // 누락된 기능들 추가
+        interior_consult: ['인테리어 스타일 선택', '공간 사진 업로드', '평수/공간 정보', '상담 희망일', '상담 방식(화상/방문)', '예산 범위', '시공 범위'],
+        achievement: ['업적 목록', '달성 조건', '보상 확인', '진행률', '공유', '다음 목표'],
+        age_recommend: ['연령 입력', '발달 단계', '맞춤 추천', '안전 인증', '리뷰', '구매 연동'],
+        agency_search: ['대리점 검색', '지역 선택', '서비스 유형', '영업 시간', '연락처', '길찾기'],
+        ai_recommend: ['AI 분석', '선호도 학습', '맞춤 추천', '추천 이유', '피드백', '재추천'],
+        ai_resume: ['이력서 업로드', 'AI 분석', '개선점 제안', '키워드 최적화', '포맷 변환', '다운로드'],
+        application_status: ['지원 현황', '진행 단계', '결과 확인', '면접 일정', '서류 추가', '취소'],
+        ar_simulation: ['AR 시작', '공간 인식', '제품 배치', '크기 조절', '저장', '구매 연동'],
+        beauty_tip: ['뷰티 팁', '피부 타입별', '계절별', '트렌드', '저장', '공유'],
+        board: ['게시판', '글 목록', '글쓰기', '검색', '카테고리', '정렬'],
+        bookmark: ['북마크', '폴더 관리', '정렬', '검색', '공유', '삭제'],
+        cafeteria: ['메뉴 조회', '식단표', '영양 정보', '알레르기', '예약', '평가'],
+        card: ['카드 목록', '카드 등록', '사용 내역', '한도 확인', '결제 설정', '분실 신고'],
+        career: ['경력 관리', '이력서', '포트폴리오', '스킬', '목표 설정', '추천'],
+        certification: ['인증 목록', '인증 신청', '서류 제출', '진행 상태', '인증서 발급', '갱신'],
+        character: ['캐릭터 선택', '커스터마이징', '장비', '스킬', '레벨', '저장'],
+        chat: ['채팅', '대화 목록', '메시지 전송', '파일 첨부', '검색', '알림'],
+        chat_room: ['채팅방', '방 생성', '멤버 초대', '설정', '나가기', '신고'],
+        checkup_result: ['검진 결과', '항목별 수치', '정상/이상', '추이 그래프', '상담 신청', '공유'],
+        club: ['클럽 가입', '활동', '멤버', '일정', '게시판', '탈퇴'],
+        company_info: ['기업 정보', '기업 개요', '복리후생', '채용 공고', '리뷰', '관심 등록'],
+        company_review: ['기업 리뷰', '평점', '장단점', '면접 후기', '연봉 정보', '작성'],
+        coupon: ['쿠폰함', '사용 가능', '사용 완료', '만료 예정', '쿠폰 등록', '사용 조건'],
+        crowdfunding: ['펀딩 목록', '프로젝트 상세', '후원 금액', '리워드', '결제', '진행 현황'],
+        curation: ['큐레이션', '테마별', '에디터 Pick', '맞춤 추천', '저장', '공유'],
+        deposit: ['예치금', '잔액 조회', '충전', '사용 내역', '환불', '설정'],
+        document: ['문서함', '문서 목록', '상세 보기', '다운로드', '공유', '삭제'],
+        donation_history: ['후원 내역', '기간 조회', '금액 확인', '영수증', '정기후원 관리', '내보내기'],
+        dormitory: ['기숙사 신청', '호실 배정', '입퇴사', '시설 이용', '민원', '비용'],
+        evaluation: ['평가', '평가 항목', '점수 입력', '코멘트', '제출', '결과 확인'],
+        event: ['이벤트 목록', '상세 보기', '참여하기', '당첨 확인', '공유', '알림'],
+        expert_matching: ['전문가 매칭', '분야 선택', '전문가 목록', '프로필', '상담 신청', '리뷰'],
+        facility_booking: ['시설 예약', '시설 선택', '날짜/시간', '인원', '예약 확인', '취소'],
+        friend: ['친구 목록', '친구 검색', '친구 추가', '친구 삭제', '차단', '추천'],
+        game_search: ['게임 검색', '장르', '플랫폼', '인기 순위', '리뷰', '다운로드'],
+        gear_guide: ['장비 가이드', '운동별 추천', '레벨별', '가격대', '리뷰', '구매'],
+        growth_record: ['성장 기록', '키/몸무게', '발달 체크', '사진 앨범', '차트', '공유'],
+        guild: ['길드', '길드 검색', '가입 신청', '멤버', '활동', '탈퇴'],
+        health_info: ['건강 정보', '질환별', '증상별', '예방법', '병원 찾기', '저장'],
+        in_app: ['인앱 결제', '상품 목록', '금액 선택', '결제', '구매 내역', '환불'],
+        insurance_claim: ['보험 청구', '청구 유형', '서류 업로드', '진행 현황', '결과 확인', '문의'],
+        interview_schedule: ['면접 일정', '일정 확인', '참석 여부', '준비 사항', '리마인드', '변경'],
+        job_search: ['채용 검색', '직무', '지역', '경력', '연봉', '지원'],
+        leaderboard: ['리더보드', '기간 선택', '카테고리', '순위', '내 순위', '도전'],
+        live_commerce: ['라이브 커머스', '방송 목록', '실시간 시청', '상품 구매', '채팅', '알림'],
+        loan: ['대출 상품', '조건 확인', '한도 조회', '금리 비교', '신청', '서류'],
+        medication_alarm: ['복약 알림', '약 등록', '복용 시간', '알림 설정', '복용 기록', '리필'],
+        member_search: ['회원 검색', '이름/ID', '필터', '프로필 보기', '메시지', '팔로우'],
+        milestone: ['마일스톤', '목표 설정', '진행 현황', '완료 처리', '보상', '공유'],
+        moq: ['최소 주문', '수량 확인', '가격 안내', '협의', '주문', '견적'],
+        moving: ['이사 신청', '출발지/도착지', '짐 정보', '날짜', '견적 비교', '예약'],
+        negotiation: ['협상', '조건 제시', '협의', '합의', '계약', '히스토리'],
+        news: ['뉴스', '카테고리', '최신순', '인기순', '저장', '공유'],
+        notification: ['알림', '알림 목록', '읽음 처리', '삭제', '설정', '전체 읽음'],
+        nutrition_info: ['영양 정보', '음식 검색', '영양소', '칼로리', '권장량', '저장'],
+        parental_control: ['자녀 보호', '이용 제한', '시간 설정', '콘텐츠 필터', '위치 확인', '리포트'],
+        parenting_info: ['육아 정보', '연령별', '주제별', '전문가 칼럼', '저장', '공유'],
+        pet_recommend: ['반려동물 추천', '종류', '연령', '건강 상태', '맞춤 상품', '구매'],
+        plan: ['플랜 선택', '기능 비교', '가격', '결제', '변경', '해지'],
+        point: ['적립금', '잔액 조회', '적립 내역', '사용 내역', '소멸 예정', '사용'],
+        premium: ['프리미엄', '혜택 안내', '가입', '이용', '해지', '업그레이드'],
+        prepaid: ['선불금', '잔액', '충전', '사용 내역', '환불', '자동 충전'],
+        product_search: ['상품 검색', '키워드', '필터', '정렬', '비교', '저장'],
+        project_manage: ['프로젝트', '생성', '태스크', '멤버', '일정', '완료'],
+        publication: ['발간물', '목록', '상세', '다운로드', '구독', '공유'],
+        qna: ['Q&A', '질문 목록', '질문하기', '답변 확인', '검색', '카테고리'],
+        quote_request: ['견적 요청', '상품 선택', '수량', '요청사항', '발송', '견적 확인'],
+        ranking: ['랭킹', '카테고리', '기간', '순위', '내 순위', '공유'],
+        rating: ['평점', '별점 선택', '리뷰 작성', '사진 첨부', '등록', '수정'],
+        receipt: ['영수증', '목록', '상세', '다운로드', '이메일', '프린트'],
+        recommendation: ['추천', '맞춤 추천', '인기 추천', '신상품', '저장', '구매'],
+        resume: ['이력서', '작성', '수정', '다운로드', '제출', '관리'],
+        review: ['리뷰', '작성 가능', '작성 완료', '베스트', '포토', '도움됨'],
+        routine: ['루틴', '생성', '운동 추가', '스케줄', '알림', '기록'],
+        safety_cert: ['안전 인증', '인증 조회', '인증서', '기준', '신고', '문의'],
+        salary_info: ['연봉 정보', '직무별', '경력별', '지역별', '기업별', '비교'],
+        sample: ['샘플 요청', '상품 선택', '배송지', '비용', '요청', '배송 조회'],
+        scholarship: ['장학금', '검색', '자격 조건', '신청', '결과', '수혜 내역'],
+        season_pass: ['시즌권', '구매', '기간', '혜택', '갱신', '환불'],
+        size_recommend: ['사이즈 추천', '신체 정보', 'AI 추천', '추천 사이즈', '리뷰 참고', '선택'],
+        student_id: ['학생증', '발급 신청', '정보 확인', '모바일 학생증', '갱신', '분실'],
+        style_recommend: ['스타일 추천', '취향 분석', 'AI 추천', '코디', '저장', '구매'],
+        style_search: ['스타일 검색', '키워드', '이미지 검색', '필터', '저장', '공유'],
+        subtitle: ['자막', '자막 선택', '언어', '크기', '위치', '동기화'],
+        survey: ['설문', '설문 목록', '참여', '결과', '보상', '히스토리'],
+        trade: ['거래', '거래 목록', '거래 생성', '조건', '체결', '완료'],
+        upgrade: ['업그레이드', '현재 등급', '다음 등급', '혜택', '결제', '적용'],
+        video_interview: ['화상 면접', '일정 확인', '환경 테스트', '입장', '면접', '종료'],
+        video_meeting: ['화상 회의', '회의 생성', '참여', '화면 공유', '채팅', '녹화'],
+        watch_history: ['시청 기록', '최근 시청', '이어보기', '삭제', '추천', '설정']
     };
 
     // 기능 유형별 기능정의서 콘텐츠
-    const funcSpecContent = {
-        signup: generateSignupSpec,
-        login: generateLoginSpec,
-        payment: generatePaymentSpec,
-        cart: generateCartSpec,
-        order: generateOrderSpec,
-        delivery: generateDeliverySpec,
-        review: generateReviewSpec,
-        point: generatePointSpec,
-        coupon: generateCouponSpec,
-        booking: generateBookingSpec,
-        subscription: generateSubscriptionSpec,
-        mypage: generateMypageSpec
-    };
+    // 모든 기능이 동일한 형식(generateGenericFuncSpec)을 사용하도록 빈 객체로 설정
+    // 형식: 문서헤더, 사용자여정, 기능개요, 화면구성, 옵션별스펙, 에러처리, 비즈니스규칙, 분석근거
+    const funcSpecContent = {};
 
     // 기능 유형명 (동적으로 수집)
     const funcTypeNames = {};
@@ -5853,8 +5934,8 @@ function initFunctionalForm() {
             return;
         }
         
-        // 기본 옵션
-        let options = funcTypeOptions[funcType] || ['기본 옵션 1', '기본 옵션 2', '기본 옵션 3'];
+        // 기능 유형별 상세 옵션 (모든 기능이 funcTypeOptions에 정의됨)
+        let options = funcTypeOptions[funcType] || [];
         
         // 업종별 추가 옵션 병합
         if (industry && industrySpecificOptions[industry]) {
@@ -7808,8 +7889,9 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
     const industryName = industryNames[industry] || '일반';
     
     // 기능정의서.md 형식에 맞는 화면 ID 생성
+    const funcTypeCode = funcType.replace(/_/g, '').substring(0, 8).toUpperCase();
     const pageType = options.length > 0 ? 'P' : 'LP';
-    const screenId = `${industryName.charAt(0).toUpperCase()}_${funcType}_1_0_0_0_0_${pageType}`;
+    const screenId = `${funcTypeCode}_1_0_0_0_0_${pageType}`;
     
     // 기능 유형별 메뉴 경로 정의
     const menuPaths = {
@@ -8105,6 +8187,559 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
         admin_user: { category: '관리자', icon: '👥', purpose: '회원 정보를 관리하는 기능', steps: ['회원 검색', '상세 정보 확인', '정보 수정', '등급/권한 변경', '저장'] },
         admin_order: { category: '관리자', icon: '📦', purpose: '주문을 관리하는 기능', steps: ['주문 목록 확인', '주문 상세', '상태 변경', '배송 처리', '완료 처리'] },
         admin_booking: { category: '관리자', icon: '📅', purpose: '예약을 관리하는 기능', steps: ['예약 목록 확인', '예약 상세', '상태 변경', '알림 발송', '완료 처리'] },
+        
+        // ===== 가구/인테리어 =====
+        interior_consult: { 
+            category: '상담', icon: '🏠', purpose: '인테리어 전문가와 상담을 신청하고 진행하는 기능', 
+            steps: ['상담 신청', '스타일 선택', '공간 정보 입력', '전문가 매칭', '상담 진행', '견적 확인'],
+            pageUI: [
+                { element: '인테리어 스타일 선택', type: '카드그리드', defaultVal: '선택 없음', actions: [
+                    { action: '스타일 카드 클릭', result: '해당 스타일 선택, 테두리 강조' },
+                    { action: '다중 선택', result: '최대 3개까지 선택 가능' }
+                ]},
+                { element: '공간 사진 업로드', type: '파일업로드', defaultVal: '선택사항', actions: [
+                    { action: '사진 선택', result: '미리보기 표시 (최대 10장)' },
+                    { action: '삭제 클릭', result: '해당 사진 삭제' }
+                ]},
+                { element: '공간 정보 입력', type: '폼', defaultVal: '빈 값', actions: [
+                    { action: '평수 입력', result: '숫자만 허용' },
+                    { action: '공간 유형 선택', result: '거실/침실/주방 등 선택' }
+                ]},
+                { element: '상담 희망일 선택', type: '캘린더', defaultVal: '오늘+3일 후', actions: [
+                    { action: '날짜 클릭', result: '해당 날짜 선택' },
+                    { action: '시간대 선택', result: '오전/오후/저녁 선택' }
+                ]},
+                { element: '상담 방식 선택', type: '라디오', defaultVal: '화상 상담', actions: [
+                    { action: '화상 상담 선택', result: '화상 상담 예약' },
+                    { action: '방문 상담 선택', result: '방문 주소 입력 필드 표시' }
+                ]},
+                { element: '신청하기 버튼', type: '버튼', defaultVal: '비활성화', actions: [
+                    { action: '필수 정보 입력', result: '버튼 활성화' },
+                    { action: '클릭', result: '상담 신청 완료 → 전문가 매칭 대기' }
+                ]}
+            ]
+        },
+        installation: { 
+            category: '서비스', icon: '🔧', purpose: '가구/가전 설치 예약을 신청하는 기능', 
+            steps: ['설치 신청', '제품 확인', '날짜/시간 선택', '설치 정보 입력', '예약 완료'],
+            pageUI: [
+                { element: '설치 제품 정보', type: '카드', defaultVal: '주문 상품 자동 표시', actions: [
+                    { action: '페이지 진입', result: '주문한 제품명, 이미지, 수량 자동 표시' }
+                ]},
+                { element: '설치 희망일 캘린더', type: '캘린더', defaultVal: '오늘+3일 후', actions: [
+                    { action: '날짜 클릭', result: '해당 날짜 선택, 시간대 로딩' }
+                ]},
+                { element: '설치 시간대', type: '버튼그룹', defaultVal: '선택 없음', actions: [
+                    { action: '시간대 선택', result: '오전/오후 선택' }
+                ]},
+                { element: '설치 주소', type: '입력+버튼', defaultVal: '기본 주소', actions: [
+                    { action: '주소 검색', result: '다음 주소 API 팝업' }
+                ]},
+                { element: '예약하기 버튼', type: '버튼', defaultVal: '비활성화', actions: [
+                    { action: '필수값 입력', result: '버튼 활성화' },
+                    { action: '클릭', result: '설치 예약 완료' }
+                ]}
+            ]
+        },
+        '3d_tour': { category: '체험', icon: '🏠', purpose: '공간을 3D로 둘러볼 수 있는 가상 투어 기능', steps: ['투어 시작', '공간 선택', '3D 뷰어 로딩', '공간 탐색', '상세 보기'] },
+        ar_simulation: { category: '체험', icon: '📱', purpose: 'AR로 가구를 실제 공간에 배치해보는 기능', steps: ['AR 시작', '카메라 활성화', '공간 인식', '가구 배치', '저장/공유'] },
+        moving: { category: '서비스', icon: '🚚', purpose: '이사 서비스를 신청하고 견적을 받는 기능', steps: ['이사 신청', '출발지/도착지 입력', '짐 정보 입력', '견적 요청', '업체 선택'] },
+        designer_select: { category: '상담', icon: '👩‍🎨', purpose: '인테리어 디자이너를 선택하는 기능', steps: ['디자이너 목록', '포트폴리오 확인', '리뷰 확인', '상담 신청', '매칭 완료'] },
+        
+        // ===== 상품/쇼핑 =====
+        product: { category: '상품', icon: '📦', purpose: '상품 정보를 조회하는 기능', steps: ['상품 목록', '상품 선택', '상세 확인', '옵션 선택', '장바구니/구매'] },
+        product_search: { category: '상품', icon: '🔍', purpose: '상품을 검색하는 기능', steps: ['검색어 입력', '결과 확인', '필터 적용', '상품 선택', '상세 보기'] },
+        category: { category: '상품', icon: '📁', purpose: '카테고리별 상품을 조회하는 기능', steps: ['카테고리 선택', '하위 카테고리', '상품 목록', '필터/정렬', '상품 선택'] },
+        wishlist: { category: '상품', icon: '❤️', purpose: '관심 상품을 저장하고 관리하는 기능', steps: ['위시리스트 진입', '상품 확인', '장바구니 이동', '삭제', '공유'] },
+        bookmark: { category: '상품', icon: '🔖', purpose: '관심 콘텐츠를 저장하는 기능', steps: ['북마크 진입', '목록 확인', '카테고리 분류', '삭제', '이동'] },
+        like: { category: '상품', icon: '👍', purpose: '상품/콘텐츠에 좋아요를 표시하는 기능', steps: ['좋아요 클릭', '좋아요 목록', '취소', '공유'] },
+        share: { category: '상품', icon: '📤', purpose: '상품/콘텐츠를 공유하는 기능', steps: ['공유 클릭', '채널 선택', 'URL 복사', '공유 완료'] },
+        gift: { category: '주문', icon: '🎁', purpose: '선물하기 기능', steps: ['선물하기 선택', '수령인 정보', '메시지 작성', '결제', '선물 발송'] },
+        bulk_order: { category: '주문', icon: '📦', purpose: '대량 주문을 신청하는 기능', steps: ['대량 주문 신청', '품목/수량 입력', '견적 요청', '견적 확인', '주문 확정'] },
+        custom_order: { category: '주문', icon: '✂️', purpose: '맞춤 제작 주문을 신청하는 기능', steps: ['맞춤 제작 선택', '옵션 설정', '시안 확인', '견적 확인', '주문'] },
+        preorder: { category: '주문', icon: '📅', purpose: '사전 예약 주문을 신청하는 기능', steps: ['사전예약 신청', '예약금 결제', '출시 대기', '잔금 결제', '배송'] },
+        rental: { category: '주문', icon: '🔄', purpose: '상품 렌탈을 신청하는 기능', steps: ['렌탈 상품 선택', '기간 선택', '약정 확인', '결제', '배송/설치'] },
+        quote_request: { category: '주문', icon: '📝', purpose: '견적을 요청하는 기능', steps: ['견적 요청', '상품/서비스 선택', '상세 정보 입력', '견적 수신', '비교/선택'] },
+        quote_calc: { category: '주문', icon: '🧮', purpose: '견적을 계산하는 기능', steps: ['견적 계산기 진입', '항목 선택', '수량 입력', '옵션 추가', '총 견적 확인'] },
+        return: { category: '주문', icon: '↩️', purpose: '반품/교환을 신청하는 기능', steps: ['반품 신청', '사유 선택', '상품 확인', '수거 예약', '환불 처리'] },
+        exchange_rate: { category: '금융', icon: '💱', purpose: '환율 정보를 조회하는 기능', steps: ['통화 선택', '환율 확인', '계산', '알림 설정'] },
+        
+        // ===== 예약/상담 =====
+        consultation: { 
+            category: '상담', icon: '💬', purpose: '전문가 상담을 신청하는 기능', 
+            steps: ['상담 유형 선택', '희망 일시 선택', '상담 내용 입력', '신청 완료', '확인 알림'],
+            pageUI: [
+                { element: '상담 유형', type: '카드', defaultVal: '선택 없음', actions: [
+                    { action: '유형 선택', result: '해당 상담 유형 선택' }
+                ]},
+                { element: '상담 일시', type: '캘린더+시간', defaultVal: '선택 없음', actions: [
+                    { action: '날짜/시간 선택', result: '예약 가능 시간 확인' }
+                ]},
+                { element: '상담 내용', type: '텍스트영역', defaultVal: '빈 값', actions: [
+                    { action: '내용 입력', result: '글자수 카운트' }
+                ]},
+                { element: '신청 버튼', type: '버튼', defaultVal: '비활성화', actions: [
+                    { action: '필수 입력', result: '버튼 활성화' },
+                    { action: '클릭', result: '상담 신청 완료' }
+                ]}
+            ]
+        },
+        visit_booking: { category: '예약', icon: '🏠', purpose: '방문 예약을 신청하는 기능', steps: ['방문 예약', '날짜/시간 선택', '연락처 입력', '예약 확인', '방문'] },
+        class_booking: { category: '예약', icon: '🏃', purpose: '수업/클래스를 예약하는 기능', steps: ['수업 선택', '일정 확인', '시간 선택', '예약 확인', '예약 완료'] },
+        pt_booking: { category: '예약', icon: '💪', purpose: 'PT 세션을 예약하는 기능', steps: ['트레이너 선택', '가능 시간 확인', '시간 선택', '예약 정보 확인', '예약 완료'] },
+        facility_booking: { category: '예약', icon: '🏢', purpose: '시설을 예약하는 기능', steps: ['시설 선택', '날짜/시간 선택', '예약 정보 입력', '결제', '예약 완료'] },
+        table_select: { category: '예약', icon: '🪑', purpose: '테이블/좌석을 선택하는 기능', steps: ['좌석 배치도 확인', '좌석 선택', '인원 확인', '예약 확인', '완료'] },
+        waiting: { category: '예약', icon: '⏳', purpose: '대기 예약을 신청하는 기능', steps: ['대기 신청', '인원 입력', '연락처 확인', '대기 등록', '호출 대기'] },
+        flight_booking: { category: '예약', icon: '✈️', purpose: '항공권을 예약하는 기능', steps: ['노선 검색', '항공편 선택', '좌석 선택', '탑승자 정보', '결제'] },
+        hotel_booking: { category: '예약', icon: '🏨', purpose: '호텔을 예약하는 기능', steps: ['호텔 검색', '객실 선택', '날짜 선택', '예약자 정보', '결제'] },
+        tour_booking: { category: '예약', icon: '🗺️', purpose: '투어/패키지를 예약하는 기능', steps: ['투어 선택', '일정 확인', '인원 선택', '예약자 정보', '결제'] },
+        package_booking: { category: '예약', icon: '📦', purpose: '패키지 상품을 예약하는 기능', steps: ['패키지 선택', '옵션 확인', '날짜 선택', '예약 정보', '결제'] },
+        rental_car: { category: '예약', icon: '🚗', purpose: '렌터카를 예약하는 기능', steps: ['차량 검색', '차종 선택', '대여 기간', '보험 선택', '결제'] },
+        shipping_booking: { category: '예약', icon: '📦', purpose: '배송을 예약하는 기능', steps: ['배송 신청', '출발지/도착지', '픽업 일시', '결제', '예약 완료'] },
+        
+        // ===== 콘텐츠/미디어 =====
+        video: { category: '콘텐츠', icon: '🎬', purpose: '영상을 시청하는 기능', steps: ['영상 목록', '영상 선택', '재생', '평가/댓글', '관련 추천'] },
+        watch: { category: '콘텐츠', icon: '👀', purpose: '콘텐츠를 시청하는 기능', steps: ['콘텐츠 선택', '재생 시작', '시청', '평가', '다음 콘텐츠'] },
+        watch_history: { category: '콘텐츠', icon: '📺', purpose: '시청 기록을 조회하는 기능', steps: ['시청 기록 진입', '목록 확인', '이어보기', '삭제', '추천'] },
+        live: { category: '콘텐츠', icon: '🔴', purpose: '라이브 방송을 시청하는 기능', steps: ['라이브 목록', '방송 입장', '시청', '채팅/댓글', '하트/선물'] },
+        live_commerce: { category: '콘텐츠', icon: '📺', purpose: '라이브 커머스를 시청하고 구매하는 기능', steps: ['라이브 입장', '상품 확인', '실시간 구매', '채팅', '결제'] },
+        live_class: { category: '콘텐츠', icon: '📹', purpose: '실시간 화상 수업에 참여하는 기능', steps: ['수업 입장', '카메라/마이크 설정', '수업 참여', '질문/채팅', '수업 종료'] },
+        online_lecture: { category: '콘텐츠', icon: '🎓', purpose: '온라인 강의를 수강하는 기능', steps: ['강의 선택', '강의 시작', '영상 시청', '진도 저장', '완료 처리'] },
+        music: { category: '콘텐츠', icon: '🎵', purpose: '음악을 재생하는 기능', steps: ['음악 검색', '곡 선택', '재생', '플레이리스트 추가', '공유'] },
+        playlist: { category: '콘텐츠', icon: '📃', purpose: '플레이리스트를 관리하는 기능', steps: ['플레이리스트 진입', '곡 추가/삭제', '순서 변경', '공유', '재생'] },
+        podcast: { category: '콘텐츠', icon: '🎙️', purpose: '팟캐스트를 청취하는 기능', steps: ['팟캐스트 검색', '에피소드 선택', '재생', '구독', '다운로드'] },
+        article_search: { category: '콘텐츠', icon: '📰', purpose: '아티클/기사를 검색하는 기능', steps: ['검색어 입력', '결과 확인', '필터 적용', '기사 선택', '읽기'] },
+        news: { category: '콘텐츠', icon: '📰', purpose: '뉴스를 조회하는 기능', steps: ['뉴스 목록', '카테고리 선택', '기사 선택', '읽기', '공유'] },
+        video_news: { category: '콘텐츠', icon: '📺', purpose: '영상 뉴스를 시청하는 기능', steps: ['영상 뉴스 목록', '선택', '시청', '관련 뉴스', '공유'] },
+        newsletter: { category: '콘텐츠', icon: '📧', purpose: '뉴스레터를 구독하고 조회하는 기능', steps: ['구독 신청', '이메일 입력', '주제 선택', '수신 확인', '아카이브'] },
+        blog: { category: '콘텐츠', icon: '📝', purpose: '블로그 글을 조회하는 기능', steps: ['블로그 진입', '글 목록', '글 선택', '읽기', '댓글/공유'] },
+        post: { category: '콘텐츠', icon: '✏️', purpose: '게시글을 작성하는 기능', steps: ['글쓰기 진입', '제목/내용 입력', '이미지 첨부', '카테고리 선택', '등록'] },
+        comment: { category: '콘텐츠', icon: '💬', purpose: '댓글을 작성하는 기능', steps: ['댓글 입력', '등록', '수정/삭제', '답글', '좋아요'] },
+        board: { category: '콘텐츠', icon: '📋', purpose: '게시판을 조회하는 기능', steps: ['게시판 선택', '글 목록', '글 선택', '읽기', '글쓰기'] },
+        qna: { category: '콘텐츠', icon: '❓', purpose: 'Q&A를 조회하고 질문하는 기능', steps: ['Q&A 진입', '검색/필터', '질문 선택', '답변 확인', '질문하기'] },
+        faq: { category: '콘텐츠', icon: '📖', purpose: 'FAQ를 조회하는 기능', steps: ['FAQ 진입', '카테고리 선택', '질문 선택', '답변 확인', '도움됨 평가'] },
+        notice: { category: '콘텐츠', icon: '📢', purpose: '공지사항을 조회하는 기능', steps: ['공지 목록', '공지 선택', '내용 확인', '첨부파일', '목록으로'] },
+        event: { category: '콘텐츠', icon: '🎉', purpose: '이벤트를 조회하고 참여하는 기능', steps: ['이벤트 목록', '이벤트 선택', '상세 확인', '참여하기', '당첨 확인'] },
+        event_apply: { category: '콘텐츠', icon: '🎫', purpose: '이벤트에 응모하는 기능', steps: ['이벤트 확인', '참여 조건 확인', '정보 입력', '응모 완료', '결과 확인'] },
+        campaign: { category: '콘텐츠', icon: '📣', purpose: '캠페인에 참여하는 기능', steps: ['캠페인 확인', '참여 방법', '미션 수행', '인증', '보상 확인'] },
+        survey: { category: '콘텐츠', icon: '📊', purpose: '설문조사에 참여하는 기능', steps: ['설문 진입', '질문 응답', '다음 문항', '제출', '완료/보상'] },
+        vote: { category: '콘텐츠', icon: '🗳️', purpose: '투표에 참여하는 기능', steps: ['투표 진입', '후보 확인', '선택', '투표 완료', '결과 확인'] },
+        quiz: { category: '콘텐츠', icon: '❓', purpose: '퀴즈에 참여하는 기능', steps: ['퀴즈 시작', '문제 풀이', '정답 확인', '점수 확인', '보상'] },
+        
+        // ===== 커뮤니티/소셜 =====
+        profile: { category: '소셜', icon: '👤', purpose: '프로필을 조회/수정하는 기능', steps: ['프로필 진입', '정보 확인', '수정', '저장', '공개 설정'] },
+        follow: { category: '소셜', icon: '➕', purpose: '팔로우/팔로잉을 관리하는 기능', steps: ['팔로우 클릭', '팔로잉 목록', '팔로워 목록', '팔로우 취소', '추천'] },
+        friend: { category: '소셜', icon: '👥', purpose: '친구를 관리하는 기능', steps: ['친구 목록', '친구 검색', '친구 추가', '친구 삭제', '차단'] },
+        group: { category: '소셜', icon: '👥', purpose: '그룹을 관리하는 기능', steps: ['그룹 목록', '그룹 선택', '멤버 확인', '가입/탈퇴', '그룹 활동'] },
+        club: { category: '소셜', icon: '🏠', purpose: '클럽/동호회를 관리하는 기능', steps: ['클럽 목록', '클럽 선택', '활동 확인', '가입 신청', '멤버 활동'] },
+        team: { category: '소셜', icon: '👥', purpose: '팀을 관리하는 기능', steps: ['팀 목록', '팀 선택', '멤버 확인', '역할 설정', '팀 활동'] },
+        chat: { category: '소셜', icon: '💬', purpose: '채팅을 하는 기능', steps: ['채팅 목록', '대화방 선택', '메시지 입력', '전송', '읽음 확인'] },
+        chat_room: { category: '소셜', icon: '💬', purpose: '채팅방을 관리하는 기능', steps: ['채팅방 생성', '멤버 초대', '대화', '설정', '나가기'] },
+        message: { category: '소셜', icon: '✉️', purpose: '메시지를 주고받는 기능', steps: ['메시지 목록', '메시지 선택', '읽기', '답장', '삭제'] },
+        notification: { category: '소셜', icon: '🔔', purpose: '알림을 확인하는 기능', steps: ['알림 목록', '알림 확인', '읽음 처리', '설정', '삭제'] },
+        
+        // ===== 건강/의료 =====
+        health_record: { category: '건강', icon: '📋', purpose: '건강 기록을 관리하는 기능', steps: ['기록 조회', '기록 추가', '데이터 입력', '저장', '추이 확인'] },
+        medical_record: { category: '건강', icon: '🏥', purpose: '진료 기록을 조회하는 기능', steps: ['기록 조회', '기간 선택', '진료 내역', '상세 보기', '내보내기'] },
+        health_checkup: { category: '건강', icon: '🩺', purpose: '건강검진을 예약/조회하는 기능', steps: ['검진 예약', '항목 선택', '날짜 선택', '결과 조회', '상담'] },
+        checkup_result: { category: '건강', icon: '📊', purpose: '검진 결과를 조회하는 기능', steps: ['결과 조회', '항목별 확인', '수치 비교', '상담 신청', '내보내기'] },
+        telemedicine: { category: '건강', icon: '📱', purpose: '비대면 진료를 받는 기능', steps: ['진료 신청', '증상 입력', '대기', '화상 진료', '처방'] },
+        doctor_search: { category: '건강', icon: '👨‍⚕️', purpose: '의사를 검색하는 기능', steps: ['의사 검색', '전문 분야 필터', '병원 확인', '예약', '리뷰 확인'] },
+        prescription: { category: '건강', icon: '💊', purpose: '처방전을 조회하는 기능', steps: ['처방전 목록', '처방 선택', '상세 확인', '약국 전송', '복약 안내'] },
+        medication_alarm: { category: '건강', icon: '⏰', purpose: '복약 알림을 설정하는 기능', steps: ['알림 설정', '약 등록', '시간 설정', '알림 받기', '복용 기록'] },
+        vaccination: { category: '건강', icon: '💉', purpose: '예방접종을 관리하는 기능', steps: ['접종 기록', '예약', '접종 완료', '인증서 발급', '알림'] },
+        ai_symptom: { category: '건강', icon: '🤖', purpose: 'AI로 증상을 분석하는 기능', steps: ['증상 입력', 'AI 분석', '결과 확인', '병원 추천', '예약'] },
+        insurance_claim: { category: '건강', icon: '📄', purpose: '보험 청구를 신청하는 기능', steps: ['청구 신청', '서류 업로드', '정보 입력', '제출', '진행 확인'] },
+        vet_consult: { category: '건강', icon: '🐕', purpose: '수의사 상담을 신청하는 기능', steps: ['상담 신청', '반려동물 선택', '증상 입력', '상담', '진료 예약'] },
+        
+        // ===== 운동/피트니스 =====
+        exercise_log: { category: '운동', icon: '🏃', purpose: '운동 기록을 관리하는 기능', steps: ['운동 기록', '운동 선택', '시간/강도 입력', '저장', '통계 확인'] },
+        body_check: { category: '운동', icon: '📏', purpose: '신체 측정을 기록하는 기능', steps: ['측정 시작', '항목 입력', '저장', '변화 추적', '목표 설정'] },
+        diet: { category: '운동', icon: '🥗', purpose: '식단을 기록하고 관리하는 기능', steps: ['식단 기록', '음식 검색', '칼로리 확인', '저장', '영양 분석'] },
+        nutrition: { category: '운동', icon: '🍎', purpose: '영양 정보를 확인하는 기능', steps: ['영양 정보 검색', '음식 선택', '영양소 확인', '권장량 비교', '저장'] },
+        routine: { category: '운동', icon: '📅', purpose: '운동 루틴을 관리하는 기능', steps: ['루틴 조회', '루틴 생성', '운동 추가', '스케줄 설정', '실행'] },
+        challenge: { category: '운동', icon: '🏆', purpose: '챌린지에 참여하는 기능', steps: ['챌린지 목록', '챌린지 선택', '참여 신청', '미션 수행', '인증'] },
+        achievement: { category: '운동', icon: '🏅', purpose: '업적/성취를 확인하는 기능', steps: ['업적 목록', '달성 현황', '보상 확인', '공유', '다음 목표'] },
+        leaderboard: { category: '운동', icon: '📊', purpose: '리더보드/순위를 확인하는 기능', steps: ['리더보드 진입', '기간 선택', '순위 확인', '내 순위', '도전'] },
+        ranking: { category: '운동', icon: '🏆', purpose: '랭킹을 확인하는 기능', steps: ['랭킹 조회', '카테고리 선택', '순위 확인', '상세 보기', '공유'] },
+        
+        // ===== 교육/학습 =====
+        course_search: { category: '교육', icon: '🔍', purpose: '강좌를 검색하는 기능', steps: ['강좌 검색', '필터 적용', '강좌 선택', '상세 확인', '수강 신청'] },
+        enrollment: { category: '교육', icon: '📝', purpose: '수강 신청을 하는 기능', steps: ['강좌 선택', '일정 확인', '신청 정보', '결제', '신청 완료'] },
+        progress: { category: '교육', icon: '📈', purpose: '학습 진도를 확인하는 기능', steps: ['진도 확인', '과목별 현황', '완료율', '다음 강의', '수료 확인'] },
+        assignment: { category: '교육', icon: '📝', purpose: '과제를 제출하는 기능', steps: ['과제 확인', '내용 작성', '파일 첨부', '제출', '피드백 확인'] },
+        grade: { category: '교육', icon: '📊', purpose: '성적을 조회하는 기능', steps: ['성적 조회', '과목 선택', '점수 확인', '석차', '증명서'] },
+        certificate: { category: '교육', icon: '🏆', purpose: '수료증/자격증을 발급하는 기능', steps: ['수료 확인', '발급 신청', '정보 확인', '발급', '다운로드'] },
+        attendance: { category: '교육', icon: '✅', purpose: '출석을 체크하는 기능', steps: ['출석 체크', '인증', '기록 확인', '출석률', '보정 신청'] },
+        study_group: { category: '교육', icon: '👥', purpose: '스터디 그룹을 관리하는 기능', steps: ['스터디 검색', '가입 신청', '활동', '과제', '일정'] },
+        scholarship: { category: '교육', icon: '🎓', purpose: '장학금을 신청하는 기능', steps: ['장학금 검색', '자격 확인', '신청서 작성', '서류 제출', '결과 확인'] },
+        library: { category: '교육', icon: '📚', purpose: '도서관 서비스를 이용하는 기능', steps: ['도서 검색', '대출 신청', '좌석 예약', '반납', '연체 확인'] },
+        
+        // ===== 채용/커리어 =====
+        job_search: { category: '채용', icon: '💼', purpose: '채용 공고를 검색하는 기능', steps: ['공고 검색', '필터 적용', '공고 선택', '상세 확인', '지원'] },
+        resume: { category: '채용', icon: '📄', purpose: '이력서를 관리하는 기능', steps: ['이력서 조회', '작성/수정', '저장', '제출', '열람 현황'] },
+        application: { category: '채용', icon: '📝', purpose: '입사 지원을 하는 기능', steps: ['지원 시작', '정보 입력', '이력서 첨부', '제출', '지원 완료'] },
+        application_status: { category: '채용', icon: '📋', purpose: '지원 현황을 조회하는 기능', steps: ['지원 현황', '단계 확인', '결과 확인', '면접 일정', '합격 여부'] },
+        interview_schedule: { category: '채용', icon: '📅', purpose: '면접 일정을 확인하는 기능', steps: ['일정 확인', '상세 정보', '참석 확인', '준비 사항', '결과 대기'] },
+        video_interview: { category: '채용', icon: '📹', purpose: '화상 면접을 진행하는 기능', steps: ['면접 입장', '환경 점검', '면접 진행', '질의응답', '면접 종료'] },
+        ai_resume: { category: '채용', icon: '🤖', purpose: 'AI로 이력서를 분석/작성하는 기능', steps: ['이력서 업로드', 'AI 분석', '개선점 확인', '수정', '완료'] },
+        company_info: { category: '채용', icon: '🏢', purpose: '기업 정보를 조회하는 기능', steps: ['기업 검색', '기업 선택', '정보 확인', '채용 공고', '관심 등록'] },
+        company_review: { category: '채용', icon: '⭐', purpose: '기업 리뷰를 조회/작성하는 기능', steps: ['리뷰 조회', '평점 확인', '리뷰 작성', '등록', '유용해요'] },
+        salary_info: { category: '채용', icon: '💰', purpose: '연봉 정보를 조회하는 기능', steps: ['연봉 검색', '직군 선택', '연차별 확인', '비교', '협상 팁'] },
+        career: { category: '채용', icon: '📈', purpose: '커리어 정보를 관리하는 기능', steps: ['커리어 조회', '경력 추가', '스킬 등록', '목표 설정', '추천'] },
+        
+        // ===== 금융/결제 =====
+        account_view: { category: '금융', icon: '💳', purpose: '계좌를 조회하는 기능', steps: ['계좌 목록', '계좌 선택', '잔액 확인', '거래 내역', '이체'] },
+        account_link: { category: '금융', icon: '🔗', purpose: '계좌를 연동하는 기능', steps: ['계좌 연동', '은행 선택', '인증', '계좌 선택', '연동 완료'] },
+        transfer: { category: '금융', icon: '💸', purpose: '송금/이체를 하는 기능', steps: ['이체 시작', '계좌 입력', '금액 입력', '인증', '이체 완료'] },
+        transaction: { category: '금융', icon: '📊', purpose: '거래 내역을 조회하는 기능', steps: ['거래 내역', '기간 선택', '필터 적용', '상세 보기', '내보내기'] },
+        card: { category: '금융', icon: '💳', purpose: '카드를 관리하는 기능', steps: ['카드 목록', '카드 선택', '사용 내역', '한도 확인', '설정'] },
+        loan: { category: '금융', icon: '🏦', purpose: '대출을 신청하는 기능', steps: ['대출 상품', '조건 확인', '신청서 작성', '서류 제출', '심사 결과'] },
+        loan_consult: { category: '금융', icon: '💬', purpose: '대출 상담을 받는 기능', steps: ['상담 신청', '정보 입력', '상담 진행', '조건 확인', '신청 결정'] },
+        investment: { category: '금융', icon: '📈', purpose: '투자를 하는 기능', steps: ['투자 상품', '상품 선택', '금액 입력', '약관 동의', '투자 완료'] },
+        asset_management: { category: '금융', icon: '💰', purpose: '자산을 관리하는 기능', steps: ['자산 현황', '포트폴리오', '수익률', '리밸런싱', '보고서'] },
+        insurance: { category: '금융', icon: '🛡️', purpose: '보험을 조회/가입하는 기능', steps: ['보험 상품', '보장 내용', '보험료 계산', '가입 신청', '완료'] },
+        mileage: { category: '금융', icon: '✈️', purpose: '마일리지를 관리하는 기능', steps: ['마일리지 조회', '적립 내역', '사용 내역', '사용하기', '제휴 확인'] },
+        prepaid: { category: '금융', icon: '💵', purpose: '선불/충전금을 관리하는 기능', steps: ['잔액 확인', '충전', '사용 내역', '환불', '설정'] },
+        receipt: { category: '금융', icon: '🧾', purpose: '영수증을 조회하는 기능', steps: ['영수증 목록', '영수증 선택', '상세 확인', '다운로드', '이메일 발송'] },
+        tax_invoice: { category: '금융', icon: '📄', purpose: '세금계산서를 발행/조회하는 기능', steps: ['계산서 목록', '발행 신청', '정보 입력', '발행', '다운로드'] },
+        
+        // ===== 부동산 =====
+        property_search: { category: '부동산', icon: '🏠', purpose: '매물을 검색하는 기능', steps: ['매물 검색', '조건 설정', '목록 확인', '상세 보기', '문의'] },
+        area_info: { category: '부동산', icon: '📍', purpose: '지역 정보를 조회하는 기능', steps: ['지역 검색', '정보 확인', '시세', '편의시설', '교통'] },
+        real_price: { category: '부동산', icon: '💰', purpose: '실거래가를 조회하는 기능', steps: ['매물 검색', '실거래가 조회', '시세 추이', '비교', '알림 설정'] },
+        agent_consult: { category: '부동산', icon: '👨‍💼', purpose: '중개사 상담을 신청하는 기능', steps: ['중개사 검색', '상담 신청', '일정 조율', '상담', '계약 진행'] },
+        contract: { category: '부동산', icon: '📝', purpose: '계약을 진행하는 기능', steps: ['계약 시작', '조건 확인', '서류 작성', '서명', '계약 완료'] },
+        vr_tour: { category: '부동산', icon: '🥽', purpose: 'VR로 매물을 둘러보는 기능', steps: ['VR 투어 시작', '공간 선택', '둘러보기', '상세 확인', '문의'] },
+        private_visit: { category: '부동산', icon: '🚶', purpose: '매물 방문을 예약하는 기능', steps: ['방문 예약', '날짜/시간 선택', '연락처 입력', '예약 확인', '방문'] },
+        
+        // ===== 관리자 =====
+        admin_dashboard: { category: '관리자', icon: '📊', purpose: '서비스 현황을 모니터링하는 기능', steps: ['대시보드 접속', '주요 지표', '상세 분석', '리포트', '알림'] },
+        admin_member: { category: '관리자', icon: '👥', purpose: '회원을 관리하는 기능', steps: ['회원 검색', '상세 조회', '정보 수정', '권한 설정', '저장'] },
+        admin_content: { category: '관리자', icon: '📝', purpose: '콘텐츠를 관리하는 기능', steps: ['콘텐츠 목록', '상세 조회', '수정', '승인/반려', '삭제'] },
+        admin_stats: { category: '관리자', icon: '📈', purpose: '통계를 조회하는 기능', steps: ['통계 대시보드', '기간 선택', '지표 확인', '비교', '내보내기'] },
+        admin_report: { category: '관리자', icon: '📋', purpose: '리포트를 생성하는 기능', steps: ['리포트 유형', '기간 설정', '항목 선택', '생성', '다운로드'] },
+        admin_customer: { category: '관리자', icon: '🎧', purpose: '고객 문의를 관리하는 기능', steps: ['문의 목록', '문의 선택', '답변 작성', '답변 등록', '완료 처리'] },
+        admin_project: { category: '관리자', icon: '📁', purpose: '프로젝트를 관리하는 기능', steps: ['프로젝트 목록', '상세 조회', '상태 변경', '멤버 관리', '완료'] },
+        admin_job: { category: '관리자', icon: '💼', purpose: '채용을 관리하는 기능', steps: ['공고 목록', '지원자 확인', '서류 심사', '면접 관리', '합격 처리'] },
+        admin_course: { category: '관리자', icon: '📚', purpose: '강좌를 관리하는 기능', steps: ['강좌 목록', '강좌 등록', '커리큘럼 설정', '수강생 관리', '완료'] },
+        admin_patient: { category: '관리자', icon: '🏥', purpose: '환자를 관리하는 기능', steps: ['환자 검색', '차트 조회', '진료 기록', '예약 관리', '저장'] },
+        admin_property: { category: '관리자', icon: '🏠', purpose: '매물을 관리하는 기능', steps: ['매물 목록', '매물 등록', '정보 수정', '상태 변경', '삭제'] },
+        admin_donation: { category: '관리자', icon: '❤️', purpose: '후원을 관리하는 기능', steps: ['후원 목록', '후원자 관리', '영수증 발급', '리포트', '감사 발송'] },
+        admin_logistics: { category: '관리자', icon: '📦', purpose: '물류를 관리하는 기능', steps: ['입출고 현황', '재고 확인', '배송 관리', '반품 처리', '리포트'] },
+        admin_production: { category: '관리자', icon: '🏭', purpose: '생산을 관리하는 기능', steps: ['생산 현황', '일정 관리', '품질 관리', '재고 연동', '리포트'] },
+        admin_designer: { category: '관리자', icon: '👩‍🎨', purpose: '디자이너를 관리하는 기능', steps: ['디자이너 목록', '포트폴리오', '매칭 관리', '정산', '평가'] },
+        admin_applicant: { category: '관리자', icon: '📋', purpose: '지원자를 관리하는 기능', steps: ['지원자 목록', '서류 검토', '평가', '면접 일정', '결과 통보'] },
+        admin_student: { category: '관리자', icon: '🎓', purpose: '학생을 관리하는 기능', steps: ['학생 목록', '정보 조회', '성적 관리', '출석 관리', '수료'] },
+        admin_vip: { category: '관리자', icon: '👑', purpose: 'VIP 고객을 관리하는 기능', steps: ['VIP 목록', '등급 관리', '혜택 설정', '전담 관리', '리포트'] },
+        admin_civil: { category: '관리자', icon: '🏛️', purpose: '민원을 관리하는 기능', steps: ['민원 목록', '처리 현황', '담당 배정', '처리 완료', '만족도'] },
+        admin_as: { category: '관리자', icon: '🔧', purpose: 'A/S를 관리하는 기능', steps: ['A/S 목록', '접수 현황', '기사 배정', '처리 완료', '리포트'] },
+        admin_usage: { category: '관리자', icon: '📊', purpose: '이용 현황을 관리하는 기능', steps: ['이용 통계', '기간 선택', '항목별 분석', '비교', '내보내기'] },
+        
+        // ===== 기타 서비스 =====
+        search: { category: '서비스', icon: '🔍', purpose: '통합 검색 기능', steps: ['검색어 입력', '결과 확인', '필터', '선택', '이동'] },
+        map_search: { category: '서비스', icon: '🗺️', purpose: '지도에서 검색하는 기능', steps: ['지도 표시', '위치 검색', '결과 확인', '상세 보기', '길찾기'] },
+        store_search: { category: '서비스', icon: '🏪', purpose: '매장을 검색하는 기능', steps: ['매장 검색', '위치 확인', '영업 정보', '전화', '길찾기'] },
+        store_info: { category: '서비스', icon: '🏬', purpose: '매장 정보를 조회하는 기능', steps: ['매장 선택', '정보 확인', '영업시간', '서비스', '문의'] },
+        member_search: { category: '서비스', icon: '👤', purpose: '회원을 검색하는 기능', steps: ['회원 검색', '필터 적용', '목록 확인', '프로필 보기', '연락'] },
+        content_search: { category: '서비스', icon: '📄', purpose: '콘텐츠를 검색하는 기능', steps: ['검색어 입력', '결과 확인', '필터', '선택', '상세 보기'] },
+        download: { category: '서비스', icon: '⬇️', purpose: '파일을 다운로드하는 기능', steps: ['파일 선택', '다운로드 클릭', '진행 확인', '완료', '열기'] },
+        document: { category: '서비스', icon: '📄', purpose: '문서를 조회하는 기능', steps: ['문서 목록', '문서 선택', '내용 확인', '다운로드', '공유'] },
+        document_issue: { category: '서비스', icon: '📋', purpose: '증명서를 발급하는 기능', steps: ['증명서 선택', '정보 확인', '발급 신청', '결제', '다운로드'] },
+        manual: { category: '서비스', icon: '📖', purpose: '매뉴얼을 조회하는 기능', steps: ['매뉴얼 목록', '선택', '내용 확인', '검색', '다운로드'] },
+        tech_doc: { category: '서비스', icon: '📚', purpose: '기술 문서를 조회하는 기능', steps: ['문서 검색', '카테고리 선택', '문서 확인', '코드 복사', '피드백'] },
+        service_intro: { category: '서비스', icon: '📢', purpose: '서비스 소개를 보는 기능', steps: ['소개 페이지', '기능 확인', '요금제', '문의', '시작하기'] },
+        pricing: { category: '서비스', icon: '💰', purpose: '요금제를 확인하는 기능', steps: ['요금제 목록', '기능 비교', '선택', '결제', '이용 시작'] },
+        plan: { category: '서비스', icon: '📋', purpose: '플랜을 선택하는 기능', steps: ['플랜 목록', '혜택 비교', '선택', '결제', '적용'] },
+        policy: { category: '서비스', icon: '📜', purpose: '정책/약관을 확인하는 기능', steps: ['정책 목록', '선택', '내용 확인', '동의', '닫기'] },
+        chatbot: { category: '서비스', icon: '🤖', purpose: '챗봇과 대화하는 기능', steps: ['챗봇 실행', '질문 입력', '답변 확인', '추가 질문', '상담원 연결'] },
+        ai_advisor: { category: '서비스', icon: '🤖', purpose: 'AI 어드바이저와 상담하는 기능', steps: ['상담 시작', '정보 입력', 'AI 분석', '추천 확인', '실행'] },
+        ai_recommend: { category: '서비스', icon: '🎯', purpose: 'AI 추천을 받는 기능', steps: ['추천 요청', '선호도 입력', 'AI 분석', '추천 목록', '선택'] },
+        ai_coaching: { category: '서비스', icon: '🏃', purpose: 'AI 코칭을 받는 기능', steps: ['코칭 시작', '목표 설정', 'AI 분석', '코칑 내용', '실행'] },
+        ai_summary: { category: '서비스', icon: '📝', purpose: 'AI로 요약을 생성하는 기능', steps: ['콘텐츠 입력', 'AI 분석', '요약 확인', '수정', '저장'] },
+        recommendation: { category: '서비스', icon: '💡', purpose: '추천을 받는 기능', steps: ['추천 요청', '조건 설정', '추천 목록', '선택', '상세 보기'] },
+        curation: { category: '서비스', icon: '✨', purpose: '큐레이션 콘텐츠를 보는 기능', steps: ['큐레이션 목록', '주제 선택', '콘텐츠 확인', '저장', '공유'] },
+        personalized: { category: '서비스', icon: '👤', purpose: '개인화 추천을 받는 기능', steps: ['추천 확인', '선호도 반영', '목록 갱신', '선택', '피드백'] },
+        trending: { category: '서비스', icon: '🔥', purpose: '인기/트렌드를 확인하는 기능', steps: ['트렌드 목록', '카테고리 선택', '상세 확인', '저장', '공유'] },
+        hashtag: { category: '서비스', icon: '#️⃣', purpose: '해시태그 콘텐츠를 조회하는 기능', steps: ['해시태그 검색', '결과 확인', '콘텐츠 선택', '저장', '공유'] },
+        statistics: { category: '서비스', icon: '📊', purpose: '통계를 조회하는 기능', steps: ['통계 대시보드', '기간 선택', '지표 확인', '비교', '내보내기'] },
+        report: { category: '서비스', icon: '📋', purpose: '리포트를 조회하는 기능', steps: ['리포트 목록', '리포트 선택', '내용 확인', '다운로드', '공유'] },
+        dashboard: { category: '서비스', icon: '📊', purpose: '대시보드를 조회하는 기능', steps: ['대시보드 진입', '위젯 확인', '상세 보기', '설정', '공유'] },
+        
+        // ===== 구독/멤버십 =====
+        membership: { category: '멤버십', icon: '👑', purpose: '멤버십 정보를 확인하는 기능', steps: ['멤버십 조회', '등급 확인', '혜택 확인', '업그레이드', '해지'] },
+        membership_apply: { category: '멤버십', icon: '📝', purpose: '멤버십을 가입하는 기능', steps: ['멤버십 선택', '혜택 확인', '정보 입력', '결제', '가입 완료'] },
+        membership_manage: { category: '멤버십', icon: '⚙️', purpose: '멤버십을 관리하는 기능', steps: ['멤버십 조회', '정보 수정', '결제 관리', '해지', '재가입'] },
+        membership_purchase: { category: '멤버십', icon: '💳', purpose: '멤버십을 구매하는 기능', steps: ['상품 선택', '기간 선택', '결제 정보', '결제', '완료'] },
+        vip_membership: { category: '멤버십', icon: '💎', purpose: 'VIP 멤버십을 관리하는 기능', steps: ['VIP 조회', '혜택 확인', '전용 서비스', '업그레이드', '컨시어지'] },
+        season_pass: { category: '멤버십', icon: '🎫', purpose: '시즌권을 구매/관리하는 기능', steps: ['시즌권 선택', '기간 확인', '결제', '이용', '갱신'] },
+        free_trial: { category: '멤버십', icon: '🆓', purpose: '무료 체험을 신청하는 기능', steps: ['체험 신청', '정보 입력', '시작', '이용', '구독 전환'] },
+        upgrade: { category: '멤버십', icon: '⬆️', purpose: '등급을 업그레이드하는 기능', steps: ['현재 등급', '업그레이드 옵션', '혜택 비교', '결제', '적용'] },
+        
+        // ===== 반려동물 =====
+        pet_profile: { category: '반려동물', icon: '🐕', purpose: '반려동물 프로필을 관리하는 기능', steps: ['프로필 조회', '정보 수정', '사진 변경', '건강 기록', '저장'] },
+        pet_recommend: { category: '반려동물', icon: '🎯', purpose: '반려동물 맞춤 추천을 받는 기능', steps: ['펫 정보 확인', '추천 요청', '상품 목록', '선택', '구매'] },
+        
+        // ===== 육아/키즈 =====
+        child_profile: { category: '육아', icon: '👶', purpose: '자녀 프로필을 관리하는 기능', steps: ['프로필 조회', '정보 수정', '성장 기록', '예방접종', '저장'] },
+        growth_record: { category: '육아', icon: '📈', purpose: '성장 기록을 관리하는 기능', steps: ['기록 조회', '측정 입력', '차트 확인', '비교', '공유'] },
+        parenting_info: { category: '육아', icon: '📖', purpose: '육아 정보를 조회하는 기능', steps: ['정보 검색', '카테고리 선택', '콘텐츠 확인', '저장', '공유'] },
+        parental_control: { category: '육아', icon: '🔒', purpose: '자녀 보호 설정을 관리하는 기능', steps: ['설정 진입', '이용 제한', '시간 설정', '콘텐츠 필터', '저장'] },
+        age_recommend: { category: '육아', icon: '🎯', purpose: '연령별 추천을 받는 기능', steps: ['연령 입력', '카테고리 선택', '추천 목록', '선택', '구매/이용'] },
+        
+        // ===== 게임/엔터테인먼트 =====
+        game_search: { category: '게임', icon: '🎮', purpose: '게임을 검색하는 기능', steps: ['게임 검색', '필터 적용', '게임 선택', '상세 확인', '다운로드'] },
+        character: { category: '게임', icon: '🎭', purpose: '캐릭터를 관리하는 기능', steps: ['캐릭터 선택', '정보 확인', '커스터마이징', '장비 설정', '저장'] },
+        guild: { category: '게임', icon: '⚔️', purpose: '길드를 관리하는 기능', steps: ['길드 조회', '가입 신청', '멤버 확인', '활동', '탈퇴'] },
+        in_app: { category: '게임', icon: '💎', purpose: '인앱 결제를 하는 기능', steps: ['상품 선택', '금액 확인', '결제 수단', '결제', '아이템 지급'] },
+        fan_community: { category: '엔터', icon: '💜', purpose: '팬 커뮤니티에 참여하는 기능', steps: ['커뮤니티 입장', '게시글 확인', '글쓰기', '댓글', '팬 활동'] },
+        goods_shop: { category: '엔터', icon: '🛍️', purpose: '굿즈를 구매하는 기능', steps: ['굿즈 목록', '상품 선택', '옵션 선택', '결제', '배송'] },
+        
+        // ===== 물류/B2B =====
+        inventory: { category: '물류', icon: '📦', purpose: '재고를 관리하는 기능', steps: ['재고 현황', '입출고', '재고 조정', '알림 설정', '리포트'] },
+        warehouse: { category: '물류', icon: '🏭', purpose: '창고를 관리하는 기능', steps: ['창고 목록', '위치 확인', '재고 현황', '입출고', '리포트'] },
+        inbound: { category: '물류', icon: '📥', purpose: '입고를 처리하는 기능', steps: ['입고 등록', '상품 확인', '검수', '적재', '완료'] },
+        outbound: { category: '물류', icon: '📤', purpose: '출고를 처리하는 기능', steps: ['출고 요청', '피킹', '패킹', '배송 연동', '완료'] },
+        tracking: { category: '물류', icon: '📍', purpose: '배송을 추적하는 기능', steps: ['운송장 입력', '위치 확인', '배송 상태', '예정일', '알림'] },
+        realtime_tracking: { category: '물류', icon: '🗺️', purpose: '실시간 위치를 추적하는 기능', steps: ['추적 시작', '지도 표시', '현재 위치', '예상 시간', '알림'] },
+        logistics: { category: '물류', icon: '🚚', purpose: '물류를 관리하는 기능', steps: ['물류 현황', '배송 관리', '반품 처리', '정산', '리포트'] },
+        dispatch: { category: '물류', icon: '🚛', purpose: '배차를 관리하는 기능', steps: ['배차 요청', '차량 선택', '기사 배정', '경로 설정', '출발'] },
+        driver: { category: '물류', icon: '👨‍✈️', purpose: '기사를 관리하는 기능', steps: ['기사 목록', '배정 현황', '실적 확인', '정산', '평가'] },
+        rfq: { category: 'B2B', icon: '📄', purpose: '견적 요청서를 관리하는 기능', steps: ['RFQ 작성', '항목 입력', '발송', '견적 수신', '비교'] },
+        quote: { category: 'B2B', icon: '💰', purpose: '견적서를 관리하는 기능', steps: ['견적 목록', '견적 작성', '발송', '승인', '계약'] },
+        moq: { category: 'B2B', icon: '📦', purpose: '최소 주문 수량을 확인하는 기능', steps: ['MOQ 확인', '수량 조정', '가격 확인', '협의', '주문'] },
+        oem_odm: { category: 'B2B', icon: '🏭', purpose: 'OEM/ODM 서비스를 이용하는 기능', steps: ['서비스 선택', '요구사항 입력', '견적 요청', '샘플', '계약'] },
+        sample: { category: 'B2B', icon: '📦', purpose: '샘플을 요청하는 기능', steps: ['샘플 요청', '상품 선택', '배송지 입력', '비용 확인', '요청 완료'] },
+        production: { category: 'B2B', icon: '🏭', purpose: '생산을 관리하는 기능', steps: ['생산 현황', '일정 확인', '진행 상태', '품질 검사', '출하'] },
+        quality: { category: 'B2B', icon: '✅', purpose: '품질을 관리하는 기능', steps: ['품질 검사', '기준 확인', '검사 결과', '불량 처리', '리포트'] },
+        export_import: { category: 'B2B', icon: '🌍', purpose: '수출입을 관리하는 기능', steps: ['수출입 현황', '서류 관리', '통관', '배송', '정산'] },
+        
+        // ===== 공공/비영리 =====
+        civil_application: { category: '공공', icon: '📋', purpose: '민원을 신청하는 기능', steps: ['민원 선택', '정보 입력', '서류 첨부', '신청', '처리 확인'] },
+        civil_status: { category: '공공', icon: '📊', purpose: '민원 처리 현황을 조회하는 기능', steps: ['현황 조회', '민원 선택', '진행 상태', '결과 확인', '서류 발급'] },
+        donation: { category: '비영리', icon: '❤️', purpose: '후원을 하는 기능', steps: ['후원 선택', '금액 입력', '정보 입력', '결제', '영수증'] },
+        regular_donation: { category: '비영리', icon: '🔄', purpose: '정기 후원을 신청하는 기능', steps: ['정기 후원', '금액 선택', '결제 정보', '동의', '신청 완료'] },
+        donation_history: { category: '비영리', icon: '📊', purpose: '후원 내역을 조회하는 기능', steps: ['내역 조회', '기간 선택', '상세 확인', '영수증', '내보내기'] },
+        volunteer: { category: '비영리', icon: '🤝', purpose: '봉사활동을 신청하는 기능', steps: ['봉사 검색', '일정 확인', '신청', '참여', '확인서'] },
+        crowdfunding: { category: '비영리', icon: '💰', purpose: '크라우드펀딩에 참여하는 기능', steps: ['펀딩 검색', '프로젝트 확인', '후원 금액', '리워드 선택', '결제'] },
+        transparency: { category: '비영리', icon: '📊', purpose: '투명성 정보를 확인하는 기능', steps: ['정보 조회', '재정 현황', '사업 보고', '감사 보고', '다운로드'] },
+        participation: { category: '비영리', icon: '✋', purpose: '참여 활동을 하는 기능', steps: ['활동 목록', '참여 선택', '신청', '활동', '인증'] },
+        
+        // ===== 기타 =====
+        certification: { category: '인증', icon: '🔐', purpose: '인증을 진행하는 기능', steps: ['인증 선택', '정보 입력', '인증 요청', '확인', '완료'] },
+        identity_verify: { category: '인증', icon: '🪪', purpose: '본인 인증을 하는 기능', steps: ['인증 방법', '정보 입력', '인증 진행', '결과 확인', '완료'] },
+        security_auth: { category: '인증', icon: '🔒', purpose: '보안 인증을 설정하는 기능', steps: ['인증 설정', '방법 선택', '등록', '테스트', '완료'] },
+        permission: { category: '설정', icon: '🔑', purpose: '권한을 관리하는 기능', steps: ['권한 목록', '권한 선택', '설정', '저장', '적용'] },
+        api: { category: '개발', icon: '🔌', purpose: 'API를 관리하는 기능', steps: ['API 목록', '키 발급', '문서 확인', '테스트', '적용'] },
+        webhook: { category: '개발', icon: '🔗', purpose: '웹훅을 설정하는 기능', steps: ['웹훅 등록', 'URL 입력', '이벤트 선택', '테스트', '활성화'] },
+        integration: { category: '개발', icon: '🔄', purpose: '연동을 설정하는 기능', steps: ['연동 서비스', '인증', '설정', '테스트', '완료'] },
+        workspace: { category: '협업', icon: '💼', purpose: '워크스페이스를 관리하는 기능', steps: ['워크스페이스 목록', '선택/생성', '멤버 관리', '설정', '활동'] },
+        project_manage: { category: '협업', icon: '📁', purpose: '프로젝트를 관리하는 기능', steps: ['프로젝트 목록', '프로젝트 생성', '태스크 관리', '진행 확인', '완료'] },
+        schedule: { category: '협업', icon: '📅', purpose: '일정을 관리하는 기능', steps: ['일정 조회', '일정 등록', '알림 설정', '공유', '완료'] },
+        video_meeting: { category: '협업', icon: '📹', purpose: '화상 회의를 하는 기능', steps: ['회의 생성', '참여자 초대', '회의 시작', '화면 공유', '종료'] },
+        e_approval: { category: '협업', icon: '✅', purpose: '전자 결재를 하는 기능', steps: ['결재 문서', '내용 확인', '승인/반려', '의견 작성', '완료'] },
+        partner: { category: '협업', icon: '🤝', purpose: '파트너를 관리하는 기능', steps: ['파트너 목록', '파트너 등록', '정보 관리', '계약', '협업'] },
+        trade: { category: '거래', icon: '💱', purpose: '거래를 하는 기능', steps: ['거래 목록', '거래 생성', '조건 협의', '체결', '완료'] },
+        negotiation: { category: '거래', icon: '🤝', purpose: '협상을 진행하는 기능', steps: ['협상 시작', '조건 제시', '협의', '합의', '계약'] },
+        concierge: { category: '서비스', icon: '🎩', purpose: '컨시어지 서비스를 이용하는 기능', steps: ['서비스 요청', '요구사항 입력', '담당자 배정', '진행', '완료'] },
+        after_care: { category: '서비스', icon: '🔧', purpose: '사후 관리 서비스를 이용하는 기능', steps: ['서비스 신청', '내용 입력', '일정 조율', '서비스', '완료'] },
+        as_service: { category: '서비스', icon: '🛠️', purpose: 'A/S 서비스를 신청하는 기능', steps: ['A/S 신청', '증상 입력', '접수', '방문/수거', '수리 완료'] },
+        warranty: { category: '서비스', icon: '📜', purpose: '보증을 확인하는 기능', steps: ['보증 조회', '제품 등록', '기간 확인', '서비스 신청', '이력'] },
+        safety_cert: { category: '서비스', icon: '✅', purpose: '안전 인증을 확인하는 기능', steps: ['인증 조회', '제품 선택', '인증 정보', '서류 다운로드', '문의'] },
+        authenticity: { category: '서비스', icon: '🔍', purpose: '정품 인증을 확인하는 기능', steps: ['인증 조회', '시리얼 입력', '결과 확인', '인증서', '신고'] },
+        limited_edition: { category: '상품', icon: '⭐', purpose: '한정판 상품을 확인하는 기능', steps: ['한정판 목록', '상품 선택', '상세 확인', '알림 신청', '구매'] },
+        premium: { category: '서비스', icon: '💎', purpose: '프리미엄 서비스를 이용하는 기능', steps: ['프리미엄 소개', '혜택 확인', '가입', '이용', '관리'] },
+        
+        // 기본값
+        // 회원/인증
+        signup: { 
+            category: '회원', icon: '📝', purpose: '신규 사용자가 서비스를 이용하기 위해 계정을 생성하는 기능', 
+            steps: ['진입', '가입방식 선택', '약관동의', '정보입력', '인증', '완료'],
+            pageUI: [
+                { element: '가입방식 선택', type: '버튼그룹', defaultVal: '이메일 가입 기본', actions: [
+                    { action: '이메일로 가입하기 클릭', result: '약관동의 화면 이동' },
+                    { action: '카카오로 시작하기 클릭', result: '카카오 OAuth 팝업 → 추가정보 입력' },
+                    { action: '네이버로 시작하기 클릭', result: '네이버 OAuth 팝업 → 추가정보 입력' }
+                ]},
+                { element: '약관동의 체크박스', type: '체크박스', defaultVal: '모두 미체크', actions: [
+                    { action: '전체동의 체크', result: '모든 약관 체크, 다음 버튼 활성화' },
+                    { action: '필수약관만 체크', result: '다음 버튼 활성화' },
+                    { action: '필수약관 미체크', result: '다음 버튼 비활성화' }
+                ]},
+                { element: '이메일 입력', type: '입력필드', defaultVal: '빈 값', actions: [
+                    { action: '이메일 입력', result: '실시간 형식 검증' },
+                    { action: '중복확인 클릭', result: '사용가능/중복 메시지 표시' }
+                ]},
+                { element: '비밀번호 입력', type: '입력필드', defaultVal: '빈 값, 마스킹', actions: [
+                    { action: '비밀번호 입력', result: '조건 충족 여부 실시간 표시 (영문, 숫자, 특수문자)' },
+                    { action: '보기 토글 클릭', result: '비밀번호 표시/숨김 전환' }
+                ]},
+                { element: '휴대폰 인증', type: '입력+버튼', defaultVal: '빈 값', actions: [
+                    { action: '인증요청 클릭', result: 'SMS 발송, 인증번호 입력 필드 표시, 3분 타이머' },
+                    { action: '인증번호 입력 후 확인', result: '인증완료 표시, 필드 비활성화' }
+                ]},
+                { element: '가입완료 버튼', type: '버튼', defaultVal: '비활성화', actions: [
+                    { action: '모든 필수값 입력', result: '버튼 활성화' },
+                    { action: '버튼 클릭', result: '가입 처리 → 완료 페이지 이동, 웰컴 쿠폰 지급' }
+                ]}
+            ]
+        },
+        login: { 
+            category: '회원', icon: '🔐', purpose: '가입된 회원이 서비스에 인증하여 개인화된 서비스를 이용하는 기능', 
+            steps: ['진입', '방식선택', '정보입력', '검증', '완료'],
+            pageUI: [
+                { element: '이메일 입력', type: '입력필드', defaultVal: '저장된 이메일 (아이디 저장 시)', actions: [
+                    { action: '이메일 입력', result: '실시간 형식 검증' }
+                ]},
+                { element: '비밀번호 입력', type: '입력필드', defaultVal: '빈 값, 마스킹', actions: [
+                    { action: '비밀번호 입력', result: '마스킹 표시' },
+                    { action: '보기 토글 클릭', result: '비밀번호 표시/숨김 전환' }
+                ]},
+                { element: '아이디 저장 체크박스', type: '체크박스', defaultVal: '미체크', actions: [
+                    { action: '체크', result: '다음 방문 시 이메일 자동 입력' }
+                ]},
+                { element: '자동 로그인 체크박스', type: '체크박스', defaultVal: '미체크', actions: [
+                    { action: '체크', result: '브라우저 종료 후에도 로그인 유지 (30일)' }
+                ]},
+                { element: '로그인 버튼', type: '버튼', defaultVal: '비활성화', actions: [
+                    { action: '이메일+비밀번호 입력', result: '버튼 활성화' },
+                    { action: '클릭', result: '로그인 검증 → 성공 시 메인/이전 페이지 이동' }
+                ]},
+                { element: '소셜 로그인 버튼', type: '버튼그룹', defaultVal: '카카오/네이버/구글', actions: [
+                    { action: '소셜 버튼 클릭', result: 'OAuth 인증 → 로그인 완료' }
+                ]},
+                { element: '아이디/비밀번호 찾기 링크', type: '링크', defaultVal: '하단 표시', actions: [
+                    { action: '클릭', result: '해당 찾기 페이지 이동' }
+                ]}
+            ]
+        },
+        mypage: { 
+            category: '마이페이지', icon: '👤', purpose: '회원의 활동 현황과 정보를 확인하고 관리하는 기능', 
+            steps: ['진입', '현황 확인', '메뉴 선택', '상세 보기', '정보 수정'],
+            pageUI: [
+                { element: '회원 정보 요약', type: '카드', defaultVal: '프로필/등급/포인트 표시', actions: [
+                    { action: '프로필 클릭', result: '회원정보 수정 페이지 이동' },
+                    { action: '등급 클릭', result: '등급 혜택 안내 모달' }
+                ]},
+                { element: '주문/배송 현황', type: '탭', defaultVal: '전체 주문 표시', actions: [
+                    { action: '상태별 탭 클릭', result: '해당 상태 주문만 필터링' },
+                    { action: '주문 클릭', result: '주문 상세 페이지 이동' }
+                ]},
+                { element: '쿠폰/적립금', type: '카드', defaultVal: '보유 수량 표시', actions: [
+                    { action: '쿠폰 클릭', result: '쿠폰함 페이지 이동' },
+                    { action: '적립금 클릭', result: '적립금 내역 페이지 이동' }
+                ]},
+                { element: '메뉴 리스트', type: '리스트', defaultVal: '모든 메뉴 표시', actions: [
+                    { action: '메뉴 클릭', result: '해당 페이지 이동' }
+                ]}
+            ]
+        },
+        order: { 
+            category: '주문', icon: '📋', purpose: '상품을 주문하고 주문서를 작성하는 기능', 
+            steps: ['주문서 진입', '배송지 입력', '결제 정보', '주문 확인', '주문 완료'],
+            pageUI: [
+                { element: '주문 상품 목록', type: '리스트', defaultVal: '장바구니/바로구매 상품 표시', actions: [
+                    { action: '상품 클릭', result: '상품 상세 페이지 새 탭' }
+                ]},
+                { element: '배송지 선택', type: '라디오+폼', defaultVal: '기본 배송지 선택', actions: [
+                    { action: '배송지 선택', result: '해당 배송지 정보 표시' },
+                    { action: '새 배송지 추가', result: '주소 입력 폼 표시' },
+                    { action: '주소 검색', result: '다음 주소 API 팝업' }
+                ]},
+                { element: '배송 요청사항', type: '셀렉트+입력', defaultVal: '선택 안함', actions: [
+                    { action: '드롭다운 선택', result: '미리 정의된 요청사항 선택' },
+                    { action: '직접입력 선택', result: '텍스트 입력 필드 표시' }
+                ]},
+                { element: '쿠폰/포인트 적용', type: '입력+버튼', defaultVal: '적용 없음', actions: [
+                    { action: '쿠폰 선택', result: '쿠폰 목록 모달 → 할인 적용' },
+                    { action: '포인트 입력', result: '포인트 차감 금액 표시' }
+                ]},
+                { element: '결제 수단 선택', type: '라디오', defaultVal: '신용카드', actions: [
+                    { action: '결제수단 선택', result: '해당 결제 입력 폼 표시' }
+                ]},
+                { element: '주문하기 버튼', type: '버튼', defaultVal: '비활성화', actions: [
+                    { action: '필수 동의 + 정보 입력', result: '버튼 활성화' },
+                    { action: '클릭', result: '결제 진행 → 주문 완료 페이지' }
+                ]}
+            ]
+        },
+        delivery: { 
+            category: '배송', icon: '🚚', purpose: '주문한 상품의 배송 현황을 조회하고 관리하는 기능', 
+            steps: ['배송조회 진입', '주문 선택', '배송 상태 확인', '상세 추적', '배송 완료'],
+            pageUI: [
+                { element: '배송 상태 타임라인', type: '타임라인', defaultVal: '현재 상태 강조', actions: [
+                    { action: '단계 클릭', result: '해당 단계 상세 시간/위치 표시' }
+                ]},
+                { element: '택배사 정보', type: '카드', defaultVal: '택배사명/운송장번호 표시', actions: [
+                    { action: '운송장번호 클릭', result: '택배사 배송조회 페이지 새 탭' }
+                ]},
+                { element: '배송지 정보', type: '카드', defaultVal: '수령인/주소/연락처', actions: [
+                    { action: '배송지 변경 클릭', result: '출고 전 : 배송지 변경 폼 / 출고 후 : 변경 불가 안내' }
+                ]},
+                { element: '배송 요청사항', type: '텍스트', defaultVal: '주문 시 입력한 요청사항', actions: [
+                    { action: '수정 클릭', result: '출고 전 : 수정 폼 / 출고 후 : 수정 불가' }
+                ]}
+            ]
+        },
+        review: { 
+            category: '리뷰', icon: '⭐', purpose: '구매한 상품에 대한 후기를 작성하고 관리하는 기능', 
+            steps: ['리뷰 진입', '상품 선택', '리뷰 작성', '사진 첨부', '등록 완료'],
+            pageUI: [
+                { element: '리뷰 작성 대상 상품', type: '카드', defaultVal: '구매확정 상품 목록', actions: [
+                    { action: '상품 선택', result: '리뷰 작성 폼 표시' }
+                ]},
+                { element: '별점 선택', type: '별점', defaultVal: '0점 (미선택)', actions: [
+                    { action: '별 클릭', result: '1~5점 선택' }
+                ]},
+                { element: '리뷰 내용', type: '텍스트영역', defaultVal: '빈 값', actions: [
+                    { action: '텍스트 입력', result: '글자수 카운트 (10~500자)' }
+                ]},
+                { element: '사진 첨부', type: '파일업로드', defaultVal: '선택사항', actions: [
+                    { action: '사진 선택', result: '미리보기 표시 (최대 5장)' },
+                    { action: '삭제 클릭', result: '해당 사진 삭제' }
+                ]},
+                { element: '등록 버튼', type: '버튼', defaultVal: '비활성화', actions: [
+                    { action: '별점 + 내용 입력', result: '버튼 활성화' },
+                    { action: '클릭', result: '리뷰 등록 → 포인트 지급 안내' }
+                ]}
+            ]
+        },
+        point: { 
+            category: '혜택', icon: '💎', purpose: '적립금을 조회하고 사용하는 기능', 
+            steps: ['적립금 진입', '잔액 확인', '내역 조회', '적립금 사용', '사용 완료'],
+            pageUI: [
+                { element: '적립금 잔액', type: '카드', defaultVal: '보유 적립금 표시', actions: [
+                    { action: '새로고침', result: '최신 잔액 조회' }
+                ]},
+                { element: '적립/사용 내역', type: '탭+리스트', defaultVal: '전체 내역 표시', actions: [
+                    { action: '적립 탭', result: '적립 내역만 필터' },
+                    { action: '사용 탭', result: '사용 내역만 필터' },
+                    { action: '소멸예정 탭', result: '소멸예정 내역 표시' }
+                ]},
+                { element: '기간 필터', type: '셀렉트', defaultVal: '최근 3개월', actions: [
+                    { action: '기간 선택', result: '해당 기간 내역 필터' }
+                ]}
+            ]
+        },
+        coupon: { 
+            category: '혜택', icon: '🎟️', purpose: '쿠폰을 조회하고 등록/사용하는 기능', 
+            steps: ['쿠폰함 진입', '보유 쿠폰 확인', '쿠폰 등록', '쿠폰 사용', '사용 완료'],
+            pageUI: [
+                { element: '보유 쿠폰 목록', type: '카드리스트', defaultVal: '사용가능 쿠폰 먼저 표시', actions: [
+                    { action: '쿠폰 클릭', result: '쿠폰 상세 정보 모달' },
+                    { action: '사용하기 클릭', result: '상품 목록 페이지 이동' }
+                ]},
+                { element: '쿠폰 상태 탭', type: '탭', defaultVal: '사용가능 탭', actions: [
+                    { action: '사용가능 탭', result: '사용 가능한 쿠폰만 표시' },
+                    { action: '사용완료 탭', result: '사용한 쿠폰 표시' },
+                    { action: '기간만료 탭', result: '만료된 쿠폰 표시' }
+                ]},
+                { element: '쿠폰 등록', type: '입력+버튼', defaultVal: '빈 값', actions: [
+                    { action: '쿠폰 코드 입력', result: '영문+숫자 입력' },
+                    { action: '등록 클릭', result: '유효성 검사 → 쿠폰 추가 또는 에러' }
+                ]}
+            ]
+        },
         
         // 기본값
         default: { category: '기능', icon: '⚙️', purpose: '서비스 이용에 필요한 기능', steps: ['기능 시작', '정보 입력', '처리 진행', '결과 확인', '완료'] }
@@ -9981,6 +10616,3644 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
                         'ㄴ 측정 방법 이미지+텍스트 가이드'
                     ]}
                 ]
+            },
+            'consultation': {
+                sections: [
+                    { title: '정책', items: [
+                        '로그인 회원만 상담 신청 가능',
+                        'ㄴ 비로그인 상태에서 접근 시 로그인 페이지로 이동'
+                    ]},
+                    { title: '상담 유형 선택', items: [
+                        '상담 유형 리스트 노출',
+                        'ㄴ 일반 상담 / 제품 상담 / 서비스 상담 / 기타',
+                        'ㄴ 유형 선택 시 해당 유형에 맞는 입력 폼 노출'
+                    ]},
+                    { title: '상담 정보 입력', items: [
+                        '이름 [텍스트입력] : 회원 정보 자동 입력',
+                        '휴대폰번호 [텍스트입력] : 회원 정보 자동 입력, \'-\' 자동 추가',
+                        '이메일 [텍스트입력] : 회원 정보 자동 입력',
+                        '상담 내용 [텍스트영역] : 최소 10자 이상, 최대 500자'
+                    ]},
+                    { title: '희망 상담 일시 선택', items: [
+                        '희망 날짜 선택 : 영업일 기준 7일 내 선택 가능',
+                        'ㄴ 주말/공휴일 제외',
+                        '희망 시간 선택 : 09:00~18:00 (30분 단위)',
+                        'ㄴ 점심시간(12:00~13:00) 제외'
+                    ]},
+                    { title: '상담 신청 완료', items: [
+                        '필수 입력값 체크 후 신청 처리',
+                        'ㄴ 성공 시 : "상담 신청이 완료되었습니다." 얼럿',
+                        'ㄴ 알림톡/SMS 발송 처리'
+                    ]}
+                ],
+                alertMessage: `상담 신청 완료 안내
+
+#{고객명}님의 상담 신청이 접수되었습니다.
+
+■ 상담 유형: #{상담유형}
+■ 희망 일시: #{희망일시}
+
+담당자가 확인 후 연락드리겠습니다.
+
+감사합니다.`
+            },
+            'visit_booking': {
+                sections: [
+                    { title: '정책', items: [
+                        '방문 예약은 사전 예약제로 운영',
+                        'ㄴ 당일 예약 불가, 최소 1일 전 예약 필수'
+                    ]},
+                    { title: '방문 지점 선택', items: [
+                        '지점 리스트 노출',
+                        'ㄴ 지역별 필터링 가능',
+                        'ㄴ 지점 선택 시 해당 지점 정보(주소, 연락처, 영업시간) 노출'
+                    ]},
+                    { title: '방문 목적 선택', items: [
+                        '방문 목적 리스트 노출',
+                        'ㄴ 제품 상담 / 서비스 상담 / 계약 상담 / 기타',
+                        'ㄴ 기타 선택 시 상세 내용 입력 필드 노출'
+                    ]},
+                    { title: '방문 일시 선택', items: [
+                        '희망 날짜 선택 : 캘린더 UI',
+                        'ㄴ 휴무일/예약 마감일 비활성화 처리',
+                        '희망 시간 선택 : 운영 시간 내 30분 단위',
+                        'ㄴ 예약 가능 시간대만 활성화'
+                    ]},
+                    { title: '방문자 정보 입력', items: [
+                        '이름 [텍스트입력] : 한글 10자 이내',
+                        '휴대폰번호 [텍스트입력] : \'-\' 자동 추가',
+                        '동행인 수 [숫자입력] : 0~5명'
+                    ]},
+                    { title: '예약 완료', items: [
+                        '필수 입력값 체크 후 예약 처리',
+                        'ㄴ 성공 시 : "방문 예약이 완료되었습니다." 얼럿',
+                        'ㄴ 예약 확인 알림톡/SMS 발송'
+                    ]}
+                ],
+                alertMessage: `방문 예약 완료 안내
+
+#{고객명}님의 방문 예약이 완료되었습니다.
+
+■ 방문 지점: #{지점명}
+■ 방문 일시: #{방문일시}
+■ 방문 목적: #{방문목적}
+
+예약 변경/취소는 마이페이지에서 가능합니다.
+
+감사합니다.`
+            },
+            'class_booking': {
+                sections: [
+                    { title: '정책', items: [
+                        '수업 예약은 회원 등급에 따라 예약 가능 횟수 제한',
+                        'ㄴ 무료 회원 : 월 4회 / 정회원 : 월 무제한'
+                    ]},
+                    { title: '수업 선택', items: [
+                        '수업 카테고리별 필터링',
+                        'ㄴ 요가 / 필라테스 / PT / 그룹 운동',
+                        '수업 카드 클릭 시 상세 정보 표시',
+                        'ㄴ 수업명, 강사명, 소요시간, 정원, 남은 자리'
+                    ]},
+                    { title: '일정 선택', items: [
+                        '주간 캘린더 형태로 일정 표시',
+                        'ㄴ 예약 가능/마감/대기 상태 구분 표시',
+                        '시간 슬롯 선택 시 해당 수업 정보 확인'
+                    ]},
+                    { title: '예약 확인', items: [
+                        '선택한 수업/일정 정보 최종 확인',
+                        '예약 버튼 클릭 시 예약 처리',
+                        'ㄴ 성공 시 : "수업 예약이 완료되었습니다." 얼럿',
+                        'ㄴ 정원 초과 시 : "대기자로 등록하시겠습니까?" 확인'
+                    ]}
+                ]
+            },
+            'pt_booking': {
+                sections: [
+                    { title: '정책', items: [
+                        'PT 예약은 PT 이용권 보유 회원만 가능',
+                        'ㄴ 이용권 미보유 시 이용권 구매 안내'
+                    ]},
+                    { title: '트레이너 선택', items: [
+                        '트레이너 리스트 노출',
+                        'ㄴ 프로필 사진, 이름, 전문 분야, 경력',
+                        'ㄴ 평점/리뷰 표시',
+                        '트레이너 선택 시 가능 시간대 로딩'
+                    ]},
+                    { title: '일정 선택', items: [
+                        '선택 트레이너의 가능 시간대 표시',
+                        'ㄴ 예약 가능/불가 상태 구분',
+                        '날짜 선택 후 시간대 선택'
+                    ]},
+                    { title: '예약 정보 입력', items: [
+                        'PT 목표 선택 [체크박스] : 다이어트/근력강화/체력증진/재활',
+                        '요청사항 [텍스트영역] : 선택입력, 최대 200자'
+                    ]},
+                    { title: '예약 완료', items: [
+                        '보유 이용권 차감 후 예약 처리',
+                        'ㄴ 성공 시 : "PT 예약이 완료되었습니다." 얼럿',
+                        'ㄴ 예약 확인 알림톡/SMS 발송'
+                    ]}
+                ]
+            },
+            'order_history': {
+                sections: [
+                    { title: '주문 내역 조회', items: [
+                        '기간별 조회 : 1주일/1개월/3개월/6개월/1년/전체',
+                        '상태별 필터 : 전체/결제완료/배송중/배송완료/취소·반품',
+                        '주문일 기준 최신순 정렬'
+                    ]},
+                    { title: '주문 정보 노출', items: [
+                        '주문번호, 주문일시',
+                        '상품 정보 : 상품 이미지, 상품명, 옵션, 수량, 금액',
+                        '주문 상태 : 결제대기/결제완료/배송준비중/배송중/배송완료',
+                        '배송 정보 : 택배사, 운송장번호 (클릭 시 배송 추적)'
+                    ]},
+                    { title: '주문 상세 보기', items: [
+                        '주문 카드 클릭 시 상세 정보 페이지 이동',
+                        'ㄴ 결제 정보, 배송지 정보, 할인 내역 확인 가능'
+                    ]},
+                    { title: '추가 기능', items: [
+                        '재구매 버튼 : 클릭 시 해당 상품 장바구니 담기',
+                        '후기 작성 버튼 : 배송완료 상품에 노출',
+                        '교환/반품 신청 버튼 : 배송완료 후 7일 이내 노출'
+                    ]}
+                ]
+            },
+            'review': {
+                sections: [
+                    { title: '정책', items: [
+                        '후기 작성은 배송완료 후 30일 이내 가능',
+                        'ㄴ 기간 경과 시 작성 불가 안내',
+                        '1주문건당 1회 후기 작성 가능'
+                    ]},
+                    { title: '작성 가능 후기 리스트', items: [
+                        '배송완료 상품 중 후기 미작성 건 노출',
+                        'ㄴ 상품 정보, 구매일, 남은 작성 기간 표시'
+                    ]},
+                    { title: '후기 작성', items: [
+                        '별점 선택 [별점] : 1~5점, 필수',
+                        '후기 내용 [텍스트영역] : 최소 20자, 최대 500자, 필수',
+                        '사진 첨부 [업로드] : 선택, 최대 5장, JPG/PNG',
+                        'ㄴ 포토 후기 작성 시 추가 포인트 지급 안내'
+                    ]},
+                    { title: '후기 등록 완료', items: [
+                        '필수 항목 체크 후 등록 처리',
+                        'ㄴ 성공 시 : "후기가 등록되었습니다." 얼럿',
+                        'ㄴ 포인트 지급 안내 (일반 후기: 100P, 포토 후기: 500P)'
+                    ]},
+                    { title: '작성 후기 관리', items: [
+                        '내가 작성한 후기 리스트 노출',
+                        'ㄴ 수정 버튼 : 등록 후 7일 이내 수정 가능',
+                        'ㄴ 삭제 버튼 : 삭제 시 지급 포인트 회수 안내'
+                    ]}
+                ]
+            },
+            'inquiry': {
+                sections: [
+                    { title: '문의 유형 선택', items: [
+                        '문의 유형 리스트 노출',
+                        'ㄴ 상품문의 / 배송문의 / 교환·반품 / 결제문의 / 기타문의',
+                        '유형 선택 시 관련 주문 연결 옵션 노출'
+                    ]},
+                    { title: '주문 연결', items: [
+                        '관련 주문 선택 (선택사항)',
+                        'ㄴ 최근 주문 리스트 노출',
+                        'ㄴ 주문 선택 시 문의 내용에 주문 정보 자동 연결'
+                    ]},
+                    { title: '문의 내용 입력', items: [
+                        '제목 [텍스트입력] : 필수, 최대 50자',
+                        '내용 [텍스트영역] : 필수, 최소 10자, 최대 1000자',
+                        '파일 첨부 [업로드] : 선택, 최대 3개, 5MB 이하'
+                    ]},
+                    { title: '문의 등록 완료', items: [
+                        '필수 항목 체크 후 등록 처리',
+                        'ㄴ 성공 시 : "문의가 등록되었습니다. 빠른 시일 내 답변드리겠습니다." 얼럿',
+                        'ㄴ 답변 등록 시 알림톡/SMS 발송'
+                    ]},
+                    { title: '문의 내역 조회', items: [
+                        '내 문의 리스트 노출',
+                        'ㄴ 상태 표시 : 답변대기/답변완료',
+                        'ㄴ 문의 클릭 시 상세 내용 + 답변 내용 확인'
+                    ]}
+                ]
+            },
+            'profile': {
+                sections: [
+                    { title: '회원 정보 조회', items: [
+                        '기본 정보 노출',
+                        'ㄴ 이름 (마스킹 처리) : 홍*동',
+                        'ㄴ 휴대폰번호 (마스킹 처리) : 010-****-1234',
+                        'ㄴ 이메일 (마스킹 처리) : abc***@naver.com',
+                        'ㄴ 생년월일, 가입일'
+                    ]},
+                    { title: '정보 수정', items: [
+                        '비밀번호 확인 후 수정 페이지 진입',
+                        '수정 가능 항목 : 비밀번호, 휴대폰번호, 이메일, 주소',
+                        'ㄴ 휴대폰번호 변경 시 본인인증 필요',
+                        '수정 완료 시 : "회원정보가 수정되었습니다." 얼럿'
+                    ]},
+                    { title: '알림 설정', items: [
+                        '마케팅 수신 동의 설정',
+                        'ㄴ SMS 수신 동의 [토글]',
+                        'ㄴ 이메일 수신 동의 [토글]',
+                        'ㄴ 앱 푸시 수신 동의 [토글]'
+                    ]},
+                    { title: '회원 탈퇴', items: [
+                        '회원 탈퇴 버튼 클릭 시 탈퇴 안내 페이지 이동',
+                        'ㄴ 탈퇴 시 유의사항 안내',
+                        'ㄴ 탈퇴 사유 선택 (필수)',
+                        'ㄴ 비밀번호 확인 후 탈퇴 처리'
+                    ]}
+                ]
+            },
+            'find_id': {
+                sections: [
+                    { title: '본인인증 방법 선택', items: [
+                        '휴대폰 본인인증',
+                        'ㄴ PASS (NICE 평가정보)'
+                    ]},
+                    { title: '인증 성공 시', items: [
+                        '가입된 아이디(이메일) 노출',
+                        'ㄴ 이메일 마스킹 처리 : abc***@naver.com',
+                        'ㄴ 가입일 표시',
+                        '복수 계정인 경우 모든 계정 리스트 노출'
+                    ]},
+                    { title: '미가입 회원인 경우', items: [
+                        '"가입된 회원 정보가 없습니다." 안내',
+                        'ㄴ 회원가입 바로가기 버튼 노출'
+                    ]},
+                    { title: '다음 단계 안내', items: [
+                        '로그인 하기 버튼 : 로그인 페이지로 이동',
+                        '비밀번호 찾기 버튼 : 비밀번호 찾기 페이지로 이동'
+                    ]}
+                ]
+            },
+            'find_pw': {
+                sections: [
+                    { title: '이메일 입력', items: [
+                        '가입된 이메일 주소 입력',
+                        'ㄴ 이메일 형식 유효성 검사',
+                        'ㄴ 미가입 이메일 입력 시 : "가입되지 않은 이메일입니다." 에러'
+                    ]},
+                    { title: '본인인증 방법 선택', items: [
+                        '휴대폰 본인인증',
+                        'ㄴ PASS (NICE 평가정보)',
+                        '이메일 인증',
+                        'ㄴ 가입 이메일로 인증번호 발송'
+                    ]},
+                    { title: '인증 성공 시', items: [
+                        '비밀번호 재설정 페이지 이동',
+                        'ㄴ 새 비밀번호 입력 : 영문, 숫자, 특수문자 포함 8~20자',
+                        'ㄴ 새 비밀번호 확인 : 일치 여부 검사',
+                        '변경 완료 시 : "비밀번호가 변경되었습니다." 얼럿'
+                    ]},
+                    { title: '다음 단계 안내', items: [
+                        '로그인 하기 버튼 : 로그인 페이지로 이동'
+                    ]}
+                ]
+            },
+            'faq': {
+                sections: [
+                    { title: '카테고리 필터', items: [
+                        '전체 / 회원 / 주문·결제 / 배송 / 교환·반품 / 서비스 / 기타',
+                        'ㄴ 카테고리 선택 시 해당 카테고리 FAQ만 노출'
+                    ]},
+                    { title: '검색', items: [
+                        '키워드 검색 입력',
+                        'ㄴ 검색어 입력 후 엔터 또는 검색 버튼 클릭',
+                        'ㄴ 제목 + 내용에서 검색'
+                    ]},
+                    { title: 'FAQ 리스트', items: [
+                        '아코디언 형태로 질문 리스트 노출',
+                        'ㄴ 질문 클릭 시 답변 펼침/접힘',
+                        'ㄴ 카테고리 태그 표시'
+                    ]},
+                    { title: '추가 문의 안내', items: [
+                        '"원하는 답변을 찾지 못하셨나요?" 영역 노출',
+                        'ㄴ 1:1 문의하기 버튼 : 1:1 문의 페이지로 이동'
+                    ]}
+                ]
+            },
+            'notice': {
+                sections: [
+                    { title: '공지사항 리스트', items: [
+                        '최신순 정렬 기본',
+                        'ㄴ 중요 공지 상단 고정 (아이콘 표시)',
+                        '리스트 항목 : 카테고리, 제목, 등록일',
+                        '페이징 처리 : 10건씩 노출'
+                    ]},
+                    { title: '카테고리 필터', items: [
+                        '전체 / 공지 / 이벤트 / 업데이트 / 점검 안내',
+                        'ㄴ 카테고리 선택 시 해당 카테고리만 노출'
+                    ]},
+                    { title: '검색', items: [
+                        '제목 기준 키워드 검색',
+                        'ㄴ 검색 결과 없을 시 : "검색 결과가 없습니다." 안내'
+                    ]},
+                    { title: '상세 보기', items: [
+                        '공지 클릭 시 상세 페이지 이동',
+                        'ㄴ 제목, 등록일, 조회수, 내용 노출',
+                        'ㄴ 첨부파일 다운로드 (있을 경우)',
+                        'ㄴ 이전글/다음글 네비게이션'
+                    ]}
+                ]
+            },
+            'product_list': {
+                sections: [
+                    { title: '상품 리스트 노출', items: [
+                        '카테고리별 상품 리스트 노출',
+                        'ㄴ 상품 카드 : 이미지, 상품명, 가격, 할인율, 리뷰수',
+                        'ㄴ 품절 상품 : "SOLD OUT" 표시'
+                    ]},
+                    { title: '필터', items: [
+                        '카테고리 필터 : 대분류 > 중분류 > 소분류',
+                        '가격대 필터 : 슬라이더 형태',
+                        '색상/사이즈 필터 : 체크박스',
+                        '필터 초기화 버튼'
+                    ]},
+                    { title: '정렬', items: [
+                        '정렬 옵션 : 추천순/신상품순/판매량순/낮은가격순/높은가격순/리뷰많은순',
+                        'ㄴ 기본값 : 추천순'
+                    ]},
+                    { title: '보기 방식', items: [
+                        '그리드 보기 (2열/3열/4열)',
+                        '리스트 보기',
+                        '선택 시 해당 레이아웃으로 전환'
+                    ]},
+                    { title: '페이징', items: [
+                        '무한 스크롤 또는 페이지네이션 선택',
+                        'ㄴ 무한 스크롤 : 스크롤 시 추가 로딩',
+                        'ㄴ 페이지네이션 : 페이지당 20/40/60건'
+                    ]}
+                ]
+            },
+            'product_detail': {
+                sections: [
+                    { title: '상품 정보 노출', items: [
+                        '상품 이미지 슬라이드',
+                        'ㄴ 썸네일 클릭 시 해당 이미지 확대',
+                        'ㄴ 확대보기 지원 (핀치 줌)',
+                        '상품명, 가격, 할인가, 적립금 표시',
+                        '배송비 정보, 도착 예정일 표시'
+                    ]},
+                    { title: '옵션 선택', items: [
+                        '옵션 선택 (색상/사이즈 등)',
+                        'ㄴ 품절 옵션 비활성화 표시',
+                        'ㄴ 옵션 선택 시 선택 내역 표시',
+                        '수량 선택 : 스테퍼 형태 (+/-)',
+                        'ㄴ 재고 수량 초과 시 에러'
+                    ]},
+                    { title: '구매 버튼', items: [
+                        '장바구니 담기 버튼',
+                        'ㄴ 클릭 시 : "장바구니에 담겼습니다" 토스트',
+                        '바로구매 버튼',
+                        'ㄴ 클릭 시 : 주문서 작성 페이지 이동',
+                        '찜하기 버튼',
+                        'ㄴ 클릭 시 : 위시리스트 추가/제거'
+                    ]},
+                    { title: '상세 탭', items: [
+                        '상품 상세 : 상세 이미지/설명',
+                        '리뷰 : 리뷰 리스트, 평점 통계',
+                        '문의 : 상품 문의 리스트',
+                        '배송/교환 : 배송 정보, 교환/반품 안내'
+                    ]}
+                ]
+            },
+            'social_login': {
+                sections: [
+                    { title: '소셜 로그인 버튼 노출', items: [
+                        '카카오 로그인 버튼 : 노란색 배경 #FEE500',
+                        '네이버 로그인 버튼 : 녹색 배경 #03C75A',
+                        '구글 로그인 버튼 : 흰색 배경 테두리',
+                        '애플 로그인 버튼 : 검정색 배경 (iOS만 노출)'
+                    ]},
+                    { title: '소셜 인증 프로세스', items: [
+                        '버튼 클릭 시 해당 소셜 OAuth 팝업 오픈',
+                        'ㄴ 소셜 계정 로그인 및 권한 동의',
+                        '인증 성공 시 이메일/닉네임/프로필 자동 수집'
+                    ]},
+                    { title: '기존 회원 연동', items: [
+                        '소셜 이메일로 기존 가입 회원 확인',
+                        'ㄴ 기존 회원 O : 계정 연동 확인 팝업',
+                        '  → "기존 계정과 연동하시겠습니까?"',
+                        '  → 연동 시 비밀번호 확인 후 연동 처리',
+                        'ㄴ 기존 회원 X : 간편 회원가입 프로세스'
+                    ]},
+                    { title: '간편 회원가입', items: [
+                        '소셜 정보 기반 추가 정보 입력',
+                        'ㄴ 이메일 : 소셜 계정 이메일 자동 입력',
+                        'ㄴ 휴대폰번호 : 직접 입력 (본인인증)',
+                        'ㄴ 약관 동의 필수',
+                        '가입 완료 후 자동 로그인'
+                    ]}
+                ]
+            },
+            'admin_dashboard': {
+                sections: [
+                    { title: '요약 지표', items: [
+                        '오늘 방문자 수 / 전일 대비 증감률',
+                        '오늘 주문 건수 / 매출액',
+                        '신규 가입자 수',
+                        '처리 대기 건수 (주문/문의/예약)'
+                    ]},
+                    { title: '매출 차트', items: [
+                        '일별/주별/월별 매출 추이 그래프',
+                        'ㄴ 기간 선택 필터',
+                        '상품별/카테고리별 매출 비중 파이 차트'
+                    ]},
+                    { title: '실시간 알림', items: [
+                        '신규 주문 알림',
+                        '1:1 문의 등록 알림',
+                        '재고 부족 알림',
+                        '회원 가입 알림'
+                    ]},
+                    { title: '퀵링크', items: [
+                        '주문 관리 바로가기',
+                        '회원 관리 바로가기',
+                        '상품 관리 바로가기',
+                        '문의 관리 바로가기'
+                    ]}
+                ]
+            },
+            'admin_user': {
+                sections: [
+                    { title: '회원 검색', items: [
+                        '검색 조건 : 이름/이메일/휴대폰번호/회원번호',
+                        '기간 검색 : 가입일 기준',
+                        '상태 필터 : 전체/활성/휴면/탈퇴'
+                    ]},
+                    { title: '회원 리스트', items: [
+                        '회원번호, 이름, 이메일, 휴대폰번호, 가입일, 상태',
+                        'ㄴ 개인정보 마스킹 처리',
+                        '페이징 처리 : 20건씩 노출'
+                    ]},
+                    { title: '회원 상세', items: [
+                        '회원 클릭 시 상세 정보 팝업/페이지',
+                        'ㄴ 기본 정보 조회',
+                        'ㄴ 주문 내역 조회',
+                        'ㄴ 포인트/쿠폰 내역 조회',
+                        'ㄴ 문의 내역 조회'
+                    ]},
+                    { title: '회원 관리 기능', items: [
+                        '등급 변경',
+                        '포인트 지급/차감',
+                        '쿠폰 발급',
+                        '계정 상태 변경 (활성/정지)'
+                    ]}
+                ]
+            },
+            'admin_order': {
+                sections: [
+                    { title: '주문 검색', items: [
+                        '검색 조건 : 주문번호/주문자명/수취인명/휴대폰번호',
+                        '기간 검색 : 주문일 기준',
+                        '상태 필터 : 전체/결제대기/결제완료/배송준비/배송중/배송완료/취소/교환/반품'
+                    ]},
+                    { title: '주문 리스트', items: [
+                        '주문번호, 주문일, 주문자, 상품명, 결제금액, 상태',
+                        '페이징 처리 : 20건씩 노출',
+                        '엑셀 다운로드 기능'
+                    ]},
+                    { title: '주문 상세', items: [
+                        '주문 클릭 시 상세 정보 팝업/페이지',
+                        'ㄴ 주문 정보 조회',
+                        'ㄴ 결제 정보 조회',
+                        'ㄴ 배송 정보 조회/수정',
+                        'ㄴ 주문 메모 작성'
+                    ]},
+                    { title: '주문 처리', items: [
+                        '배송 정보 입력 (택배사, 운송장번호)',
+                        '→ 입력 시 배송중 상태 변경',
+                        '→ 고객에게 배송 알림 발송',
+                        '주문 취소 처리',
+                        '환불 처리'
+                    ]}
+                ]
+            },
+            'admin_booking': {
+                sections: [
+                    { title: '예약 검색', items: [
+                        '검색 조건 : 예약번호/예약자명/휴대폰번호',
+                        '기간 검색 : 예약일/방문예정일 기준',
+                        '상태 필터 : 전체/예약접수/예약확정/방문완료/취소'
+                    ]},
+                    { title: '예약 리스트', items: [
+                        '예약번호, 예약일, 예약자, 방문예정일, 서비스, 상태',
+                        '페이징 처리 : 20건씩 노출',
+                        '캘린더 뷰 전환 기능'
+                    ]},
+                    { title: '예약 상세', items: [
+                        '예약 클릭 시 상세 정보 팝업/페이지',
+                        'ㄴ 예약 정보 조회',
+                        'ㄴ 예약자 정보 조회',
+                        'ㄴ 예약 메모 작성'
+                    ]},
+                    { title: '예약 처리', items: [
+                        '예약 확정 : 예약 확정 처리',
+                        '→ 고객에게 예약 확정 알림 발송',
+                        '예약 일정 변경',
+                        '예약 취소 처리'
+                    ]}
+                ]
+            },
+            'styling': {
+                sections: [
+                    { title: '스타일 분석 시작', items: [
+                        '스타일 진단 시작 버튼 클릭',
+                        'ㄴ 로그인 필요 시 로그인 유도'
+                    ]},
+                    { title: '취향 선택', items: [
+                        '선호 스타일 이미지 선택 (복수 선택)',
+                        'ㄴ 캐주얼 / 포멀 / 스트릿 / 미니멀 / 빈티지 등',
+                        '선호 컬러 선택',
+                        'ㄴ 컬러 팔레트에서 선택'
+                    ]},
+                    { title: '체형 정보 입력', items: [
+                        '키 [숫자입력] : cm 단위',
+                        '몸무게 [숫자입력] : kg 단위',
+                        '체형 타입 선택 [라디오]',
+                        'ㄴ 슬림 / 표준 / 근육질 / 통통'
+                    ]},
+                    { title: 'AI 분석 진행', items: [
+                        '입력 정보 기반 AI 스타일 분석',
+                        'ㄴ 분석 중 로딩 애니메이션 표시',
+                        'ㄴ 예상 소요시간 : 5~10초'
+                    ]},
+                    { title: '추천 코디 확인', items: [
+                        'AI 추천 코디 리스트 노출',
+                        'ㄴ 상의 + 하의 + 아우터 + 신발 조합',
+                        '코디 상품 클릭 시 상품 상세 이동',
+                        '코디 저장하기 버튼 : 마이페이지 저장'
+                    ]}
+                ]
+            },
+            'virtual_fitting': {
+                sections: [
+                    { title: '가상피팅 시작', items: [
+                        '가상피팅 버튼 클릭',
+                        'ㄴ 카메라/갤러리 접근 권한 요청'
+                    ]},
+                    { title: '사진 업로드/촬영', items: [
+                        '전신 사진 업로드 또는 촬영',
+                        'ㄴ 가이드라인에 맞춰 촬영 안내',
+                        'ㄴ 사진 규격 : JPG/PNG, 최대 10MB',
+                        '얼굴 인식 및 체형 분석 진행'
+                    ]},
+                    { title: '상품 선택', items: [
+                        '피팅할 상품 선택',
+                        'ㄴ 현재 상품 자동 선택',
+                        'ㄴ 다른 상품 선택 가능',
+                        '색상/사이즈 옵션 선택'
+                    ]},
+                    { title: 'AR 피팅 실행', items: [
+                        '선택 상품 가상 피팅 적용',
+                        'ㄴ 실시간 렌더링 처리',
+                        '360도 회전 보기 지원',
+                        '다른 상품으로 변경 가능'
+                    ]},
+                    { title: '결과 저장/공유', items: [
+                        '피팅 결과 이미지 저장',
+                        'ㄴ 갤러리 저장 / 마이페이지 저장',
+                        'SNS 공유 버튼',
+                        '바로구매 / 장바구니 담기 버튼'
+                    ]}
+                ]
+            },
+            'skin_diagnosis': {
+                sections: [
+                    { title: '진단 시작', items: [
+                        '피부 진단 시작 버튼 클릭',
+                        'ㄴ 카메라 접근 권한 요청',
+                        '진단 전 안내사항 노출',
+                        'ㄴ 밝은 조명, 세안 후 촬영 권장'
+                    ]},
+                    { title: '피부 촬영', items: [
+                        '얼굴 촬영 가이드 표시',
+                        'ㄴ 정면 / 좌측 / 우측 3컷 촬영',
+                        '촬영 완료 후 이미지 확인',
+                        'ㄴ 재촬영 / 진행 선택'
+                    ]},
+                    { title: 'AI 분석 진행', items: [
+                        'AI 피부 분석 시작',
+                        'ㄴ 분석 중 로딩 애니메이션',
+                        '분석 항목 : 수분/유분/모공/주름/색소침착/민감도'
+                    ]},
+                    { title: '결과 확인', items: [
+                        '피부 타입 결과 표시',
+                        'ㄴ 건성/지성/복합성/민감성',
+                        '항목별 점수 및 그래프 표시',
+                        '이전 진단 결과와 비교 (회원)'
+                    ]},
+                    { title: '맞춤 제품 추천', items: [
+                        '진단 결과 기반 추천 제품 리스트',
+                        'ㄴ 클렌저/토너/에센스/크림 카테고리별',
+                        '제품 클릭 시 상품 상세 이동',
+                        '진단 결과 저장/공유'
+                    ]}
+                ]
+            },
+            'virtual_makeup': {
+                sections: [
+                    { title: '가상 메이크업 시작', items: [
+                        '가상 메이크업 버튼 클릭',
+                        'ㄴ 카메라 접근 권한 요청'
+                    ]},
+                    { title: '카메라 활성화', items: [
+                        '전면 카메라 활성화',
+                        'ㄴ 얼굴 인식 자동 진행',
+                        '얼굴 인식 실패 시 안내 메시지'
+                    ]},
+                    { title: '제품 선택', items: [
+                        '메이크업 카테고리 선택',
+                        'ㄴ 립 / 아이섀도우 / 블러셔 / 파운데이션',
+                        '색상/제품 선택',
+                        'ㄴ 제품 선택 시 실시간 AR 적용'
+                    ]},
+                    { title: 'AR 적용', items: [
+                        '선택 제품 실시간 AR 적용',
+                        '강도 조절 슬라이더',
+                        '여러 제품 중첩 적용 가능',
+                        '전체 제거 / 개별 제거 버튼'
+                    ]},
+                    { title: '저장/공유', items: [
+                        '결과 이미지 캡처',
+                        'ㄴ 갤러리 저장',
+                        'SNS 공유',
+                        '적용 제품 장바구니 담기'
+                    ]}
+                ]
+            },
+            'ingredient': {
+                sections: [
+                    { title: '성분 분석 시작', items: [
+                        '성분 분석 페이지 진입',
+                        'ㄴ 상품 상세에서 "성분 분석" 버튼 클릭'
+                    ]},
+                    { title: '제품 선택/검색', items: [
+                        '현재 상품 자동 선택',
+                        '다른 제품 검색 가능',
+                        'ㄴ 제품명 / 브랜드명 검색'
+                    ]},
+                    { title: '성분 목록 확인', items: [
+                        '전성분 리스트 표시',
+                        'ㄴ 성분명 / 함량 / 역할 표시',
+                        '성분 클릭 시 상세 설명 팝업'
+                    ]},
+                    { title: '주의 성분 체크', items: [
+                        '주의 성분 하이라이트 표시',
+                        'ㄴ 알레르기 유발 가능 성분',
+                        'ㄴ 자극 가능 성분',
+                        '주의 등급 표시 (안전/주의/위험)'
+                    ]},
+                    { title: '피부타입 매칭', items: [
+                        '내 피부타입과 매칭도 표시',
+                        'ㄴ 피부타입 설정 필요 (마이페이지)',
+                        '매칭 점수 및 코멘트 표시',
+                        '비슷한 성분 다른 제품 추천'
+                    ]}
+                ]
+            },
+            'spec_compare': {
+                sections: [
+                    { title: '비교할 상품 선택', items: [
+                        '상품 상세에서 "비교하기" 버튼 클릭',
+                        'ㄴ 비교함에 상품 추가',
+                        '최대 4개 상품까지 비교 가능'
+                    ]},
+                    { title: '비교 목록 추가', items: [
+                        '비교함 아이콘 클릭 시 목록 확인',
+                        '상품 추가/삭제 가능',
+                        '"비교하기" 버튼으로 비교 화면 이동'
+                    ]},
+                    { title: '스펙 비교 화면', items: [
+                        '선택 상품들 가로 배치',
+                        '상품 이미지, 가격, 평점 표시',
+                        '스펙 항목별 비교 테이블'
+                    ]},
+                    { title: '항목별 비교', items: [
+                        '주요 스펙 항목 비교',
+                        'ㄴ 카테고리별 비교 항목 상이',
+                        '우수 항목 하이라이트 표시',
+                        '차이점 한눈에 보기 토글'
+                    ]},
+                    { title: '최종 선택', items: [
+                        '각 상품별 장바구니/구매 버튼',
+                        '비교 결과 저장/공유',
+                        '비교함 비우기'
+                    ]}
+                ]
+            },
+            'compatibility': {
+                sections: [
+                    { title: '호환성 체크 시작', items: [
+                        '호환성 확인 버튼 클릭',
+                        'ㄴ 상품 상세 또는 별도 페이지'
+                    ]},
+                    { title: '기기 선택', items: [
+                        '보유 기기 선택',
+                        'ㄴ 브랜드 > 모델 순차 선택',
+                        'ㄴ 시리얼 번호 직접 입력',
+                        '내 기기 목록에서 선택 (회원)'
+                    ]},
+                    { title: '호환 제품 검색', items: [
+                        '선택 기기와 호환되는 제품 검색',
+                        'ㄴ 카테고리별 필터',
+                        '호환 여부 아이콘 표시'
+                    ]},
+                    { title: '결과 확인', items: [
+                        '호환 가능/불가 결과 표시',
+                        'ㄴ 호환 가능 : 녹색 체크',
+                        'ㄴ 호환 불가 : 빨간 X',
+                        'ㄴ 부분 호환 : 주황 경고 + 설명'
+                    ]},
+                    { title: '구매로 이동', items: [
+                        '호환 제품 장바구니 담기',
+                        '바로구매 버튼',
+                        '호환 목록 저장 (회원)'
+                    ]}
+                ]
+            },
+            '3d_viewer': {
+                sections: [
+                    { title: '3D 뷰어 실행', items: [
+                        '상품 이미지 영역에서 3D 아이콘 클릭',
+                        'ㄴ 3D 뷰어 모달/페이지 오픈'
+                    ]},
+                    { title: '상품 로딩', items: [
+                        '3D 모델 로딩',
+                        'ㄴ 로딩 프로그레스 표시',
+                        'ㄴ 저사양 기기 대응 안내'
+                    ]},
+                    { title: '회전/확대', items: [
+                        '드래그로 360도 회전',
+                        '핀치/휠로 확대/축소',
+                        '더블 탭으로 리셋'
+                    ]},
+                    { title: '세부 확인', items: [
+                        '특정 부위 클릭 시 확대',
+                        '상세 설명 툴팁 표시',
+                        '치수 정보 오버레이'
+                    ]},
+                    { title: '색상 변경', items: [
+                        '색상 옵션 선택 시 실시간 반영',
+                        '선택 색상으로 장바구니 담기',
+                        '스크린샷 저장 기능'
+                    ]}
+                ]
+            },
+            'ar_placement': {
+                sections: [
+                    { title: 'AR 배치 시작', items: [
+                        'AR 배치하기 버튼 클릭',
+                        'ㄴ 카메라 접근 권한 요청',
+                        'AR 지원 기기 확인'
+                    ]},
+                    { title: '카메라 활성화', items: [
+                        '후면 카메라 활성화',
+                        '배치할 공간 촬영 안내'
+                    ]},
+                    { title: '공간 인식', items: [
+                        '바닥/벽면 자동 인식',
+                        'ㄴ 인식 영역 그리드 표시',
+                        '인식 실패 시 재시도 안내'
+                    ]},
+                    { title: '상품 배치', items: [
+                        '인식된 공간에 상품 배치',
+                        'ㄴ 드래그로 위치 이동',
+                        'ㄴ 핀치로 크기 조절',
+                        'ㄴ 회전 제스처로 방향 조절',
+                        '여러 상품 동시 배치 가능'
+                    ]},
+                    { title: '저장/공유', items: [
+                        '배치 결과 스크린샷 저장',
+                        'SNS 공유 기능',
+                        '배치 상품 장바구니 담기'
+                    ]}
+                ]
+            },
+            'telemedicine': {
+                sections: [
+                    { title: '진료 신청', items: [
+                        '비대면 진료 신청 버튼 클릭',
+                        'ㄴ 본인인증 필요',
+                        '진료 과목 선택',
+                        '의사 선택 (선택사항)'
+                    ]},
+                    { title: '증상 입력', items: [
+                        '주요 증상 선택 [체크박스]',
+                        '증상 상세 설명 [텍스트영역]',
+                        '증상 발생일 선택',
+                        '기존 복용 약물 입력'
+                    ]},
+                    { title: '대기실 입장', items: [
+                        '진료 시간 도래 시 대기실 입장',
+                        'ㄴ 카메라/마이크 테스트',
+                        '현재 대기 순번 표시',
+                        '예상 대기 시간 안내'
+                    ]},
+                    { title: '화상 진료', items: [
+                        '의사 연결 시 화상 진료 시작',
+                        'ㄴ 화면/음성 품질 자동 조절',
+                        '진료 중 채팅 기능',
+                        '이미지 전송 기능 (증상 사진 등)'
+                    ]},
+                    { title: '처방전 발급', items: [
+                        '진료 완료 후 처방전 발급',
+                        'ㄴ 전자처방전 조회',
+                        '약국 전송 기능',
+                        '진료 비용 결제'
+                    ]}
+                ]
+            },
+            'exercise_log': {
+                sections: [
+                    { title: '운동 기록 시작', items: [
+                        '운동 기록 추가 버튼 클릭',
+                        '기록 날짜 선택 (기본: 오늘)'
+                    ]},
+                    { title: '운동 종류 선택', items: [
+                        '운동 카테고리 선택',
+                        'ㄴ 유산소 / 근력 / 유연성 / 기타',
+                        '운동 종목 선택',
+                        'ㄴ 러닝/자전거/수영/웨이트 등'
+                    ]},
+                    { title: '시간/강도 입력', items: [
+                        '운동 시간 [숫자입력] : 분 단위',
+                        '운동 강도 선택',
+                        'ㄴ 가볍게/보통/힘들게/매우힘들게',
+                        '소모 칼로리 자동 계산 (추정)'
+                    ]},
+                    { title: '완료 기록', items: [
+                        '메모 입력 [텍스트영역] : 선택',
+                        '사진 첨부 : 선택',
+                        '저장 버튼 클릭'
+                    ]},
+                    { title: '통계 확인', items: [
+                        '일별/주별/월별 운동 기록 통계',
+                        '운동 종목별 비중 차트',
+                        '목표 달성률 표시',
+                        '연속 운동일 표시'
+                    ]}
+                ]
+            },
+            'body_check': {
+                sections: [
+                    { title: '측정 시작', items: [
+                        '신체 측정 기록 추가 버튼 클릭',
+                        '측정 날짜 선택 (기본: 오늘)'
+                    ]},
+                    { title: '측정 항목 선택', items: [
+                        '측정할 항목 선택',
+                        'ㄴ 체중 / 체지방률 / 근육량 / 허리둘레 등',
+                        '이전 측정값 참고 표시'
+                    ]},
+                    { title: '데이터 입력', items: [
+                        '각 항목별 수치 입력',
+                        'ㄴ 단위 자동 표시',
+                        '정상 범위 가이드 표시',
+                        '인바디 연동 (지원 시)'
+                    ]},
+                    { title: '결과 저장', items: [
+                        '입력값 저장',
+                        '이전 대비 증감 표시',
+                        '목표 대비 달성률 표시'
+                    ]},
+                    { title: '변화 그래프 확인', items: [
+                        '기간별 변화 추이 그래프',
+                        '항목별 그래프 전환',
+                        '목표선 표시',
+                        '데이터 내보내기 (CSV)'
+                    ]}
+                ]
+            },
+            'health_record': {
+                sections: [
+                    { title: '기록 추가', items: [
+                        '건강 기록 추가 버튼 클릭',
+                        '기록 날짜/시간 선택'
+                    ]},
+                    { title: '항목 선택', items: [
+                        '기록 유형 선택',
+                        'ㄴ 혈압 / 혈당 / 체온 / 수면 / 식사 / 복약',
+                        '유형별 입력 폼 표시'
+                    ]},
+                    { title: '데이터 입력', items: [
+                        '항목별 수치 입력',
+                        'ㄴ 혈압 : 수축기/이완기',
+                        'ㄴ 혈당 : 공복/식후 구분',
+                        '메모 입력 (선택)'
+                    ]},
+                    { title: '저장', items: [
+                        '기록 저장',
+                        '정상 범위 벗어날 시 경고 표시',
+                        '연속 이상 수치 시 병원 방문 권고'
+                    ]},
+                    { title: '히스토리 확인', items: [
+                        '기록 리스트 조회',
+                        '기간별/항목별 필터',
+                        '추이 그래프 확인',
+                        '의료진 공유용 리포트 생성'
+                    ]}
+                ]
+            },
+            'medical_record': {
+                sections: [
+                    { title: '기록 조회', items: [
+                        '진료 기록 페이지 진입',
+                        'ㄴ 본인인증 필요'
+                    ]},
+                    { title: '기간 선택', items: [
+                        '조회 기간 설정',
+                        'ㄴ 1개월/3개월/6개월/1년/전체',
+                        '특정 날짜 범위 선택'
+                    ]},
+                    { title: '진료 내역 확인', items: [
+                        '진료 기록 리스트 노출',
+                        'ㄴ 진료일, 병원명, 진료과, 진단명',
+                        '병원/진료과별 필터'
+                    ]},
+                    { title: '상세 보기', items: [
+                        '기록 클릭 시 상세 정보',
+                        'ㄴ 진단 내용, 처방 내역',
+                        'ㄴ 검사 결과 (있는 경우)',
+                        '영수증/처방전 첨부 파일'
+                    ]},
+                    { title: '내보내기', items: [
+                        '선택 기록 PDF 다운로드',
+                        '타 의료기관 전송 기능',
+                        '보험사 제출용 자료 생성'
+                    ]}
+                ]
+            },
+            'online_lecture': {
+                sections: [
+                    { title: '강의 선택', items: [
+                        '수강할 강의 선택',
+                        'ㄴ 카테고리별 강의 목록',
+                        '강의 상세 정보 확인',
+                        'ㄴ 강의명, 강사, 총 강의시간, 커리큘럼'
+                    ]},
+                    { title: '강의 시작', items: [
+                        '수강하기 버튼 클릭',
+                        'ㄴ 이어보기 지원 (마지막 시청 지점)',
+                        '첫 수강 시 OT 영상 노출'
+                    ]},
+                    { title: '영상 시청', items: [
+                        '동영상 플레이어 재생',
+                        'ㄴ 재생/일시정지/구간이동',
+                        'ㄴ 배속 조절 (0.5x~2x)',
+                        'ㄴ 화질 선택',
+                        '자막 ON/OFF (지원 시)'
+                    ]},
+                    { title: '진도 저장', items: [
+                        '시청 진도율 자동 저장',
+                        'ㄴ 실시간 서버 동기화',
+                        '챕터별 진도 표시'
+                    ]},
+                    { title: '완료 처리', items: [
+                        '강의 완료 시 완료 처리',
+                        'ㄴ 완료 조건 : 90% 이상 시청',
+                        '수료증 발급 (코스 완료 시)',
+                        '다음 강의 자동 재생 (설정 시)'
+                    ]}
+                ]
+            },
+            'live_class': {
+                sections: [
+                    { title: '수업 입장', items: [
+                        '라이브 수업 시작 10분 전부터 입장 가능',
+                        '입장하기 버튼 클릭',
+                        'ㄴ 카메라/마이크 권한 요청'
+                    ]},
+                    { title: '카메라/마이크 설정', items: [
+                        '입장 전 장치 설정 화면',
+                        'ㄴ 카메라 ON/OFF',
+                        'ㄴ 마이크 ON/OFF',
+                        '장치 테스트 기능'
+                    ]},
+                    { title: '수업 참여', items: [
+                        '실시간 화상 수업 진행',
+                        'ㄴ 강사 화면 메인 표시',
+                        'ㄴ 참여자 화면 그리드 표시',
+                        '화면 공유 보기 지원'
+                    ]},
+                    { title: '질문/채팅', items: [
+                        '실시간 채팅 기능',
+                        '손들기 기능 (발언 요청)',
+                        '이모지 리액션',
+                        '파일 공유 (강사 → 학생)'
+                    ]},
+                    { title: '수업 종료', items: [
+                        '강사 종료 또는 퇴장하기',
+                        '출석 자동 처리',
+                        '녹화 영상 제공 (설정 시)',
+                        '수업 평가 팝업'
+                    ]}
+                ]
+            },
+            'watch': {
+                sections: [
+                    { title: '콘텐츠 선택', items: [
+                        '콘텐츠 리스트에서 선택',
+                        'ㄴ 썸네일, 제목, 설명, 재생시간 표시',
+                        '장르/카테고리별 필터',
+                        '검색 기능'
+                    ]},
+                    { title: '재생 시작', items: [
+                        '콘텐츠 상세 페이지에서 재생 버튼 클릭',
+                        'ㄴ 이어보기 지원',
+                        '예고편 보기 (지원 시)'
+                    ]},
+                    { title: '시청', items: [
+                        '동영상 플레이어 재생',
+                        'ㄴ 재생 컨트롤 (재생/일시정지/탐색)',
+                        'ㄴ 전체화면 / PIP 모드',
+                        'ㄴ 자막 ON/OFF, 언어 선택',
+                        'ㄴ 화질/음량 조절'
+                    ]},
+                    { title: '평가/리뷰', items: [
+                        '콘텐츠 평가 (좋아요/싫어요)',
+                        '별점 평가 (1~5점)',
+                        '리뷰 작성',
+                        '스포일러 태그 기능'
+                    ]},
+                    { title: '관련 추천', items: [
+                        '시청 완료 후 관련 콘텐츠 추천',
+                        '자동 재생 (다음 에피소드)',
+                        '찜 리스트 추가'
+                    ]}
+                ]
+            },
+            'subscription': {
+                sections: [
+                    { title: '구독 상품 선택', items: [
+                        '구독 상품 리스트 노출',
+                        'ㄴ 상품명, 혜택, 가격, 주기 표시',
+                        '상품 비교 기능',
+                        '인기 상품 표시'
+                    ]},
+                    { title: '주기 설정', items: [
+                        '구독 주기 선택',
+                        'ㄴ 매주/격주/매월/격월',
+                        '첫 배송일 선택',
+                        '수량 설정 (해당 시)'
+                    ]},
+                    { title: '결제 정보 입력', items: [
+                        '정기결제 수단 등록',
+                        'ㄴ 신용카드 정보 입력',
+                        'ㄴ 카카오페이/네이버페이 등록',
+                        '자동결제 약관 동의'
+                    ]},
+                    { title: '구독 시작', items: [
+                        '구독 신청 완료',
+                        'ㄴ 첫 결제 즉시 진행',
+                        '구독 시작 알림 발송',
+                        '다음 결제일 안내'
+                    ]},
+                    { title: '관리 페이지', items: [
+                        '내 구독 현황 조회',
+                        '구독 주기/수량 변경',
+                        '결제 수단 변경',
+                        '구독 일시정지/해지',
+                        '결제 내역 조회'
+                    ]}
+                ]
+            },
+            'settlement': {
+                sections: [
+                    { title: '정산 내역 확인', items: [
+                        '정산 관리 페이지 진입',
+                        '정산 예정 금액 표시',
+                        '정산 완료 금액 표시'
+                    ]},
+                    { title: '기간 선택', items: [
+                        '정산 기간 설정',
+                        'ㄴ 일별/주별/월별 조회',
+                        '특정 기간 범위 선택'
+                    ]},
+                    { title: '상세 내역', items: [
+                        '정산 상세 내역 리스트',
+                        'ㄴ 주문번호, 상품명, 결제금액, 수수료, 정산금액',
+                        '상태별 필터 (예정/완료/보류)'
+                    ]},
+                    { title: '정산 요청', items: [
+                        '정산 가능 금액 확인',
+                        'ㄴ 최소 정산 금액 이상 시 요청 가능',
+                        '정산 계좌 확인/변경',
+                        '정산 요청 버튼 클릭'
+                    ]},
+                    { title: '완료 확인', items: [
+                        '정산 처리 상태 확인',
+                        'ㄴ 요청/처리중/완료/반려',
+                        '정산 완료 시 알림 발송',
+                        '세금계산서 발행 요청'
+                    ]}
+                ]
+            },
+            // ========== 커머스 공통 ==========
+            'product': {
+                sections: [
+                    { title: '상품 리스트', items: [
+                        '카테고리별/전체 상품 리스트 노출',
+                        'ㄴ 상품 카드 : 이미지, 상품명, 가격, 할인율'
+                    ]},
+                    { title: '상품 등록', items: [
+                        '상품 정보 입력',
+                        'ㄴ 상품명, 가격, 재고, 옵션, 상세설명',
+                        'ㄴ 이미지 업로드 (대표/상세)'
+                    ]},
+                    { title: '상품 수정/삭제', items: [
+                        '등록된 상품 정보 수정',
+                        '상품 삭제 (판매 중지 처리)'
+                    ]}
+                ]
+            },
+            'category': {
+                sections: [
+                    { title: '카테고리 구조', items: [
+                        '대분류 > 중분류 > 소분류 계층 구조',
+                        'ㄴ 클릭 시 하위 카테고리 펼침'
+                    ]},
+                    { title: '카테고리 필터', items: [
+                        '카테고리 선택 시 해당 상품만 필터링',
+                        '복수 카테고리 선택 가능'
+                    ]}
+                ]
+            },
+            'search': {
+                sections: [
+                    { title: '검색 입력', items: [
+                        '검색어 입력 [텍스트입력]',
+                        'ㄴ 자동완성 추천어 노출',
+                        'ㄴ 최근 검색어 표시'
+                    ]},
+                    { title: '검색 결과', items: [
+                        '검색 결과 리스트 노출',
+                        'ㄴ 정렬 옵션 : 정확도순/최신순/가격순',
+                        '검색 결과 없을 시 안내 메시지'
+                    ]}
+                ]
+            },
+            'wishlist': {
+                sections: [
+                    { title: '위시리스트 추가', items: [
+                        '상품 상세에서 찜 버튼 클릭',
+                        'ㄴ 로그인 필요 (비로그인 시 로그인 유도)'
+                    ]},
+                    { title: '위시리스트 조회', items: [
+                        '찜한 상품 리스트 노출',
+                        'ㄴ 상품 정보, 가격, 재고 상태 표시'
+                    ]},
+                    { title: '위시리스트 관리', items: [
+                        '개별/전체 삭제',
+                        '장바구니로 이동'
+                    ]}
+                ]
+            },
+            'order': {
+                sections: [
+                    { title: '주문서 작성', items: [
+                        '주문 상품 정보 확인',
+                        '배송지 정보 입력/선택',
+                        '결제 수단 선택'
+                    ]},
+                    { title: '주문 정보 확인', items: [
+                        '상품금액, 배송비, 할인금액, 최종결제금액',
+                        '약관 동의 체크'
+                    ]},
+                    { title: '주문 완료', items: [
+                        '결제 처리 후 주문 완료',
+                        'ㄴ 주문번호 발급',
+                        'ㄴ 주문 완료 알림 발송'
+                    ]}
+                ]
+            },
+            'delivery': {
+                sections: [
+                    { title: '배송 정보 조회', items: [
+                        '배송 상태 확인',
+                        'ㄴ 배송준비중/배송중/배송완료',
+                        '택배사, 운송장번호 표시'
+                    ]},
+                    { title: '배송 추적', items: [
+                        '운송장번호 클릭 시 배송 추적',
+                        'ㄴ 실시간 배송 위치 확인'
+                    ]}
+                ]
+            },
+            'return': {
+                sections: [
+                    { title: '반품/교환 신청', items: [
+                        '반품/교환 유형 선택',
+                        '사유 선택 및 상세 입력',
+                        '증빙 사진 첨부'
+                    ]},
+                    { title: '처리 현황', items: [
+                        '신청 상태 확인',
+                        'ㄴ 접수/수거중/검수중/완료',
+                        '환불 예정 금액 표시'
+                    ]}
+                ]
+            },
+            'qna': {
+                sections: [
+                    { title: '문의 작성', items: [
+                        '문의 유형 선택',
+                        '제목/내용 입력',
+                        '비밀글 설정'
+                    ]},
+                    { title: '문의 내역', items: [
+                        '내 문의 리스트',
+                        'ㄴ 답변 대기/답변 완료 상태 표시'
+                    ]}
+                ]
+            },
+            'point': {
+                sections: [
+                    { title: '포인트 조회', items: [
+                        '보유 포인트 표시',
+                        '적립 예정 포인트 표시'
+                    ]},
+                    { title: '포인트 내역', items: [
+                        '적립/사용 내역 리스트',
+                        'ㄴ 일자, 구분, 금액, 유효기간'
+                    ]},
+                    { title: '포인트 사용', items: [
+                        '결제 시 포인트 사용',
+                        'ㄴ 최소 사용 금액 제한'
+                    ]}
+                ]
+            },
+            'coupon': {
+                sections: [
+                    { title: '쿠폰 조회', items: [
+                        '보유 쿠폰 리스트',
+                        'ㄴ 쿠폰명, 할인금액, 사용조건, 유효기간'
+                    ]},
+                    { title: '쿠폰 등록', items: [
+                        '쿠폰 코드 입력',
+                        'ㄴ 등록 성공/실패 메시지'
+                    ]},
+                    { title: '쿠폰 사용', items: [
+                        '결제 시 쿠폰 선택/적용',
+                        'ㄴ 중복 사용 가능 여부 표시'
+                    ]}
+                ]
+            },
+            'event': {
+                sections: [
+                    { title: '이벤트 리스트', items: [
+                        '진행 중/종료 이벤트 리스트',
+                        'ㄴ 이벤트명, 기간, 혜택 요약'
+                    ]},
+                    { title: '이벤트 상세', items: [
+                        '이벤트 내용 상세',
+                        '참여 방법 안내',
+                        '참여하기 버튼'
+                    ]},
+                    { title: '당첨자 발표', items: [
+                        '당첨자 리스트 (마스킹 처리)',
+                        '내 당첨 여부 확인'
+                    ]}
+                ]
+            },
+            'notification': {
+                sections: [
+                    { title: '알림 리스트', items: [
+                        '알림 유형별 리스트',
+                        'ㄴ 주문/배송/이벤트/공지 등',
+                        '읽음/안읽음 구분'
+                    ]},
+                    { title: '알림 설정', items: [
+                        '알림 수신 ON/OFF',
+                        'ㄴ 유형별 설정 가능'
+                    ]}
+                ]
+            },
+            'membership': {
+                sections: [
+                    { title: '멤버십 안내', items: [
+                        '등급별 혜택 안내',
+                        'ㄴ 등급 조건, 할인율, 적립률'
+                    ]},
+                    { title: '내 등급', items: [
+                        '현재 등급 표시',
+                        '다음 등급까지 조건',
+                        '등급 유지 조건'
+                    ]}
+                ]
+            },
+            // ========== 뷰티 ==========
+            'beauty_tip': {
+                sections: [
+                    { title: '뷰티 팁 리스트', items: [
+                        '카테고리별 콘텐츠 리스트',
+                        'ㄴ 스킨케어/메이크업/헤어 등'
+                    ]},
+                    { title: '콘텐츠 상세', items: [
+                        '팁 상세 내용',
+                        '관련 상품 추천'
+                    ]}
+                ]
+            },
+            'routine': {
+                sections: [
+                    { title: '루틴 추천', items: [
+                        '피부타입별 루틴 추천',
+                        'ㄴ 아침/저녁 루틴 구분'
+                    ]},
+                    { title: '내 루틴 설정', items: [
+                        '사용 제품 등록',
+                        '루틴 알림 설정'
+                    ]}
+                ]
+            },
+            // ========== F&B ==========
+            'nutrition': {
+                sections: [
+                    { title: '영양정보 조회', items: [
+                        '상품별 영양성분 표시',
+                        'ㄴ 칼로리, 탄수화물, 단백질, 지방 등'
+                    ]}
+                ]
+            },
+            'allergy': {
+                sections: [
+                    { title: '알레르기 정보', items: [
+                        '알레르기 유발 성분 표시',
+                        'ㄴ 우유, 대두, 밀, 땅콩 등',
+                        '내 알레르기 설정 시 경고 표시'
+                    ]}
+                ]
+            },
+            'recipe': {
+                sections: [
+                    { title: '레시피 리스트', items: [
+                        '카테고리별 레시피',
+                        'ㄴ 난이도, 소요시간 표시'
+                    ]},
+                    { title: '레시피 상세', items: [
+                        '재료, 조리순서',
+                        '필요 상품 바로구매'
+                    ]}
+                ]
+            },
+            'fresh_delivery': {
+                sections: [
+                    { title: '신선배송 안내', items: [
+                        '새벽배송/당일배송 선택',
+                        '배송 가능 지역 확인'
+                    ]},
+                    { title: '배송 일정', items: [
+                        '배송 희망일/시간 선택',
+                        '부재 시 안내'
+                    ]}
+                ]
+            },
+            'store_search': {
+                sections: [
+                    { title: '매장 검색', items: [
+                        '현재 위치 기반 검색',
+                        '지역/매장명 검색'
+                    ]},
+                    { title: '매장 정보', items: [
+                        '매장명, 주소, 연락처',
+                        '영업시간, 휴무일',
+                        '길찾기 연동'
+                    ]}
+                ]
+            },
+            'pickup': {
+                sections: [
+                    { title: '픽업 예약', items: [
+                        '픽업 매장 선택',
+                        '픽업 일시 선택',
+                        '주문 상품 선택'
+                    ]},
+                    { title: '픽업 완료', items: [
+                        '예약 확인 알림',
+                        '매장 도착 시 알림'
+                    ]}
+                ]
+            },
+            'inventory': {
+                sections: [
+                    { title: '재고 조회', items: [
+                        '상품별 재고 현황',
+                        '재고 부족 알림'
+                    ]},
+                    { title: '재고 관리', items: [
+                        '입고/출고 처리',
+                        '유통기한 관리'
+                    ]}
+                ]
+            },
+            // ========== 가전/가구 ==========
+            'installation': {
+                sections: [
+                    { title: '설치 예약', items: [
+                        '설치 희망일 선택 (캘린더)',
+                        '설치 시간대 선택',
+                        '설치 주소 입력'
+                    ]},
+                    { title: '예약 확인', items: [
+                        '예약 정보 확인',
+                        '설치 기사 배정 알림'
+                    ]}
+                ]
+            },
+            'as_service': {
+                sections: [
+                    { title: 'A/S 신청', items: [
+                        '제품 선택 (구매 내역)',
+                        '증상 선택/입력',
+                        '사진/동영상 첨부'
+                    ]},
+                    { title: 'A/S 처리', items: [
+                        '접수 확인',
+                        '방문 일정 안내',
+                        '처리 결과 알림'
+                    ]}
+                ]
+            },
+            'warranty': {
+                sections: [
+                    { title: '보증 조회', items: [
+                        '보증 기간 확인',
+                        '보증 범위 안내'
+                    ]},
+                    { title: '보증 등록', items: [
+                        '제품 시리얼 번호 입력',
+                        '구매 영수증 등록'
+                    ]}
+                ]
+            },
+            'manual': {
+                sections: [
+                    { title: '설명서 조회', items: [
+                        '제품별 사용설명서',
+                        'PDF 다운로드/온라인 뷰어'
+                    ]}
+                ]
+            },
+            'size_simulation': {
+                sections: [
+                    { title: '공간 입력', items: [
+                        '방 크기 입력 (가로/세로)',
+                        '기존 가구 배치'
+                    ]},
+                    { title: '시뮬레이션', items: [
+                        '상품 배치 테스트',
+                        '360도 뷰어'
+                    ]}
+                ]
+            },
+            'custom_order': {
+                sections: [
+                    { title: '맞춤 제작 신청', items: [
+                        '원하는 사양 선택',
+                        'ㄴ 사이즈, 색상, 재질',
+                        '견적 요청'
+                    ]},
+                    { title: '제작 진행', items: [
+                        '제작 일정 안내',
+                        '진행 상황 알림'
+                    ]}
+                ]
+            },
+            'interior_consult': {
+                sections: [
+                    { title: '상담 신청', items: [
+                        '인테리어 스타일 선택',
+                        '공간 사진 첨부',
+                        '상담 희망일 선택'
+                    ]},
+                    { title: '상담 진행', items: [
+                        '전문가 매칭',
+                        '화상/방문 상담'
+                    ]}
+                ]
+            },
+            'rental': {
+                sections: [
+                    { title: '렌탈 상품 조회', items: [
+                        '렌탈 가능 상품 리스트',
+                        'ㄴ 월 렌탈료, 계약 기간'
+                    ]},
+                    { title: '렌탈 신청', items: [
+                        '계약 기간 선택',
+                        '설치 정보 입력',
+                        '약정 동의'
+                    ]}
+                ]
+            },
+            // ========== 스포츠 ==========
+            'size_recommend': {
+                sections: [
+                    { title: '사이즈 추천', items: [
+                        '신체 정보 입력',
+                        'ㄴ 키, 몸무게, 발 사이즈',
+                        '추천 사이즈 안내'
+                    ]}
+                ]
+            },
+            'gear_guide': {
+                sections: [
+                    { title: '장비 가이드', items: [
+                        '운동 종목별 장비 안내',
+                        '초급/중급/상급 추천'
+                    ]}
+                ]
+            },
+            'challenge': {
+                sections: [
+                    { title: '챌린지 참여', items: [
+                        '진행 중 챌린지 리스트',
+                        '참여하기 버튼'
+                    ]},
+                    { title: '챌린지 인증', items: [
+                        '인증 사진/기록 업로드',
+                        '달성률 확인'
+                    ]}
+                ]
+            },
+            'board': {
+                sections: [
+                    { title: '게시판 목록', items: [
+                        '게시글 리스트',
+                        'ㄴ 제목, 작성자, 작성일, 조회수'
+                    ]},
+                    { title: '게시글 작성', items: [
+                        '제목/내용 입력',
+                        '이미지 첨부',
+                        '카테고리 선택'
+                    ]},
+                    { title: '댓글/좋아요', items: [
+                        '댓글 작성',
+                        '좋아요 기능'
+                    ]}
+                ]
+            },
+            // ========== 유아동 ==========
+            'child_profile': {
+                sections: [
+                    { title: '아이 정보 등록', items: [
+                        '이름, 생년월일, 성별',
+                        '키, 몸무게'
+                    ]},
+                    { title: '아이 맞춤 추천', items: [
+                        '연령별 상품 추천',
+                        '성장 단계별 안내'
+                    ]}
+                ]
+            },
+            'age_recommend': {
+                sections: [
+                    { title: '연령별 추천', items: [
+                        '개월/나이 선택',
+                        '해당 연령 적합 상품 필터'
+                    ]}
+                ]
+            },
+            'safety_cert': {
+                sections: [
+                    { title: '안전인증 정보', items: [
+                        'KC 인증 마크 표시',
+                        '인증 번호 조회',
+                        '안전 주의사항'
+                    ]}
+                ]
+            },
+            'gift': {
+                sections: [
+                    { title: '선물하기', items: [
+                        '받는 분 정보 입력',
+                        'ㄴ 이름, 연락처',
+                        '선물 메시지 작성'
+                    ]},
+                    { title: '선물 발송', items: [
+                        '선물 알림 발송 (카카오톡)',
+                        '배송지 입력 요청'
+                    ]}
+                ]
+            },
+            'parenting_info': {
+                sections: [
+                    { title: '육아 정보', items: [
+                        '연령별/주제별 정보',
+                        '전문가 칼럼'
+                    ]}
+                ]
+            },
+            'growth_record': {
+                sections: [
+                    { title: '성장 기록', items: [
+                        '키/몸무게 기록',
+                        '성장 그래프',
+                        '표준 성장 곡선 비교'
+                    ]}
+                ]
+            },
+            // ========== 반려동물 ==========
+            'pet_profile': {
+                sections: [
+                    { title: '반려동물 등록', items: [
+                        '이름, 종류, 품종',
+                        '생년월일, 성별, 중성화 여부',
+                        '사진 등록'
+                    ]},
+                    { title: '맞춤 추천', items: [
+                        '품종/나이별 상품 추천',
+                        '건강 상태 기반 추천'
+                    ]}
+                ]
+            },
+            'pet_recommend': {
+                sections: [
+                    { title: '맞춤 추천', items: [
+                        '반려동물 정보 기반 추천',
+                        'ㄴ 나이, 품종, 건강 상태'
+                    ]}
+                ]
+            },
+            'nutrition_info': {
+                sections: [
+                    { title: '영양 정보', items: [
+                        '사료/간식 영양성분',
+                        '급여량 가이드'
+                    ]}
+                ]
+            },
+            'vet_consult': {
+                sections: [
+                    { title: '수의사 상담', items: [
+                        '상담 유형 선택',
+                        '증상 입력',
+                        '사진/동영상 첨부'
+                    ]},
+                    { title: '상담 진행', items: [
+                        '채팅/화상 상담',
+                        '처방 안내'
+                    ]}
+                ]
+            },
+            'vaccination': {
+                sections: [
+                    { title: '예방접종 기록', items: [
+                        '접종 내역 등록',
+                        '다음 접종일 알림'
+                    ]}
+                ]
+            },
+            // ========== 럭셔리 ==========
+            'vip_membership': {
+                sections: [
+                    { title: 'VIP 등급', items: [
+                        'VIP 등급 조건',
+                        '등급별 혜택 안내'
+                    ]},
+                    { title: 'VIP 전용 서비스', items: [
+                        '전담 컨시어지',
+                        '프라이빗 이벤트 초대'
+                    ]}
+                ]
+            },
+            'authenticity': {
+                sections: [
+                    { title: '정품 인증', items: [
+                        '정품 인증서 발급',
+                        '시리얼 번호 조회'
+                    ]}
+                ]
+            },
+            'limited_edition': {
+                sections: [
+                    { title: '한정판 알림', items: [
+                        '한정판 출시 알림 신청',
+                        '사전 예약 안내'
+                    ]}
+                ]
+            },
+            'preorder': {
+                sections: [
+                    { title: '사전예약', items: [
+                        '사전예약 상품 확인',
+                        '예약 신청',
+                        '출시일 알림'
+                    ]}
+                ]
+            },
+            'concierge': {
+                sections: [
+                    { title: '컨시어지 서비스', items: [
+                        '전담 상담원 연결',
+                        '맞춤 쇼핑 제안'
+                    ]}
+                ]
+            },
+            'private_visit': {
+                sections: [
+                    { title: '예약 방문', items: [
+                        '프라이빗 룸 예약',
+                        '방문 희망일시 선택'
+                    ]}
+                ]
+            },
+            'after_care': {
+                sections: [
+                    { title: '수선/관리 서비스', items: [
+                        '수선 신청',
+                        '클리닝 서비스',
+                        '보관 서비스'
+                    ]}
+                ]
+            },
+            // ========== 라이프스타일 ==========
+            'curation': {
+                sections: [
+                    { title: '큐레이션', items: [
+                        '테마별 상품 큐레이션',
+                        '에디터 추천'
+                    ]}
+                ]
+            },
+            'live_commerce': {
+                sections: [
+                    { title: '라이브 방송', items: [
+                        '라이브 방송 목록',
+                        '실시간 시청'
+                    ]},
+                    { title: '라이브 구매', items: [
+                        '방송 중 상품 바로구매',
+                        '실시간 채팅/문의'
+                    ]}
+                ]
+            },
+            // ========== 헬스케어 ==========
+            'identity_verify': {
+                sections: [
+                    { title: '본인인증', items: [
+                        '휴대폰 본인인증 (PASS)',
+                        '공동인증서 인증'
+                    ]}
+                ]
+            },
+            'doctor_search': {
+                sections: [
+                    { title: '의료진 검색', items: [
+                        '진료과목/전문분야 필터',
+                        '의료진 프로필 조회'
+                    ]}
+                ]
+            },
+            'prescription': {
+                sections: [
+                    { title: '처방전 조회', items: [
+                        '발급된 처방전 리스트',
+                        '처방전 상세 내용'
+                    ]},
+                    { title: '약국 전송', items: [
+                        '주변 약국 검색',
+                        '처방전 전송'
+                    ]}
+                ]
+            },
+            'health_checkup': {
+                sections: [
+                    { title: '건강검진 예약', items: [
+                        '검진 항목 선택',
+                        '검진 기관/일자 선택'
+                    ]}
+                ]
+            },
+            'checkup_result': {
+                sections: [
+                    { title: '검진 결과', items: [
+                        '검진 결과 리스트',
+                        '결과 상세 보기',
+                        '이전 결과 비교'
+                    ]}
+                ]
+            },
+            'ai_symptom': {
+                sections: [
+                    { title: 'AI 증상 체크', items: [
+                        '증상 선택/입력',
+                        'AI 분석 결과',
+                        '추천 진료과 안내'
+                    ]}
+                ]
+            },
+            'insurance_claim': {
+                sections: [
+                    { title: '보험 청구', items: [
+                        '청구 서류 업로드',
+                        '청구 내역 조회'
+                    ]}
+                ]
+            },
+            'health_info': {
+                sections: [
+                    { title: '건강 정보', items: [
+                        '질환별 정보',
+                        '건강 팁 콘텐츠'
+                    ]}
+                ]
+            },
+            'medication_alarm': {
+                sections: [
+                    { title: '복약 알림', items: [
+                        '복용 약물 등록',
+                        '복약 시간 알림 설정'
+                    ]}
+                ]
+            },
+            // ========== 교육 ==========
+            'course_search': {
+                sections: [
+                    { title: '강좌 검색', items: [
+                        '키워드/카테고리 검색',
+                        '강좌 리스트 필터'
+                    ]}
+                ]
+            },
+            'enrollment': {
+                sections: [
+                    { title: '수강신청', items: [
+                        '강좌 선택',
+                        '수강 기간 확인',
+                        '결제 진행'
+                    ]}
+                ]
+            },
+            'assignment': {
+                sections: [
+                    { title: '과제 제출', items: [
+                        '과제 목록 확인',
+                        '파일 업로드/작성',
+                        '제출 기한 확인'
+                    ]}
+                ]
+            },
+            'quiz': {
+                sections: [
+                    { title: '퀴즈/시험', items: [
+                        '퀴즈 응시',
+                        '결과 확인',
+                        '오답 노트'
+                    ]}
+                ]
+            },
+            'progress': {
+                sections: [
+                    { title: '학습 진도', items: [
+                        '강의별 진도율',
+                        '전체 학습 현황'
+                    ]}
+                ]
+            },
+            'study_group': {
+                sections: [
+                    { title: '스터디 그룹', items: [
+                        '그룹 검색/가입',
+                        '그룹 활동',
+                        '일정 공유'
+                    ]}
+                ]
+            },
+            'certificate': {
+                sections: [
+                    { title: '수료증 발급', items: [
+                        '수료 조건 확인',
+                        '수료증 다운로드/출력'
+                    ]}
+                ]
+            },
+            'grade': {
+                sections: [
+                    { title: '성적 조회', items: [
+                        '과목별 성적',
+                        '학점/평점 확인'
+                    ]}
+                ]
+            },
+            // ========== 여행 ==========
+            'flight_booking': {
+                sections: [
+                    { title: '항공권 검색', items: [
+                        '출발지/도착지 선택',
+                        '날짜/인원 선택',
+                        '항공권 리스트'
+                    ]},
+                    { title: '예약', items: [
+                        '항공편 선택',
+                        '탑승자 정보 입력',
+                        '결제'
+                    ]}
+                ]
+            },
+            'hotel_booking': {
+                sections: [
+                    { title: '숙소 검색', items: [
+                        '지역/날짜/인원 검색',
+                        '숙소 리스트 필터'
+                    ]},
+                    { title: '예약', items: [
+                        '객실 선택',
+                        '투숙객 정보 입력',
+                        '결제'
+                    ]}
+                ]
+            },
+            'package_booking': {
+                sections: [
+                    { title: '패키지 검색', items: [
+                        '여행지/테마 선택',
+                        '패키지 리스트'
+                    ]},
+                    { title: '예약', items: [
+                        '출발일 선택',
+                        '여행자 정보 입력',
+                        '결제'
+                    ]}
+                ]
+            },
+            'tour_booking': {
+                sections: [
+                    { title: '투어/티켓 예약', items: [
+                        '투어/티켓 검색',
+                        '날짜/인원 선택',
+                        '결제'
+                    ]}
+                ]
+            },
+            'rental_car': {
+                sections: [
+                    { title: '렌터카 예약', items: [
+                        '픽업/반납 장소 선택',
+                        '날짜/시간 선택',
+                        '차량 선택'
+                    ]}
+                ]
+            },
+            'insurance': {
+                sections: [
+                    { title: '여행자 보험', items: [
+                        '보험 상품 비교',
+                        '가입 정보 입력',
+                        '결제'
+                    ]}
+                ]
+            },
+            'mileage': {
+                sections: [
+                    { title: '마일리지', items: [
+                        '보유 마일리지 조회',
+                        '적립/사용 내역'
+                    ]}
+                ]
+            },
+            'schedule': {
+                sections: [
+                    { title: '일정 관리', items: [
+                        '일정 등록',
+                        '캘린더 뷰',
+                        '알림 설정'
+                    ]}
+                ]
+            },
+            'travel_info': {
+                sections: [
+                    { title: '여행 정보', items: [
+                        '여행지 정보',
+                        '날씨/환율/비자'
+                    ]}
+                ]
+            },
+            'exchange_rate': {
+                sections: [
+                    { title: '환율 계산', items: [
+                        '실시간 환율 조회',
+                        '환율 계산기'
+                    ]}
+                ]
+            },
+            // ========== 부동산 ==========
+            'property_search': {
+                sections: [
+                    { title: '매물 검색', items: [
+                        '지역/유형/가격 필터',
+                        '매물 리스트'
+                    ]}
+                ]
+            },
+            'map_search': {
+                sections: [
+                    { title: '지도 검색', items: [
+                        '지도에서 매물 확인',
+                        '클러스터링 표시'
+                    ]}
+                ]
+            },
+            '3d_tour': {
+                sections: [
+                    { title: '3D 투어', items: [
+                        '매물 3D 뷰어',
+                        '360도 둘러보기'
+                    ]}
+                ]
+            },
+            'vr_tour': {
+                sections: [
+                    { title: 'VR 견학', items: [
+                        'VR 모드 진입',
+                        '가상 공간 체험'
+                    ]}
+                ]
+            },
+            'price_info': {
+                sections: [
+                    { title: '시세 정보', items: [
+                        '지역별 시세',
+                        '시세 추이 그래프'
+                    ]}
+                ]
+            },
+            'real_price': {
+                sections: [
+                    { title: '실거래가', items: [
+                        '실거래가 조회',
+                        '거래 내역 리스트'
+                    ]}
+                ]
+            },
+            'area_info': {
+                sections: [
+                    { title: '주변 정보', items: [
+                        '교통/학군/편의시설',
+                        '인프라 지도'
+                    ]}
+                ]
+            },
+            'agent_consult': {
+                sections: [
+                    { title: '중개사 상담', items: [
+                        '중개사 검색',
+                        '상담 신청'
+                    ]}
+                ]
+            },
+            'loan_consult': {
+                sections: [
+                    { title: '대출 상담', items: [
+                        '대출 한도 조회',
+                        '상담 신청'
+                    ]}
+                ]
+            },
+            'contract': {
+                sections: [
+                    { title: '계약 관리', items: [
+                        '계약서 조회',
+                        '계약 진행 현황'
+                    ]}
+                ]
+            },
+            'moving': {
+                sections: [
+                    { title: '이사 견적', items: [
+                        '이사 정보 입력',
+                        '업체별 견적 비교'
+                    ]}
+                ]
+            },
+            // ========== 금융 ==========
+            'security_auth': {
+                sections: [
+                    { title: '보안인증', items: [
+                        'OTP 인증',
+                        '생체인증 (지문/Face ID)'
+                    ]}
+                ]
+            },
+            'account_link': {
+                sections: [
+                    { title: '계좌 연결', items: [
+                        '은행 선택',
+                        '계좌 인증'
+                    ]}
+                ]
+            },
+            'account_view': {
+                sections: [
+                    { title: '계좌 조회', items: [
+                        '연결 계좌 리스트',
+                        '잔액 조회'
+                    ]}
+                ]
+            },
+            'transaction': {
+                sections: [
+                    { title: '거래내역', items: [
+                        '기간별 거래내역',
+                        '입출금 내역'
+                    ]}
+                ]
+            },
+            'transfer': {
+                sections: [
+                    { title: '이체', items: [
+                        '받는 계좌 입력',
+                        '이체 금액 입력',
+                        '보안인증 후 이체'
+                    ]}
+                ]
+            },
+            'deposit': {
+                sections: [
+                    { title: '예금/적금', items: [
+                        '상품 리스트',
+                        '가입 신청'
+                    ]}
+                ]
+            },
+            'loan': {
+                sections: [
+                    { title: '대출', items: [
+                        '대출 상품 조회',
+                        '한도 조회',
+                        '대출 신청'
+                    ]}
+                ]
+            },
+            'investment': {
+                sections: [
+                    { title: '투자', items: [
+                        '투자 상품 리스트',
+                        '매수/매도'
+                    ]}
+                ]
+            },
+            'asset_management': {
+                sections: [
+                    { title: '자산관리', items: [
+                        '총 자산 현황',
+                        '자산 구성 분석'
+                    ]}
+                ]
+            },
+            'portfolio': {
+                sections: [
+                    { title: '포트폴리오', items: [
+                        '보유 자산 현황',
+                        '수익률 확인'
+                    ]}
+                ]
+            },
+            'ai_advisor': {
+                sections: [
+                    { title: '로보어드바이저', items: [
+                        '투자 성향 분석',
+                        'AI 추천 포트폴리오'
+                    ]}
+                ]
+            },
+            'card': {
+                sections: [
+                    { title: '카드 관리', items: [
+                        '보유 카드 조회',
+                        '카드 신청'
+                    ]}
+                ]
+            },
+            // ========== 식당 ==========
+            'waiting': {
+                sections: [
+                    { title: '웨이팅 등록', items: [
+                        '인원 선택',
+                        '웨이팅 등록'
+                    ]},
+                    { title: '웨이팅 현황', items: [
+                        '대기 순번 확인',
+                        '입장 알림'
+                    ]}
+                ]
+            },
+            'table_select': {
+                sections: [
+                    { title: '테이블 선택', items: [
+                        '좌석 배치도',
+                        '테이블 선택'
+                    ]}
+                ]
+            },
+            'menu': {
+                sections: [
+                    { title: '메뉴 보기', items: [
+                        '카테고리별 메뉴',
+                        '메뉴 상세 정보'
+                    ]}
+                ]
+            },
+            'takeout': {
+                sections: [
+                    { title: '테이크아웃', items: [
+                        '픽업 시간 선택',
+                        '메뉴 선택/결제'
+                    ]}
+                ]
+            },
+            'prepaid': {
+                sections: [
+                    { title: '선결제', items: [
+                        '선결제 금액 충전',
+                        '잔액 조회'
+                    ]}
+                ]
+            },
+            'store_info': {
+                sections: [
+                    { title: '매장 정보', items: [
+                        '영업시간, 주소, 연락처',
+                        '주차 안내'
+                    ]}
+                ]
+            },
+            // ========== 피트니스 ==========
+            'membership_purchase': {
+                sections: [
+                    { title: '회원권 구매', items: [
+                        '회원권 종류 선택',
+                        '기간 선택',
+                        '결제'
+                    ]}
+                ]
+            },
+            'membership_manage': {
+                sections: [
+                    { title: '회원권 관리', items: [
+                        '보유 회원권 조회',
+                        '잔여 기간 확인',
+                        '일시정지/환불'
+                    ]}
+                ]
+            },
+            'diet': {
+                sections: [
+                    { title: '식단 관리', items: [
+                        '식단 기록',
+                        '칼로리 계산',
+                        '추천 식단'
+                    ]}
+                ]
+            },
+            'ai_coaching': {
+                sections: [
+                    { title: 'AI 코칭', items: [
+                        '운동 목표 설정',
+                        'AI 운동 추천',
+                        '진행 상황 분석'
+                    ]}
+                ]
+            },
+            'attendance': {
+                sections: [
+                    { title: '출석 체크', items: [
+                        'QR/카드 출석',
+                        '출석 내역 조회'
+                    ]}
+                ]
+            },
+            'locker': {
+                sections: [
+                    { title: '락커 관리', items: [
+                        '락커 배정',
+                        '비밀번호 설정'
+                    ]}
+                ]
+            },
+            'realtime_status': {
+                sections: [
+                    { title: '실시간 현황', items: [
+                        '현재 이용자 수',
+                        '기구별 사용 현황'
+                    ]}
+                ]
+            },
+            // ========== 뷰티샵 ==========
+            'designer_select': {
+                sections: [
+                    { title: '디자이너 선택', items: [
+                        '디자이너 리스트',
+                        '포트폴리오 확인',
+                        '디자이너 선택'
+                    ]}
+                ]
+            },
+            'service_select': {
+                sections: [
+                    { title: '시술 선택', items: [
+                        '시술 메뉴 리스트',
+                        '가격/소요시간 확인'
+                    ]}
+                ]
+            },
+            'style_search': {
+                sections: [
+                    { title: '스타일 검색', items: [
+                        '스타일 이미지 검색',
+                        '해시태그 검색'
+                    ]}
+                ]
+            },
+            'ar_simulation': {
+                sections: [
+                    { title: 'AR 시뮬레이션', items: [
+                        '헤어스타일 AR 적용',
+                        '컬러 시뮬레이션'
+                    ]}
+                ]
+            },
+            'style_recommend': {
+                sections: [
+                    { title: '스타일 추천', items: [
+                        '얼굴형 분석',
+                        '맞춤 스타일 추천'
+                    ]}
+                ]
+            },
+            // ========== 컨설팅 ==========
+            'service_intro': {
+                sections: [
+                    { title: '서비스 소개', items: [
+                        '서비스 영역 안내',
+                        '진행 프로세스'
+                    ]}
+                ]
+            },
+            'expert_matching': {
+                sections: [
+                    { title: '전문가 매칭', items: [
+                        '분야별 전문가 검색',
+                        '전문가 프로필 확인'
+                    ]}
+                ]
+            },
+            'quote_request': {
+                sections: [
+                    { title: '견적 요청', items: [
+                        '프로젝트 정보 입력',
+                        '견적 요청 발송'
+                    ]}
+                ]
+            },
+            'video_meeting': {
+                sections: [
+                    { title: '화상 회의', items: [
+                        '회의 일정 잡기',
+                        '화상 회의 참여'
+                    ]}
+                ]
+            },
+            'project_manage': {
+                sections: [
+                    { title: '프로젝트 관리', items: [
+                        '프로젝트 현황',
+                        '일정 관리'
+                    ]}
+                ]
+            },
+            'document': {
+                sections: [
+                    { title: '문서 관리', items: [
+                        '문서 업로드/다운로드',
+                        '버전 관리'
+                    ]}
+                ]
+            },
+            'milestone': {
+                sections: [
+                    { title: '마일스톤', items: [
+                        '단계별 진행 현황',
+                        '완료 체크'
+                    ]}
+                ]
+            },
+            'report': {
+                sections: [
+                    { title: '보고서', items: [
+                        '리포트 생성',
+                        '리포트 조회/다운로드'
+                    ]}
+                ]
+            },
+            // ========== 채용 ==========
+            'job_search': {
+                sections: [
+                    { title: '채용공고 검색', items: [
+                        '직무/지역/경력 필터',
+                        '공고 리스트'
+                    ]}
+                ]
+            },
+            'company_info': {
+                sections: [
+                    { title: '기업 정보', items: [
+                        '기업 개요',
+                        '채용 중인 공고'
+                    ]}
+                ]
+            },
+            'company_review': {
+                sections: [
+                    { title: '기업 리뷰', items: [
+                        '재직자 리뷰',
+                        '평점 현황'
+                    ]}
+                ]
+            },
+            'salary_info': {
+                sections: [
+                    { title: '연봉 정보', items: [
+                        '직무별 평균 연봉',
+                        '기업별 연봉 정보'
+                    ]}
+                ]
+            },
+            'resume': {
+                sections: [
+                    { title: '이력서 관리', items: [
+                        '이력서 작성/수정',
+                        '이력서 템플릿'
+                    ]}
+                ]
+            },
+            'application': {
+                sections: [
+                    { title: '지원하기', items: [
+                        '이력서 선택',
+                        '지원 정보 입력',
+                        '지원 완료'
+                    ]}
+                ]
+            },
+            'application_status': {
+                sections: [
+                    { title: '지원 현황', items: [
+                        '지원 내역 리스트',
+                        '진행 상태 확인'
+                    ]}
+                ]
+            },
+            'interview_schedule': {
+                sections: [
+                    { title: '면접 일정', items: [
+                        '면접 일정 확인',
+                        '일정 조율'
+                    ]}
+                ]
+            },
+            'video_interview': {
+                sections: [
+                    { title: '화상 면접', items: [
+                        '면접 대기실 입장',
+                        '화상 면접 진행'
+                    ]}
+                ]
+            },
+            'ai_resume': {
+                sections: [
+                    { title: 'AI 이력서 분석', items: [
+                        '이력서 분석 요청',
+                        '개선점 제안'
+                    ]}
+                ]
+            },
+            'recommendation': {
+                sections: [
+                    { title: '맞춤 추천', items: [
+                        '관심 직무 기반 추천',
+                        '추천 공고 알림'
+                    ]}
+                ]
+            },
+            // ========== 미디어 ==========
+            'article_search': {
+                sections: [
+                    { title: '기사 검색', items: [
+                        '키워드 검색',
+                        '검색 결과 리스트'
+                    ]}
+                ]
+            },
+            'video_news': {
+                sections: [
+                    { title: '영상 뉴스', items: [
+                        '영상 뉴스 리스트',
+                        '영상 재생'
+                    ]}
+                ]
+            },
+            'podcast': {
+                sections: [
+                    { title: '팟캐스트', items: [
+                        '팟캐스트 리스트',
+                        '오디오 재생'
+                    ]}
+                ]
+            },
+            'premium': {
+                sections: [
+                    { title: '프리미엄', items: [
+                        '프리미엄 콘텐츠',
+                        '구독 결제'
+                    ]}
+                ]
+            },
+            'newsletter': {
+                sections: [
+                    { title: '뉴스레터', items: [
+                        '뉴스레터 구독',
+                        '수신 이메일 설정'
+                    ]}
+                ]
+            },
+            'comment': {
+                sections: [
+                    { title: '댓글', items: [
+                        '댓글 작성',
+                        '답글 작성'
+                    ]}
+                ]
+            },
+            'bookmark': {
+                sections: [
+                    { title: '북마크', items: [
+                        '북마크 추가/삭제',
+                        '북마크 리스트'
+                    ]}
+                ]
+            },
+            'share': {
+                sections: [
+                    { title: '공유', items: [
+                        'SNS 공유',
+                        '링크 복사'
+                    ]}
+                ]
+            },
+            'ai_summary': {
+                sections: [
+                    { title: 'AI 요약', items: [
+                        '기사 요약 보기',
+                        '핵심 포인트 추출'
+                    ]}
+                ]
+            },
+            'personalized': {
+                sections: [
+                    { title: '맞춤 뉴스', items: [
+                        '관심사 설정',
+                        '맞춤 뉴스 피드'
+                    ]}
+                ]
+            },
+            // ========== 엔터테인먼트 ==========
+            'content_search': {
+                sections: [
+                    { title: '콘텐츠 검색', items: [
+                        '키워드/장르 검색',
+                        '검색 결과'
+                    ]}
+                ]
+            },
+            'music': {
+                sections: [
+                    { title: '음악', items: [
+                        '음악 재생',
+                        '플레이리스트 관리'
+                    ]}
+                ]
+            },
+            'video': {
+                sections: [
+                    { title: '영상', items: [
+                        '영상 재생',
+                        '화질 선택'
+                    ]}
+                ]
+            },
+            'live': {
+                sections: [
+                    { title: '라이브 방송', items: [
+                        '라이브 시청',
+                        '실시간 채팅'
+                    ]}
+                ]
+            },
+            'like': {
+                sections: [
+                    { title: '좋아요', items: [
+                        '좋아요 추가/취소',
+                        '좋아요 콘텐츠 리스트'
+                    ]}
+                ]
+            },
+            'playlist': {
+                sections: [
+                    { title: '플레이리스트', items: [
+                        '플레이리스트 생성',
+                        '콘텐츠 추가/삭제'
+                    ]}
+                ]
+            },
+            'fan_community': {
+                sections: [
+                    { title: '팬 커뮤니티', items: [
+                        '커뮤니티 게시판',
+                        '팬 활동'
+                    ]}
+                ]
+            },
+            'vote': {
+                sections: [
+                    { title: '투표', items: [
+                        '투표 참여',
+                        '투표 결과 확인'
+                    ]}
+                ]
+            },
+            'goods_shop': {
+                sections: [
+                    { title: '굿즈샵', items: [
+                        '굿즈 리스트',
+                        '구매'
+                    ]}
+                ]
+            },
+            // ========== OTT ==========
+            'download': {
+                sections: [
+                    { title: '다운로드', items: [
+                        '콘텐츠 다운로드',
+                        '다운로드 관리'
+                    ]}
+                ]
+            },
+            'watch_history': {
+                sections: [
+                    { title: '시청 기록', items: [
+                        '시청 내역 리스트',
+                        '이어보기'
+                    ]}
+                ]
+            },
+            'plan': {
+                sections: [
+                    { title: '요금제', items: [
+                        '요금제 비교',
+                        '요금제 변경'
+                    ]}
+                ]
+            },
+            'ai_recommend': {
+                sections: [
+                    { title: 'AI 추천', items: [
+                        '맞춤 콘텐츠 추천',
+                        '추천 이유 표시'
+                    ]}
+                ]
+            },
+            'rating': {
+                sections: [
+                    { title: '평가', items: [
+                        '별점/좋아요 평가',
+                        '평가 기반 추천'
+                    ]}
+                ]
+            },
+            'parental_control': {
+                sections: [
+                    { title: '자녀 보호', items: [
+                        '시청 등급 제한',
+                        '시청 시간 제한'
+                    ]}
+                ]
+            },
+            'quality': {
+                sections: [
+                    { title: '화질 설정', items: [
+                        '화질 선택',
+                        '데이터 절약 모드'
+                    ]}
+                ]
+            },
+            'subtitle': {
+                sections: [
+                    { title: '자막 설정', items: [
+                        '자막 언어 선택',
+                        '자막 스타일 설정'
+                    ]}
+                ]
+            },
+            // ========== 게임 ==========
+            'game_search': {
+                sections: [
+                    { title: '게임 검색', items: [
+                        '게임 검색',
+                        '장르별 필터'
+                    ]}
+                ]
+            },
+            'character': {
+                sections: [
+                    { title: '캐릭터 관리', items: [
+                        '캐릭터 정보',
+                        '스탯/장비 관리'
+                    ]}
+                ]
+            },
+            'in_app': {
+                sections: [
+                    { title: '인앱 구매', items: [
+                        '아이템 상점',
+                        '구매/결제'
+                    ]}
+                ]
+            },
+            'season_pass': {
+                sections: [
+                    { title: '시즌패스', items: [
+                        '시즌패스 구매',
+                        '보상 확인'
+                    ]}
+                ]
+            },
+            'ranking': {
+                sections: [
+                    { title: '랭킹', items: [
+                        '순위 확인',
+                        '내 랭킹'
+                    ]}
+                ]
+            },
+            'achievement': {
+                sections: [
+                    { title: '업적', items: [
+                        '업적 리스트',
+                        '달성 현황'
+                    ]}
+                ]
+            },
+            'leaderboard': {
+                sections: [
+                    { title: '리더보드', items: [
+                        '전체/친구 순위',
+                        '기간별 순위'
+                    ]}
+                ]
+            },
+            'friend': {
+                sections: [
+                    { title: '친구', items: [
+                        '친구 추가/삭제',
+                        '친구 리스트'
+                    ]}
+                ]
+            },
+            'guild': {
+                sections: [
+                    { title: '길드', items: [
+                        '길드 가입/생성',
+                        '길드 활동'
+                    ]}
+                ]
+            },
+            'chat': {
+                sections: [
+                    { title: '채팅', items: [
+                        '실시간 채팅',
+                        '귓속말'
+                    ]}
+                ]
+            },
+            'trade': {
+                sections: [
+                    { title: '거래소', items: [
+                        '아이템 등록',
+                        '구매/판매'
+                    ]}
+                ]
+            },
+            // ========== 커뮤니티 ==========
+            'post': {
+                sections: [
+                    { title: '게시글 작성', items: [
+                        '글/이미지/동영상 작성',
+                        '해시태그 추가'
+                    ]}
+                ]
+            },
+            'hashtag': {
+                sections: [
+                    { title: '해시태그', items: [
+                        '해시태그 검색',
+                        '인기 해시태그'
+                    ]}
+                ]
+            },
+            'follow': {
+                sections: [
+                    { title: '팔로우', items: [
+                        '팔로우/언팔로우',
+                        '팔로워/팔로잉 리스트'
+                    ]}
+                ]
+            },
+            'message': {
+                sections: [
+                    { title: '메시지', items: [
+                        'DM 보내기',
+                        '메시지 리스트'
+                    ]}
+                ]
+            },
+            'group': {
+                sections: [
+                    { title: '그룹', items: [
+                        '그룹 생성/가입',
+                        '그룹 활동'
+                    ]}
+                ]
+            },
+            'chat_room': {
+                sections: [
+                    { title: '채팅방', items: [
+                        '채팅방 생성',
+                        '실시간 채팅'
+                    ]}
+                ]
+            },
+            'trending': {
+                sections: [
+                    { title: '트렌딩', items: [
+                        '인기 콘텐츠',
+                        '실시간 트렌드'
+                    ]}
+                ]
+            },
+            // ========== 공공기관 ==========
+            'civil_application': {
+                sections: [
+                    { title: '민원 신청', items: [
+                        '민원 유형 선택',
+                        '신청서 작성',
+                        '첨부 서류 업로드'
+                    ]}
+                ]
+            },
+            'document_issue': {
+                sections: [
+                    { title: '서류 발급', items: [
+                        '발급 가능 서류 조회',
+                        '서류 발급 신청',
+                        'PDF 다운로드/출력'
+                    ]}
+                ]
+            },
+            'civil_status': {
+                sections: [
+                    { title: '민원 조회', items: [
+                        '신청 내역 조회',
+                        '처리 현황 확인'
+                    ]}
+                ]
+            },
+            'e_approval': {
+                sections: [
+                    { title: '전자결재', items: [
+                        '결재 문서 작성',
+                        '결재선 설정',
+                        '결재 현황'
+                    ]}
+                ]
+            },
+            'policy': {
+                sections: [
+                    { title: '정책 정보', items: [
+                        '정책 검색',
+                        '정책 상세'
+                    ]}
+                ]
+            },
+            'agency_search': {
+                sections: [
+                    { title: '기관 검색', items: [
+                        '기관명/지역 검색',
+                        '기관 정보'
+                    ]}
+                ]
+            },
+            'statistics': {
+                sections: [
+                    { title: '통계 정보', items: [
+                        '통계 데이터 조회',
+                        '시각화 자료'
+                    ]}
+                ]
+            },
+            'participation': {
+                sections: [
+                    { title: '국민 참여', items: [
+                        '제안/의견 등록',
+                        '참여 현황'
+                    ]}
+                ]
+            },
+            'survey': {
+                sections: [
+                    { title: '설문조사', items: [
+                        '설문 참여',
+                        '설문 결과'
+                    ]}
+                ]
+            },
+            'chatbot': {
+                sections: [
+                    { title: '챗봇', items: [
+                        'AI 상담',
+                        '자주 묻는 질문'
+                    ]}
+                ]
+            },
+            // ========== 비영리 ==========
+            'donation': {
+                sections: [
+                    { title: '후원하기', items: [
+                        '후원 금액 선택',
+                        '후원 정보 입력',
+                        '결제'
+                    ]}
+                ]
+            },
+            'regular_donation': {
+                sections: [
+                    { title: '정기 후원', items: [
+                        '정기 후원 신청',
+                        '자동결제 설정'
+                    ]}
+                ]
+            },
+            'donation_history': {
+                sections: [
+                    { title: '후원 내역', items: [
+                        '후원 이력 조회',
+                        '후원 영수증'
+                    ]}
+                ]
+            },
+            'campaign': {
+                sections: [
+                    { title: '캠페인', items: [
+                        '캠페인 리스트',
+                        '캠페인 참여'
+                    ]}
+                ]
+            },
+            'volunteer': {
+                sections: [
+                    { title: '봉사 신청', items: [
+                        '봉사 활동 검색',
+                        '신청'
+                    ]}
+                ]
+            },
+            'crowdfunding': {
+                sections: [
+                    { title: '크라우드펀딩', items: [
+                        '펀딩 프로젝트',
+                        '후원 참여'
+                    ]}
+                ]
+            },
+            'news': {
+                sections: [
+                    { title: '활동 소식', items: [
+                        '활동 리포트',
+                        '뉴스/공지'
+                    ]}
+                ]
+            },
+            'transparency': {
+                sections: [
+                    { title: '투명성 리포트', items: [
+                        '재정 현황',
+                        '사업 결과'
+                    ]}
+                ]
+            },
+            'receipt': {
+                sections: [
+                    { title: '기부 영수증', items: [
+                        '영수증 발급',
+                        '연말정산 자료'
+                    ]}
+                ]
+            },
+            // ========== 협회 ==========
+            'member_search': {
+                sections: [
+                    { title: '회원 검색', items: [
+                        '회원 검색',
+                        '회원 정보'
+                    ]}
+                ]
+            },
+            'membership_apply': {
+                sections: [
+                    { title: '가입 신청', items: [
+                        '가입 정보 입력',
+                        '가입 심사'
+                    ]}
+                ]
+            },
+            'fee_payment': {
+                sections: [
+                    { title: '회비 납부', items: [
+                        '회비 조회',
+                        '납부 결제'
+                    ]}
+                ]
+            },
+            'event_apply': {
+                sections: [
+                    { title: '행사 신청', items: [
+                        '행사 리스트',
+                        '참가 신청'
+                    ]}
+                ]
+            },
+            'library': {
+                sections: [
+                    { title: '자료실', items: [
+                        '자료 검색',
+                        '자료 다운로드'
+                    ]}
+                ]
+            },
+            'publication': {
+                sections: [
+                    { title: '발간물', items: [
+                        '발간물 리스트',
+                        '열람/다운로드'
+                    ]}
+                ]
+            },
+            // ========== 대학교 ==========
+            'evaluation': {
+                sections: [
+                    { title: '강의 평가', items: [
+                        '평가 작성',
+                        '평가 조회'
+                    ]}
+                ]
+            },
+            'facility_booking': {
+                sections: [
+                    { title: '시설 예약', items: [
+                        '시설 검색',
+                        '예약 신청'
+                    ]}
+                ]
+            },
+            'dormitory': {
+                sections: [
+                    { title: '기숙사', items: [
+                        '기숙사 신청',
+                        '호실 배정'
+                    ]}
+                ]
+            },
+            'cafeteria': {
+                sections: [
+                    { title: '학생식당', items: [
+                        '금일 메뉴',
+                        '영양 정보'
+                    ]}
+                ]
+            },
+            'student_id': {
+                sections: [
+                    { title: '학생증', items: [
+                        '모바일 학생증',
+                        '학생증 발급'
+                    ]}
+                ]
+            },
+            'scholarship': {
+                sections: [
+                    { title: '장학금', items: [
+                        '장학금 신청',
+                        '수혜 내역'
+                    ]}
+                ]
+            },
+            'club': {
+                sections: [
+                    { title: '동아리', items: [
+                        '동아리 검색',
+                        '가입 신청'
+                    ]}
+                ]
+            },
+            'career': {
+                sections: [
+                    { title: '취업 정보', items: [
+                        '채용 정보',
+                        '취업 상담'
+                    ]}
+                ]
+            },
+            // ========== B2B ==========
+            'company_verify': {
+                sections: [
+                    { title: '기업 인증', items: [
+                        '사업자등록증 업로드',
+                        '인증 심사'
+                    ]}
+                ]
+            },
+            'moq': {
+                sections: [
+                    { title: 'MOQ 설정', items: [
+                        '최소 주문 수량',
+                        '단가 협의'
+                    ]}
+                ]
+            },
+            'sample': {
+                sections: [
+                    { title: '샘플 요청', items: [
+                        '샘플 신청',
+                        '샘플 비용'
+                    ]}
+                ]
+            },
+            'rfq': {
+                sections: [
+                    { title: 'RFQ 요청', items: [
+                        '견적 요청서 작성',
+                        '발송'
+                    ]}
+                ]
+            },
+            'quote': {
+                sections: [
+                    { title: '견적서', items: [
+                        '견적서 조회',
+                        '견적 비교'
+                    ]}
+                ]
+            },
+            'negotiation': {
+                sections: [
+                    { title: '가격 협상', items: [
+                        '협상 요청',
+                        '협상 진행'
+                    ]}
+                ]
+            },
+            'bulk_order': {
+                sections: [
+                    { title: '대량 주문', items: [
+                        '대량 주문 신청',
+                        '주문 처리'
+                    ]}
+                ]
+            },
+            'tax_invoice': {
+                sections: [
+                    { title: '세금계산서', items: [
+                        '세금계산서 발급',
+                        '발급 내역'
+                    ]}
+                ]
+            },
+            'partner': {
+                sections: [
+                    { title: '거래처 관리', items: [
+                        '거래처 등록',
+                        '거래처 정보'
+                    ]}
+                ]
+            },
+            // ========== SaaS ==========
+            'pricing': {
+                sections: [
+                    { title: '요금제', items: [
+                        '요금제 비교',
+                        '요금제 선택'
+                    ]}
+                ]
+            },
+            'free_trial': {
+                sections: [
+                    { title: '무료 체험', items: [
+                        '체험 신청',
+                        '체험 기간 안내'
+                    ]}
+                ]
+            },
+            'upgrade': {
+                sections: [
+                    { title: '업그레이드', items: [
+                        '상위 요금제 안내',
+                        '업그레이드 결제'
+                    ]}
+                ]
+            },
+            'dashboard': {
+                sections: [
+                    { title: '대시보드', items: [
+                        '주요 지표',
+                        '현황 차트'
+                    ]}
+                ]
+            },
+            'team': {
+                sections: [
+                    { title: '팀 관리', items: [
+                        '팀원 초대',
+                        '팀원 관리'
+                    ]}
+                ]
+            },
+            'permission': {
+                sections: [
+                    { title: '권한 관리', items: [
+                        '역할 설정',
+                        '권한 부여'
+                    ]}
+                ]
+            },
+            'workspace': {
+                sections: [
+                    { title: '워크스페이스', items: [
+                        '워크스페이스 생성',
+                        '설정 관리'
+                    ]}
+                ]
+            },
+            'api': {
+                sections: [
+                    { title: 'API', items: [
+                        'API 키 발급',
+                        'API 문서'
+                    ]}
+                ]
+            },
+            'integration': {
+                sections: [
+                    { title: '연동 설정', items: [
+                        '외부 서비스 연동',
+                        '연동 관리'
+                    ]}
+                ]
+            },
+            'webhook': {
+                sections: [
+                    { title: '웹훅', items: [
+                        '웹훅 설정',
+                        '이벤트 로그'
+                    ]}
+                ]
+            },
+            // ========== 제조 ==========
+            'catalog': {
+                sections: [
+                    { title: '제품 카탈로그', items: [
+                        '제품 리스트',
+                        '카탈로그 다운로드'
+                    ]}
+                ]
+            },
+            'spec': {
+                sections: [
+                    { title: '제품 스펙', items: [
+                        '상세 스펙 조회',
+                        '스펙 비교'
+                    ]}
+                ]
+            },
+            'tech_doc': {
+                sections: [
+                    { title: '기술 문서', items: [
+                        '기술 자료',
+                        '문서 다운로드'
+                    ]}
+                ]
+            },
+            'certification': {
+                sections: [
+                    { title: '인증서', items: [
+                        '보유 인증 현황',
+                        '인증서 다운로드'
+                    ]}
+                ]
+            },
+            'production': {
+                sections: [
+                    { title: '생산 현황', items: [
+                        '생산 진행 상태',
+                        '납기 일정'
+                    ]}
+                ]
+            },
+            'oem_odm': {
+                sections: [
+                    { title: 'OEM/ODM', items: [
+                        'OEM/ODM 문의',
+                        '협력 신청'
+                    ]}
+                ]
+            },
+            'logistics': {
+                sections: [
+                    { title: '물류 추적', items: [
+                        '배송 현황',
+                        '물류 추적'
+                    ]}
+                ]
+            },
+            'export_import': {
+                sections: [
+                    { title: '수출입', items: [
+                        '수출입 서류',
+                        '통관 현황'
+                    ]}
+                ]
+            },
+            // ========== 물류 ==========
+            'tracking': {
+                sections: [
+                    { title: '배송 조회', items: [
+                        '운송장 번호 조회',
+                        '배송 상태'
+                    ]}
+                ]
+            },
+            'shipping_booking': {
+                sections: [
+                    { title: '운송 예약', items: [
+                        '운송 정보 입력',
+                        '예약 신청'
+                    ]}
+                ]
+            },
+            'realtime_tracking': {
+                sections: [
+                    { title: '실시간 추적', items: [
+                        'GPS 위치 추적',
+                        '예상 도착 시간'
+                    ]}
+                ]
+            },
+            'quote_calc': {
+                sections: [
+                    { title: '견적 산출', items: [
+                        '물량/거리 입력',
+                        '자동 견적 계산'
+                    ]}
+                ]
+            },
+            'warehouse': {
+                sections: [
+                    { title: '창고 관리', items: [
+                        '창고 현황',
+                        '재고 관리'
+                    ]}
+                ]
+            },
+            'inbound': {
+                sections: [
+                    { title: '입고 관리', items: [
+                        '입고 예정',
+                        '입고 처리'
+                    ]}
+                ]
+            },
+            'outbound': {
+                sections: [
+                    { title: '출고 관리', items: [
+                        '출고 요청',
+                        '출고 처리'
+                    ]}
+                ]
+            },
+            'dispatch': {
+                sections: [
+                    { title: '배차 관리', items: [
+                        '배차 스케줄',
+                        '차량 배정'
+                    ]}
+                ]
+            },
+            'driver': {
+                sections: [
+                    { title: '기사 관리', items: [
+                        '기사 정보',
+                        '운행 일정'
+                    ]}
+                ]
+            },
+            // ========== 관리자 공통 ==========
+            'admin_stats': {
+                sections: [
+                    { title: '통계/리포트', items: [
+                        '주요 지표 대시보드',
+                        '기간별 통계',
+                        '리포트 다운로드'
+                    ]}
+                ]
+            },
+            'admin_as': {
+                sections: [
+                    { title: 'A/S 관리', items: [
+                        'A/S 접수 리스트',
+                        '처리 현황 관리'
+                    ]}
+                ]
+            },
+            'admin_patient': {
+                sections: [
+                    { title: '환자 관리', items: [
+                        '환자 정보 조회',
+                        '진료 기록 관리'
+                    ]}
+                ]
+            },
+            'admin_course': {
+                sections: [
+                    { title: '강좌 관리', items: [
+                        '강좌 등록/수정',
+                        '강좌 현황'
+                    ]}
+                ]
+            },
+            'admin_student': {
+                sections: [
+                    { title: '학생 관리', items: [
+                        '학생 정보 조회',
+                        '수강 현황'
+                    ]}
+                ]
+            },
+            'admin_property': {
+                sections: [
+                    { title: '매물 관리', items: [
+                        '매물 등록/수정',
+                        '매물 현황'
+                    ]}
+                ]
+            },
+            'admin_customer': {
+                sections: [
+                    { title: '고객 관리', items: [
+                        '고객 정보 조회',
+                        '고객 활동 내역'
+                    ]}
+                ]
+            },
+            'admin_member': {
+                sections: [
+                    { title: '회원 관리', items: [
+                        '회원 리스트',
+                        '회원 정보 수정'
+                    ]}
+                ]
+            },
+            'admin_vip': {
+                sections: [
+                    { title: 'VIP 관리', items: [
+                        'VIP 고객 리스트',
+                        'VIP 혜택 관리'
+                    ]}
+                ]
+            },
+            'admin_designer': {
+                sections: [
+                    { title: '디자이너 관리', items: [
+                        '디자이너 등록/수정',
+                        '스케줄 관리'
+                    ]}
+                ]
+            },
+            'admin_project': {
+                sections: [
+                    { title: '프로젝트 관리', items: [
+                        '프로젝트 현황',
+                        '일정 관리'
+                    ]}
+                ]
+            },
+            'admin_job': {
+                sections: [
+                    { title: '공고 관리', items: [
+                        '공고 등록/수정',
+                        '공고 현황'
+                    ]}
+                ]
+            },
+            'admin_applicant': {
+                sections: [
+                    { title: '지원자 관리', items: [
+                        '지원자 리스트',
+                        '면접 관리'
+                    ]}
+                ]
+            },
+            'admin_content': {
+                sections: [
+                    { title: '콘텐츠 관리', items: [
+                        '콘텐츠 등록/수정',
+                        '콘텐츠 현황'
+                    ]}
+                ]
+            },
+            'admin_report': {
+                sections: [
+                    { title: '신고 관리', items: [
+                        '신고 리스트',
+                        '신고 처리'
+                    ]}
+                ]
+            },
+            'admin_civil': {
+                sections: [
+                    { title: '민원 관리', items: [
+                        '민원 리스트',
+                        '민원 처리'
+                    ]}
+                ]
+            },
+            'admin_donation': {
+                sections: [
+                    { title: '후원 관리', items: [
+                        '후원 내역',
+                        '후원자 관리'
+                    ]}
+                ]
+            },
+            'admin_logistics': {
+                sections: [
+                    { title: '물류 관리', items: [
+                        '물류 현황',
+                        '배송 관리'
+                    ]}
+                ]
+            },
+            'admin_usage': {
+                sections: [
+                    { title: '사용량 분석', items: [
+                        '사용량 통계',
+                        '과금 내역'
+                    ]}
+                ]
+            },
+            'admin_production': {
+                sections: [
+                    { title: '생산 관리', items: [
+                        '생산 현황',
+                        '생산 일정'
+                    ]}
+                ]
+            },
+            'education': {
+                sections: [
+                    { title: '교육 신청', items: [
+                        '교육 과정 선택',
+                        '교육 일정 확인',
+                        '신청 정보 입력'
+                    ]},
+                    { title: '교육 수강', items: [
+                        '교육 자료 확인',
+                        '출석 체크',
+                        '수료 처리'
+                    ]}
+                ]
+            },
+            'product_search': {
+                sections: [
+                    { title: '상품 조회', items: [
+                        '상품 검색',
+                        '카테고리별 필터',
+                        '상품 상세 조회'
+                    ]},
+                    { title: '상품 비교', items: [
+                        '상품 비교 선택',
+                        '스펙 비교'
+                    ]}
+                ]
             }
         };
         
@@ -10027,7 +14300,7 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
     
     const funcDesc = generateFuncDescription();
     
-    // 기능 설명 HTML 생성
+    // 기능 설명 HTML 생성 (기능정의서.md 형식에 맞춤)
     const renderFuncSections = () => {
         return funcDesc.sections.map((section, idx) => `
             <div class="func-desc-section">
@@ -10038,8 +14311,24 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
                         ${section.items.map(item => {
                             const isArrow = item.startsWith('→');
                             const isNested = item.startsWith('ㄴ');
-                            const itemClass = isArrow ? 'arrow-item' : (isNested ? 'nested-item' : '');
-                            return `<li class="${itemClass}">${item}</li>`;
+                            const isIndentedArrow = item.startsWith('  →');
+                            let itemClass = '';
+                            let displayItem = item;
+                            
+                            if (isIndentedArrow) {
+                                itemClass = 'deep-nested-item';
+                                displayItem = item; // 그대로 유지
+                            } else if (isArrow) {
+                                itemClass = 'arrow-item';
+                            } else if (isNested) {
+                                itemClass = 'nested-item';
+                            } else {
+                                // 일반 항목은 - 접두사 추가 (이미 있는 경우 제외)
+                                if (!item.startsWith('-')) {
+                                    displayItem = '- ' + item;
+                                }
+                            }
+                            return `<li class="${itemClass}">${displayItem}</li>`;
                         }).join('')}
                     </ul>
                 </div>
@@ -10119,69 +14408,334 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
         return '';
     };
     
+    // 기능 유형별 관련 요구사항 ID
+    const reqIds = {
+        // 회원/인증
+        'login': 'FO_REQ_050', 'signup': 'FO_REQ_060', 'social_login': 'FO_REQ_055',
+        'find_id': 'FO_REQ_061', 'find_pw': 'FO_REQ_062',
+        // 상품
+        'product_list': 'FO_REQ_010', 'product_detail': 'FO_REQ_011',
+        'cart': 'FO_REQ_020', 'order': 'FO_REQ_021', 'payment': 'FO_REQ_022',
+        'size_guide': 'FO_REQ_015', 'styling': 'FO_REQ_016', 'virtual_fitting': 'FO_REQ_017',
+        'skin_diagnosis': 'FO_REQ_018', 'virtual_makeup': 'FO_REQ_019', 'ingredient': 'FO_REQ_012',
+        'spec_compare': 'FO_REQ_013', 'compatibility': 'FO_REQ_014', '3d_viewer': 'FO_REQ_025',
+        'ar_placement': 'FO_REQ_026',
+        // 예약/상담
+        'booking': 'FO_REQ_030', 'install_booking': 'FO_REQ_031', 'class_booking': 'FO_REQ_032',
+        'pt_booking': 'FO_REQ_033', 'visit_booking': 'FO_REQ_034', 'consultation': 'FO_REQ_035',
+        'telemedicine': 'FO_REQ_036',
+        // 마이페이지
+        'mypage': 'FO_REQ_040', 'order_history': 'FO_REQ_041', 'review': 'FO_REQ_042',
+        'inquiry': 'FO_REQ_043', 'profile': 'FO_REQ_044',
+        // 건강/운동
+        'exercise_log': 'FO_REQ_080', 'body_check': 'FO_REQ_081', 
+        'health_record': 'FO_REQ_082', 'medical_record': 'FO_REQ_083',
+        // 학습/콘텐츠
+        'online_lecture': 'FO_REQ_090', 'live_class': 'FO_REQ_091', 'watch': 'FO_REQ_092',
+        // 구독/정산
+        'subscription': 'FO_REQ_100', 'settlement': 'FO_REQ_101',
+        // 고객지원
+        'faq': 'FO_REQ_070', 'notice': 'FO_REQ_071', 'contact': 'FO_REQ_072',
+        // 관리자
+        'admin_dashboard': 'BO_REQ_001', 'admin_user': 'BO_REQ_002', 
+        'admin_order': 'BO_REQ_003', 'admin_booking': 'BO_REQ_004'
+    };
+    const reqId = reqIds[funcType] || 'FO_REQ_000';
+    
+    // 화면 구성 HTML 생성
+    // 화면 구성 HTML 생성 (pageUI가 없으면 steps 기반으로 자동 생성)
+    const renderScreenLayout = () => {
+        // pageUI가 있으면 상세하게 표시
+        if (info.pageUI && info.pageUI.length > 0) {
+            return `
+                <div class="func-section">
+                    <h4>2. 화면 구성 (Screen Layout)</h4>
+                    <div class="screen-layout">
+                        ${info.pageUI.map((ui, idx) => `
+                            <div class="screen-item">
+                                <h5>2.${idx + 1} ${ui.element}</h5>
+                                <div class="screen-elements">
+                                    <div class="element"><span class="el-type">[${ui.type}]</span> ${ui.element} (기본값: ${ui.defaultVal || '-'})</div>
+                                    ${ui.actions ? ui.actions.map(action => `
+                                        <div class="element action-item">
+                                            <span class="el-action">▸ ${action.action}</span>
+                                            <span class="el-result">→ ${action.result}</span>
+                                        </div>
+                                    `).join('') : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // pageUI가 없으면 steps + options 기반으로 자동 생성
+        const autoGeneratedUI = [];
+        
+        // steps 기반 UI 요소 생성
+        info.steps.forEach((step, idx) => {
+            const uiTypes = {
+                '진입': { type: '페이지', element: '메인 화면', actions: ['페이지 로딩 → 초기 데이터 표시', '로딩 실패 → 에러 메시지 및 재시도'] },
+                '선택': { type: '셀렉트/카드', element: '항목 선택', actions: ['항목 클릭 → 선택 상태 변경', '선택 완료 → 다음 단계 활성화'] },
+                '입력': { type: '입력필드', element: '정보 입력 폼', actions: ['필수값 입력 → 실시간 유효성 검사', '유효성 통과 → 다음 버튼 활성화'] },
+                '확인': { type: '카드/테이블', element: '정보 확인', actions: ['정보 표시 → 수정 버튼 제공', '확인 클릭 → 다음 단계 진행'] },
+                '완료': { type: '결과화면', element: '완료 메시지', actions: ['성공 → 완료 메시지 및 다음 액션 안내', '실패 → 에러 메시지 및 재시도'] },
+                '검색': { type: '검색필드', element: '검색창', actions: ['키워드 입력 → 실시간 검색/자동완성', '검색 실행 → 결과 목록 표시'] },
+                '조회': { type: '리스트/테이블', element: '목록 조회', actions: ['필터 적용 → 목록 갱신', '항목 클릭 → 상세 페이지 이동'] },
+                '등록': { type: '폼', element: '등록 폼', actions: ['정보 입력 → 유효성 검사', '등록 버튼 → API 호출 및 완료 처리'] },
+                '수정': { type: '폼', element: '수정 폼', actions: ['기존 데이터 로딩 → 폼에 표시', '저장 클릭 → 수정 처리'] },
+                '삭제': { type: '버튼', element: '삭제 버튼', actions: ['삭제 클릭 → 확인 팝업', '확인 → 삭제 처리 및 목록 갱신'] },
+                '결제': { type: '결제폼', element: '결제 정보', actions: ['결제수단 선택 → 입력 폼 변경', '결제 클릭 → PG 연동 및 결과 처리'] },
+                '예약': { type: '캘린더', element: '날짜/시간 선택', actions: ['날짜 선택 → 가능 시간 표시', '시간 선택 → 예약 정보 확인'] },
+                '신청': { type: '폼', element: '신청서', actions: ['필수 정보 입력 → 유효성 검사', '신청 버튼 → 신청 처리'] },
+                '상담': { type: '폼/채팅', element: '상담 인터페이스', actions: ['상담 요청 → 상담사 연결', '메시지 전송 → 실시간 응답'] }
+            };
+            
+            // step에 해당하는 UI 타입 찾기
+            let matchedUI = null;
+            Object.keys(uiTypes).forEach(key => {
+                if (step.includes(key)) {
+                    matchedUI = uiTypes[key];
+                }
+            });
+            
+            if (!matchedUI) {
+                matchedUI = { type: '화면', element: step, actions: [`${step} 진행 → 결과 표시`, `처리 완료 → 다음 단계`] };
+            }
+            
+            autoGeneratedUI.push({
+                idx: idx + 1,
+                step: step,
+                type: matchedUI.type,
+                element: matchedUI.element,
+                actions: matchedUI.actions
+            });
+        });
+        
+        return `
+            <div class="func-section">
+                <h4>2. 화면 구성 (Screen Layout)</h4>
+                <div class="screen-layout">
+                    ${autoGeneratedUI.map(ui => `
+                        <div class="screen-item">
+                            <h5>2.${ui.idx} ${ui.step}</h5>
+                            <div class="screen-elements">
+                                <div class="element"><span class="el-type">[${ui.type}]</span> ${ui.element}</div>
+                                ${ui.actions.map(action => `
+                                    <div class="element action-item">
+                                        <span class="el-action">▸ ${action.split('→')[0]?.trim() || action}</span>
+                                        <span class="el-result">→ ${action.split('→')[1]?.trim() || '처리 완료'}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    };
+    
+    // 옵션별 상세 스펙 HTML 생성 (optionSpecs에 없는 옵션도 기본 스펙 자동 생성)
+    const renderOptionSpecs = () => {
+        if (options.length === 0) return '';
+        
+        // optionSpecs에 정의된 옵션과 정의되지 않은 옵션 분리
+        const definedOptions = options.filter(opt => optionSpecs[opt]);
+        const undefinedOptions = options.filter(opt => !optionSpecs[opt]);
+        
+        let html = '';
+        
+        // 정의된 옵션 상세 스펙
+        const optionDetails = definedOptions.map(opt => optionSpecs[opt]).filter(Boolean);
+        if (optionDetails.length === 0 && undefinedOptions.length === 0) return '';
+        
+        return optionDetails.map((spec, idx) => {
+            const opt = options[idx];
+            let html = '';
+            
+            // 입력 필드 정의
+            if (spec.fields && (spec.fields.required?.length > 0 || spec.fields.optional?.length > 0)) {
+                html += `
+                    <div class="func-section">
+                        <h4>${3 + idx}. ${opt} - 입력 필드 정의</h4>
+                        <div class="func-table detail">
+                            <div class="func-row header"><span>필드명</span><span>타입</span><span>형식</span><span>유효성 검사</span><span>필수</span></div>
+                            ${spec.fields.required?.map(f => `
+                                <div class="func-row">
+                                    <span>${f.name}</span>
+                                    <span>${f.type}</span>
+                                    <span>${f.format}</span>
+                                    <span>${f.validation}</span>
+                                    <span class="required">Y</span>
+                                </div>
+                            `).join('') || ''}
+                            ${spec.fields.optional?.map(f => `
+                                <div class="func-row">
+                                    <span>${f.name}</span>
+                                    <span>${f.type}</span>
+                                    <span>${f.format}</span>
+                                    <span>${f.validation}</span>
+                                    <span class="optional">N</span>
+                                </div>
+                            `).join('') || ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // UI 요소
+            if (spec.ui?.length > 0) {
+                html += `
+                    <div class="func-section">
+                        <h4>${opt} - UI 요소</h4>
+                        <div class="func-table">
+                            <div class="func-row header"><span>유형</span><span>요소명</span><span>스타일/설명</span></div>
+                            ${spec.ui.map(u => `
+                                <div class="func-row">
+                                    <span>[${u.type}]</span>
+                                    <span>${u.name}</span>
+                                    <span>${u.style || u.options?.join(', ') || '-'}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // 동작 정의
+            if (spec.actions?.length > 0) {
+                html += `
+                    <div class="func-section">
+                        <h4>${opt} - 동작 정의</h4>
+                        <div class="func-table">
+                            <div class="func-row header"><span>트리거</span><span>동작</span></div>
+                            ${spec.actions.map(a => `
+                                <div class="func-row">
+                                    <span>${a.trigger}</span>
+                                    <span>${a.action}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // 알림/팝업
+            if (spec.alerts?.length > 0) {
+                html += `
+                    <div class="func-section">
+                        <h4>${opt} - 알림/팝업</h4>
+                        <div class="func-table">
+                            <div class="func-row header"><span>조건</span><span>제목</span><span>메시지</span><span>버튼</span></div>
+                            ${spec.alerts.map(a => `
+                                <div class="func-row">
+                                    <span>${a.condition}</span>
+                                    <span>${a.title}</span>
+                                    <span>${a.message}</span>
+                                    <span>${a.buttons?.join('<br>') || '-'}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return html;
+        }).join('');
+        
+        // optionSpecs에 정의되지 않은 옵션들에 대해 기본 스펙 자동 생성
+        if (undefinedOptions.length > 0) {
+            html += `
+                <div class="func-section">
+                    <h4>선택 옵션 상세</h4>
+                    <div class="func-table">
+                        <div class="func-row header"><span>옵션명</span><span>설명</span><span>UI 요소</span><span>동작</span></div>
+                        ${undefinedOptions.map(opt => `
+                            <div class="func-row">
+                                <span><strong>${opt}</strong></span>
+                                <span>${opt} 관련 기능 제공</span>
+                                <span>[버튼/입력/선택] ${opt} UI</span>
+                                <span>클릭/입력 → ${opt} 처리 → 결과 표시</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        return html;
+    };
+    
     return `
-        <div class="func-spec-document">
-            <!-- 화면 기본 정보 테이블 (기능정의서.md 형식) -->
-            <div class="func-info-table">
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>화면 ID</th>
-                            <td><code>${screenId}</code></td>
-                        </tr>
-                        <tr>
-                            <th>메뉴 경로</th>
-                            <td>${menuPath}</td>
-                        </tr>
-                        <tr>
-                            <th>타입</th>
-                            <td>${screenType}</td>
-                        </tr>
-                        <tr>
-                            <th>PC/MO</th>
-                            <td>공통</td>
-                        </tr>
-                        <tr>
-                            <th>Spec</th>
-                            <td>1차</td>
-                        </tr>
-                        <tr>
-                            <th>접근 권한</th>
-                            <td>${accessRight}</td>
-                        </tr>
-                        <tr>
-                            <th>관련 요구사항</th>
-                            <td>FO_REQ_${String(Math.floor(Math.random() * 100)).padStart(3, '0')}</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="func-doc-header">
+            <div class="doc-meta">
+                <div class="meta-item"><span class="meta-label">문서 ID</span><span class="meta-value">FD-${info.category?.toUpperCase().substring(0,3) || 'GEN'}-${funcType.substring(0,3).toUpperCase()}</span></div>
+                <div class="meta-item"><span class="meta-label">버전</span><span class="meta-value">v1.0</span></div>
+                <div class="meta-item"><span class="meta-label">작성일</span><span class="meta-value">${new Date().toLocaleDateString('ko-KR')}</span></div>
+                <div class="meta-item"><span class="meta-label">업종</span><span class="meta-value">${industryName}</span></div>
+                <div class="meta-item"><span class="meta-label">요구사항 ID</span><span class="meta-value">${reqId}</span></div>
             </div>
-            
-            <!-- 기능 설명 섹션 -->
-            <div class="func-description-section">
-                <h4>기능 설명</h4>
-                <div class="func-desc-container">
-                    ${renderFuncSections()}
-                </div>
+        </div>
+
+        <div class="func-journey">
+            <h4>📍 사용자 여정 (User Journey)</h4>
+            <div class="journey-flow">
+                ${info.steps.map((step, idx) => `
+                    <div class="journey-step${idx === info.steps.length - 1 ? ' completed' : ''}">
+                        <span class="step-num">${idx + 1}</span>
+                        <span class="step-title">${step}</span>
+                    </div>
+                    ${idx < info.steps.length - 1 ? '<div class="journey-arrow">→</div>' : ''}
+                `).join('')}
             </div>
-            
-            <!-- 알림톡 메시지 (해당 시) -->
-            ${renderAlertMessage()}
-            
-            <!-- 선택된 상세 옵션 스펙 -->
-            <div class="func-options-section">
-                <h4>상세 옵션 스펙</h4>
-                <div class="func-options-container">
-                    ${optionItems || '<div class="empty-spec">선택된 옵션이 없습니다</div>'}
-                </div>
+        </div>
+
+        <div class="func-section">
+            <h4>1. 기능 개요</h4>
+            <div class="func-overview">
+                <p><strong>기능 목적:</strong> ${info.purpose}</p>
+                <p><strong>접근 경로:</strong> ${menuPath}</p>
+                <p><strong>권한:</strong> ${accessRight}</p>
+                <p><strong>화면 ID:</strong> <code>${screenId}</code></p>
+                <p><strong>화면 타입:</strong> ${screenType}</p>
             </div>
-            
-            <!-- 비고 섹션 -->
-            <div class="func-remarks-section">
-                <h4>비고</h4>
-                <div class="func-remarks-container">
-                    ${renderRemarks()}
-                </div>
+        </div>
+
+        ${renderScreenLayout()}
+        
+        ${renderOptionSpecs()}
+
+        <div class="func-section">
+            <h4>에러 처리</h4>
+            <div class="func-table">
+                <div class="func-row header"><span>에러 상황</span><span>에러 메시지</span><span>처리 방법</span></div>
+                <div class="func-row"><span>필수값 미입력</span><span>"필수 항목을 입력해주세요"</span><span>미입력 필드 하이라이트, 포커스 이동</span></div>
+                <div class="func-row"><span>유효성 검사 실패</span><span>"입력 형식이 올바르지 않습니다"</span><span>입력 필드 하단 에러 메시지 표시</span></div>
+                <div class="func-row"><span>서버 오류</span><span>"일시적인 오류가 발생했습니다"</span><span>재시도 버튼 표시</span></div>
+                <div class="func-row"><span>네트워크 오류</span><span>"네트워크 연결을 확인해주세요"</span><span>재시도 버튼 표시</span></div>
+                <div class="func-row"><span>권한 없음</span><span>"접근 권한이 없습니다"</span><span>이전 페이지로 이동 또는 로그인 유도</span></div>
+            </div>
+        </div>
+
+        <div class="func-section">
+            <h4>비즈니스 규칙</h4>
+            <ul class="func-list">
+                <li><strong>데이터 유효성:</strong> 모든 입력값은 클라이언트 + 서버 양측에서 검증</li>
+                <li><strong>보안:</strong> 민감 정보 전송 시 HTTPS 필수, 개인정보 마스킹 처리</li>
+                <li><strong>접근성:</strong> 키보드 네비게이션 지원, ARIA 레이블 적용</li>
+                <li><strong>반응형:</strong> PC/태블릿/모바일 해상도 대응</li>
+                ${options.slice(0, 3).map(opt => `<li><strong>${opt}:</strong> 해당 옵션 관련 비즈니스 로직 적용</li>`).join('')}
+            </ul>
+        </div>
+
+        <div class="func-analysis">
+            <h4>📊 분석 근거</h4>
+            <div class="analysis-content">
+                <p><strong>참조 프로젝트:</strong> 유사 ${industryName} 업종 프로젝트 ${refCount}건 분석</p>
+                <p><strong>법규 준수:</strong> 개인정보보호법, 정보통신망법, 전자상거래법 최신 기준 반영</p>
+                <p><strong>UX 벤치마킹:</strong> ${industryName} 업종 Top 10 서비스 분석</p>
+                <p><strong>선택된 옵션:</strong> ${options.join(', ') || '없음'}</p>
             </div>
         </div>
     `;
