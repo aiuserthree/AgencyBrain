@@ -14536,29 +14536,27 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
         `;
     };
     
-    // 옵션별 상세 스펙 HTML 생성 (optionSpecs에 없는 옵션도 기본 스펙 자동 생성)
+    // 옵션별 상세 스펙 HTML 생성 (모든 업종/기능유형에서 항상 생성)
     const renderOptionSpecs = () => {
-        if (options.length === 0) return '';
-        
-        // optionSpecs에 정의된 옵션과 정의되지 않은 옵션 분리
-        const definedOptions = options.filter(opt => optionSpecs[opt]);
-        const undefinedOptions = options.filter(opt => !optionSpecs[opt]);
-        
         let html = '';
         
-        // 정의된 옵션 상세 스펙
-        const optionDetails = definedOptions.map(opt => optionSpecs[opt]).filter(Boolean);
-        if (optionDetails.length === 0 && undefinedOptions.length === 0) return '';
+        // 선택된 옵션이 없으면 기능 유형의 steps를 기본 옵션으로 사용
+        const displayOptions = options.length > 0 ? options : info.steps;
         
-        return optionDetails.map((spec, idx) => {
-            const opt = options[idx];
-            let html = '';
+        // optionSpecs에 정의된 옵션과 정의되지 않은 옵션 분리
+        const definedOptions = displayOptions.filter(opt => optionSpecs[opt]);
+        const undefinedOptions = displayOptions.filter(opt => !optionSpecs[opt]);
+        
+        // 1. optionSpecs에 정의된 옵션 상세 스펙
+        definedOptions.forEach((opt, idx) => {
+            const spec = optionSpecs[opt];
+            if (!spec) return;
             
             // 입력 필드 정의
             if (spec.fields && (spec.fields.required?.length > 0 || spec.fields.optional?.length > 0)) {
                 html += `
                     <div class="func-section">
-                        <h4>${3 + idx}. ${opt} - 입력 필드 정의</h4>
+                        <h4>3.${idx + 1} ${opt} - 입력 필드 정의</h4>
                         <div class="func-table detail">
                             <div class="func-row header"><span>필드명</span><span>타입</span><span>형식</span><span>유효성 검사</span><span>필수</span></div>
                             ${spec.fields.required?.map(f => `
@@ -14640,25 +14638,84 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
                     </div>
                 `;
             }
-            
-            return html;
-        }).join('');
+        });
         
-        // optionSpecs에 정의되지 않은 옵션들에 대해 기본 스펙 자동 생성
+        // 2. optionSpecs에 정의되지 않은 옵션들에 대해 기본 스펙 자동 생성
         if (undefinedOptions.length > 0) {
+            // 기능 유형별 UI 타입 매핑
+            const getUIType = (opt) => {
+                const optLower = opt.toLowerCase();
+                if (optLower.includes('입력') || optLower.includes('작성') || optLower.includes('등록')) return '[입력필드]';
+                if (optLower.includes('선택') || optLower.includes('필터')) return '[셀렉트/체크박스]';
+                if (optLower.includes('검색') || optLower.includes('조회')) return '[검색필드]';
+                if (optLower.includes('버튼') || optLower.includes('클릭')) return '[버튼]';
+                if (optLower.includes('목록') || optLower.includes('리스트')) return '[리스트/테이블]';
+                if (optLower.includes('날짜') || optLower.includes('일정') || optLower.includes('캘린더')) return '[캘린더/날짜선택]';
+                if (optLower.includes('파일') || optLower.includes('업로드') || optLower.includes('첨부')) return '[파일업로드]';
+                if (optLower.includes('알림') || optLower.includes('푸시')) return '[알림설정]';
+                return '[버튼/입력/선택]';
+            };
+            
+            const getAction = (opt) => {
+                const optLower = opt.toLowerCase();
+                if (optLower.includes('입력') || optLower.includes('작성')) return `${opt} 입력 → 유효성 검사 → 저장`;
+                if (optLower.includes('선택') || optLower.includes('필터')) return `${opt} 선택 → 옵션 적용 → 결과 반영`;
+                if (optLower.includes('검색') || optLower.includes('조회')) return `키워드 입력 → 검색 실행 → 결과 표시`;
+                if (optLower.includes('등록') || optLower.includes('신청')) return `정보 입력 → 확인 → 등록 완료`;
+                if (optLower.includes('삭제') || optLower.includes('취소')) return `삭제 클릭 → 확인 팝업 → 처리 완료`;
+                if (optLower.includes('수정') || optLower.includes('변경')) return `수정 클릭 → 정보 변경 → 저장`;
+                return `${opt} 클릭/입력 → 처리 → 결과 표시`;
+            };
+            
             html += `
                 <div class="func-section">
-                    <h4>선택 옵션 상세</h4>
+                    <h4>3. 옵션별 상세 스펙</h4>
                     <div class="func-table">
                         <div class="func-row header"><span>옵션명</span><span>설명</span><span>UI 요소</span><span>동작</span></div>
                         ${undefinedOptions.map(opt => `
                             <div class="func-row">
                                 <span><strong>${opt}</strong></span>
-                                <span>${opt} 관련 기능 제공</span>
-                                <span>[버튼/입력/선택] ${opt} UI</span>
-                                <span>클릭/입력 → ${opt} 처리 → 결과 표시</span>
+                                <span>${funcName}의 ${opt} 기능 제공</span>
+                                <span>${getUIType(opt)} ${opt} UI</span>
+                                <span>${getAction(opt)}</span>
                             </div>
                         `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 3. 옵션이 전혀 없는 경우에도 기본 스펙 생성
+        if (displayOptions.length === 0) {
+            html += `
+                <div class="func-section">
+                    <h4>3. 기본 기능 스펙</h4>
+                    <div class="func-table">
+                        <div class="func-row header"><span>기능</span><span>설명</span><span>UI 요소</span><span>동작</span></div>
+                        <div class="func-row">
+                            <span><strong>데이터 조회</strong></span>
+                            <span>${funcName} 정보 조회</span>
+                            <span>[리스트/카드] 목록 표시</span>
+                            <span>페이지 로딩 → 데이터 조회 → 목록 표시</span>
+                        </div>
+                        <div class="func-row">
+                            <span><strong>상세 보기</strong></span>
+                            <span>상세 정보 확인</span>
+                            <span>[상세화면] 정보 표시</span>
+                            <span>항목 클릭 → 상세 조회 → 정보 표시</span>
+                        </div>
+                        <div class="func-row">
+                            <span><strong>데이터 입력</strong></span>
+                            <span>필수 정보 입력</span>
+                            <span>[입력폼] 입력 필드</span>
+                            <span>정보 입력 → 유효성 검사 → 저장</span>
+                        </div>
+                        <div class="func-row">
+                            <span><strong>처리 완료</strong></span>
+                            <span>작업 완료 처리</span>
+                            <span>[버튼] 확인/완료</span>
+                            <span>완료 클릭 → 처리 → 결과 안내</span>
+                        </div>
                     </div>
                 </div>
             `;
