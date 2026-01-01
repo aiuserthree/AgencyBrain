@@ -14653,18 +14653,105 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
                 if (optLower.includes('날짜') || optLower.includes('일정') || optLower.includes('캘린더')) return '[캘린더/날짜선택]';
                 if (optLower.includes('파일') || optLower.includes('업로드') || optLower.includes('첨부')) return '[파일업로드]';
                 if (optLower.includes('알림') || optLower.includes('푸시')) return '[알림설정]';
+                if (optLower.includes('결제') || optLower.includes('카드') || optLower.includes('계좌')) return '[결제모듈]';
+                if (optLower.includes('인증') || optLower.includes('본인')) return '[인증모듈]';
+                if (optLower.includes('지도') || optLower.includes('위치') || optLower.includes('주소')) return '[지도/주소검색]';
+                if (optLower.includes('이미지') || optLower.includes('사진') || optLower.includes('갤러리')) return '[이미지뷰어]';
+                if (optLower.includes('영상') || optLower.includes('비디오') || optLower.includes('동영상')) return '[비디오플레이어]';
+                if (optLower.includes('채팅') || optLower.includes('메시지')) return '[채팅UI]';
+                if (optLower.includes('그래프') || optLower.includes('차트') || optLower.includes('통계')) return '[차트/그래프]';
+                if (optLower.includes('평점') || optLower.includes('별점') || optLower.includes('리뷰')) return '[별점선택]';
                 return '[버튼/입력/선택]';
+            };
+            
+            // 옵션별 구체적인 설명 생성
+            const getDescription = (opt) => {
+                const optLower = opt.toLowerCase();
+                // 인증/보안
+                if (optLower.includes('소셜 로그인')) return '카카오, 네이버, 구글 등 소셜 계정을 통한 간편 로그인 기능 제공';
+                if (optLower.includes('본인인증')) return 'NICE/PASS 연동을 통한 휴대폰 본인인증 및 CI/DI 값 수신';
+                if (optLower.includes('2단계 인증') || optLower.includes('otp')) return 'SMS/이메일 OTP 또는 인증 앱을 통한 추가 보안 인증';
+                if (optLower.includes('생체인증')) return '지문, Face ID 등 생체 정보를 활용한 빠르고 안전한 인증';
+                if (optLower.includes('자동 로그인')) return '브라우저/앱 종료 후에도 로그인 상태 유지 (최대 30일)';
+                
+                // 결제/금융
+                if (optLower.includes('신용카드')) return '국내외 주요 카드사 신용/체크카드 결제 지원';
+                if (optLower.includes('간편결제')) return '카카오페이, 네이버페이, 토스 등 간편결제 서비스 연동';
+                if (optLower.includes('계좌이체')) return '실시간 계좌이체 및 가상계좌 발급 지원';
+                if (optLower.includes('포인트') || optLower.includes('적립금')) return '보유 포인트/적립금 조회 및 결제 시 사용 가능';
+                if (optLower.includes('쿠폰')) return '보유 쿠폰 목록 조회, 쿠폰 코드 등록, 결제 시 할인 적용';
+                if (optLower.includes('할부')) return '무이자 할부 및 최대 12개월 할부 결제 옵션 제공';
+                
+                // 배송/물류
+                if (optLower.includes('배송조회')) return '택배사 API 연동을 통한 실시간 배송 위치 및 상태 추적';
+                if (optLower.includes('배송지')) return '배송지 목록 관리, 기본 배송지 설정, 다음 주소 API 연동';
+                if (optLower.includes('새벽 배송')) return '밤 11시 이전 주문 시 다음날 아침 7시 이전 도착 보장';
+                if (optLower.includes('당일 배송')) return '오전 주문 시 당일 배송 완료, 지역별 가능 여부 표시';
+                if (optLower.includes('예약 배송')) return '원하는 날짜/시간대 지정 배송 예약 기능';
+                
+                // 상품/리뷰
+                if (optLower.includes('사이즈')) return 'AI 기반 사이즈 추천 및 상세 치수표, 착용 가이드 제공';
+                if (optLower.includes('리뷰') || optLower.includes('후기')) return '텍스트/포토/동영상 리뷰 작성, 별점 평가, 도움됨 투표';
+                if (optLower.includes('위시리스트') || optLower.includes('찜')) return '관심 상품 저장, 재입고/가격 변동 알림 설정';
+                if (optLower.includes('비교')) return '최대 4개 상품 동시 비교, 항목별 차이점 하이라이트';
+                if (optLower.includes('추천')) return 'AI 기반 개인화 추천, 구매 이력/관심사 반영';
+                
+                // 예약/상담
+                if (optLower.includes('예약')) return '실시간 예약 가능 일정 조회, 예약 확정/변경/취소 관리';
+                if (optLower.includes('상담')) return '전문 상담사 매칭, 채팅/음성/화상 상담 옵션 제공';
+                if (optLower.includes('대기')) return '실시간 대기 순번 확인, 예상 대기시간 안내, 호출 알림';
+                if (optLower.includes('일정')) return '캘린더 기반 일정 관리, 알림 설정, 일정 공유 기능';
+                
+                // 알림/커뮤니케이션
+                if (optLower.includes('이메일')) return '이메일 발송/수신, 템플릿 기반 자동 발송, 발송 이력 관리';
+                if (optLower.includes('sms') || optLower.includes('문자')) return 'SMS/LMS 발송, 예약 발송, 발송 결과 확인';
+                if (optLower.includes('푸시') || optLower.includes('앱 알림')) return '앱 푸시 알림, 알림 설정, 알림 히스토리 조회';
+                if (optLower.includes('알림톡')) return '카카오 알림톡 발송, 템플릿 관리, 발송 통계';
+                
+                // 콘텐츠/미디어
+                if (optLower.includes('영상') || optLower.includes('비디오')) return '동영상 스트리밍, 해상도 선택, 자막 지원, 이어보기';
+                if (optLower.includes('이미지') || optLower.includes('사진')) return '이미지 업로드, 갤러리 뷰, 확대/축소, 슬라이드쇼';
+                if (optLower.includes('다운로드')) return '파일 다운로드, 진행률 표시, 오프라인 저장 지원';
+                if (optLower.includes('공유')) return 'SNS/메신저 공유, 링크 복사, QR 코드 생성';
+                
+                // 분석/통계
+                if (optLower.includes('통계') || optLower.includes('분석')) return '기간별/항목별 데이터 분석, 차트 시각화, 리포트 다운로드';
+                if (optLower.includes('리포트')) return '맞춤형 리포트 생성, PDF/Excel 내보내기, 정기 발송';
+                if (optLower.includes('대시보드')) return '주요 지표 실시간 모니터링, 위젯 커스터마이징';
+                
+                // 관리/설정
+                if (optLower.includes('권한')) return '역할 기반 접근 제어(RBAC), 상세 권한 설정, 권한 상속';
+                if (optLower.includes('설정')) return '사용자 환경설정 관리, 알림/개인정보/보안 설정';
+                if (optLower.includes('내보내기') || optLower.includes('엑셀')) return 'Excel/CSV 형식 데이터 내보내기, 필드 선택 가능';
+                
+                // 기타 공통
+                if (optLower.includes('검색')) return '키워드 검색, 자동완성, 검색어 하이라이트, 검색 필터';
+                if (optLower.includes('필터')) return '다중 조건 필터링, 필터 저장, 필터 초기화';
+                if (optLower.includes('정렬')) return '오름차순/내림차순 정렬, 다중 기준 정렬 지원';
+                if (optLower.includes('페이지') || optLower.includes('페이징')) return '페이지네이션, 페이지당 항목 수 설정, 무한 스크롤';
+                if (optLower.includes('저장')) return '데이터 저장, 임시저장, 자동저장 기능 제공';
+                if (optLower.includes('삭제')) return '단건/다건 삭제, 삭제 전 확인, 휴지통/복구 기능';
+                if (optLower.includes('수정') || optLower.includes('편집')) return '인라인 편집, 수정 이력 관리, 되돌리기 기능';
+                
+                // 기본값
+                return `${funcName}에서 ${opt} 관련 기능을 수행하며, 사용자 편의성을 고려한 UI/UX 제공`;
             };
             
             const getAction = (opt) => {
                 const optLower = opt.toLowerCase();
-                if (optLower.includes('입력') || optLower.includes('작성')) return `${opt} 입력 → 유효성 검사 → 저장`;
-                if (optLower.includes('선택') || optLower.includes('필터')) return `${opt} 선택 → 옵션 적용 → 결과 반영`;
-                if (optLower.includes('검색') || optLower.includes('조회')) return `키워드 입력 → 검색 실행 → 결과 표시`;
-                if (optLower.includes('등록') || optLower.includes('신청')) return `정보 입력 → 확인 → 등록 완료`;
-                if (optLower.includes('삭제') || optLower.includes('취소')) return `삭제 클릭 → 확인 팝업 → 처리 완료`;
-                if (optLower.includes('수정') || optLower.includes('변경')) return `수정 클릭 → 정보 변경 → 저장`;
-                return `${opt} 클릭/입력 → 처리 → 결과 표시`;
+                if (optLower.includes('입력') || optLower.includes('작성')) return `${opt} 입력 → 실시간 유효성 검사 → 자동저장/제출`;
+                if (optLower.includes('선택') || optLower.includes('필터')) return `옵션 선택 → 선택값 적용 → 결과 즉시 반영`;
+                if (optLower.includes('검색') || optLower.includes('조회')) return `키워드/조건 입력 → API 검색 요청 → 결과 목록 렌더링`;
+                if (optLower.includes('등록') || optLower.includes('신청')) return `필수정보 입력 → 유효성 검증 → DB 저장 → 완료 알림`;
+                if (optLower.includes('삭제') || optLower.includes('취소')) return `삭제 버튼 클릭 → 확인 모달 → 삭제 처리 → 목록 갱신`;
+                if (optLower.includes('수정') || optLower.includes('변경')) return `편집 모드 진입 → 정보 수정 → 저장 → 변경 이력 기록`;
+                if (optLower.includes('다운로드')) return `다운로드 클릭 → 파일 생성/조회 → 다운로드 시작 → 완료 알림`;
+                if (optLower.includes('업로드') || optLower.includes('첨부')) return `파일 선택/드래그 → 업로드 진행 → 미리보기 → 저장`;
+                if (optLower.includes('공유')) return `공유 버튼 클릭 → 채널 선택 → 공유 실행 → 결과 확인`;
+                if (optLower.includes('알림')) return `알림 설정 → 조건 지정 → 알림 발송/수신 → 알림 확인`;
+                if (optLower.includes('결제')) return `결제수단 선택 → 결제정보 입력 → PG 연동 → 결과 처리`;
+                if (optLower.includes('예약')) return `일시 선택 → 예약정보 입력 → 예약 확정 → 확인 알림 발송`;
+                return `${opt} 실행 → 처리 중 로딩 표시 → 성공/실패 결과 안내`;
             };
             
             html += `
@@ -14675,7 +14762,7 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
                         ${undefinedOptions.map(opt => `
                             <div class="func-row">
                                 <span><strong>${opt}</strong></span>
-                                <span>${funcName}의 ${opt} 기능 제공</span>
+                                <span>${getDescription(opt)}</span>
                                 <span>${getUIType(opt)} ${opt} UI</span>
                                 <span>${getAction(opt)}</span>
                             </div>
