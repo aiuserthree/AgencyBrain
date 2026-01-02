@@ -14593,7 +14593,7 @@ function generateGenericFuncSpec(funcType, funcName, industry, options) {
                                 <div class="func-row">
                                     <span>[${u.type}]</span>
                                     <span>${u.name}</span>
-                                    <span>${u.style || u.options?.join(', ') || '-'}</span>
+                                    <span>${u.style || (Array.isArray(u.options) ? u.options.join(', ') : u.options) || '-'}</span>
                                 </div>
                             `).join('')}
                         </div>
