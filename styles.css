@@ -6954,6 +6954,16 @@ input, select, textarea {
     line-height: 1.5;
 }
 
+.screen-elements .element-desc {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    background: rgba(123, 97, 255, 0.05);
+    border-left: 3px solid var(--accent-purple);
+    padding: 10px 12px;
+    margin: 6px 0;
+    line-height: 1.6;
+}
+
 .el-type {
     display: inline-block;
     font-size: 0.7rem;
